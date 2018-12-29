@@ -1,0 +1,75 @@
+<html>
+<head>
+
+    <title>PROTOCOL</title>
+
+    <link rel="stylesheet" type="text/css" href="./client/css/base.css" />
+
+    <script src="./client/js/ENUMS.js"></script>
+    <script src="./client/js/MATH.js"></script>
+
+    <script src="./client/js/lib/three.js"></script>
+    <script src="./client/js/lib/three/GLTFLoader.js"></script>
+    <script src="./client/js/3d/three/THREE.Terrain.js"></script>
+    <script src="./client/js/lib/three/Water.js"></script>
+    <script src="./client/js/lib/three/Reflector.js"></script>
+
+    <script data-main="./client/js/Main" src="./client/js/lib/require.js"></script>
+
+    <script>
+
+        window.SYSTEM_SETUP = {
+            DEBUG:{
+                on:false
+            }
+        };
+
+        window.pollingOn = false;
+
+        require.config({
+            paths: {
+                WorkerAPI:'./worker/WorkerAPI',
+                ThreeAPI:'./3d/three/ThreeAPI',
+                EffectsAPI:'./3d/effects/EffectsAPI',
+                PipelineAPI:'./io/PipelineAPI',
+                data_pipeline:'./lib/data_pipeline/src/'
+            }
+        });
+
+        require([
+            'evt',
+            'application/FullScreenConfigurator'
+        ], function(
+            evt,
+            FullScreenConfigurator
+        ) {
+            new FullScreenConfigurator();
+        });
+
+        var mapEnums = function() {
+            var map = {};
+
+            for (var key in ENUMS) {
+                map[key] = [];
+
+                for (var i in ENUMS[key]) {
+                    map[key][ENUMS[key][i]] = i;
+                }
+            }
+
+            ENUMS.Map = map;
+
+            ENUMS.getKey = function(category, index) {
+                return ENUMS.Map[category][index];
+            }
+        };
+
+        mapEnums();
+
+    </script>
+
+</head>
+
+<body id="canvas_window"></body>
+
+</html>

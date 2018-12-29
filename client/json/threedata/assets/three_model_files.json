@@ -1,0 +1,23 @@
+
+[
+  {
+    "MODELS": {
+      "FILES": [
+        {
+          "id": "animated_pilot",
+          "format":"glb",
+          "url": "./client/assets/models/characters/pilot/pilot_bind",
+          "animations":{
+            "idle":"./client/assets/models/characters/pilot/movement/run",
+            "run":"./client/assets/models/characters/pilot/idle/basic_idle"
+          }
+        },
+        {"id": "asset_bullet", "format":"glb", "url": "./client/assets/models/shapes/bullet"},
+        {"id": "asset_tree_1", "format":"glb", "url": "./client/assets/models/trees/tree_1"},
+        {"id": "asset_tree_2", "format":"glb", "url": "./client/assets/models/trees/tree_2"},
+        {"id": "asset_tree_3", "format":"glb", "url": "./client/assets/models/trees/tree_3"},
+        {"id": "asset_tree_4", "format":"glb", "url": "./client/assets/models/trees/tree_4"}
+      ]
+    }
+  }
+]

@@ -1,0 +1,13 @@
+FBX2glTF-windows-x64.exe -o D:\projects\charsys\client\assets\models\boats\enterprise D:\projects\charsys\client\assets\models\boats\enterprise.FBX -b 
+
+
+FBX2glTF-windows-x64.exe -o D:\projects\slayer\client\assets\models\pilot\pilot_bind           D:\projects\slayer\client\assets\models\pilot\pilot_bind.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\slayer\client\assets\models\pilot\idle\basic_idle      D:\projects\slayer\client\assets\models\pilot\idle\basic_idle.FBX  -b
+FBX2glTF-windows-x64.exe -o D:\projects\slayer\client\assets\models\pilot\movement\run         D:\projects\slayer\client\assets\models\pilot\movement\run.FBX     -b
+
+FBX2glTF-windows-x64.exe -o D:\projects\slayer\client\assets\models\trees\tree_1               D:\projects\slayer\client\assets\models\trees\tree_1.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\slayer\client\assets\models\trees\tree_2               D:\projects\slayer\client\assets\models\trees\tree_2.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\slayer\client\assets\models\trees\tree_3               D:\projects\slayer\client\assets\models\trees\tree_3.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\slayer\client\assets\models\trees\tree_4               D:\projects\slayer\client\assets\models\trees\tree_4.FBX     -b
+
+FBX2glTF-windows-x64.exe -o D:\projects\slayer\client\assets\models\shapes\bullet               D:\projects\slayer\client\assets\models\shapes\bullet.FBX     -b

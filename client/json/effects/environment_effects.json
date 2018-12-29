@@ -1,0 +1,36 @@
+[{
+  "ENVIRONMENT_EFFECTS": {
+
+    "WATER":[
+      {
+        "id":"surface_effects",
+        "data":{
+          "prop_effect":{
+            "pool":1000,
+            "effects":["water_spray_particle_effect"]
+          },
+          "wake_effect":{
+            "pool":1000,
+            "effects":["water_foam_particle_effect"]
+          },
+          "bow_splash":{
+            "pool":1000,
+            "effects":["water_wake_particle_effect"]
+          },
+          "wave_splash":{
+            "pool":1000,
+            "effects":["water_foam_particle_effect"]
+          },
+          "condensation":{
+            "pool":1000,
+            "effects":["condensation_trail"]
+          },
+          "condensation_near":{
+            "pool":500,
+            "effects":["condensation_near_effect"]
+          }
+        }
+      }
+    ]
+  }
+}]

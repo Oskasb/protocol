@@ -1,0 +1,1885 @@
+[{
+  "GUI_WIDGETS": {
+    "GUI_THUMBSTICK_WIDGET":[
+      {
+        "id": "config",
+        "data": {
+          "header_label":"header",
+          "value_label":"type_label",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.09,
+              "margin_y":0.11,
+              "width": 0.30,
+              "height":0.26
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects"
+            }
+          },
+          "state": {
+            "layout": {
+              "anchor": "bottom_mid",
+              "fixed_aspect": false,
+              "margin_x": 0.00,
+              "margin_y": 0.00,
+              "width": 0.45,
+              "height": 0.06
+            },
+            "backplate": {
+              "passive_fx": "plate_passive_effects",
+              "active_fx": "plate_active_effects"
+            }
+          },
+          "drag_vector_effects":[
+            "gui_arrow_top_left_additive_effect",
+            "gui_corner_top_left_normal_effect"
+          ]
+        }
+      }
+    ],
+
+    "GUI_DRAG_AXIS_WIDGET":[
+      {
+        "id": "drag_cam_x",
+        "data": {
+          "header_label":"message_header",
+          "value_label":"type_label",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":false,
+              "margin_x":0.06,
+              "margin_y":0.00,
+              "width": 0.2,
+              "height":0.09
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects"
+            }
+
+          },
+
+          "state":{
+            "axis":[1, 1],
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":false,
+              "margin_x":0.06,
+              "margin_y":0.00,
+              "height":0.09
+            },
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+
+          }
+        }
+      },
+      {
+        "id": "drag_cam_y",
+        "data": {
+          "header_label":"message_header",
+          "value_label":"type_label",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width": 0.11,
+              "height":0.3
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects"
+            }
+
+          },
+          "state":{
+            "axis":[0, 1],
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width": 0.11,
+              "height":0.3
+            },
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+
+          }
+        }
+      },
+      {
+        "id": "drag_cam_z",
+        "data": {
+          "header_label":"message_header",
+          "value_label":"type_label",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.0,
+              "margin_y":0.58,
+              "width": 0.08,
+              "height":0.25
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects"
+            }
+
+          },
+          "state":{
+            "axis":[0, -1],
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.0,
+              "margin_y":0.45,
+              "width": 0.08,
+              "height":0.4
+            },
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+
+          }
+        }
+      }
+
+
+    ],
+
+    "GUI_DRAG_CONTROL_WIDGET":[
+      {
+        "id": "control_rudder",
+        "data": {
+          "header_label":"message_header",
+          "value_label":"type_label",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":false,
+              "margin_x":0.06,
+              "margin_y":0.00,
+              "width": 0.2,
+              "height":0.09
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects"
+            }
+
+          },
+
+          "state":{
+            "axis":[1, 1],
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":false,
+              "margin_x":0.06,
+              "margin_y":0.00,
+              "height":0.09
+            },
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+
+          }
+        }
+      },
+      {
+        "id": "control_throttle",
+        "data": {
+          "header_label":"message_header",
+          "value_label":"type_label",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width": 0.11,
+              "height":0.3
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects"
+            }
+
+          },
+          "state":{
+            "axis":[0, 1],
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width": 0.11,
+              "height":0.3
+            },
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+
+          }
+        }
+      }
+    ],
+
+    "GUI_TOGGLE_CONTROL_WIDGET":[
+      {
+        "id": "control_door",
+        "data": {
+          "header_label":"toggle_key",
+          "value_label":"toggle_value",
+          "surface":{
+
+            "layout":{
+              "anchor":"top_right",
+              "fixed_aspect":true,
+              "margin_x":0.08,
+              "margin_y":0.11,
+              "width": 0.08,
+              "height":0.05
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects"
+            }
+
+          },
+          "state":{
+            "axis":[0, 1],
+            "layout":{
+              "anchor":"top_right",
+              "fixed_aspect":true,
+              "margin_x":0.08,
+              "margin_y":0.11,
+              "width": 0.08,
+              "height":0.05
+            },
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_2"
+            }
+
+          }
+        }
+      },
+      {
+      "id": "control_switch",
+      "data": {
+        "header_label":"toggle_key",
+        "value_label":"toggle_value",
+        "surface":{
+
+          "layout":{
+            "anchor":"bottom_right",
+            "fixed_aspect":true,
+            "margin_x":10,
+            "margin_y":0,
+            "width": 0.07,
+            "height":0.05
+          },
+
+          "corners":{
+            "passive_fx":"corner_passive_effects",
+            "active_fx":"corner_active_effects"
+          },
+
+          "edges":{
+            "passive_fx":"edge_passive_effects",
+            "active_fx":"edge_active_effects",
+            "thickness":0.012
+          },
+
+          "backplate":{
+            "passive_fx":"plate_passive_effects",
+            "active_fx":"plate_active_effects"
+          }
+
+        },
+        "state":{
+          "axis":[0, 1],
+          "layout":{
+            "anchor":"bottom_right",
+            "fixed_aspect":true,
+            "margin_x":0.08,
+            "margin_y":0.11,
+            "width": 0.07,
+            "height":0.05
+          },
+          "backplate":{
+            "passive_fx":"plate_passive_effects",
+            "active_fx":"plate_active_effects",
+            "color":"cyan_2"
+          }
+
+        }
+      }
+      }
+    ],
+
+    "GUI_BUTTON_WIDGET":[
+      {
+        "id": "default",
+        "data": {
+
+          "label_key":"button_label",
+          "surface":{
+
+            "layout":{
+              "anchor":"top_right",
+              "fixed_aspect":true,
+              "margin_x":0.07,
+              "margin_y":0.08,
+              "width": 0.22,
+              "height":0.03
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "color_on":"blue_2",
+              "color":"cyan_1",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color_on":"blue_2",
+              "color":"cyan_1"
+            }
+          }
+        }
+      },
+      {
+        "id": "top_bar",
+        "data": {
+          "label_key":"top_tab_button_label",
+          "surface":{
+
+            "layout":{
+              "anchor":"top_right",
+              "fixed_aspect":true,
+              "margin_x":0.02,
+              "margin_y":0.07,
+              "width": 0.22,
+              "height":0.04
+            },
+
+
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "color_on":"orange_4",
+              "color":"orange_2",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color_on":"orange_2",
+              "color":"orange_1"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "control_button",
+        "data": {
+          "label_key":"message_header",
+          "surface":{
+
+            "layout":{
+              "anchor":"top_right",
+              "fixed_aspect":true,
+              "margin_x":0.1,
+              "margin_y":0.2,
+              "width": 0.12,
+              "height":0.04
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "color_on":"orange_4",
+              "color":"orange_2",
+              "thickness":0.012
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color_on":"orange_2",
+              "color":"orange_1"
+            }
+          }
+        }
+      }
+
+    ],
+
+    "MESSAGE_BOX_WIDGET":[
+      {
+        "id": "config",
+        "data": {
+          "header":"message_header",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_mid",
+              "fixed_aspect":false,
+              "margin_x":0.02,
+              "margin_y":0.0,
+              "width": 0.40,
+              "height":0.03
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "color_on":"blue_1",
+              "color":"blue_1",
+              "thickness":0.008
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color_on":"orange_1",
+              "color":"red_1"
+            }
+
+          }
+        }
+      }
+    ],
+
+    "GUI_HOVER_DYNAMIC":[
+      {
+        "id": "config",
+        "data": {
+
+          "label_key":"button_label",
+          "max_size":0.15,
+          "min_size":0.08,
+          "activate_time":0.4,
+          "surface":{
+
+            "layout":{
+              "anchor":"center",
+              "fixed_aspect":true,
+              "margin_x":0.0,
+              "margin_y":0.0,
+              "width": 0.16,
+              "height":0.08
+            },
+
+            "corners":{
+              "passive_fx":"corner_passive_effects",
+              "active_fx":"corner_active_effects",
+              "color_on":"orange_2",
+              "color":"orange_2"
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "color_on":"blue_2",
+              "color":"blue_3",
+              "thickness":0.011
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color_on":"blue_2",
+              "color":"blue_2"
+            }
+          },
+
+          "cross":{
+
+            "layout":{
+              "anchor":"center",
+              "fixed_aspect":true,
+              "margin_x":0.0,
+              "margin_y":0.0,
+              "width": 1.5,
+              "height":1.2
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "color_on":"blue_2",
+              "color":"blue_3",
+              "thickness":0.01
+            }
+          }
+        }
+      }
+    ],
+
+    "GUI_PROGRESS_BAR":[
+      {
+        "id": "top_progress",
+        "data": {
+          "header_label":"progress_key",
+          "value_label":"progress_value",
+          "surface":{
+
+            "layout":{
+              "anchor":"top_left",
+              "fixed_aspect":false,
+              "margin_x":0.00,
+              "margin_y":0.00,
+              "width": 1.0,
+              "height":0.015
+            },
+
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.02,
+              "color":"purple_2"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"red_1"
+            }
+          },
+          "progress":{
+            "layout":{
+              "anchor":"top_left",
+              "fixed_aspect":false,
+              "margin_x":0.00,
+              "margin_y":0.0025,
+              "width": 1.0,
+              "height":0.01
+            },
+
+            "corners":{
+              "passive_fx":"corner_active_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.02,
+              "color":"orange_3"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"orange_2"
+            }
+          }
+        }
+      },
+      {
+        "id": "select_progress",
+
+        "data": {
+          "header_label":"progress_key",
+          "value_label":"progress_value",
+
+          "surface":{
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":false,
+              "margin_x":0.00,
+              "margin_y":0.00,
+              "width": 0.25,
+              "height":0.015
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.006,
+              "color":"purple_3"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"green_1"
+            }
+          },
+          "progress":{
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":false,
+              "margin_x":0.00,
+              "margin_y":0.00125,
+              "width": 0.25,
+              "height":0.0125
+            },
+
+            "corners":{
+              "passive_fx":"corner_active_effects",
+              "active_fx":"corner_active_effects"
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.015,
+              "color":"orange_2"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"orange_2"
+            }
+          }
+
+        }
+      }
+    ],
+
+    "GUI_GAUGE_WIDGET":[
+      {
+        "id": "angle_indicator",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":false,
+              "margin_x":0.01,
+              "margin_y":0.10,
+              "width": 0.10,
+              "height":0.018
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.02,
+              "color":"blue_1"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"blue_1"
+            }
+          },
+          "state":{
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":false,
+              "margin_x":0.01,
+              "margin_y":0.10,
+              "width": 0.0025,
+              "height":0.015
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"blue_5"
+            }
+          }
+        }
+      }
+    ],
+
+    "GUI_ROLL_INDICATOR":[
+      {
+        "id": "roll_indicator",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.305,
+              "margin_y":0.16,
+              "width": 0.12,
+              "height":0.002
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"blue_2"
+            }
+          },
+          "state":{
+            "axis":[0, 1],
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.305,
+              "margin_y":0.16,
+              "width": 0.10,
+              "height":0.008
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"orange_3"
+            }
+          }
+        }
+      },
+      {
+        "id": "aoa_y_indicator",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.335,
+              "margin_y":0.12,
+              "width": 0.004,
+              "height":0.12
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"blue_3"
+            }
+          },
+          "state":{
+            "axis":[1, 1],
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.335,
+              "margin_y":0.12,
+              "width": 0.003,
+              "height":0.12
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_3"
+            }
+          }
+        }
+      }
+    ],
+
+    "GUI_PITCH_INDICATOR":[
+
+      {
+        "id": "pitch_indicator",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.12,
+              "height":0.12
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.01,
+              "color":"blue_1"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"blue_1"
+            }
+          },
+          "state":{
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.12,
+              "height":0.06
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"red_2"
+            }
+          }
+        }
+      }
+
+    ],
+
+    "GUI_STATE_INDICATOR":[
+      {
+        "id": "state_indicator_y",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.12,
+              "height":0.12
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.01,
+              "color":"blue_1"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"red_2"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":0.001,
+              "max":1,
+              "factor":2,
+              "offset":-0.5,
+              "anchor":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.12,
+              "height":0.006
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+          }
+        }
+      },
+      {
+        "id": "rpm_indicator_y",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width":0.01,
+              "height":0.3
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.01,
+              "color":"blue_1"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"blue_1"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":0.001,
+              "max":1,
+              "factor":1,
+              "offset":-0.5,
+              "anchor":true
+            },
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width":0.01,
+              "height":0.3
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"blue_3"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "jet_indicator_y",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width": 0.03,
+              "height":0.06
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.01,
+              "color":"blue_1"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"red_2"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":0.001,
+              "max":1,
+              "factor":1,
+              "offset":-0.5,
+              "anchor":true
+            },
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width": 0.03,
+              "height":0.06
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"orange_3"
+            }
+          }
+        }
+      },
+
+
+      {
+        "id": "gear_indicator_y",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width":0.02,
+              "height":-0.04
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.02,
+              "color":"blue_1"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"green_1"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, -1],
+              "min":0.001,
+              "max":1,
+              "factor":1,
+              "offset":-0.5,
+              "anchor":true
+            },
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width":0.02,
+              "height":-0.4
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"yellow_3"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "door_indicator_y",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width":0.01,
+              "height":-0.04
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[1, 0],
+              "min":-1,
+              "max":0,
+              "factor":-1.2,
+              "offset":0.0,
+              "anchor":false
+            },
+
+            "layout":{
+              "anchor":"bottom_right",
+              "fixed_aspect":true,
+              "margin_x":0.00,
+              "margin_y":0.11,
+              "width":0.01,
+              "height":-0.04
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_3"
+            }
+          }
+        }
+      },
+
+
+      {
+        "id": "pitch_input_indicator",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.315,
+              "margin_y":0.185,
+              "width": -0.06,
+              "height":-0.06
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.01,
+              "color":"blue_1"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"blue_2"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":-1,
+              "max":1,
+              "factor":-0.999,
+              "offset":0,
+              "anchor":false
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.315,
+              "margin_y":0.185,
+              "width": -0.06,
+              "height":-0.005
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"orange_4"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "pitch_input_wrap",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.315,
+              "margin_y":0.185,
+              "width": -0.015,
+              "height":-0.06
+            }
+
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":-0.25,
+              "max":0.25,
+              "factor":-0.999,
+              "offset":0,
+              "anchor":true,
+              "wrap":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.315,
+              "margin_y":0.185,
+              "width": -0.012,
+              "height":-0.003
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"orange_4"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "roll_input_indicator",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.315,
+              "margin_y":0.185,
+              "width": -0.06,
+              "height":-0.03
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"blue_1"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[1, 0],
+              "min":-1,
+              "max":1,
+              "factor":0.99,
+              "offset":0.5,
+              "anchor":false
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.315,
+              "margin_y":0.185,
+              "width": 0.005,
+              "height":-0.045
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"orange_4"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "roll_input_wrap",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.315,
+              "margin_y":0.185,
+              "width": -0.06,
+              "height":-0.03
+            }
+
+          },
+          "state":{
+            "progress":{
+              "axis":[1, 0],
+              "min":-0.25,
+              "max":0.25,
+              "factor":0.999,
+              "offset":0.5,
+              "anchor":false,
+              "wrap":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.315,
+              "margin_y":0.185,
+              "width": 0.004,
+              "height":-0.015
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_3"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "climb_indicator",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.0001,
+              "margin_y":0.18,
+              "width": 0.01,
+              "height":0.115
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"orange_1"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":-0.25,
+              "max":0.25,
+              "factor":0.01,
+              "offset":-0.0,
+              "anchor":true,
+              "wrap":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":-0.002,
+              "margin_y":0.18,
+              "width": 0.01,
+              "height":0.005
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_2"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "climb_indicator_fine",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.0001,
+              "margin_y":0.18,
+              "width": 0.008,
+              "height":0.105
+            }
+
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":-0.25,
+              "max":0.25,
+              "factor":0.025,
+              "offset":-0.0,
+              "anchor":false,
+              "wrap":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":-0.002,
+              "margin_y":0.18,
+              "width": 0.02,
+              "height":0.003
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_2"
+          }
+          }
+        }
+      },
+
+      {
+        "id": "altitude_indicator",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.00007,
+              "margin_y":0.18,
+              "width": 0.011,
+              "height":0.80
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"orange_1"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":0,
+              "max":1,
+              "factor":0.0001,
+              "offset":-0.5,
+              "anchor":false,
+              "wrap":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":-0.002,
+              "margin_y":0.18,
+              "width": 0.023,
+              "height":0.006
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "altitude_wrap",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.001,
+              "margin_y":0.18,
+              "width": 0.016,
+              "height":0.80
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":0,
+              "max":1,
+              "factor":0.001,
+              "offset":-0.5,
+              "anchor":true,
+              "wrap":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.0015,
+              "margin_y":0.18,
+              "width": 0.006,
+              "height":0.01
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_2"
+            }
+          }
+        }
+      },
+
+      {
+        "id": "ind_angle_y",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.12,
+              "height":0.12
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"blue_2"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[0, 1],
+              "min":-0.5,
+              "max":0.5,
+              "factor":-1.0,
+              "offset":0.0,
+              "anchor":false
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.12,
+              "height":0.004
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_5"
+            }
+          }
+        }
+      },
+      {
+        "id": "ind_angle_x",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.12,
+              "height":0.12
+            },
+
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"green_3"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[1, 0],
+              "min":-0.45,
+              "max":0.45,
+              "factor":5,
+              "offset":0.5,
+              "anchor":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.006,
+              "height":0.02
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+          }
+        }
+      }
+
+    ,
+      {
+        "id": "ind_roll_rate",
+        "data": {
+          "header_label":"gauge_key",
+          "value_label":"gauge_value",
+
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.12,
+              "height":0.12
+            },
+
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"green_3"
+            }
+          },
+          "state":{
+            "progress":{
+              "axis":[1, 0],
+              "min":-0.45,
+              "max":0.45,
+              "factor":-2,
+              "offset":0.5,
+              "anchor":true
+            },
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.18,
+              "width": 0.006,
+              "height":0.02
+            },
+
+            "backplate":{
+              "passive_fx":"plate_active_effects",
+              "active_fx":"plate_active_effects",
+              "color":"orange_3"
+            }
+          }
+        }
+      }
+    ],
+
+    "GUI_COMPASS":[
+      {
+        "id": "compass_indicator",
+        "data": {
+          "header_label":"compass_key",
+          "value_label":"gauge_value",
+          "surface":{
+
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.30,
+              "margin_y":0.14,
+              "width": 0.12,
+              "height":0.03
+            },
+
+            "edges":{
+              "passive_fx":"edge_active_effects",
+              "active_fx":"edge_active_effects",
+              "thickness":0.01,
+              "color":"blue_1"
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_passive_effects",
+              "color":"blue_1"
+            }
+          },
+          "state":{
+            "layout":{
+              "anchor":"bottom_left",
+              "fixed_aspect":true,
+              "margin_x":0.28,
+              "margin_y":0.18,
+              "width": 0.003,
+              "height":0.008
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color":"cyan_4"
+            }
+          }
+        }
+      }
+    ],
+
+    "MONITOR_LIST_WIDGET":[
+      {
+        "id": "config",
+        "data": {
+          "surface":{
+
+            "layout":{
+              "anchor":"top_right",
+              "fixed_aspect":true,
+              "margin_x":0.07,
+              "margin_y":0.08,
+              "width": 0.22,
+              "height":0.10
+            },
+
+            "edges":{
+              "passive_fx":"edge_passive_effects",
+              "active_fx":"edge_active_effects",
+              "color_on":"blue_1",
+              "color":"blue_1",
+              "thickness":0.008
+            },
+
+            "backplate":{
+              "passive_fx":"plate_passive_effects",
+              "active_fx":"plate_active_effects",
+              "color_on":"orange_1",
+              "color":"red_1"
+            }
+
+          }
+        }
+      }
+    ]
+  }
+}]

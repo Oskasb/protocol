@@ -2,11 +2,9 @@
 
 
 define([
-		'evt',
 		'ui/dom/DomUtils'
 	],
 	function(
-		evt,
 		DomUtils
 	) {
 
@@ -22,16 +20,6 @@ define([
 
             this.entry_count = 20;
             this.file_count = 4;
-
-            this.handleMessage = function(e) {
-                this.addMessageToScreen(evt.args(e))
-            }.bind(this);
-
-        //    this.handleMessage = handleMessage;
-
-            evt.on(evt.list().MESSAGE_UI, this.handleMessage);
-
-            this.channelsHosts = {}
 
             this.logChannels = {
                 client_state:"#fea",
@@ -220,8 +208,6 @@ define([
 		};
 
 		DomLoadScreen.prototype.removeProgress = function() {
-
-            evt.removeListener(evt.list().MESSAGE_UI, this.handleMessage);
 
             var style = {
                 transform: 'translate3d(0px, 40px, 0px)'

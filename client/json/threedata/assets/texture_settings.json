@@ -1,0 +1,52 @@
+[
+  {
+    "ASSETS": {
+      "TEXTURE_SETTINGS":[
+        {
+          "id": "model_settings" ,
+          "settings" : {
+            "wrapS": "RepeatWrapping",
+            "wrapT": "RepeatWrapping",
+            "generateMipmaps": false,
+            "magFilter": "LinearFilter",
+            "minFilter": "LinearFilter",
+            "flipY": false
+          }
+        } ,
+        {
+          "id": "data_settings"  ,
+          "settings" : {
+            "wrapS": "RepeatWrapping",
+            "wrapT": "RepeatWrapping",
+            "generateMipmaps": false,
+            "magFilter": "LinearFilter",
+            "minFilter": "LinearFilter",
+            "flipY": false
+          }
+        } ,
+        {
+          "id": "particle_settings"  ,
+          "settings" : {
+            "wrapS": "RepeatWrapping",
+            "wrapT": "RepeatWrapping",
+            "generateMipmaps": false,
+            "magFilter": "LinearFilter",
+            "minFilter": "LinearFilter",
+            "flipY": false
+          }
+        } ,
+        {
+          "id": "env_settings"   ,
+          "settings" : {
+            "wrapS": "RepeatWrapping",
+            "wrapT": "RepeatWrapping",
+            "generateMipmaps": false,
+            "magFilter": "LinearFilter",
+            "minFilter": "LinearFilter",
+            "flipY": false
+          }
+        }
+      ]
+    }
+  }
+]

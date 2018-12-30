@@ -1,9 +1,11 @@
 "use strict";
 
 define([
+    'application/DataLoader',
     'io/PointerCursor',
     'PipelineAPI'
 ], function(
+    DataLoader,
     PointerCursor,
     PipelineAPI
 ) {
@@ -15,7 +17,9 @@ define([
     };
 
     Setup.init = function(onReady) {
-
+        console.log(PipelineAPI.getCachedConfigs());
+        dataLoader = new DataLoader();
+        dataLoader.loadData(onReady)
     };
 
     Setup.completed = function() {

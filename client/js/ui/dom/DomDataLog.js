@@ -66,14 +66,14 @@ define([
             
             var callback = function(e) {
                 if (logData.channels.indexOf(evt.args(e).channel) != -1) {
-                    logMessage(evt.args(e)[logData.argument], logChannels[evt.args(e).channel]);
+        //            logMessage(evt.args(e)[logData.argument], logChannels[evt.args(e).channel]);
                 } else {
         //            console.log("Not logging", evt.args(e).channel, evt.args(e)[logData.argument])
                 }
             };
 
             if (this.active) return;
-            evt.on(evt.list()[logData.eventId], callback)
+         //   evt.on(evt.list()[logData.eventId], callback)
             this.active = true;
         };
         

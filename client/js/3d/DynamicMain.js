@@ -57,7 +57,6 @@ define([
 
         };
 
-        evt.on(evt.list().DYNAMIC_MODEL, standardGeo);
     };
 
 

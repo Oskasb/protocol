@@ -28,7 +28,7 @@ define([
 			var _this = this;
 
 			var setupTouch = function() {
-				evt.fire(evt.list().SCREEN_CONFIG, {inputModel:'touch'});
+			//	evt.fire(evt.list().SCREEN_CONFIG, {inputModel:'touch'});
 				this.actionListener = new TouchActionListener();
 				this.setupTouchListener();
 
@@ -42,7 +42,7 @@ define([
 
 				touchWait = setTimeout(function() {
 					console.log("setup Mouse Action Listener")
-					evt.fire(evt.list().SCREEN_CONFIG, {inputModel:'mouse'});
+				//	evt.fire(evt.list().SCREEN_CONFIG, {inputModel:'mouse'});
 					_this.actionListener = new MouseActionListener();
 					_this.setupMouseListener();
 					clearListeners();

@@ -31,6 +31,12 @@ define([
     };
 
     var setupEvent = function(event) {
+
+        if (typeof (event) !== 'number') {
+            console.log("Old Event: ", event);
+            return;
+        }
+
         if (!events[event[0]]) {
             listeners[event[0]] = [];
             events[event[0]] = new TinyEvent(event[0]);
@@ -44,6 +50,12 @@ define([
     };
 
     var setEventArgs = function(event, args) {
+
+        if (typeof (event[0]) !== 'number') {
+            console.log("Old Event: ", event);
+            return;
+        }
+
         events[event[0]].setArgs(args);
     };
 

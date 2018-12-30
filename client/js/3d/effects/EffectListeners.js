@@ -54,7 +54,6 @@ define([
                 }
             };
 
-            evt.on(evt.list().GAME_EFFECT, playGameEffect);
         };
 
 

@@ -45,13 +45,18 @@ define([
             shaderBuilder = new ThreeShaderBuilder();
             spatialFunctions = new ThreeSpatialFunctions();
             renderFilter = new ThreeRenderFilter();
-            ThreeEnvironment.loadEnvironmentData();
+        //    ThreeEnvironment.loadEnvironmentData();
         };
 
         ThreeAPI.initEnvironment = function(store) {
-        //    ThreeEnvironment.loadEnvironmentData();
-            ThreeEnvironment.initEnvironment(store);
-            ThreeEnvironment.enableEnvironment();
+
+            var onLoaded = function() {
+                ThreeEnvironment.initEnvironment(store);
+                ThreeEnvironment.enableEnvironment();
+            };
+
+            ThreeEnvironment.loadEnvironmentData(onLoaded);
+
         };
 
         ThreeAPI.initThreeScene = function(containerElement, pxRatio, antialias) {

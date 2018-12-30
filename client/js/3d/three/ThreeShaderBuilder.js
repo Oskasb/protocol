@@ -37,7 +37,6 @@ define([
                 var error = gl.getShaderInfoLog( shader );
 
                 console.error( [shader],error );
-                evt.fire(evt.list().MESSAGE_UI, {channel:'receive_error', message:'Shader Compile Error'});
 
                 while (index >= 0) {
                     index = error.indexOf("ERROR: 0:", index);
@@ -50,7 +49,6 @@ define([
                             index = indexEnd + 1;
                             indexEnd = error.indexOf("ERROR: 0:", index);
 
-                            evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_error', message:'Bad Shade Line: '+lineNum});
                         }
                     }
                 }
@@ -59,7 +57,6 @@ define([
 
             okCount++;
         //    console.log("Shader OK:", okCount);
-            evt.fire(evt.list().MESSAGE_UI, {channel:'connection_status', message:'-> Shader ('+okCount+') Compiled OK <- '});
             return shader;
         }
 

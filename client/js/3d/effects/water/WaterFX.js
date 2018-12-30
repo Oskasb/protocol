@@ -101,7 +101,6 @@ define([
                 }.bind(this)
 
 
-                evt.on(evt.list().CLIENT_TICK, tickWater);
 
             }
 

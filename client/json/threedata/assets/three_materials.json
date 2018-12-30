@@ -1,0 +1,42 @@
+[
+  {
+    "ASSETS": {
+      "MATERIALS":[
+        {
+          "id":"material_standard",
+          "settings": "standard_settings",
+          "textures":[{
+            "map":"atlas_2k_diff",
+            "envMap":"ref_sphere",
+            "metalnessMap":"atlas_2k_diff",
+            "roughnessMap":"atlas_2k_diff",
+            "normalMap":"atlas_2k_diff"
+          }]
+        },
+        {
+          "id":"material_opaque",
+          "settings": "phong_opaque_settings",
+          "textures":[{
+            "map":"atlas_2k_diff"
+          }]
+        },
+        {
+          "id":"material_nature",
+          "settings": "phong_nature_settings",
+          "textures":[{
+            "map":"atlas_2k_diff"
+          }]
+        },
+        {
+          "id":"material_glass",
+          "settings": "glass_settings",
+          "textures":[{
+            "normalMap":"canopy_normals",
+            "map":"glass_surface",
+            "envMap":"ref_sphere"
+          }]
+        }
+      ]
+    }
+  }
+]

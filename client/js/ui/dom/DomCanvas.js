@@ -78,7 +78,7 @@ define([
 
                 _this.ready = true;
                 _this.canvasElement.applyElementConfig(_this.parent, _this.pipelineObject.buildConfig()[_this.configId], guiReady);
-                evt.on(evt.list().CLIENT_TICK, clientTick);
+    //            evt.on(evt.list().CLIENT_TICK, clientTick);
             };
 
             playerReady();

@@ -42,14 +42,14 @@ define([
 
                 PipelineAPI.setCategoryData('SETUP', {INPUT:evt.args(e).inputModel});
 
-                evt.removeListener(evt.list().SCREEN_CONFIG, configureScreen);
+            //    evt.removeListener(evt.list().SCREEN_CONFIG, configureScreen);
 
 
             }
         };
 
 
-        evt.on(evt.list().SCREEN_CONFIG, configureScreen);
+    //    evt.on(evt.list().SCREEN_CONFIG, configureScreen);
 
         var DomElement = function(parentElem, styleId, input) {
             count++;

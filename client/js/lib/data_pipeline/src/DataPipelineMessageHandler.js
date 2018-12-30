@@ -48,7 +48,7 @@ define([
 			var msg = generateMsgLevels(err);
 			msg.push(update);
 			delayedSend('data_error_update_channel', msg, 300);
-			evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_error', message:'Pipeline Error '+msg});
+
 	//		SystemBus.emit("message_to_gui", {channel:'alert_channel', message:"Data Update Error"});
 
 
@@ -57,7 +57,7 @@ define([
 
 		var delayedSend = function(channel, msg, delay) {
 			setTimeout(function() {
-				evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_message', message:'Pipeline Update '+msg});
+
 	//			SystemBus.emit('message_to_gui', {channel:channel, message:msg})
 			}, delay)
 		};

@@ -2,6 +2,22 @@
   "config_url_index":{
     "files":[
 
+      "threedata/assets/asset_environment.json"     ,
+      "threedata/assets/asset_ocean.json"           ,
+      "threedata/assets/asset_terrain.json"         ,
+      "threedata/assets/asset_world.json"           ,
+
+      "threedata/assets/image_files.json"           ,
+      "threedata/assets/glb_model_files.json"       ,
+
+      "threedata/assets/texture_settings.json"      ,
+      "threedata/assets/model_settings.json"        ,
+      "threedata/assets/material_settings.json"     ,
+
+      "threedata/assets/three_textures.json"        ,
+      "threedata/assets/three_materials.json"       ,
+      "threedata/assets/three_models.json"
+
     ]
   }
 }]

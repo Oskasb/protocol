@@ -50,11 +50,11 @@ define([
 			function configureListener(e) {
 				if (evt.args(e).inputModel) {
 					_this.enabled = true;
-					evt.removeListener(evt.list().SCREEN_CONFIG, configureListener);
+		//			evt.removeListener(evt.list().SCREEN_CONFIG, configureListener);
 				}
 			}
 
-			evt.on(evt.list().SCREEN_CONFIG, configureListener);
+		//	evt.on(evt.list().SCREEN_CONFIG, configureListener);
             mouseState = this.inputState.getPointerState().mouseState;
             this.setupInputBuffer();
             this.inputState.getPointerState().buffer = this.buffer;

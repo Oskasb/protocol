@@ -5,7 +5,6 @@ define([],
         
         var ExpandingPool = function(key, createFunc) {
 
-
             var dataKey = key;
             this.pool = [];
 
@@ -28,7 +27,6 @@ define([],
         };
 
         ExpandingPool.prototype.getFromExpandingPool = function(callback) {
-
 
             if (this.poolEntryCount() > 3) {
                 callback(this.shiftEP());

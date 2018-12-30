@@ -69,11 +69,11 @@ define(['application/PipelineObject',
 
     };
 
-    ThreeEnvironment.loadEnvironmentData = function() {
+    ThreeEnvironment.loadEnvironmentData = function(onLoaded) {
 
         var worldListLoaded = function(src, data) {
 
-            //    console.log("Load Env World Data:", src, data);
+                console.log("Load Env World Data:", src, data);
 
             for (var i = 0; i < data.params.length; i++){
                 worldSetup[data.params[i].id] = data.params[i]
@@ -81,11 +81,12 @@ define(['application/PipelineObject',
             currentEnvId = data.defaultEnvId;
             currentEnvIndex = undefined;
             //    console.log("worldSetup:", currentEnvId, worldSetup);
+            onLoaded();
         };
 
         //    worldListLoaded('local', worldData);
 
-        new PipelineObject("WORLD", "THREE", worldListLoaded);
+        new PipelineObject("ASSETS", "WORLD", worldListLoaded);
     };
 
     var useTHREESky = 0;
@@ -594,7 +595,7 @@ define(['application/PipelineObject',
 
         //     environmentListLoaded('', envData);
 
-        new PipelineObject("ENVIRONMENT", "THREE", environmentListLoaded);
+        new PipelineObject("ASSETS", "ENVIRONMENT", environmentListLoaded);
 
     };
 

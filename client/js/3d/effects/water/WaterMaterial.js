@@ -163,7 +163,7 @@ define([
             samplingUniforms = false;
 
             if (!samplingUniforms) {
-                evt.on(evt.list().CLIENT_TICK, sampleEnvUniforms);
+            //    evt.on(evt.list().CLIENT_TICK, sampleEnvUniforms);
                 samplingUniforms = true;
             }
 

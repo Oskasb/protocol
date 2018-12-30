@@ -33,7 +33,6 @@ define([
 
                 }
                 sends[dataKey][dataKey] = value;
-                evt.fire(evt.list().MONITOR_STATUS, sends[dataKey]);
             }
 
         };

@@ -1,17 +1,6 @@
 [{
-    "WORLD": {
-      "THREE":{
-        "defaultEnvId":"sunny_day",
-        "params":[
-          {"id":"sun",      "THREE":"DirectionalLight"},
-          {"id":"ambient",  "THREE":"AmbientLight"    },
-          {"id":"fog",      "THREE":"Fog"         }
-        ]
-      }
-    }
-  },{
-    "ENVIRONMENT": {
-      "THREE":[
+    "ASSETS": {
+      "ENVIRONMENT":[
         {
           "id":"current",
           "sky":{

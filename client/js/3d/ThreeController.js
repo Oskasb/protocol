@@ -38,8 +38,6 @@ define([
 
         setTimeout(function() {
 
-            evt.fire(evt.list().ENGINE_READY, {});
-
             setTimeout(function() {
 
                 fireResize();
@@ -104,7 +102,7 @@ define([
 */
                 GameScreen.setLandscape(true);
                 landscape = true;
-                evt.fire(evt.list().SCREEN_CONFIG, {landscape:true})
+
             } else {
              /*
                 document.getElementById(divId).style.left = '0em';
@@ -114,7 +112,7 @@ define([
 */
                 GameScreen.setLandscape(false);
                 landscape = false;
-                evt.fire(evt.list().SCREEN_CONFIG, {landscape:false})
+
             }
 
             width = document.getElementById(divId).offsetWidth;

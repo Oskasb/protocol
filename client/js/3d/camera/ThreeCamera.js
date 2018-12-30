@@ -35,15 +35,11 @@ define(['evt',
     //    cameraFunctions.updateCamera(tpf);
     };
 
-    evt.on(evt.list().ENGINE_READY, setupThreeCamera);
-
     var on = false;
 
     var controlledPieceUpdated = function(e) {
         on=true;
     };
-
-    evt.once(evt.list().CONTROLLED_PIECE_UPDATED, controlledPieceUpdated);
 
 
     return ThreeCamera

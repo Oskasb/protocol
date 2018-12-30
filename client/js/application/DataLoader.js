@@ -2,7 +2,6 @@
 
 
 define([
-        'evt',
         'application/PipelineObject',
         'ui/dom/DomLoadScreen',
         'ui/GameScreen',
@@ -10,7 +9,6 @@ define([
         'ThreeAPI'
     ],
     function(
-        evt,
         PipelineObject,
         DomLoadScreen,
         GameScreen,
@@ -22,7 +20,7 @@ define([
 
         var pipelineOn = pollingOn;
         window.jsonConfigUrls = 'client/json/';
-        if (window.location.href == 'http://127.0.0.1:5000/' || window.location.href ==  'http://localhost:5000/' || window.location.href ==  'http://192.168.0.100:5000/') {
+        if (window.location.href === 'http://127.0.0.1:5000/' || window.location.href ===  'http://localhost:5000/' || window.location.href ===  'http://192.168.0.100:5000/') {
             //    pipelineOn = true;
         }
 
@@ -54,7 +52,7 @@ define([
         };
 
         var DataLoader = function() {
-            loadProgress = new DomLoadScreen(GameScreen.getElement());
+
         };
 
         var loadStates= {
@@ -77,10 +75,9 @@ define([
 
         DataLoader.prototype.loadData = function(onReady) {
 
+            loadProgress = new DomLoadScreen(GameScreen.getElement());
+
             var _this = this;
-
-            ThreeAPI.initThreeLoaders();
-
 
             var loadingCompleted = function() {
                 onReady();
@@ -98,9 +95,6 @@ define([
                 }
 
             };
-
-            evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_message', message:window.location.href});
-
 
 
             function pipelineCallback(started, remaining, loaded, files) {
@@ -120,7 +114,7 @@ define([
                 if (loadState === loadStates.CONFIGS && remaining === 0) {
                 //    console.log( "json cached:", PipelineAPI.getCachedConfigs());
                     loadState = loadStates.COMPLETED;
-                    ThreeAPI.loadThreeData(ThreeAPI);
+                //    ThreeAPI.loadThreeData(ThreeAPI);
                     loadStateChange(loadState);
                 }
 
@@ -138,9 +132,7 @@ define([
 
                 function pipelineError(src, e) {
                     console.log("Pipeline error Ready", src, e);
-                    evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_error', message:'Pipeline Error '+src+' '+e});
                 }
-                evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_message', message:"Request Worker Fetch"});
                 PipelineAPI.dataPipelineSetup(jsonRegUrl, dataPipelineSetup, pipelineError);
 
             };

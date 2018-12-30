@@ -42,6 +42,12 @@ require([
         WorkerAPI.requestWorker(ENUMS.Worker.MAIN_WORKER, mainWorkerCallback);
     };
 
-    setTimeout(init, 10)
+    setTimeout(init, 10);
+
+    var onDataLoadCompleted = function() {
+        Setup.completed()
+    };
+
+    Setup.init(onDataLoadCompleted);
 
 });

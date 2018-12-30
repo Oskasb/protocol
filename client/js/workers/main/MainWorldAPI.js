@@ -33,12 +33,15 @@ define([
 
         var testArgs = [ENUMS.Args.FRAME, 0];
 
+
+
         MainWorldAPI.initMainWorldFrame = function(frame) {
         //    console.log("FRAME ->->-> MainWorldCom");
             evt.initEventFrame(frame);
 
+            /*
             testArgs[1] = frame;
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.05) {
                 evt.fire(ENUMS.Event.TEST_EVENT, testArgs);
 
                 if (Math.random() < 0.5) {
@@ -46,14 +49,9 @@ define([
                     evt.fire(ENUMS.Event.TEST_EVENT, testArgs);
                     testArgs[1] = Math.random();
                     evt.fire(ENUMS.Event.TEST_EVENT, testArgs);
-                    testArgs[1] = Math.random();
-                    evt.fire(ENUMS.Event.TEST_EVENT, testArgs);
-                    testArgs[1] = Math.random();
-                    evt.fire(ENUMS.Event.TEST_EVENT, testArgs);
                 }
-
             }
-
+            */
         };
 
         MainWorldAPI.registerSharedBuffer = function(buffer, bufferType, bufferIndex) {

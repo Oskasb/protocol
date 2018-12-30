@@ -85,10 +85,10 @@ define([
 
                 if (this.mouseState.action[0] + this.mouseState.action[1]) {
                     this.mouseButtonEmployed();
-                    evt.fire(evt.list().CURSOR_PRESS, this.mouseState);
+            //        evt.fire(evt.list().CURSOR_PRESS, this.mouseState);
                 } else {
                     if (this.mouseState.pressingButton) {
-                        evt.fire(evt.list().CURSOR_RELEASE, this.mouseState);
+            //            evt.fire(evt.list().CURSOR_RELEASE, this.mouseState);
                     }
                 }
             }

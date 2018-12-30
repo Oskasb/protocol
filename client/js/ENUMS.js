@@ -13,7 +13,9 @@ if(typeof(ENUMS) === "undefined"){
         ADD_MODEL_INSTANCE:     5,
         REMOVE_MODEL_INSTANCE:  6,
         PING_MAIN_THREAD:       7,
-        TEST_EVENT:             8
+        TEST_EVENT:             8,
+        STATS_UPDATE:           9,
+        INSTANTIATE:            10
 
     };
 

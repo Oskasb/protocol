@@ -2,20 +2,12 @@
 
 
 define([
-    'evt',
-    '3d/SimpleSpatial',
     '3d/CanvasGuiThree',
-    'ui/canvas/CanvasDraw',
-    'PipelineAPI',
-    'ThreeAPI'
+    'ui/canvas/CanvasDraw'
 
 ], function(
-    evt,
-    SimpleSpatial,
     CanvasGuiThree,
-    CanvasDraw,
-    PipelineAPI,
-    ThreeAPI
+    CanvasDraw
 ) {
 
     var i;

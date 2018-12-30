@@ -4,23 +4,28 @@ var MainWorldAPI;
 
 define([
         'workers/main/MainWorldCom',
-    'evt'
+        'workers/main/world/WorldSimulation',
+        'evt'
     ],
     function(
         MainWorldCom,
+        WorldSimulation,
         evt
     ) {
 
         var key;
         var mainWorldCom;
+        var worldSimulation;
 
         MainWorldAPI = function() {};
+
 
         var sharedBuffers = {};
 
         MainWorldAPI.initMainWorld = function(workerIndex) {
             mainWorldCom = new MainWorldCom();
-            mainWorldCom.initWorldCom(workerIndex)
+            mainWorldCom.initWorldCom(workerIndex);
+            worldSimulation = new WorldSimulation();
         };
 
         MainWorldAPI.postMessage = function(msg) {
@@ -34,10 +39,13 @@ define([
         var testArgs = [ENUMS.Args.FRAME, 0];
 
 
+        var frameEndMsg = [ENUMS.Message.NOTIFY_FRAME]
 
-        MainWorldAPI.initMainWorldFrame = function(frame) {
+        MainWorldAPI.initMainWorldFrame = function(frame, tpf) {
         //    console.log("FRAME ->->-> MainWorldCom");
             evt.initEventFrame(frame);
+
+            worldSimulation.tickWorldSimulation(tpf);
 
             /*
             testArgs[1] = frame;
@@ -52,6 +60,9 @@ define([
                 }
             }
             */
+            frameEndMsg[1] = frame;
+            postMessage(frameEndMsg)
+
         };
 
         MainWorldAPI.registerSharedBuffer = function(buffer, bufferType, bufferIndex) {

@@ -1,11 +1,9 @@
 "use strict";
 
 define([
-        'ThreeAPI',
     'evt'
     ],
     function(
-        ThreeAPI,
         evt
     ) {
 

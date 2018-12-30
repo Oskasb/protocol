@@ -1,152 +1,122 @@
 "use strict";
 
 define([
-	'ui/GameScreen',
-	'io/MouseActionListener',
-	'io/TouchActionListener',
-	'evt'
-],
+		'ui/GameScreen',
+		'io/InputActionListener'
+	],
 	function(
 		GameScreen,
-		MouseActionListener,
-		TouchActionListener,
-		evt
-		) {
-
+		InputActionListener
+	) {
 
 		var x = 0;
 		var y = 0;
 		var dx = 0;
 		var dy = 0;
 		var wheelDelta = 0;
+		var inputState;
 
-		var callInputUpdate = function() {};
+		var inputUpdateCallbacks = [];
 
-		var ElementListeners = function() {
+		var callInputUpdate = function() {
 
-			var touchWait;
-			var _this = this;
-
-			var setupTouch = function() {
-			//	evt.fire(evt.list().SCREEN_CONFIG, {inputModel:'touch'});
-				this.actionListener = new TouchActionListener();
-				this.setupTouchListener();
-
-				clearListeners();
-
-				clearTimeout(touchWait);
-
-			}.bind(this);
-
-			var setupMouse = function() {
-
-				touchWait = setTimeout(function() {
-					console.log("setup Mouse Action Listener")
-				//	evt.fire(evt.list().SCREEN_CONFIG, {inputModel:'mouse'});
-					_this.actionListener = new MouseActionListener();
-					_this.setupMouseListener();
-					clearListeners();
-				}, 10);
-				window.removeEventListener('mousemove', setupMouse);
-			}.bind(this);
-
-			var clearListeners = function() {
-				window.removeEventListener('mousemove', setupMouse);
-				window.removeEventListener('touchstart', setupTouch);
-			};
-
-			window.addEventListener('mousemove', setupMouse);
-			window.addEventListener('touchstart', setupTouch);
+			for (var i = 0; i < inputUpdateCallbacks.length; i++) {
+				inputUpdateCallbacks[i]();
+			}
 		};
 
-		ElementListeners.prototype.setupMouseListener = function() {
-			this.actionListener.setupElementClickListener(GameScreen.getElement());
+		var ElementListeners = function(inpState, ) {
+			inputState = inpState;
+			this.actionListener = new InputActionListener();
+			this.setupInputListener();
+
+		};
+
+		ElementListeners.prototype.setupInputListener = function() {
+
+			this.actionListener.setupElementInputListener(GameScreen.getElement(), callInputUpdate);
+
 			GameScreen.getElement().addEventListener('mousemove', function(e) {
-			//	e.stopPropagation();
+				//	e.stopPropagation();
 				x = (e.clientX);
 				y = (e.clientY);
 				dx = 2 * ((x) - GameScreen.getWidth() / 2) / GameScreen.getWidth();
 				dy = 2 * ((y) - GameScreen.getHeight() / 2) / GameScreen.getHeight();
-                callInputUpdate();
+				callInputUpdate();
 			});
 
 			GameScreen.getElement().addEventListener('mouseout', function(e) {
-			//	e.stopPropagation();
+				//	e.stopPropagation();
 				dx = 0;
 				dy = 0;
-                callInputUpdate();
+				callInputUpdate();
 			});
 
 			var zoomTimeout;
 
 			GameScreen.getElement().addEventListener('mousewheel', function(e) {
-			//	e.stopPropagation();
+				//	e.stopPropagation();
 				if (zoomTimeout) return;
 				wheelDelta = e.wheelDelta / 1200;
 				setTimeout(function() {
 					zoomTimeout = false;
 				}, 100);
 				zoomTimeout = true;
-                callInputUpdate();
+				callInputUpdate();
 			});
-		};
 
-		ElementListeners.prototype.setupTouchListener = function() {
-			this.actionListener.setupElementTouchListener(GameScreen.getElement());
 			GameScreen.getElement().addEventListener('touchstart', function(e) {
-			//	e.preventDefault();
+				//	e.preventDefault();
 				x = (e.touches[0].clientX);
 				y = (e.touches[0].clientY);
 				dx = 0;
 				dy = 0;
-                callInputUpdate();
+				callInputUpdate();
 			});
 
 			GameScreen.getElement().addEventListener('touchmove', function(e) {
-			//	e.preventDefault();
+				//	e.preventDefault();
 				x = (e.touches[0].clientX);
 				y = (e.touches[0].clientY);
 				dx = 2 * ((x) - GameScreen.getWidth() / 2) / GameScreen.getWidth();
 				dy = 2 * ((y) - GameScreen.getHeight() / 2) / GameScreen.getHeight();
-                callInputUpdate();
+				callInputUpdate();
 			});
 
-
 			GameScreen.getElement().addEventListener('touchend', function(e) {
-			//	e.preventDefault();
+				//	e.preventDefault();
 				dx = 0;
 				dy = 0;
-                callInputUpdate();
+				callInputUpdate();
 			});
 		};
 
+		ElementListeners.prototype.sampleMouseState = function() {
 
-		ElementListeners.prototype.sampleMouseState = function(mouseStore) {
-
-			if (mouseStore.action[0]) {
-				mouseStore.pressFrames++;
+			if (inputState.action[0]) {
+				inputState.pressFrames++;
 			} else {
-                mouseStore.pressFrames = 0;
+				inputState.pressFrames = 0;
 			}
 
-			mouseStore.action[0] = 0;
-            mouseStore.action[1] = 0;
-			this.actionListener.sampleAction(mouseStore);
+			inputState.action[0] = 0;
+			inputState.action[1] = 0;
+			this.actionListener.sampleAction(inputState);
 
-			mouseStore.x = x;
-			mouseStore.y = y;
-			mouseStore.dx = dx;
-			mouseStore.dy = dy;
-			mouseStore.wheelDelta = wheelDelta;
+			inputState.x = x;
+			inputState.y = y;
+			inputState.dx = dx;
+			inputState.dy = dy;
+			inputState.wheelDelta = wheelDelta;
 
 			wheelDelta = 0;
 			dx = 0;
 			dy = 0;
 		};
 
-        ElementListeners.prototype.attachUpdateCallback = function(callback) {
-            callInputUpdate = callback;
-        };
+		ElementListeners.prototype.attachUpdateCallback = function(callback) {
+			inputUpdateCallbacks.push(callback);
+		};
 
 		return ElementListeners;
 

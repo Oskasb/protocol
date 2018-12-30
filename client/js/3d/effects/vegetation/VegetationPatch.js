@@ -1,12 +1,10 @@
 "use strict";
 
 define([
-        'ThreeAPI',
         'PipelineAPI'
         //   'EffectAPI'
     ],
     function(
-        ThreeAPI,
         PipelineAPI
         //    EffectAPI
     ) {

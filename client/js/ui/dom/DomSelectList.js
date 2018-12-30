@@ -3,14 +3,12 @@
 define([
         'evt',
         'PipelineAPI',
-        'ThreeAPI',
         'ui/GameScreen',
         'ui/dom/DomPanel'
     ],
     function(
         evt,
         PipelineAPI,
-        ThreeAPI,
         GameScreen,
         DomPanel
     ) {

@@ -2,6 +2,10 @@
   "config_url_index":{
     "files":[
 
+      "threedata/shaders/three_shader_chunks.json",
+      "threedata/shaders/three_particle_shaders.json",
+      "threedata/shaders/three_shader_programs.json",
+
       "threedata/assets/asset_environment.json"     ,
       "threedata/assets/asset_ocean.json"           ,
       "threedata/assets/asset_terrain.json"         ,

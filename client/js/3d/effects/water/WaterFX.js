@@ -1,14 +1,10 @@
 "use strict";
 
 define([
-        'ThreeAPI',
-        'evt',
         '3d/effects/water/WaterMaterial',
         'application/PipelineObject'
     ],
     function(
-        ThreeAPI,
-        evt,
         WaterMaterial,
         PipelineObject
     ) {
@@ -35,22 +31,25 @@ define([
         };
         var waterNormals;
         var water = {};
+        var waterMesh;
 
         var waterMaterial;
 
-        var WaterFX = function(waterReady) {
+        var WaterFX = function() {
+
+        };
+
+
+        WaterFX.prototype.initWater = function(waterReady) {
             waterMaterial = new WaterMaterial(ThreeAPI);
             this.loadData(waterReady);
         };
 
-
         WaterFX.prototype.loadData = function(waterReady) {
 
             var materialReady = function() {
-
                 waterReady();
-
-            }
+            };
 
             var oceansLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
@@ -59,13 +58,13 @@ define([
                 }
 
             };
-            new PipelineObject("OCEANS", "THREE", oceansLoaded);
+            new PipelineObject("ASSETS", "OCEAN", oceansLoaded);
         };
 
-        WaterFX.prototype.initWaterEffect = function() {
+        WaterFX.prototype.initWaterEffect = function(envWorld) {
 
 
-            world = ThreeAPI.getEnvironment().getEnvironmentDynamicWorld();
+            world = envWorld;
 
             waterGeometry = new THREE.PlaneBufferGeometry( parameters.width, parameters.height, parameters.widthSegments, parameters.heightSegments );
 
@@ -73,7 +72,7 @@ define([
 
             if (simpleWater) {
                 var material = waterMaterial.getMaterialById(oceanId);
-                var waterMesh = new THREE.Mesh(waterGeometry, material);
+                waterMesh = new THREE.Mesh(waterGeometry, material);
             } else {
                 waterMesh = new THREE.Water(
                     waterGeometry,
@@ -95,20 +94,17 @@ define([
                     }
                 );
 
-                var tickWater = function() {
-                    waterMesh.material.uniforms.time.value += 1.0 / 60.0;
-                    this.updateWaterEffect(waterMesh.material.uniforms);
-                }.bind(this)
-
-
-
             }
 
             waterMesh.rotation.x = -Math.PI * 0.5;
             ThreeAPI.addToScene( waterMesh );
 
+        };
 
-
+        WaterFX.prototype.tickWaterEffect = function(tpf) {
+            if (!waterMesh) return;
+            waterMesh.material.uniforms.time.value += tpf;
+            this.updateWaterEffect(waterMesh.material.uniforms);
         };
 
         var color;

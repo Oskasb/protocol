@@ -1,7 +1,6 @@
 "use strict";
 
 define([
-        'ThreeAPI',
         '3d/effects/particles/ParticleEffectData',
         '3d/effects/particles/ParticleEffect',
         '3d/effects/particles/EffectDataTranslator',
@@ -9,7 +8,6 @@ define([
         'application/PipelineObject'
     ],
     function(
-        ThreeAPI,
         ParticleEffectData,
         ParticleEffect,
         EffectDataTranslator,

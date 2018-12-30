@@ -59,14 +59,26 @@ require([
             MainWorldAPI.processMessage(e);
         };
 
-        WorkerPort.onmessage = function(e) {
-            handleMessage(e);
+        var setupPort = function() {
+
+            setTimeout(function() {
+
+                if (WorkerPort) {
+                    WorkerPort.onmessage = function(e) {
+                        handleMessage(e);
+                    };
+
+                    while (premauteMessageQueue.length) {
+                        handleMessage(premauteMessageQueue.pop());
+                    }
+                } else {
+                    setupPort()
+                }
+
+            }, 100)
         };
 
-        while (premauteMessageQueue.length) {
-            handleMessage(premauteMessageQueue.pop());
-        //    postMessage(["MainWorldWorker Premature Queue Flush "+count])
-        }
+        setupPort();
 
     }
 );

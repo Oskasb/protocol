@@ -1,16 +1,13 @@
 "use strict";
 
 define([
-        'io/ElementListeners',
-        'evt'
+        'io/ElementListeners'
     ],
     function(
-        ElementListeners,
-        evt
+        ElementListeners
     ) {
 
     var POINTER_STATE = {};
-
 
         var InputState = function() {
 
@@ -24,7 +21,7 @@ define([
                 zrot:0
             };
 
-            POINTER_STATE.mouseState = {
+            POINTER_STATE.inputState = {
                 x:0,
                 y:0,
                 dx:0,
@@ -36,12 +33,11 @@ define([
                 lastAction:[0, 0],
                 pressFrames:0
             };
-            POINTER_STATE.buffer = [];
 
             this.line = POINTER_STATE.line;
-            this.mouseState = POINTER_STATE.mouseState;
+            this.inputState = POINTER_STATE.inputState;
 
-            this.elementListeners = new ElementListeners();
+            this.elementListeners = new ElementListeners(POINTER_STATE.inputState);
         };
 
         var minLine = 5;
@@ -61,7 +57,7 @@ define([
             return this.line;
         };
 
-        InputState.prototype.setuoUpdateCallback = function(cb) {
+        InputState.prototype.setupUpdateCallback = function(cb) {
             this.elementListeners.attachUpdateCallback(cb);
         };
 
@@ -71,57 +67,57 @@ define([
 
         InputState.prototype.processDragState = function() {
 
-            this.mouseState.dragDistance[0] = this.mouseState.startDrag[0] - this.mouseState.x;
-            this.mouseState.dragDistance[1] = this.mouseState.startDrag[1] - this.mouseState.y;
+            this.inputState.dragDistance[0] = this.inputState.startDrag[0] - this.inputState.x;
+            this.inputState.dragDistance[1] = this.inputState.startDrag[1] - this.inputState.y;
         };
 
         InputState.prototype.updateInputState = function() {
-            this.mouseState.lastAction[0] = this.mouseState.action[0];
-            this.mouseState.lastAction[1] = this.mouseState.action[1];
+            this.inputState.lastAction[0] = this.inputState.action[0];
+            this.inputState.lastAction[1] = this.inputState.action[1];
 
-            this.elementListeners.sampleMouseState(this.mouseState);
+            this.elementListeners.sampleMouseState(this.inputState);
 
-            if (this.mouseState.lastAction[0] !== this.mouseState.action[0]) {
+            if (this.inputState.lastAction[0] !== this.inputState.action[0]) {
 
-                if (this.mouseState.action[0] + this.mouseState.action[1]) {
+                if (this.inputState.action[0] + this.inputState.action[1]) {
                     this.mouseButtonEmployed();
-            //        evt.fire(evt.list().CURSOR_PRESS, this.mouseState);
+            //        evt.fire(evt.list().CURSOR_PRESS, this.inputState);
                 } else {
-                    if (this.mouseState.pressingButton) {
-            //            evt.fire(evt.list().CURSOR_RELEASE, this.mouseState);
+                    if (this.inputState.pressingButton) {
+            //            evt.fire(evt.list().CURSOR_RELEASE, this.inputState);
                     }
                 }
             }
 
-            if (this.mouseState.lastAction[1] !== this.mouseState.action[1]) {
-                if (this.mouseState.action[1]) {
-                    this.mouseState.pressingButton = 1;
+            if (this.inputState.lastAction[1] !== this.inputState.action[1]) {
+                if (this.inputState.action[1]) {
+                    this.inputState.pressingButton = 1;
                 } else {
-                    if (this.mouseState.pressingButton) {
-                        this.mouseState.pressingButton = 0;
+                    if (this.inputState.pressingButton) {
+                        this.inputState.pressingButton = 0;
                     }
                 }
             }
 
-            if (this.mouseState.action[0] + this.mouseState.action[1]) {
+            if (this.inputState.action[0] + this.inputState.action[1]) {
                 this.processDragState();
             }
         };
 
         InputState.prototype.mouseButtonEmployed = function() {
 
-            if (this.mouseState.action[0]) {
+            if (this.inputState.action[0]) {
                 this.handleLeftButtonPress();
             }
         };
 
         InputState.prototype.handleLeftButtonPress = function() {
-            if (!this.mouseState.pressingButton) {
-                this.mouseState.startDrag[0] = this.mouseState.x;
-                this.mouseState.startDrag[1] = this.mouseState.y;
+            if (!this.inputState.pressingButton) {
+                this.inputState.startDrag[0] = this.inputState.x;
+                this.inputState.startDrag[1] = this.inputState.y;
             }
 
-            this.mouseState.pressingButton = 1;
+            this.inputState.pressingButton = 1;
         };
 
         return InputState;

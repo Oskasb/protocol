@@ -5,15 +5,13 @@ define([
         'application/PipelineObject',
         'ui/dom/DomLoadScreen',
         'ui/GameScreen',
-        'PipelineAPI',
-        'ThreeAPI'
+        'PipelineAPI'
     ],
     function(
         PipelineObject,
         DomLoadScreen,
         GameScreen,
-        PipelineAPI,
-        ThreeAPI
+        PipelineAPI
     ) {
 
         var loadProgress;
@@ -114,7 +112,7 @@ define([
                 if (loadState === loadStates.CONFIGS && remaining === 0) {
                 //    console.log( "json cached:", PipelineAPI.getCachedConfigs());
                     loadState = loadStates.COMPLETED;
-                //    ThreeAPI.loadThreeData(ThreeAPI);
+                //    ThreeAPI.loadThreeData();
                     loadStateChange(loadState);
                 }
 
@@ -122,6 +120,8 @@ define([
                 //    console.log( "shared loaded....");
                     loadState = loadStates.CONFIGS;
 
+                    ThreeAPI.initThreeLoaders();
+                    ThreeAPI.loadShaders();
                     loadStateChange(loadState);
                 }
             }
@@ -142,9 +142,6 @@ define([
 
         };
 
-        DataLoader.prototype.loadShaderData = function() {
-            ThreeAPI.loadShaders();
-        };
 
         DataLoader.prototype.notifyCompleted = function() {
             loadProgress.removeProgress();

@@ -120,7 +120,8 @@ if(typeof(ENUMS) === "undefined"){
         POSITION:           5,
         NORMAL:             6,
         UV:                 7,
-        INDEX:              8
+        INDEX:              8,
+        INPUT_BUFFER:       9
     };
 
     ENUMS.Transform = {

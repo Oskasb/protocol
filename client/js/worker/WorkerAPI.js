@@ -3,11 +3,13 @@
 var WorkerAPI;
 
 define([
+    'PipelineAPI',
         'worker/WorkerRunner',
     'evt'
 
     ],
     function(
+        PipelineAPI,
         WorkerRunner,
         evt
     ) {
@@ -20,12 +22,15 @@ define([
 
         var sharedBuffers = {};
 
+        var configs;
+
         WorkerAPI.initWorkers = function(clientViewer) {
+            configs = PipelineAPI.getCachedConfigs();
+            configs.BUFFERS = sharedBuffers;
             workerRunner = new WorkerRunner(clientViewer);
         };
 
         WorkerAPI.requestWorker = function(workerKey, callback) {
-            console.log("create call for workerKey", workerKey);
             workerRunner.initWorker(workerKey, callback);
         };
 
@@ -53,7 +58,6 @@ define([
             if (bufferType === ENUMS.BufferType.EVENT_DATA) {
                 evt.setEventBuffers(sharedBuffers[key], ENUMS.Worker.RENDER);
             }
-
         };
 
         WorkerAPI.getSharedBuffers = function() {

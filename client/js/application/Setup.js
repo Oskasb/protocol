@@ -11,21 +11,21 @@ define([
 ) {
 
     var dataLoader;
+    console.log(PipelineAPI.getCachedConfigs());
 
     var Setup = function() {
 
     };
 
     Setup.init = function(onReady) {
-        console.log(PipelineAPI.getCachedConfigs());
         dataLoader = new DataLoader();
-        dataLoader.loadData(onReady)
+        dataLoader.loadData(onReady);
+        new PointerCursor();
     };
 
     Setup.completed = function() {
         dataLoader.notifyCompleted();
     };
-
 
     Setup.enableJsonPipelinePolling = function() {
         PipelineAPI.getPipelineOptions('jsonPipe').polling.enabled = true;

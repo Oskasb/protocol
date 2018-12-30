@@ -20,12 +20,13 @@ define([
         WorkerMessages.prototype.setupMessageHandlers = function() {
 
             handlers[ENUMS.Message.REGISTER_BUFFER] = function(workerKey, msg) {
-                console.log("REGISTER_BUFFER", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg);
+            //    console.log("REGISTER_BUFFER", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg);
                 WorkerAPI.registerSharedBuffer(msg[0], msg[1], msg[2])
             };
 
             handlers[ENUMS.Message.NOTIFY_FRAME] = function(workerKey, msg) {
-                console.log("NOTIFY_FRAME", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg)
+            //    console.log("NOTIFY_FRAME", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg)
+                clientViewer.notifyWorkerFrameReady(msg)
             };
 
             handlers[ENUMS.Message.REGISTER_PORT] = function(workerKey, msg) {
@@ -38,7 +39,7 @@ define([
 
             handlers[ENUMS.Message.INIT_RENDERER] = function(workerKey, msg) {
                 clientViewer.setRenderCallbacksOn(msg[0]);
-                console.log("INIT_RENDERER", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg[0])
+            //    console.log("INIT_RENDERER", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg[0])
             }
 
         };

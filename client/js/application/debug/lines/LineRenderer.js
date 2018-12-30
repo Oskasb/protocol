@@ -1,5 +1,5 @@
-define(['ThreeAPI'],
-	function (ThreeAPI ) {
+define([],
+	function () {
 		'use strict';
 
 

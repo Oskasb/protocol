@@ -1,12 +1,10 @@
 "use strict";
 
 define([
-        'ThreeAPI',
         '3d/effects/particles/ParticleDataTexture',
         'application/PipelineObject'
     ],
     function(
-        ThreeAPI,
         ParticleDataTexture,
         PipelineObject
     ) {

@@ -1,14 +1,12 @@
 "use strict";
 
 define([
-        'ThreeAPI',
         'EffectsAPI',
         'application/PipelineObject',
         'evt'
 
     ],
     function(
-        ThreeAPI,
         EffectsAPI,
         PipelineObject,
         evt

@@ -1,7 +1,6 @@
 "use strict";
 
 define([
-        'ThreeAPI',
         '3d/effects/particles/ParticleRendererState',
         '3d/effects/particles/ParticleMaterial',
         '3d/effects/particles/ParticleMesh',
@@ -12,7 +11,6 @@ define([
 
     ],
     function(
-        ThreeAPI,
         ParticleRendererState,
         ParticleMaterial,
         ParticleMesh,

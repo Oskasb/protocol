@@ -1,13 +1,11 @@
 "use strict";
 
 define([
-        'ThreeAPI',
         'application/PipelineObject',
         '3d/effects/vegetation/VegetationSystem'
         //   'EffectAPI'
     ],
     function(
-        ThreeAPI,
         PipelineObject,
         VegetationSystem
         //    EffectAPI

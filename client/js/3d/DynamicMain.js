@@ -1,19 +1,14 @@
 "use strict";
 
-
 define([
     'evt',
     '3d/SimpleSpatial',
-    'PipelineAPI',
-    'ThreeAPI',
-    '3d/CanvasMain'
+    'PipelineAPI'
 
 ], function(
     evt,
     SimpleSpatial,
-    PipelineAPI,
-    ThreeAPI,
-    CanvasMain
+    PipelineAPI
 ) {
 
     var i;
@@ -33,8 +28,6 @@ define([
     };
 
     var DynamicMain = function() {
-
-        this.canvasMain = new CanvasMain();
 
         var standardGeo = function(e) {
             msg = evt.args(e).msg;
@@ -56,35 +49,13 @@ define([
             addSimpleSpatial(simpSpat)
 
         };
-
     };
-
 
     var pos;
     var quat;
     var obj3d;
 
     DynamicMain.prototype.tickDynamicMain = function() {
-
-/*
-        camPos = ThreeAPI.getCamera().position;
-        camQuat = ThreeAPI.getCamera().quaternion;
-        calcObj.quaternion.copy(camQuat);
-
-        calcQuat.x = camQuat.x;
-        calcQuat.y = camQuat.y;
-        calcQuat.z = camQuat.z;
-        calcQuat.w = camQuat.w;
-
-        calcQuat.conjugate();
-
-        calcPos.x = camPos.x;
-        calcPos.y = camPos.y;
-        calcPos.z = camPos.z;
-
-        calcPos.applyQuaternion(calcQuat);
-*/
-    //  inverseQuat.conjugate();
 
         for (i = 0; i < spatials.length; i++) {
 
@@ -97,35 +68,8 @@ define([
             obj3d.position.copy(pos);
             obj3d.quaternion.copy(quat)
 
-            /*
-        //    calcPos.copy(pos);
-        //    calcPos.sub(camPos);
-
-            pos.applyQuaternion(calcQuat);
-
-            obj3d.position.x = pos.x;
-            obj3d.position.y = pos.y;
-            obj3d.position.z = pos.z;
-        //    obj3d.quaternion.copy(camQuat);
-            obj3d.position.x -= calcPos.x;
-            obj3d.position.y -= calcPos.y;
-            obj3d.position.z -= calcPos.z;
-        //    inverseQuat.copy(spatials[i].quat);
-        //    inverseQuat.conjugate();
-        //    spatials[i].obj3d.quaternion.multiply(inverseQuat);
-
-            obj3d.quaternion.copy(calcQuat);
-            //    inverseQuat.copy(spatials[i].quat);
-            //    inverseQuat.conjugate();
-            //    quat.conjugate();
-            obj3d.quaternion.multiply(quat);
-            */
         }
-
-        this.canvasMain.updateCanvasMain(spatials)
-
     };
-
 
     return DynamicMain;
 

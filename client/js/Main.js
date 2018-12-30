@@ -1,15 +1,15 @@
 "use strict";
 
 require([
-    'WorkerAPI',
     'ThreeAPI',
+    'WorkerAPI',
     'application/Setup',
     'application/SystemDetector',
     'application/ClientViewer',
     'ui/GameScreen'
 ], function(
-    WorkerAPI,
     ThreeAPI,
+    WorkerAPI,
     Setup,
     SystemDetector,
     ClientViewer,
@@ -22,18 +22,24 @@ require([
 
     new SystemDetector();
 
-    var init = function() {
+    var init = function(sceneReady) {
 
         clientViewer = new ClientViewer();
-        ThreeAPI.initThreeScene(GameScreen.getElement(), 1, false);
 
+        //    var sceneReady = function() {
+        //    Setup.completed()
+        //    };
 
         var mainWorkerCallback = function(worker, key) {
-            console.log("Worker Setup:", worker, key);
+        //    console.log("Worker Setup:", worker, key);
 
             worker.port.onmessage = function(e) {
                 WorkerAPI.processMessage(key, e)
             };
+
+        //    ThreeAPI.initThreeScene(GameScreen.getElement(), 1, false);
+
+            clientViewer.initScene(sceneReady)
 
             worker.port.postMessage([ENUMS.Message.RENDERER_READY, 1]);
         };
@@ -42,12 +48,17 @@ require([
         WorkerAPI.requestWorker(ENUMS.Worker.MAIN_WORKER, mainWorkerCallback);
     };
 
-    setTimeout(init, 10);
+//    setTimeout(init, 10);
 
     var onDataLoadCompleted = function() {
         Setup.completed()
     };
 
-    Setup.init(onDataLoadCompleted);
+    var sceneReady = function() {
+        Setup.init(onDataLoadCompleted);
+    };
+
+    init(sceneReady)
+
 
 });

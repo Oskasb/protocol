@@ -1,10 +1,8 @@
 "use strict";
 
 define([
-        'ThreeAPI'
     ],
     function(
-        ThreeAPI
     ) {
         
         var calcVec = new THREE.Vector3();

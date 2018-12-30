@@ -2,20 +2,27 @@
 
 define([
         'WorkerAPI',
-		'evt',
-        'ThreeAPI'
+        '3d/SceneController',
+		'evt'
     ],
 	function(
         WorkerAPI,
-        evt,
-        ThreeAPI
+        SceneController,
+        evt
     ) {
 
+    var i;
     var frame = 0;
+    var lastTpf = 0;
+    var sceneController;
+    var callbacks = [];
+    var workerCallbacks = [];
+    var callbackFunctions;
 
-    var callbacks;
 
         var ClientViewer = function() {
+
+            sceneController = new SceneController();
 
             var prerenderTick = function(tpf) {
                 this.prerenderTick(tpf)
@@ -26,51 +33,74 @@ define([
             }.bind(this);
 
 
+            var workerFrameCallback = function(frame) {
+                evt.initEventFrame(frame);
+                sceneController.tickEnvironment(lastTpf);
+            };
+
             var eventTest = function(e) {
                 console.log("Test Event: ", e);
             };
 
-            callbacks = {
+            callbackFunctions = {
+                workerFrameCallback:workerFrameCallback,
                 prerenderTick:prerenderTick,
                 postrenderTick:postrenderTick,
                 eventTest:eventTest
             }
 		};
 
+        ClientViewer.prototype.initScene = function(ready) {
+            //    console.log("tick", tpf)
+
+            sceneController.setup3dScene(ready)
+        };
+
+
         ClientViewer.prototype.setRenderCallbacksOn = function(on) {
 
             if (on) {
-                console.log("++Attach Renderer Callbacks");
-                ThreeAPI.getSetup().addPrerenderCallback(callbacks.prerenderTick);
-                ThreeAPI.getSetup().addPostrenderCallback(callbacks.postrenderTick);
+        //        console.log("++Attach Renderer Callbacks");
+                ThreeAPI.getSetup().addPrerenderCallback(callbackFunctions.prerenderTick);
+                ThreeAPI.getSetup().addPostrenderCallback(callbackFunctions.postrenderTick);
+                workerCallbacks.push(callbackFunctions.workerFrameCallback);
                 evt.on(ENUMS.Event.TEST_EVENT, callbacks.eventTest);
             } else {
-                console.log("--Detach Renderer Callbacks");
-                ThreeAPI.getSetup().removePrerenderCallback(callbacks.prerenderTick);
-                ThreeAPI.getSetup().removePostrenderCallback(callbacks.postrenderTick);
-                evt.removeListener(ENUMS.Event.TEST_EVENT, callbacks.eventTest);
+        //        console.log("--Detach Renderer Callbacks");
+                ThreeAPI.getSetup().removePrerenderCallback(callbackFunctions.prerenderTick);
+                ThreeAPI.getSetup().removePostrenderCallback(callbackFunctions.postrenderTick);
+                workerCallbacks.splice(workerCallbacks.indexOf(callbackFunctions.workerFrameCallback, 1));
+                evt.removeListener(ENUMS.Event.TEST_EVENT, callbackFunctions.eventTest);
             }
 
         };
 
+        var frameMessage = [ENUMS.Message.NOTIFY_FRAME, [frame, lastTpf]];
+
         ClientViewer.prototype.prerenderTick = function(tpf) {
         //    console.log("tick", tpf)
-            evt.initEventFrame(frame);
+            lastTpf = tpf;
+
             ThreeAPI.updateCamera();
+            frame++;
+            frameMessage[1][0] = frame;
+            frameMessage[1][1] = tpf;
+            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER, frameMessage)
 		};
 
-        var notifyFrameMessage = []
+        var notifyFrameMessage = [];
 
         ClientViewer.prototype.tickPostrender = function(tpf) {
-            frame++;
 
         //    console.log("tick", frame)
         //    sampleCamera(ThreeAPI.getCamera());
-            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER, [ENUMS.Message.NOTIFY_FRAME, frame])
+
         };
 
-        ClientViewer.prototype.tickWorkerPing = function(msg) {
-
+        ClientViewer.prototype.notifyWorkerFrameReady = function(msg) {
+            for (i = 0; i < workerCallbacks.length; i++) {
+                workerCallbacks[i](msg);
+            }
         };
 
         ClientViewer.prototype.workerMessage = function(msg, workerKey) {

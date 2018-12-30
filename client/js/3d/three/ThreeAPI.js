@@ -50,9 +50,12 @@ define([
 
         ThreeAPI.initEnvironment = function(store) {
 
-            var onLoaded = function() {
-                ThreeEnvironment.initEnvironment(store);
+            var envReady = function() {
                 ThreeEnvironment.enableEnvironment();
+            };
+
+            var onLoaded = function() {
+                ThreeEnvironment.initEnvironment(store, envReady);
             };
 
             ThreeEnvironment.loadEnvironmentData(onLoaded);

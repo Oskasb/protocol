@@ -1,11 +1,9 @@
 "use strict";
 
 define([
-		'ThreeAPI',
 		'ui/GameScreen'
 	],
 	function(
-		ThreeAPI,
 		GameScreen
 	) {
 		

@@ -28,7 +28,7 @@ define([
 
             var setupWorker = function(url, key, cb) {
 
-                console.log('Init for URL!', url);
+            //    console.log('Init for URL!', url);
 
                 var worker = new Worker(url);
 
@@ -39,7 +39,7 @@ define([
                     port:mc.port1
                 };
 
-                console.log('REG for Key URL!', key, url);
+            //    console.log('REG for Key URL!', key, url);
                 worker.postMessage(url, [workers[key].mc.port2]);
 
                 cb(workers[key], key);

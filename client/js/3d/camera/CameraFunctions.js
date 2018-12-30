@@ -1,7 +1,7 @@
 "use strict";
 
 
-define(['PipelineAPI','ThreeAPI', 'ui/GameScreen'], function(PipelineAPI, ThreeAPI, GameScreen) {
+define(['PipelineAPI', 'ui/GameScreen'], function(PipelineAPI, GameScreen) {
 
 
     var pieces;

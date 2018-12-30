@@ -1,8 +1,7 @@
-"use strict";
 
-define(function() {
+define([], function() {
 
-	var mouseAction = [0, 0];
+	var inputAction = [0, 0];
 
 	var buttons = {
 		RIGHT:'RIGHT',
@@ -11,28 +10,31 @@ define(function() {
 	};
 
 	var events = {
+		touchstart:'touchstart',
+		touchend:'touchend',
+		touchmove:'touchmove',
 		mousedown:'mousedown',
 		mouseup:'mouseup',
 		mouseout:'mouseout',
 		click:'click'
 	};
 
-	var MouseActionListener = function() {
+	var InputActionListener = function() {
 		this.pressedButtons = [0, 0]
 	};
 
-	MouseActionListener.prototype.handleElementMouseEvent = function(eventType, button) {
+	InputActionListener.prototype.handleElementMouseEvent = function(eventType, button) {
 		switch (button) {
 			case buttons.RIGHT:
 
 				switch (eventType) {
 					case events.mousedown:
 						this.pressedButtons[1] = 1;
-						mouseAction = this.pressedButtons;
+						inputAction = this.pressedButtons;
 						break;
 					case events.mouseup:
 						this.pressedButtons[1] = 0;
-						mouseAction = this.pressedButtons;
+						inputAction = this.pressedButtons;
 						break;
 					case events.mouseout:
 						break;
@@ -45,11 +47,11 @@ define(function() {
 				switch (eventType) {
 					case events.mousedown:
 						this.pressedButtons[0] = 1;
-						mouseAction = this.pressedButtons;
+						inputAction = this.pressedButtons;
 						break;
 					case events.mouseup:
 						this.pressedButtons[0] = 0;
-						mouseAction = this.pressedButtons;
+						inputAction = this.pressedButtons;
 						break;
 					case events.click:
 						break;
@@ -58,10 +60,10 @@ define(function() {
 			case buttons.MIDDLE:
 				switch (eventType) {
 					case events.mousedown:
-						mouseAction = [1, 1];
+						inputAction = [1, 1];
 						break;
 					case events.mouseup:
-						mouseAction = [0, 0];
+						inputAction = [0, 0];
 						break;
 					case events.click:
 						break;
@@ -70,39 +72,48 @@ define(function() {
 		}
 	};
 
-
-	MouseActionListener.prototype.handleMouseEvt = function(evt) {
+	InputActionListener.prototype.handleMouseEvt = function(evt) {
 		var clickType = buttons.LEFT;
 		if (evt.which) {
-			if (evt.which==3) clickType=buttons.RIGHT;
-			if (evt.which==2) clickType=buttons.MIDDLE;
+			if (evt.which===3) clickType=buttons.RIGHT;
+			if (evt.which===2) clickType=buttons.MIDDLE;
 		} else if (evt.button) {
-			if (evt.button==2) clickType=buttons.RIGHT;
-			if (evt.button==4) clickType=buttons.MIDDLE;
+			if (evt.button===2) clickType=buttons.RIGHT;
+			if (evt.button===4) clickType=buttons.MIDDLE;
 		}
 		this.handleElementMouseEvent(evt.type, clickType)
 	};
 
-
-
-	MouseActionListener.prototype.setupElementClickListener = function(element) {
+	InputActionListener.prototype.setupElementInputListener = function(element, callUpdate) {
 
 		var handleMouseEvent = function(e) {
-		//	e.stopPropagation();
+			//	e.stopPropagation();
 			var evt = (e==null ? event:e);
 			this.handleMouseEvt(evt)
+			callUpdate();
 		}.bind(this);
 
+		var handleTouchStart = function() {
+			inputAction[0] = 1;
+		};
+
+		var handleTouchEnd = function() {
+			inputAction[0] = 0;
+		};
+
+		element.addEventListener(events.touchstart, handleTouchStart);
+		element.addEventListener(events.touchend, handleTouchEnd);
 		element.addEventListener(events.mouseup, handleMouseEvent);
 		element.addEventListener(events.click, handleMouseEvent);
 		element.addEventListener(events.mousedown, handleMouseEvent);
 		element.addEventListener(events.mouseout, handleMouseEvent);
+
 	};
 
-	MouseActionListener.prototype.sampleAction = function(mouseStore) {
-		mouseStore.action[0] = mouseAction[0];
-		mouseStore.action[1] = mouseAction[1];
+	InputActionListener.prototype.sampleAction = function(inputStore) {
+		inputStore.action[0] = inputAction[0];
+		inputStore.action[1] = inputAction[1];
 	};
 
-	return MouseActionListener
+	return InputActionListener
 });

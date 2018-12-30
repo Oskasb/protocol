@@ -5,7 +5,6 @@ define([
         'evt',
         'PipelineAPI',
         'EffectsAPI',
-        'ThreeAPI',
         'gui/CanvasGuiAPI',
         './MonitorEffectAPI'
     ],
@@ -13,7 +12,6 @@ define([
         evt,
         PipelineAPI,
         EffectsAPI,
-        ThreeAPI,
         CanvasGuiAPI,
         MonitorEffectAPI
     ) {

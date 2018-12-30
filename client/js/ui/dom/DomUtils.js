@@ -1,4 +1,4 @@
-define(["evt", "io/TouchActionListener"], function(event, touchListener) {
+define(["evt"], function(event) {
 
     var refDiv = document.getElementById("canvas_window");
 
@@ -183,11 +183,6 @@ define(["evt", "io/TouchActionListener"], function(event, touchListener) {
         element.interactionListeners = {};
 
         var inType = "click";
-
-        if (touchListener.isTouch()) {
-            inType = "touchClick";
-            touchListener.registerClickableElement(element);
-        }
 
 
         element.interactionListeners[inType] = {clickFunc:cFunc, isEnabled:false};

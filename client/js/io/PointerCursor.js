@@ -1,134 +1,101 @@
 "use strict";
 
 define([
-        'WorkerAPI',
-		'io/VisualCursor',
+    'PipelineAPI',
 		'io/InputState',
 		'evt',
 		'ui/GameScreen'
 	],
 	function(
-        WorkerAPI,
-		VisualCursor,
+        PipelineAPI,
 		InputState,
 		evt,
         GameScreen
 	) {
 
-        var mouseState;
-
+        var INPUT_STATE;
         var tempVec = new THREE.Vector3();
 
+        var INPUT_BUFFERS;
+        var i;
+
+
 		var PointerCursor = function() {
-
-			this.guiStateTransitionCallbacks = {
-				passive:[],
-				on_hover:[],
-				on_active:[],
-				on_applied:[],
-				on_message:[]
-			};
-
-			this.pointerStateTransitionCallbacks = {
-				press_0:[],
-				press_1:[],
-				press_2:[],
-				release_0:[],
-				release_1:[],
-				release_2:[]
-			};
 
 			this.inputState = new InputState();
 
 			this.x = 0;
 			this.y = 0;
 
-			var _this = this;
+			var pointerState = this.inputState.getPointerState();
 
-			this.enabled = false;
+			PipelineAPI.setCategoryData('INPUT_STATE', pointerState);
 
-			function configureListener(e) {
-				if (evt.args(e).inputModel) {
-					_this.enabled = true;
-		//			evt.removeListener(evt.list().SCREEN_CONFIG, configureListener);
-				}
-			}
-
-		//	evt.on(evt.list().SCREEN_CONFIG, configureListener);
-            mouseState = this.inputState.getPointerState().mouseState;
-            this.setupInputBuffer();
-            this.inputState.getPointerState().buffer = this.buffer;
-
+            INPUT_STATE = this.inputState.getPointerState();
 
             var onInputUpdate = function() {
             	this.tick();
 			}.bind(this);
 
-            this.inputState.setuoUpdateCallback(onInputUpdate);
+            this.inputState.setupUpdateCallback(onInputUpdate);
 
 		};
 
-        PointerCursor.prototype.getPointerState = function() {
-            return this.inputState.getPointerState();
-        };
+        var screenFitXY = function(buffer, x, y, vec) {
 
-        PointerCursor.prototype.lineDistance = function(fromX, fromY, toX, toY) {
-            return Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY));
-        };
-
-		PointerCursor.prototype.inputVector = function(fromX, fromY, toX, toY) {
-            this.inputState.setLine(fromY, fromX, toY, toX, this.lineDistance(fromX, fromY, toX, toY), Math.atan2(fromX - toX, fromY - toY));
-		};
-
-        PointerCursor.prototype.setupInputBuffer = function() {
-            var buffer = new SharedArrayBuffer(Float32Array.BYTES_PER_ELEMENT * ENUMS.InputState.BUFFER_SIZE);
-            this.buffer = new Float32Array(buffer);
-
-        };
-
-        PointerCursor.prototype.screenFitXY = function(x, y, vec) {
-
-            vec.x = (x-this.buffer[ENUMS.InputState.VIEW_LEFT]) / this.buffer[ENUMS.InputState.VIEW_WIDTH] - 0.5;
-            vec.y = -(y-this.buffer[ENUMS.InputState.VIEW_TOP]) / this.buffer[ENUMS.InputState.VIEW_HEIGHT] + 0.5;
+            vec.x = (x-buffer[ENUMS.InputState.VIEW_LEFT]) / buffer[ENUMS.InputState.VIEW_WIDTH] - 0.5;
+            vec.y = -(y-buffer[ENUMS.InputState.VIEW_TOP]) / buffer[ENUMS.InputState.VIEW_HEIGHT] + 0.5;
             GameScreen.fitView(vec);
 		};
 
-        PointerCursor.prototype.updateInputBuffer = function() {
+        var updateInputBuffer = function(buffer, inputState) {
 
-            this.buffer[ENUMS.InputState.VIEW_LEFT]         = GameScreen.getLeft();
-            this.buffer[ENUMS.InputState.VIEW_TOP]          = GameScreen.getTop();
-            this.buffer[ENUMS.InputState.VIEW_WIDTH]        = GameScreen.getWidth();
-            this.buffer[ENUMS.InputState.VIEW_HEIGHT]       = GameScreen.getHeight();
-            this.buffer[ENUMS.InputState.ASPECT]            = GameScreen.getAspect();
+            buffer[ENUMS.InputState.VIEW_LEFT]         = GameScreen.getLeft();
+            buffer[ENUMS.InputState.VIEW_TOP]          = GameScreen.getTop();
+            buffer[ENUMS.InputState.VIEW_WIDTH]        = GameScreen.getWidth();
+            buffer[ENUMS.InputState.VIEW_HEIGHT]       = GameScreen.getHeight();
+            buffer[ENUMS.InputState.ASPECT]            = GameScreen.getAspect();
 
-            this.screenFitXY(mouseState.x, mouseState.y, tempVec);
+            screenFitXY(buffer, inputState.x, inputState.y, tempVec);
 
-            this.buffer[ENUMS.InputState.MOUSE_X]           = tempVec.x ;
-            this.buffer[ENUMS.InputState.MOUSE_Y]           = tempVec.y ;
-            this.buffer[ENUMS.InputState.WHEEL_DELTA]       = mouseState.wheelDelta;
+            buffer[ENUMS.InputState.MOUSE_X]           = tempVec.x ;
 
-            if (mouseState.pressFrames === 0) {
-                this.buffer[ENUMS.InputState.START_DRAG_X]      = tempVec.x ;
-                this.buffer[ENUMS.InputState.START_DRAG_Y]      = tempVec.y ;
+            buffer[ENUMS.InputState.MOUSE_Y]           = tempVec.y ;
+            buffer[ENUMS.InputState.WHEEL_DELTA]       = inputState.wheelDelta;
+
+            if (inputState.pressFrames === 0) {
+                buffer[ENUMS.InputState.START_DRAG_X]      = tempVec.x ;
+                buffer[ENUMS.InputState.START_DRAG_Y]      = tempVec.y ;
             }
 
-            this.buffer[ENUMS.InputState.DRAG_DISTANCE_X]   = this.buffer[ENUMS.InputState.MOUSE_X] - this.buffer[ENUMS.InputState.START_DRAG_X];
-            this.buffer[ENUMS.InputState.DRAG_DISTANCE_Y]   = this.buffer[ENUMS.InputState.MOUSE_Y] - this.buffer[ENUMS.InputState.START_DRAG_Y];
-            this.buffer[ENUMS.InputState.ACTION_0]          = mouseState.action[0];
-            this.buffer[ENUMS.InputState.ACTION_1]          = mouseState.action[1];
-            this.buffer[ENUMS.InputState.LAST_ACTION_0]     = mouseState.lastAction[0];
-            this.buffer[ENUMS.InputState.LAST_ACTION_1]     = mouseState.lastAction[1];
-            this.buffer[ENUMS.InputState.PRESS_FRAMES]      = mouseState.pressFrames;
-            this.buffer[ENUMS.InputState.FRUSTUM_FACTOR]    = 0.82;
+            buffer[ENUMS.InputState.DRAG_DISTANCE_X]   = buffer[ENUMS.InputState.MOUSE_X] - buffer[ENUMS.InputState.START_DRAG_X];
+            buffer[ENUMS.InputState.DRAG_DISTANCE_Y]   = buffer[ENUMS.InputState.MOUSE_Y] - buffer[ENUMS.InputState.START_DRAG_Y];
+            buffer[ENUMS.InputState.ACTION_0]          = inputState.action[0];
+            buffer[ENUMS.InputState.ACTION_1]          = inputState.action[1];
+            buffer[ENUMS.InputState.LAST_ACTION_0]     = inputState.lastAction[0];
+            buffer[ENUMS.InputState.LAST_ACTION_1]     = inputState.lastAction[1];
+            buffer[ENUMS.InputState.PRESS_FRAMES]      = inputState.pressFrames;
+            buffer[ENUMS.InputState.FRUSTUM_FACTOR]    = 0.82;
 
         };
 
-		PointerCursor.prototype.tick = function() {
-			if (this.enabled) {
-                this.inputState.updateInputState();
-			}
 
-			this.updateInputBuffer();
+        var updateBuffers = function(buffers, inputState) {
+            for (i = 0; i < buffers.length; i++) {
+                updateInputBuffer(buffers[i], inputState)
+            }
+        };
+
+		PointerCursor.prototype.tick = function() {
+
+		    this.inputState.updateInputState();
+
+            INPUT_BUFFERS = PipelineAPI.getCachedConfigs().BUFFERS[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)];
+
+            if (!INPUT_BUFFERS) return;
+            updateBuffers(INPUT_BUFFERS, INPUT_STATE.inputState);
+
+
 		};
 
 		return PointerCursor;

@@ -5,17 +5,18 @@ define([
     '3d/ThreeController',
     'EffectsAPI',
     '3d/effects/EffectListeners',
-    '3d/DynamicMain'
+    '3d/CanvasMain'
 
 ], function(
     ThreeController,
     EffectsAPI,
     EffectsListeners,
-    DynamicMain
+    CanvasMain
 ) {
 
     var SceneController = function() {
-        this.dynamicMain = new DynamicMain()
+    //    this.dynamicMain = new DynamicMain()
+        this.canvasMain = new CanvasMain();
     };
 
     SceneController.prototype.setup3dScene = function(ready) {
@@ -32,11 +33,17 @@ define([
         EffectsAPI.tickEffectSimulation(systemTime);
     };
 
+    SceneController.prototype.tickCanvasScene = function(tpf) {
+        this.canvasMain.updateCanvasMain(tpf)
+    };
 
-    SceneController.prototype.tickDynamicScene = function() {
+    SceneController.prototype.tickDynamicScene = function(tpf) {
         this.dynamicMain.tickDynamicMain();
     };
 
+    SceneController.prototype.tickEnvironment = function(tpf) {
+        ThreeAPI.getEnvironment().tickEnvironment(tpf);
+    };
 
     return SceneController;
 

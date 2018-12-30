@@ -52,13 +52,13 @@ define([
             var size = determineEventBufferSize();
             setupBufferMessage(size, ENUMS.BufferType.EVENT_DATA);
             setupBufferMessage(size, ENUMS.BufferType.EVENT_DATA);
-
+            setupBufferMessage(ENUMS.InputState.BUFFER_SIZE, ENUMS.BufferType.INPUT_BUFFER);
         };
 
         MainWorldCom.prototype.setupMessageHandlers = function() {
 
             handlers[ENUMS.Message.NOTIFY_FRAME] = function(msg) {
-                MainWorldAPI.initMainWorldFrame(msg);
+                MainWorldAPI.initMainWorldFrame(msg[0], msg[1]);
             };
 
             handlers[ENUMS.Message.RENDERER_READY] = function(msg) {

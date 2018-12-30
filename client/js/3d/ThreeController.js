@@ -2,12 +2,10 @@
 
 
 define([
-    'ThreeAPI',
     'PipelineAPI',
     'evt',
     'ui/GameScreen'
 ], function(
-    ThreeAPI,
     PipelineAPI,
     evt,
     GameScreen
@@ -70,7 +68,7 @@ define([
 
     var notifyRezize = function() {
         ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), pxRatio);
-        relayCamera(ThreeAPI.getCamera(), PipelineAPI.readCachedConfigKey('SHARED_BUFFERS', ENUMS.Key.WORLD_COM_BUFFER));
+    //    relayCamera(ThreeAPI.getCamera(), PipelineAPI.readCachedConfigKey('SHARED_BUFFERS', ENUMS.Key.WORLD_COM_BUFFER));
     };
 
     var monkeypatchCustomEngine = function() {

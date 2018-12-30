@@ -2,15 +2,17 @@
 
 
 define(['application/PipelineObject',
+    '3d/effects/water/WaterFX',
     'PipelineAPI',
     'evt'
 
 ], function(
     PipelineObject,
+    WaterFX,
     PipelineAPI
 ) {
 
-
+    var waterFx;
     var envStateMap = ENUMS.Map.Environment;
     var envBuffer = new SharedArrayBuffer(Float32Array.BYTES_PER_ELEMENT * envStateMap.length);
 
@@ -73,7 +75,7 @@ define(['application/PipelineObject',
 
         var worldListLoaded = function(src, data) {
 
-                console.log("Load Env World Data:", src, data);
+            console.log("Load Env World Data:", src, data);
 
             for (var i = 0; i < data.params.length; i++){
                 worldSetup[data.params[i].id] = data.params[i]
@@ -81,12 +83,15 @@ define(['application/PipelineObject',
             currentEnvId = data.defaultEnvId;
             currentEnvIndex = undefined;
             //    console.log("worldSetup:", currentEnvId, worldSetup);
+
             onLoaded();
         };
 
-        //    worldListLoaded('local', worldData);
+        waterFx = new WaterFX();
 
         new PipelineObject("ASSETS", "WORLD", worldListLoaded);
+
+
     };
 
     var useTHREESky = 0;
@@ -123,7 +128,7 @@ define(['application/PipelineObject',
 
         //    mat.depthWrite = false;
 
-            var skyGeo = new THREE.SphereBufferGeometry(33000, 36, 6 );
+            var skyGeo = new THREE.SphereBufferGeometry(1500, 36, 6 );
             var skyMesh = new THREE.Mesh( skyGeo, mat);
 
             var uniforms = {
@@ -146,7 +151,8 @@ define(['application/PipelineObject',
 
         }
 
-        // scene.add( sky.mesh );
+    //    scene.add( sky.mesh );
+        sky.meshClone = sky.mesh.clone();
         // Add Sun Helper
 
         sunSphere = new THREE.Mesh(
@@ -242,7 +248,7 @@ define(['application/PipelineObject',
 
             if (config[key].density) {
                 applyFog(world[key], config[key].density * elevationFactor);
-                //    renderer.setClearColor(new THREE.Color(config[key].color[0],config[key].color[1], config[key].color[2]))
+            //    renderer.setClearColor(fogColor)
             }
         }
     };
@@ -399,15 +405,22 @@ define(['application/PipelineObject',
 
     };
 
-    var tickEnvironment = function(e) {
+    ThreeEnvironment.tickEnvironment = function(tpf) {
+        tickEnvironment(tpf)
+    };
 
+    var tickEnvironment = function(tpf) {
+
+        if (!sky) return;
         //    console.log("Tick Env")
 
-        fraction = calcTransitionProgress(evt.args(e).tpf) * 1.0;
+        waterFx.tickWaterEffect(tpf);
+
+        fraction = calcTransitionProgress(tpf * 1.0);
 
         //    t+=evt.args(e).tpf
         //    fraction = fraction;
-        currentElevation = WorkerAPI.getCom(ENUMS.BufferChannels.CAM_POS_Y);
+        currentElevation = 1 // WorkerAPI.getCom(ENUMS.BufferChannels.CAM_POS_Y);
 
         if (currentElevation > 0) {
             elevationFactor = MATH.curveCube( MATH.airDensityAtAlt(currentElevation) );
@@ -418,7 +431,7 @@ define(['application/PipelineObject',
 
         //      elevationFactor =  MATH.airDensityAtAlt(currentElevation) ;
 
-        comEnvIdx =  WorkerAPI.getCom(ENUMS.BufferChannels.ENV_INDEX);
+        comEnvIdx = 4 // WorkerAPI.getCom(ENUMS.BufferChannels.ENV_INDEX);
         if (currentEnvIndex !== comEnvIdx) {
             currentEnvIndex = comEnvIdx;
             ThreeEnvironment.setEnvConfigId(envs[comEnvIdx], 45);
@@ -501,8 +514,8 @@ define(['application/PipelineObject',
         if (enabled) return;
         enabled = true;
         scene.add( sky.mesh );
-        ThreeAPI.getReflectionScene().add(sky.mesh.clone());
-    //    evt.on(evt.list().CLIENT_TICK, tickEnvironment);
+        ThreeAPI.getReflectionScene().add(sky.meshClone);
+    //    ThreeAPI.getSetup().addPostrenderCallback(tickEnvironment);
     };
 
     ThreeEnvironment.getEnvConfigs = function() {
@@ -517,7 +530,8 @@ define(['application/PipelineObject',
         if (!enabled) return;
         enabled = false;
         scene.remove( sky.mesh );
-    //    evt.removeListener(evt.list().CLIENT_TICK, tickEnvironment);
+        ThreeAPI.getReflectionScene().remove(sky.meshClone);
+    //    ThreeAPI.getSetup().removePostrenderCallback(tickEnvironment);
     };
 
     ThreeEnvironment.setEnvConfigId = function(envConfId, time) {
@@ -526,7 +540,7 @@ define(['application/PipelineObject',
         currentEnvId = envConfId;
     };
 
-    ThreeEnvironment.initEnvironment = function(store) {
+    ThreeEnvironment.initEnvironment = function(store, envReady) {
 
 
         scene = store.scene;
@@ -545,12 +559,12 @@ define(['application/PipelineObject',
 
             for (key in worldSetup) {
 
-                if (key == "ambient") {
+                if (key === "ambient") {
 
                     world[key] = new THREE.AmbientLight(0x000000);
                     scene.add(world[key]);
 
-                } else if (key == "fog") {
+                } else if (key === "fog") {
                     //    scene.fog = {density:0, near:1, far: 100000}; // new THREE.Fog( 100, 10000000);
                 //    scene.fog = new THREE.Fog( 100, 10000000);
                 //        world[key] = scene.fog;
@@ -562,6 +576,13 @@ define(['application/PipelineObject',
                     //    ThreeAPI.getReflectionScene().add(world[key]);
                 }
             }
+
+            var waterReady = function() {
+                waterFx.initWaterEffect(world);
+                envReady()
+            };
+
+            waterFx.initWater(waterReady);
         };
 
 

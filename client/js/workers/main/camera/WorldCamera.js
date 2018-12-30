@@ -240,6 +240,9 @@ define([
 
     var inputBuffer;
 
+    var lastDX = 0;
+    var lastDY = 0;
+
     WorldCamera.prototype.sampleInput = function() {
 
         inputBuffer = MainWorldAPI.getSharedBuffer(ENUMS.BufferType.INPUT_BUFFER, 0);
@@ -247,20 +250,28 @@ define([
 
         if (inputBuffer[ENUMS.InputState.ACTION_0]) {
 
-            tempVec1.x = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_X];
-            tempVec1.y = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_Y];
+            tempVec1.x = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_X] - lastDX ;
+            tempVec1.y = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_Y] - lastDY ;
             tempVec1.z = 0;
 
-            tempVec1.applyQuaternion(camera.quaternion);
-            camera.position.add(tempVec1)
+            lastDX = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_X] * 0.3 + lastDX * 0.7;
+            lastDY = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_Y] * 0.3 + lastDY * 0.7;
 
+            tempVec1.multiplyScalar(this.calcDistanceToCamera(this.getCameraLookAt()));
+
+            tempVec1.applyQuaternion(camera.quaternion);
+            camera.position.add(tempVec1);
+
+        } else {
+            lastDX = 0;
+            lastDY = 0;
         }
-                
+
     };
 
     WorldCamera.prototype.fireCameraUpdate = function() {
 
-        this.sampleInput();
+
 
         evt.setArgVec3(camEvt, 0, camera.position);
         evt.setArgQuat(camEvt, 6, camera.quaternion);
@@ -282,6 +293,7 @@ define([
         tempVec1.y = 0;
         tempVec1.z = 0;
         this.setLookAtVec(tempVec1);
+        this.sampleInput();
         this.updateCameraLookAt();
         this.fireCameraUpdate();
         this.updateCameraMatrix();

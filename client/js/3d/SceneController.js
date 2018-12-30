@@ -5,13 +5,15 @@ define([
     '3d/ThreeController',
     'EffectsAPI',
     '3d/effects/EffectListeners',
-    '3d/CanvasMain'
+    '3d/CanvasMain',
+    '3d/RenderCamera'
 
 ], function(
     ThreeController,
     EffectsAPI,
     EffectsListeners,
-    CanvasMain
+    CanvasMain,
+    RenderCamera
 ) {
 
     var SceneController = function() {
@@ -20,6 +22,7 @@ define([
     };
 
     SceneController.prototype.setup3dScene = function(ready) {
+        this.renderCamera = new RenderCamera()
         ThreeController.setupThreeRenderer(ready);
     };
 

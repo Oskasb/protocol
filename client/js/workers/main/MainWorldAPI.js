@@ -84,6 +84,14 @@ define([
             return sharedBuffers;
         };
 
+        MainWorldAPI.getSharedBuffer = function(bufferType, index) {
+            return sharedBuffers[ENUMS.getKey('BufferType', bufferType)][index];
+        };
+
+        MainWorldAPI.readBufferValue = function(bufferType, index, param) {
+            return sharedBuffers[ENUMS.getKey('BufferType', bufferType)][index][param];
+        };
+
         return MainWorldAPI;
     });
 

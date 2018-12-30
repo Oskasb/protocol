@@ -77,8 +77,8 @@ define([
                 waterMesh = new THREE.Water(
                     waterGeometry,
                     {
-                        textureWidth: 8,
-                        textureHeight: 64,
+                        textureWidth: 4,
+                        textureHeight: 256,
                         waterNormals: new THREE.TextureLoader().load( 'client/assets/images/textures/tiles/waternormals3.png', function ( texture ) {
                             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
                         }),

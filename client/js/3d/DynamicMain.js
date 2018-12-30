@@ -47,7 +47,6 @@ define([
             ThreeAPI.loadMeshModel(simpSpat.modelId, simpSpat.obj3d);
             simpSpat.setReady(modelReady);
             addSimpleSpatial(simpSpat)
-
         };
     };
 

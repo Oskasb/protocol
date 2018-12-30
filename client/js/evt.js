@@ -37,53 +37,60 @@ define([
             return;
         }
 
-        if (!events[event[0]]) {
-            listeners[event[0]] = [];
-            events[event[0]] = new TinyEvent(event[0]);
+        if (!events[event]) {
+            listeners[event] = [];
+            events[event] = new TinyEvent(event);
         }
     };
 
     var generateEvent = function(event, arguments) {
         setupEvent(event);
         setEventArgs(event, arguments);
-        return events[event[0]];
+        return events[event];
     };
 
     var setEventArgs = function(event, args) {
 
-        if (typeof (event[0]) !== 'number') {
+        if (typeof (event) !== 'number') {
             console.log("Old Event: ", event);
             return;
         }
 
-        events[event[0]].setArgs(args);
+        events[event].setArgs(args);
     };
 
     var eventArgs = function(event) {
-        return events[event[0]].arguments;
+        return events[event].arguments;
     };
 
     var dispatchEvent = function(event) {
-        for (var i = 0; i < listeners[event[0]].length; i++) {
-            listeners[event[0]][i](eventArgs(event));
+
+        for (var i = 0; i < listeners[event].length; i++) {
+            listeners[event][i](eventArgs(event));
         }
     };
 
     var dispatch = function(event, arguments) {
+
+        if (typeof(listeners[event]) === 'undefined') {
+            return;
+            // listeners[event] = []
+        }
+
         dispatchEvent(event, generateEvent(event, arguments));
         evtStatus.firedCount++;
     };
 
     var registerListener = function(event, callback) {
         setupEvent(event);
-        listeners[event[0]].push(callback);
+        listeners[event].push(callback);
     };
 
     var registerOnceListener = function(event, callback) {
         setupEvent(event);
 
         var remove = function() {
-            removeListener(listeners[event[0]], singleShot);
+            removeListener(listeners[event], singleShot);
             evtStatus.onceListeners--;
             if (evtStatus.onceListeners < 0) {
                 console.log("overdose singleshots", event);
@@ -130,16 +137,16 @@ define([
 
     var removeListener = function(event, callback) {
 
-        if (!listeners[event[0]]) {
+        if (!listeners[event]) {
             return;
         }
 
-        if (listeners[event[0]].indexOf(callback) === -1) {
+        if (listeners[event].indexOf(callback) === -1) {
             return;
         }
 
-        //  spliceListener(listeners[event[0]], callback);
-           asynchifySplice(listeners[event[0]], callback);
+        //  spliceListener(listeners[event], callback);
+           asynchifySplice(listeners[event], callback);
     };
 
     var setEventBuffers = function(buffers, workerIndex) {
@@ -150,13 +157,41 @@ define([
         EventProtocol.initEventFrame(frame);
     };
 
+    var setEventBufferVec3 = function(evtBuffer, startIndex, vec3) {
+        evtBuffer[startIndex+1] = vec3.x;
+        evtBuffer[startIndex+3] = vec3.y;
+        evtBuffer[startIndex+5] = vec3.z;
+    };
 
+    var setEventBufferQuat = function(evtBuffer, startIndex, quat) {
+        evtBuffer[startIndex+1] = quat.x;
+        evtBuffer[startIndex+3] = quat.y;
+        evtBuffer[startIndex+5] = quat.z;
+        evtBuffer[startIndex+7] = quat.w;
+    };
+
+    var getEventBufferVec3 = function(evtBuffer, startIndex, vec3) {
+        vec3.x = evtBuffer[startIndex+1];
+        vec3.y = evtBuffer[startIndex+3];
+        vec3.z = evtBuffer[startIndex+5];
+    };
+
+    var getEventBufferQuat = function(evtBuffer, startIndex, quat) {
+        quat.x = evtBuffer[startIndex+1] ;
+        quat.y = evtBuffer[startIndex+3] ;
+        quat.z = evtBuffer[startIndex+5] ;
+        quat.w = evtBuffer[startIndex+7] ;
+    };
 
     var fireEvent = function(eventType, argBuffer) {
         EventProtocol.registerBufferEvent(eventType, argBuffer);
     };
 
     return {
+        setArgVec3:setEventBufferVec3,
+        setArgQuat:setEventBufferQuat,
+        getArgVec3:getEventBufferVec3,
+        getArgQuat:getEventBufferQuat,
         getEventSystemStatus:getEventSystemStatus,
         removeListener:removeListener,
         on:registerListener,

@@ -33,10 +33,6 @@ define([
                 console.log("REGISTER_PORT", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg)
             };
 
-            handlers[ENUMS.Message.FIRE_EVENT] = function(workerKey, msg) {
-                console.log("FIRE_EVENT", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg)
-            };
-
             handlers[ENUMS.Message.INIT_RENDERER] = function(workerKey, msg) {
                 clientViewer.setRenderCallbacksOn(msg[0]);
             //    console.log("INIT_RENDERER", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg[0])

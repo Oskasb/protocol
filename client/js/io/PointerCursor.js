@@ -79,7 +79,6 @@ define([
 
         };
 
-
         var updateBuffers = function(buffers, inputState) {
             for (i = 0; i < buffers.length; i++) {
                 updateInputBuffer(buffers[i], inputState)
@@ -94,7 +93,6 @@ define([
 
             if (!INPUT_BUFFERS) return;
             updateBuffers(INPUT_BUFFERS, INPUT_STATE.inputState);
-
 
 		};
 

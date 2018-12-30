@@ -96,7 +96,7 @@ define(['application/PipelineObject',
 
     var useTHREESky = 0;
     var ctx;
-    var ctxHeight = 256;
+    var ctxHeight = 64;
     var ctxWidth= 1;
 
     var initSky = function() {

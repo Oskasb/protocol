@@ -15,7 +15,8 @@ if(typeof(ENUMS) === "undefined"){
         PING_MAIN_THREAD:       7,
         TEST_EVENT:             8,
         STATS_UPDATE:           9,
-        INSTANTIATE:            10
+        INSTANTIATE:            10,
+        UPDATE_CAMERA:          11
 
     };
 
@@ -51,8 +52,8 @@ if(typeof(ENUMS) === "undefined"){
         WRITE_FRAME:            26,
         READ_FRAME:             27,
         FRAME:                  28,
-        POS_X:                  29,
 
+        POS_X:                  29,
         POS_Y:                  30,
         POS_Z:                  31,
         QUAT_X:                 32,
@@ -96,7 +97,12 @@ if(typeof(ENUMS) === "undefined"){
         STAT_DRAW_CALLS:        66,
         STAT_VERTICES:          67,
         STAT_GEOMETRIES:        68,
-        STAT_TEXTURES:          69
+        STAT_TEXTURES:          69,
+
+        CAM_FOV:                70,
+        CAM_NEAR:               71,
+        CAM_FAR:                72,
+        CAM_ASPECT:             73
 
     };
 

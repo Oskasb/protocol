@@ -80,12 +80,12 @@ define([
         ClientViewer.prototype.prerenderTick = function(tpf) {
         //    console.log("tick", tpf)
             lastTpf = tpf;
-
-            ThreeAPI.updateCamera();
             frame++;
+            ThreeAPI.updateCamera();
             frameMessage[1][0] = frame;
             frameMessage[1][1] = tpf;
             WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER, frameMessage)
+
 		};
 
         var notifyFrameMessage = [];

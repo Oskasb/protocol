@@ -35,7 +35,6 @@ define([
     };
 
 
-
     WorldCamera.prototype.toScreenPosition = function(vec3, store) {
 
     //    tempObj.position.copy(vec3);
@@ -220,46 +219,71 @@ define([
 
     };
 
-
-    WorldCamera.prototype.relayCamera = function(comBuffer) {
-
-        comBuffer[ENUMS.BufferChannels.CAM_POS_X]      = camera.position.x;
-        comBuffer[ENUMS.BufferChannels.CAM_POS_Y]      = camera.position.y;
-        comBuffer[ENUMS.BufferChannels.CAM_POS_Z]      = camera.position.z;
-        comBuffer[ENUMS.BufferChannels.CAM_QUAT_X]     = camera.quaternion.x;
-        comBuffer[ENUMS.BufferChannels.CAM_QUAT_Y]     = camera.quaternion.y;
-        comBuffer[ENUMS.BufferChannels.CAM_QUAT_Z]     = camera.quaternion.z;
-        comBuffer[ENUMS.BufferChannels.CAM_QUAT_W]     = camera.quaternion.w;
-        comBuffer[ENUMS.BufferChannels.CAM_FOV]        = camera.fov;
-        comBuffer[ENUMS.BufferChannels.CAM_NEAR]       = camera.near;
-        comBuffer[ENUMS.BufferChannels.CAM_FAR]        = camera.far;
-
-        if (camera.aspect !== comBuffer[ENUMS.BufferChannels.CAM_ASPECT]) {
-            comBuffer[ENUMS.BufferChannels.CAM_ASPECT]     = camera.aspect;
-            evt.fire(evt.list().NOTIFY_RESIZE, resizeArgs)
-        }
-    };
-
     var resizeArgs = {};
 
-    WorldCamera.prototype.applyCameraComBuffer = function(comBuffer) {
+    var camEvt = [
+        ENUMS.Args.POS_X,       0,
+        ENUMS.Args.POS_Y,       0,
+        ENUMS.Args.POS_Z,       0,
+        ENUMS.Args.QUAT_X,      0,
+        ENUMS.Args.QUAT_Y,      0,
+        ENUMS.Args.QUAT_Z,      0,
+        ENUMS.Args.QUAT_W,      0,
+        ENUMS.Args.CAM_FOV,     0,
+        ENUMS.Args.CAM_NEAR,    0,
+        ENUMS.Args.CAM_FAR,     0,
+        ENUMS.Args.CAM_ASPECT,  0
+    ];
 
-        camera.position.x   = comBuffer[ENUMS.BufferChannels.CAM_POS_X] ;
-        camera.position.y   = comBuffer[ENUMS.BufferChannels.CAM_POS_Y] ;
-        camera.position.z   = comBuffer[ENUMS.BufferChannels.CAM_POS_Z] ;
-        camera.quaternion.x = comBuffer[ENUMS.BufferChannels.CAM_QUAT_X];
-        camera.quaternion.y = comBuffer[ENUMS.BufferChannels.CAM_QUAT_Y];
-        camera.quaternion.z = comBuffer[ENUMS.BufferChannels.CAM_QUAT_Z];
-        camera.quaternion.w = comBuffer[ENUMS.BufferChannels.CAM_QUAT_W];
-        camera.fov          = comBuffer[ENUMS.BufferChannels.CAM_FOV]   ;
-        camera.near         = comBuffer[ENUMS.BufferChannels.CAM_NEAR]  ;
-        camera.far          = comBuffer[ENUMS.BufferChannels.CAM_FAR]   ;
+    var width;
+    var height;
 
-        if (camera.aspect !== comBuffer[ENUMS.BufferChannels.CAM_ASPECT]) {
-            camera.aspect       = comBuffer[ENUMS.BufferChannels.CAM_ASPECT];
-            evt.fire(evt.list().NOTIFY_RESIZE, resizeArgs)
+    var inputBuffer;
+
+    WorldCamera.prototype.sampleInput = function() {
+
+        inputBuffer = MainWorldAPI.getSharedBuffer(ENUMS.BufferType.INPUT_BUFFER, 0);
+        camera.aspect = inputBuffer[ENUMS.InputState.ASPECT]
+
+        if (inputBuffer[ENUMS.InputState.ACTION_0]) {
+
+            tempVec1.x = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_X];
+            tempVec1.y = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_Y];
+            tempVec1.z = 0;
+
+            tempVec1.applyQuaternion(camera.quaternion);
+            camera.position.add(tempVec1)
+
         }
+                
+    };
 
+    WorldCamera.prototype.fireCameraUpdate = function() {
+
+        this.sampleInput();
+
+        evt.setArgVec3(camEvt, 0, camera.position);
+        evt.setArgQuat(camEvt, 6, camera.quaternion);
+
+        camEvt[15] = camera.fov;
+        camEvt[17] = camera.near;
+        camEvt[19] = camera.far;
+        camEvt[21] = camera.aspect;
+
+        evt.fire(ENUMS.Event.UPDATE_CAMERA, camEvt);
+    };
+
+    var t = 0;
+
+
+    WorldCamera.prototype.tickWorldCamera = function(tpf) {
+        t+=tpf;
+        tempVec1.x = 0;
+        tempVec1.y = 0;
+        tempVec1.z = 0;
+        this.setLookAtVec(tempVec1);
+        this.updateCameraLookAt();
+        this.fireCameraUpdate();
         this.updateCameraMatrix();
     };
 

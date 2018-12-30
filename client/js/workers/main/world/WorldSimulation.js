@@ -1,7 +1,5 @@
 "use strict";
 
-var MainWorldAPI;
-
 define([
         'workers/main/camera/WorldCamera'
     ],
@@ -9,15 +7,12 @@ define([
         WorldCamera
     ) {
 
-        var key;
-        var mainWorldCom;
-
         var WorldSimulation = function() {
             this.worldCamera = new WorldCamera();
         };
 
         WorldSimulation.prototype.tickWorldSimulation = function(tpf) {
-
+            this.worldCamera.tickWorldCamera(tpf);
         };
 
         return WorldSimulation;

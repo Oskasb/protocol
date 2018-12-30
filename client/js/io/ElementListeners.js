@@ -89,6 +89,9 @@ define([
 				dy = 0;
 				callInputUpdate();
 			});
+
+			window.addEventListener('resize', callInputUpdate);
+
 		};
 
 		ElementListeners.prototype.sampleMouseState = function() {

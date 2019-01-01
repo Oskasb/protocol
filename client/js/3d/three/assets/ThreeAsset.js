@@ -1,10 +1,10 @@
 "use strict";
 
 define([
-    'PipelineAPI'
+        '3d/three/assets/InstancedModel'
     ],
     function(
-        PipelineAPI
+        InstancedModel
     ) {
 
     var datakey = 'MODELS_';
@@ -27,14 +27,17 @@ define([
 
         ThreeAsset.prototype.finaliseAsset = function(model, cb) {
 
-            model.applyModelMaterial(model.getModelMaterial());
-
             this.model = model;
             cb(this);
         };
 
         ThreeAsset.prototype.instantiateAsset = function(assetInstanceCallback) {
-            this.model.getModelClone(assetInstanceCallback)
+
+            var modelInstance = new InstancedModel(this.model);
+
+            modelInstance.initModelInstance(assetInstanceCallback);
+
+
         };
 
         return ThreeAsset;

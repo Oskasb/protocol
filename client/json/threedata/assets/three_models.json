@@ -7,10 +7,33 @@
           "id": "animated_pilot",
           "config":{
             "model": "file_pilot_bind",
-            "animations":{
-              "idle":"file_pilot_idle",
-              "run":"file_pilot_run"
-            },
+            "animations":[
+              {"key":"idle"  , "id":"file_pilot_idle"   } ,
+              {"key":"run"   , "id":"file_pilot_run"    }
+            ],
+            "material": "material_opaque",
+            "settings": "pilot_settings"
+          }
+        },
+        {
+          "id": "animated_barbarian",
+          "config":{
+            "model": "file_barb_bind",
+            "animations":[
+              {"key":"idle"  , "id":"file_barb_idle"   } ,
+              {"key":"run"   , "id":"file_barb_run"    }
+            ],
+            "material": "material_opaque",
+            "settings": "pilot_settings"
+          }
+        },
+        {
+          "id": "skinned_barb_bp",
+          "config":{
+            "model": "file_barb_item_bp",
+            "animations":[
+              {"key":"bind"  , "id":"file_barb_item_bp"   }
+            ],
             "material": "material_opaque",
             "settings": "pilot_settings"
           }

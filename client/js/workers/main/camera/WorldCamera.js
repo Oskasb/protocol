@@ -76,7 +76,7 @@ define([
 
     var WorldCamera = function() {
         camera = new THREE.PerspectiveCamera( 45, 1, 0.3, 50000 );
-        camera.position.set(0, 10, -50);
+        camera.position.set(0, 4, -10);
 
         worldCam = this;
 

@@ -37,7 +37,7 @@ define([],
             }.bind(this);
 
             var textureAssetLoaded = function(src, asset) {
-                txLds++
+                txLds++;
                 this.mat[this.textureMap[asset.id]] = asset.texture;
                 console.log(this, src, asset)
                 loadCheck()
@@ -45,8 +45,10 @@ define([],
 
             if (config.textures) {
                 for (var i = 0; i < config.textures.length; i++) {
-                    txRqs++
-                    this.textureMap[config.textures[i].id] = config.textures[i].key;
+                    txRqs++;
+                    var id = config.textures[i].id;
+                    var key = config.textures[i].key;
+                    this.textureMap[id] = key;
                     ThreeAPI.loadThreeAsset('TEXTURES_', config.textures[i].id, textureAssetLoaded);
                 }
             }

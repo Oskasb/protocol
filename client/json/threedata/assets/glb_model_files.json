@@ -3,8 +3,15 @@
     "ASSETS": {
       "FILES_GLB": [
         {"id": "file_pilot_bind", "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"      }},
-        {"id": "file_pilot_idle", "config": { "url": "./client/assets/models/characters/pilot/movement/run"    }},
-        {"id": "file_pilot_run",  "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle" }},
+        {"id": "file_pilot_run" , "config": { "url": "./client/assets/models/characters/pilot/movement/run"    }},
+        {"id": "file_pilot_idle", "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle" }},
+
+        {"id": "file_barb_bind" , "config": { "url": "./client/assets/models/characters/barb/barb_bind"           }},
+        {"id": "file_barb_run"  , "config": { "url": "./client/assets/models/characters/barb/movement/barb_run"   }},
+        {"id": "file_barb_idle" , "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle"  }},
+
+        {"id": "file_barb_item_bp",  "config": { "url": "./client/assets/models/characters/barb/items/item_breastplate"  }},
+
         {"id": "file_bullet",     "config": { "url": "./client/assets/models/shapes/bullet"                    }},
         {"id": "file_tree_1",     "config": { "url": "./client/assets/models/trees/tree_1"                     }},
         {"id": "file_tree_2",     "config": { "url": "./client/assets/models/trees/tree_2"                     }},

@@ -74,7 +74,6 @@ define([
 
         var setupAsset = function(assetType, assetId) {
 
-
             var assetKey = assetType+assetId;
 
             if (assets[assetKey]) {
@@ -96,11 +95,11 @@ define([
 
             };
 
-            var cachedAsset = PipelineAPI.readCachedConfigKey('CONFIGS', assetKey);
-            if (cachedAsset === assetKey) {
+            var cachedConfig = PipelineAPI.readCachedConfigKey('CONFIGS', assetKey);
+            if (cachedConfig === assetKey) {
                 PipelineAPI.subscribeToCategoryKey('CONFIGS', assetKey, configLoaded);
             } else {
-                configLoaded(assetKey, cachedAsset);
+                configLoaded(assetKey, cachedConfig);
             }
 
         };
@@ -113,7 +112,7 @@ define([
                 PipelineAPI.subscribeToCategoryKey('ASSET', assetKey, callback);
                 setupAsset(assetType, assetId);
             } else {
-            //    PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, callback)
+                PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, callback)
                 callback(assetKey, cachedAsset);
             }
         };

@@ -11,6 +11,8 @@ define([
 
         //    console.log("ThreeModelFile", id, config);
 
+            this.id = id;
+
             var modelLoaded = function(glb) {
                 console.log("glb loaded", glb);
                 this.scene = glb;
@@ -20,7 +22,13 @@ define([
             loadGLB(config.url, modelLoaded)
         };
 
+        ThreeModelFile.prototype.cloneMeshModelOriginal = function() {
+            return this.scene.clone();
+        };
 
+        ThreeModelFile.prototype.cloneSkinnedModelOriginal = function() {
+            return cloneGltf(this.scene, this.scene.clone());
+        };
 
         var loadGLB = function(url, cacheMesh) {
 
@@ -38,10 +46,10 @@ define([
             };
 
             var loaded = function ( model ) {
-            //    console.log("glb LOADED: ",model);
-                model.animations = animations;
+
                 obj = model.scene;
-                obj.animations = animations;
+                obj.animations = model.animations;
+
                 cacheMesh(obj);
             };
 
@@ -55,9 +63,6 @@ define([
         };
 
         var cloneGltf = function(mesh, clone) {
-
-            if (mesh.animations.length) {
-                clone.animations = mesh.animations;
 
                 var skinnedMeshes = {};
 
@@ -97,9 +102,6 @@ define([
                         new THREE.Skeleton(orderedCloneBones, skeleton.boneInverses),
                         cloneSkinnedMesh.matrixWorld);
                 }
-
-                console.log("CloneAnimated SkinMesh..", clone, mesh);
-            }
 
             return clone
         };

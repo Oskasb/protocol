@@ -34,6 +34,8 @@ define([
             FILES_IMAGES_:      ThreeImage
         };
 
+        var assets = {};
+
         var AssetLoader = function() {
 
         };
@@ -68,18 +70,39 @@ define([
         };
 
 
+
+
         var setupAsset = function(assetType, assetId) {
+
+
             var assetKey = assetType+assetId;
+
+            if (assets[assetKey]) {
+                return;
+            }
+
             var configLoaded = function(src, data) {
 
                 var callback = function(asset) {
                     PipelineAPI.setCategoryKeyValue('ASSET', assetKey, asset);
+                    PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, callback)
                 };
 
-                new assetMap[assetType](assetId, data.config, callback);
+                if (assets[assetKey]) {
+
+                } else {
+                    assets[assetKey] = new assetMap[assetType](assetId, data.config, callback);
+                }
+
             };
 
-            PipelineAPI.subscribeToCategoryKey('CONFIGS', assetKey, configLoaded);
+            var cachedAsset = PipelineAPI.readCachedConfigKey('CONFIGS', assetKey);
+            if (cachedAsset === assetKey) {
+                PipelineAPI.subscribeToCategoryKey('CONFIGS', assetKey, configLoaded);
+            } else {
+                configLoaded(assetKey, cachedAsset);
+            }
+
         };
 
 
@@ -87,10 +110,11 @@ define([
             var assetKey = assetType+assetId;
             var cachedAsset = PipelineAPI.readCachedConfigKey('ASSET', assetKey);
             if (cachedAsset === assetKey) {
-                setupAsset(assetType, assetId);
                 PipelineAPI.subscribeToCategoryKey('ASSET', assetKey, callback);
+                setupAsset(assetType, assetId);
             } else {
-                callback(cachedAsset);
+            //    PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, callback)
+                callback(assetKey, cachedAsset);
             }
         };
 

@@ -50,22 +50,48 @@ define([
             }
 		};
 
+        var dummyAsset;
+
         ClientViewer.prototype.initScene = function(ready) {
             //    console.log("tick", tpf)
 
             sceneController.setup3dScene(ready);
 
-            var instantiate = function(assetClone) {
-                console.log("Instantiated:", assetClone);
-                ThreeAPI.addToScene(assetClone)
-            }
 
             var onAssetReady = function(asset) {
                 console.log("AssetReady:", asset);
                 asset.instantiateAsset(instantiate)
             };
 
+            var onAsset2Ready = function(asset) {
+                console.log("Asset2Ready:", asset);
+                asset.instantiateAsset(instantiate)
+            };
+
             ThreeAPI.buildAsset('asset_tree_1', onAssetReady);
+            ThreeAPI.buildAsset('asset_tree_2', onAsset2Ready);
+            ThreeAPI.buildAsset('asset_tree_3', onAsset2Ready);
+            ThreeAPI.buildAsset('asset_tree_4', onAsset2Ready);
+
+            ThreeAPI.buildAsset('asset_tree_1', onAssetReady);
+            ThreeAPI.buildAsset('asset_tree_2', onAsset2Ready);
+            ThreeAPI.buildAsset('asset_tree_3', onAsset2Ready);
+            ThreeAPI.buildAsset('asset_tree_4', onAsset2Ready);
+
+            ThreeAPI.buildAsset('asset_tree_1', onAssetReady);
+            ThreeAPI.buildAsset('asset_tree_2', onAsset2Ready);
+            ThreeAPI.buildAsset('asset_tree_3', onAsset2Ready);
+            ThreeAPI.buildAsset('asset_tree_4', onAsset2Ready);
+
+        };
+
+
+        var instantiate = function(assetClone) {
+        //    console.log("Instantiated:", assetClone);
+
+            assetClone.position.x += (-0.1-Math.random())*100
+            assetClone.position.z += (-0.1-Math.random())*100
+            ThreeAPI.addToScene(assetClone)
         };
 
 
@@ -113,6 +139,7 @@ define([
             for (i = 0; i < workerCallbacks.length; i++) {
                 workerCallbacks[i](msg);
             }
+
         };
 
         ClientViewer.prototype.workerMessage = function(msg, workerKey) {

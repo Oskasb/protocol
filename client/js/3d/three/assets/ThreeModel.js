@@ -30,6 +30,7 @@ define([
             }.bind(this);
 
             ThreeAPI.loadThreeAsset('FILES_GLB_', config.model, modelFileLoaded);
+
         };
 
         ThreeModel.prototype.applyModelMaterial = function(material) {

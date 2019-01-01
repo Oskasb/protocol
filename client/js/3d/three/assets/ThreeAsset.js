@@ -1,8 +1,10 @@
 "use strict";
 
-define([],
+define([
+    'PipelineAPI'
+    ],
     function(
-
+        PipelineAPI
     ) {
 
     var datakey = 'MODELS_';
@@ -15,6 +17,7 @@ define([],
         ThreeAsset.prototype.initAssetConfigs = function(assetId, cb) {
 
             var assetLoaded = function(src, asset) {
+            //   PipelineAPI.removeCategoryKeySubscriber('ASSET', datakey+assetId, cb)
                 this.finaliseAsset(asset, cb)
             }.bind(this);
 

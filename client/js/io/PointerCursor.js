@@ -33,8 +33,8 @@ define([
 
             INPUT_STATE = this.inputState.getPointerState();
 
-            var onInputUpdate = function() {
-            	this.tick();
+            var onInputUpdate = function(pState) {
+            	this.updatePointerState(pState);
 			}.bind(this);
 
             this.inputState.setupUpdateCallback(onInputUpdate);
@@ -48,51 +48,55 @@ define([
             GameScreen.fitView(vec);
 		};
 
+        var updateBufferValue = function(buffer, key, value) {
+
+            if (buffer[key] !== value) {
+                buffer[key] = value;
+                buffer[ENUMS.InputState.HAS_UPDATE] = 1
+            }
+
+        };
+
+
         var updateInputBuffer = function(buffer, inputState) {
 
-            buffer[ENUMS.InputState.VIEW_LEFT]         = GameScreen.getLeft();
-            buffer[ENUMS.InputState.VIEW_TOP]          = GameScreen.getTop();
-            buffer[ENUMS.InputState.VIEW_WIDTH]        = GameScreen.getWidth();
-            buffer[ENUMS.InputState.VIEW_HEIGHT]       = GameScreen.getHeight();
-            buffer[ENUMS.InputState.ASPECT]            = GameScreen.getAspect();
+           updateBufferValue( buffer, ENUMS.InputState.VIEW_LEFT         , GameScreen.getLeft()       );
+           updateBufferValue( buffer, ENUMS.InputState.VIEW_TOP          , GameScreen.getTop()        );
+           updateBufferValue( buffer, ENUMS.InputState.VIEW_WIDTH        , GameScreen.getWidth()      );
+           updateBufferValue( buffer, ENUMS.InputState.VIEW_HEIGHT       , GameScreen.getHeight()     );
+           updateBufferValue( buffer, ENUMS.InputState.ASPECT            , GameScreen.getAspect()     );
 
             screenFitXY(buffer, inputState.x, inputState.y, tempVec);
 
-            buffer[ENUMS.InputState.MOUSE_X]           = tempVec.x ;
-
-            buffer[ENUMS.InputState.MOUSE_Y]           = tempVec.y ;
-            buffer[ENUMS.InputState.WHEEL_DELTA]       = inputState.wheelDelta;
+            updateBufferValue( buffer , ENUMS.InputState.MOUSE_X       ,    tempVec.x                 );
+            updateBufferValue( buffer , ENUMS.InputState.MOUSE_Y       ,    tempVec.y                 );
+            updateBufferValue( buffer , ENUMS.InputState.WHEEL_DELTA   ,    inputState.wheelDelta     );
 
             if (inputState.pressFrames === 0) {
-                buffer[ENUMS.InputState.START_DRAG_X]      = tempVec.x ;
-                buffer[ENUMS.InputState.START_DRAG_Y]      = tempVec.y ;
+                updateBufferValue( buffer , ENUMS.InputState.START_DRAG_X , tempVec.x ) ;
+                updateBufferValue( buffer , ENUMS.InputState.START_DRAG_Y , tempVec.y ) ;
             }
 
-            buffer[ENUMS.InputState.DRAG_DISTANCE_X]   = buffer[ENUMS.InputState.MOUSE_X] - buffer[ENUMS.InputState.START_DRAG_X];
-            buffer[ENUMS.InputState.DRAG_DISTANCE_Y]   = buffer[ENUMS.InputState.MOUSE_Y] - buffer[ENUMS.InputState.START_DRAG_Y];
-            buffer[ENUMS.InputState.ACTION_0]          = inputState.action[0];
-            buffer[ENUMS.InputState.ACTION_1]          = inputState.action[1];
-            buffer[ENUMS.InputState.LAST_ACTION_0]     = inputState.lastAction[0];
-            buffer[ENUMS.InputState.LAST_ACTION_1]     = inputState.lastAction[1];
-            buffer[ENUMS.InputState.PRESS_FRAMES]      = inputState.pressFrames;
-            buffer[ENUMS.InputState.FRUSTUM_FACTOR]    = 0.82;
+            updateBufferValue(buffer , ENUMS.InputState.DRAG_DISTANCE_X   , buffer[ENUMS.InputState.MOUSE_X] - buffer[ENUMS.InputState.START_DRAG_X]    );
+            updateBufferValue(buffer , ENUMS.InputState.DRAG_DISTANCE_Y   , buffer[ENUMS.InputState.MOUSE_Y] - buffer[ENUMS.InputState.START_DRAG_Y]    );
+            updateBufferValue(buffer , ENUMS.InputState.ACTION_0          , inputState.action[0]        );
+            updateBufferValue(buffer , ENUMS.InputState.ACTION_1          , inputState.action[1]        );
+            updateBufferValue(buffer , ENUMS.InputState.LAST_ACTION_0     , inputState.lastAction[0]    );
+            updateBufferValue(buffer , ENUMS.InputState.LAST_ACTION_1     , inputState.lastAction[1]    );
+            updateBufferValue(buffer , ENUMS.InputState.PRESS_FRAMES      , inputState.pressFrames      );
+            updateBufferValue(buffer , ENUMS.InputState.FRUSTUM_FACTOR    , 0.82                  );
 
         };
 
-        var updateBuffers = function(buffers, inputState) {
-            for (i = 0; i < buffers.length; i++) {
-                updateInputBuffer(buffers[i], inputState)
-            }
-        };
 
-		PointerCursor.prototype.tick = function() {
+		PointerCursor.prototype.updatePointerState = function(pointerState) {
 
-		    this.inputState.updateInputState();
+		    this.inputState.updateInputState(pointerState);
 
             INPUT_BUFFERS = PipelineAPI.getCachedConfigs().BUFFERS[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)];
 
             if (!INPUT_BUFFERS) return;
-            updateBuffers(INPUT_BUFFERS, INPUT_STATE.inputState);
+            updateInputBuffer(INPUT_BUFFERS[pointerState.index], pointerState);
 
 		};
 

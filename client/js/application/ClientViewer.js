@@ -53,7 +53,19 @@ define([
         ClientViewer.prototype.initScene = function(ready) {
             //    console.log("tick", tpf)
 
-            sceneController.setup3dScene(ready)
+            sceneController.setup3dScene(ready);
+
+            var instantiate = function(assetClone) {
+                console.log("Instantiated:", assetClone);
+                ThreeAPI.addToScene(assetClone)
+            }
+
+            var onAssetReady = function(asset) {
+                console.log("AssetReady:", asset);
+                asset.instantiateAsset(instantiate)
+            };
+
+            ThreeAPI.buildAsset('asset_tree_1', onAssetReady);
         };
 
 

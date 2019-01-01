@@ -25,7 +25,8 @@ define([
 
         ConfigObject.prototype.dataLoaded = function(data) {
             this.data = data;
-            this.config = this.pipeObj.buildConfig()[this.dataId];
+            this.pipeObj.buildConfig()[this.dataId];
+            this.config = this.pipeObj.getConfigs();
             this.callCallbacks();
         };
 
@@ -33,8 +34,11 @@ define([
             this.callbacks.push(callback);
 
             if (this.config) {
-                callback(this.config, this.data);
+                if (Object.keys(this.config).length) {
+                    callback(this.config, this.data);
+                }
             }
+
         };
 
         ConfigObject.prototype.removeCallback = function(callback) {

@@ -2,7 +2,7 @@
 
 
 define([
-        'evt',
+        '../../evt',
         'PipelineAPI'
     ],
     function(

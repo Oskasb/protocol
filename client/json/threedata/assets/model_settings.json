@@ -4,18 +4,22 @@
       "MODEL_SETTINGS":[
 
         {"id": "pilot_settings" ,
-          "transform": {
-            "pos":   [0, 0, 0],
-            "rot":   [0, 0, 0],
-            "scale": [1, 1, 1]
+          "config": {
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
           }
         },
 
         {"id": "default_model_settings" ,
-          "transform": {
-            "pos":   [0, 0, 0],
-            "rot":   [0, 0, 0],
-            "scale": [1, 1, 1]
+          "config": {
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
           }
         }
       ]

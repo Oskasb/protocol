@@ -216,10 +216,10 @@ if(typeof(ENUMS) === "undefined"){
         VIEW_HEIGHT:      15,
         ASPECT:           16,
         FRUSTUM_FACTOR:   17,
-        BUFFER_SIZE:      18
+        HAS_UPDATE:       18,
+        BUFFER_SIZE:      19
 
     };
-
 
     ENUMS.Environments = {
         PRE_DAWN:         1,
@@ -445,7 +445,11 @@ if(typeof(ENUMS) === "undefined"){
     };
 
     ENUMS.Numbers = {
-        event_buffer_size_per_worker:10000
+        event_buffer_size_per_worker:10000,
+            POINTER_MOUSE:  0,
+            POINTER_TOUCH0: 1,
+            TOUCHES_COUNT:  10
+
     };
 
     //  console.log("ENUMS", ENUMS);

@@ -5,19 +5,21 @@
       "MODELS": [
         {
           "id": "animated_pilot",
-          "model": "file_pilot_bind",
-          "animations":{
-            "idle":"file_pilot_idle",
-            "run":"file_pilot_run"
-          },
-          "material": "material_opaque",
-          "settings": "pilot_settings"
+          "config":{
+            "model": "file_pilot_bind",
+            "animations":{
+              "idle":"file_pilot_idle",
+              "run":"file_pilot_run"
+            },
+            "material": "material_opaque",
+            "settings": "pilot_settings"
+          }
         },
-        {"id": "asset_bullet", "model": "file_bullet" , "material": "material_opaque", "settings": "default_model_settings" },
-        {"id": "asset_tree_1", "model": "file_tree_1" , "material": "material_opaque", "settings": "default_model_settings" },
-        {"id": "asset_tree_2", "model": "file_tree_2" , "material": "material_opaque", "settings": "default_model_settings" },
-        {"id": "asset_tree_3", "model": "file_tree_3" , "material": "material_opaque", "settings": "default_model_settings" },
-        {"id": "asset_tree_4", "model": "file_tree_4" , "material": "material_opaque", "settings": "default_model_settings" }
+        {"id": "asset_bullet", "config": { "model": "file_bullet" , "material": "material_opaque", "settings": "default_model_settings" }},
+        {"id": "asset_tree_1", "config": { "model": "file_tree_1" , "material": "material_nature", "settings": "default_model_settings" }},
+        {"id": "asset_tree_2", "config": { "model": "file_tree_2" , "material": "material_nature", "settings": "default_model_settings" }},
+        {"id": "asset_tree_3", "config": { "model": "file_tree_3" , "material": "material_nature", "settings": "default_model_settings" }},
+        {"id": "asset_tree_4", "config": { "model": "file_tree_4" , "material": "material_nature", "settings": "default_model_settings" }}
       ]
     }
   }

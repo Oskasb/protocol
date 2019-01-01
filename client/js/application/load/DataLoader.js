@@ -2,19 +2,23 @@
 
 
 define([
-        'application/PipelineObject',
+
+        '../PipelineObject',
         'ui/dom/DomLoadScreen',
         'ui/GameScreen',
-        'PipelineAPI'
+        'PipelineAPI',
+        'application/load/AssetLoader'
     ],
     function(
         PipelineObject,
         DomLoadScreen,
         GameScreen,
-        PipelineAPI
+        PipelineAPI,
+        AssetLoader
     ) {
 
         var loadProgress;
+        var assetLoader = new AssetLoader();
 
         var pipelineOn = pollingOn;
         window.jsonConfigUrls = 'client/json/';
@@ -96,7 +100,7 @@ define([
 
 
             function pipelineCallback(started, remaining, loaded, files) {
-             //    console.log("SRL", loadState, started, remaining, loaded, [files]);
+                //    console.log("SRL", loadState, started, remaining, loaded, [files]);
 
                 PipelineAPI.setCategoryKeyValue("STATUS", "FILE_CACHE", loaded);
 
@@ -104,22 +108,22 @@ define([
 
 
                 if (loadState === loadStates.THREEDATA) {
-                //    console.log( "loadThreeData:", loadState, started, remaining, loaded, [files]);
-                 //   loadState = loadStates.COMPLETED;
-                 //   loadStateChange(loadState);
+                    //    console.log( "loadThreeData:", loadState, started, remaining, loaded, [files]);
+                    //   loadState = loadStates.COMPLETED;
+                    //   loadStateChange(loadState);
                 }
 
                 if (loadState === loadStates.CONFIGS && remaining === 0) {
-                //    console.log( "json cached:", PipelineAPI.getCachedConfigs());
+                    //    console.log( "json cached:", PipelineAPI.getCachedConfigs());
                     loadState = loadStates.COMPLETED;
-                //    ThreeAPI.loadThreeData();
+                    //    ThreeAPI.loadThreeData();
                     loadStateChange(loadState);
                 }
 
                 if (loadState === loadStates.SHARED_FILES && remaining === 0) {
-                //    console.log( "shared loaded....");
+                    //    console.log( "shared loaded....");
                     loadState = loadStates.CONFIGS;
-
+                    assetLoader.initAssetConfigs();
                     ThreeAPI.initThreeLoaders();
                     ThreeAPI.loadShaders();
                     loadStateChange(loadState);

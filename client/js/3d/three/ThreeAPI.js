@@ -3,6 +3,8 @@
 var ThreeAPI;
 
 define([
+        'application/load/AssetLoader',
+        '3d/three/assets/ThreeAsset',
         '3d/three/ThreeSetup',
         '3d/three/ThreeShaderBuilder',
         '3d/three/ThreeModelLoader',
@@ -14,6 +16,8 @@ define([
         '3d/three/ThreeSpatialFunctions'
 ],
     function(
+        AssetLoader,
+        ThreeAsset,
         ThreeSetup,
         ThreeShaderBuilder,
         ThreeModelLoader,
@@ -34,6 +38,7 @@ define([
         var spatialFunctions;
         var effectCallbacks;
         var renderFilter;
+        var assetLoader;
 
     //    THREE.Object3D.DefaultMatrixAutoUpdate = false;
 
@@ -76,6 +81,7 @@ define([
             ThreeSetup.addPrerenderCallback(ThreeModelLoader.updateActiveMixers);
 
             ThreeSetup.addToScene(ThreeSetup.getCamera());
+            assetLoader = new AssetLoader();
         };
 
         ThreeAPI.addPrerenderCallback = function(callback) {
@@ -99,6 +105,14 @@ define([
 
         ThreeAPI.loadShaders = function() {
             shaderBuilder.loadShaderData(glContext);
+        };
+
+        ThreeAPI.buildAsset = function(assetId, callback) {
+            new ThreeAsset(assetId, callback);
+        };
+
+        ThreeAPI.loadThreeAsset = function(assetType, assetId, callback) {
+            assetLoader.loadAsset(assetType, assetId, callback);
         };
 
         ThreeAPI.getTimeElapsed = function() {

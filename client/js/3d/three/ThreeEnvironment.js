@@ -128,7 +128,7 @@ define(['application/PipelineObject',
 
         //    mat.depthWrite = false;
 
-            var skyGeo = new THREE.SphereBufferGeometry(1500, 36, 6 );
+            var skyGeo = new THREE.SphereBufferGeometry(15000, 36, 6 );
             var skyMesh = new THREE.Mesh( skyGeo, mat);
 
             var uniforms = {
@@ -420,7 +420,7 @@ define(['application/PipelineObject',
 
         //    t+=evt.args(e).tpf
         //    fraction = fraction;
-        currentElevation = 1 // WorkerAPI.getCom(ENUMS.BufferChannels.CAM_POS_Y);
+        currentElevation = camera.position.y;
 
         if (currentElevation > 0) {
             elevationFactor = MATH.curveCube( MATH.airDensityAtAlt(currentElevation) );

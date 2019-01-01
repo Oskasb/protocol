@@ -31,8 +31,8 @@ require.config({
         worker:'client/js/worker',
         workers:'client/js/workers',
         three:'client/js/3d/three',
-        GuiAPI:'client/js/worker/ui/GuiAPI',
-        ui:'client/js/worker/ui',
+        GuiAPI:'client/js/workers/main/ui/GuiAPI',
+        ui:'client/js/workers/main/ui',
         "3d":'client/js/3d',
         game:'client/js/game',
         application:'client/js/application'
@@ -41,15 +41,18 @@ require.config({
 
 require([
         'evt',
+        'GuiAPI',
         'client/js/workers/main/MainWorldAPI'
     ],
     function(
     evt,
+    GAPI,
     mwAPI
     ) {
 
         var count = 0;
 
+        GuiAPI = GAPI;
         MainWorldAPI = mwAPI;
 
         MainWorldAPI.initMainWorld(ENUMS.Worker.MAIN_WORKER);

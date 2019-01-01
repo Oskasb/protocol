@@ -7,55 +7,38 @@ define([
         ElementListeners
     ) {
 
-    var POINTER_STATE = {};
+    var pointerState = function(index) {
+        this.index = index;
+        this.x = 0;
+        this.y = 0;
+        this.dx = 0;
+        this.dy = 0;
+        this.wheelDelta = 0;
+        this.startDrag = [0, 0];
+        this.dragDistance = [0, 0];
+        this.action = [0, 0];
+        this.lastAction = [0, 0];
+        this.pressFrames = 0
+    };
+
+        var POINTER_STATE = {};
 
         var InputState = function() {
 
-            POINTER_STATE.line = {
-                up:0,
-                fromX:0,
-                fromY:0,
-                toX:0,
-                toY:0,
-                w: 0,
-                zrot:0
-            };
+            var index = 0;
 
-            POINTER_STATE.inputState = {
-                x:0,
-                y:0,
-                dx:0,
-                dy:0,
-                wheelDelta:0,
-                startDrag:[0, 0],
-                dragDistance:[0, 0],
-                action:[0, 0],
-                lastAction:[0, 0],
-                pressFrames:0
-            };
+            POINTER_STATE.mouse = new pointerState(index);
+            POINTER_STATE.touches = [];
 
-            this.line = POINTER_STATE.line;
-            this.inputState = POINTER_STATE.inputState;
+            for (var i = 0; i < ENUMS.Numbers.TOUCHES_COUNT; i++) {
+                index++;
+                POINTER_STATE.touches[i] = new pointerState(index)
+            }
 
-            this.elementListeners = new ElementListeners(POINTER_STATE.inputState);
+            this.elementListeners = new ElementListeners(POINTER_STATE);
         };
 
-        var minLine = 5;
 
-        InputState.prototype.setLine = function(x1, y1, x2, y2, distance, zrot) {
-            this.line.up = y2-y1;
-            this.line.fromX = x1;
-            this.line.fromY=y1;
-            this.line.toX = x2;
-            this.line.toY = y2;
-            this.line.w = distance+0.4;
-            if (this.line.w < minLine) zrot = 0.00001;
-            this.line.zrot = zrot;
-        };
-
-        InputState.prototype.getLine = function() {
-            return this.line;
-        };
 
         InputState.prototype.setupUpdateCallback = function(cb) {
             this.elementListeners.attachUpdateCallback(cb);
@@ -65,59 +48,58 @@ define([
             return POINTER_STATE;
         };
 
-        InputState.prototype.processDragState = function() {
-
-            this.inputState.dragDistance[0] = this.inputState.startDrag[0] - this.inputState.x;
-            this.inputState.dragDistance[1] = this.inputState.startDrag[1] - this.inputState.y;
+        InputState.prototype.processDragState = function(inputState) {
+            inputState.dragDistance[0] = inputState.startDrag[0] - inputState.x;
+            inputState.dragDistance[1] = inputState.startDrag[1] - inputState.y;
         };
 
-        InputState.prototype.updateInputState = function() {
-            this.inputState.lastAction[0] = this.inputState.action[0];
-            this.inputState.lastAction[1] = this.inputState.action[1];
+        InputState.prototype.updateInputState = function(inputState) {
+            inputState.lastAction[0] = inputState.action[0];
+            inputState.lastAction[1] = inputState.action[1];
 
-            this.elementListeners.sampleMouseState(this.inputState);
+            this.elementListeners.sampleMouseState(inputState);
 
-            if (this.inputState.lastAction[0] !== this.inputState.action[0]) {
+            if (inputState.lastAction[0] !== inputState.action[0]) {
 
-                if (this.inputState.action[0] + this.inputState.action[1]) {
-                    this.mouseButtonEmployed();
+                if (inputState.action[0] + inputState.action[1]) {
+                    this.mouseButtonEmployed(inputState);
             //        evt.fire(evt.list().CURSOR_PRESS, this.inputState);
                 } else {
-                    if (this.inputState.pressingButton) {
+                    if (inputState.pressingButton) {
             //            evt.fire(evt.list().CURSOR_RELEASE, this.inputState);
                     }
                 }
             }
 
-            if (this.inputState.lastAction[1] !== this.inputState.action[1]) {
-                if (this.inputState.action[1]) {
-                    this.inputState.pressingButton = 1;
+            if (inputState.lastAction[1] !== inputState.action[1]) {
+                if (inputState.action[1]) {
+                    inputState.pressingButton = 1;
                 } else {
-                    if (this.inputState.pressingButton) {
-                        this.inputState.pressingButton = 0;
+                    if (inputState.pressingButton) {
+                        inputState.pressingButton = 0;
                     }
                 }
             }
 
-            if (this.inputState.action[0] + this.inputState.action[1]) {
-                this.processDragState();
+            if (inputState.action[0] + inputState.action[1]) {
+                this.processDragState(inputState);
             }
         };
 
-        InputState.prototype.mouseButtonEmployed = function() {
+        InputState.prototype.mouseButtonEmployed = function(inputState) {
 
-            if (this.inputState.action[0]) {
-                this.handleLeftButtonPress();
+            if (inputState.action[0]) {
+                this.handleLeftButtonPress(inputState);
             }
         };
 
-        InputState.prototype.handleLeftButtonPress = function() {
-            if (!this.inputState.pressingButton) {
-                this.inputState.startDrag[0] = this.inputState.x;
-                this.inputState.startDrag[1] = this.inputState.y;
+        InputState.prototype.handleLeftButtonPress = function(inputState) {
+            if (!inputState.pressingButton) {
+                inputState.startDrag[0] = inputState.x;
+                inputState.startDrag[1] = inputState.y;
             }
 
-            this.inputState.pressingButton = 1;
+            inputState.pressingButton = 1;
         };
 
         return InputState;

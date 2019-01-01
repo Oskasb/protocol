@@ -6,15 +6,12 @@ define([
     evt
 ) {
 
-    var scene, camera, renderer;
-    var addedObjects = 0;
-    var initTime;
+    var camera;
 
-    var prerenderCallbacks = [];
-    var postrenderCallbacks = [];
-    var tpf, lastTime, idle, renderStart, renderEnd;
     var lookAt = new THREE.Vector3();
     var tempVec1 = new THREE.Vector3();
+    var vector = new THREE.Vector3();
+
     var distance;
 
     var minDistance = 0.2;
@@ -22,22 +19,81 @@ define([
 
     var cameraForward = new THREE.Vector3();
 
-    var WorldCamera = function() {
-        camera = new THREE.PerspectiveCamera( 45, 1, 0.3, 50000 );
-        camera.position.set(0, 10, -50)
+    var inputBuffer;
+
+    var lastDX = 0;
+    var lastDY = 0;
+
+    var timeFactor = 0;
+    var dist = 0;
+    var distPost = 0;
+    var tpf;
+
+    var startIndex;
+    var worldCam;
+
+    var sampleInput = function(input, buffer) {
+
+        tpf = MainWorldAPI.getTpf();
+
+        startIndex = input;
+
+        inputBuffer = buffer;
+        camera.aspect = inputBuffer[startIndex + ENUMS.InputState.ASPECT];
+
+        if (inputBuffer[startIndex+ ENUMS.InputState.ACTION_0]) {
+
+            tempVec1.x = inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_X] - lastDX ;
+            tempVec1.y = inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_Y] - lastDY ;
+            tempVec1.z = 0;
+
+            timeFactor =  Math.min(tpf*20, 0.5);
+
+            lastDX = inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_X] * timeFactor + lastDX * (1-timeFactor);
+            lastDY = inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_Y] * timeFactor + lastDY * (1-timeFactor);
+
+            dist = worldCam.calcDistanceToCamera(worldCam.getCameraLookAt());
+            tempVec1.multiplyScalar(dist);
+
+            tempVec1.applyQuaternion(camera.quaternion);
+            camera.position.add(tempVec1);
+
+            distPost = worldCam.calcDistanceToCamera(worldCam.getCameraLookAt());
+
+            tempVec1.x = 0;
+            tempVec1.y = 0;
+            tempVec1.z = dist-distPost;
+
+            tempVec1.applyQuaternion(camera.quaternion);
+            camera.position.add(tempVec1);
+
+        } else {
+            lastDX = 0;
+            lastDY = 0;
+        }
     };
 
-    var vector = new THREE.Vector3();
-    var tempObj = new THREE.Object3D();
+
+    var WorldCamera = function() {
+        camera = new THREE.PerspectiveCamera( 45, 1, 0.3, 50000 );
+        camera.position.set(0, 10, -50);
+
+        worldCam = this;
+
+        var inputUpdateCallback = function(input, buffer) {
+            sampleInput(input, buffer);
+        };
+
+        GuiAPI.addInputUpdateCallback(inputUpdateCallback);
+    };
+
+
 
     WorldCamera.prototype.cameraFrustumContainsPoint = function(vec3) {
         return frustum.containsPoint(vec3)
     };
 
-
     WorldCamera.prototype.toScreenPosition = function(vec3, store) {
-
-    //    tempObj.position.copy(vec3);
 
         if (!frustum.containsPoint(vec3)) {
 
@@ -48,19 +104,11 @@ define([
             return store;// Do something with the position...
         }
 
-        //    tempObj.updateMatrixWorld();
-        //  tempObj.getWorldPosition(vector)
-
         vector.copy(vec3);
         vector.project(camera);
 
-    //    GuiAPI.scaleByWidth(this.currentHover.screenPos.x), GuiAPI.scaleByHeight(this.currentHover.screenPos.y)
-
         store.x = GuiAPI.scaleByWidth(vector.x * 0.5);
         store.y = GuiAPI.scaleByHeight(vector.y * 0.5);
-
-    //    store.x = vector.x * 0.5;
-    //    store.y = vector.y * 0.5;
 
         store.z = -1;
 
@@ -219,8 +267,6 @@ define([
 
     };
 
-    var resizeArgs = {};
-
     var camEvt = [
         ENUMS.Args.POS_X,       0,
         ENUMS.Args.POS_Y,       0,
@@ -235,43 +281,9 @@ define([
         ENUMS.Args.CAM_ASPECT,  0
     ];
 
-    var width;
-    var height;
 
-    var inputBuffer;
-
-    var lastDX = 0;
-    var lastDY = 0;
-
-    WorldCamera.prototype.sampleInput = function() {
-
-        inputBuffer = MainWorldAPI.getSharedBuffer(ENUMS.BufferType.INPUT_BUFFER, 0);
-        camera.aspect = inputBuffer[ENUMS.InputState.ASPECT]
-
-        if (inputBuffer[ENUMS.InputState.ACTION_0]) {
-
-            tempVec1.x = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_X] - lastDX ;
-            tempVec1.y = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_Y] - lastDY ;
-            tempVec1.z = 0;
-
-            lastDX = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_X] * 0.3 + lastDX * 0.7;
-            lastDY = inputBuffer[ENUMS.InputState.DRAG_DISTANCE_Y] * 0.3 + lastDY * 0.7;
-
-            tempVec1.multiplyScalar(this.calcDistanceToCamera(this.getCameraLookAt()));
-
-            tempVec1.applyQuaternion(camera.quaternion);
-            camera.position.add(tempVec1);
-
-        } else {
-            lastDX = 0;
-            lastDY = 0;
-        }
-
-    };
 
     WorldCamera.prototype.fireCameraUpdate = function() {
-
-
 
         evt.setArgVec3(camEvt, 0, camera.position);
         evt.setArgQuat(camEvt, 6, camera.quaternion);
@@ -284,16 +296,19 @@ define([
         evt.fire(ENUMS.Event.UPDATE_CAMERA, camEvt);
     };
 
+
     var t = 0;
 
 
-    WorldCamera.prototype.tickWorldCamera = function(tpf) {
+
+
+    WorldCamera.prototype.tickWorldCamera = function() {
         t+=tpf;
         tempVec1.x = 0;
         tempVec1.y = 0;
         tempVec1.z = 0;
         this.setLookAtVec(tempVec1);
-        this.sampleInput();
+
         this.updateCameraLookAt();
         this.fireCameraUpdate();
         this.updateCameraMatrix();

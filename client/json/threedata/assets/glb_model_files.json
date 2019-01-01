@@ -1,16 +1,15 @@
-
 [
   {
     "ASSETS": {
       "FILES_GLB": [
-        {"id": "file_pilot_bind",   "url": "./client/assets/models/characters/pilot/pilot_bind"        },
-        {"id": "file_pilot_idle",   "url": "./client/assets/models/characters/pilot/movement/run"      },
-        {"id": "file_pilot_run",    "url": "./client/assets/models/characters/pilot/idle/basic_idle"   },
-        {"id": "file_bullet",       "url": "./client/assets/models/shapes/bullet"                      },
-        {"id": "file_tree_1",       "url": "./client/assets/models/trees/tree_1"                       },
-        {"id": "file_tree_2",       "url": "./client/assets/models/trees/tree_2"                       },
-        {"id": "file_tree_3",       "url": "./client/assets/models/trees/tree_3"                       },
-        {"id": "file_tree_4",       "url": "./client/assets/models/trees/tree_4"                       }
+        {"id": "file_pilot_bind", "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"      }},
+        {"id": "file_pilot_idle", "config": { "url": "./client/assets/models/characters/pilot/movement/run"    }},
+        {"id": "file_pilot_run",  "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle" }},
+        {"id": "file_bullet",     "config": { "url": "./client/assets/models/shapes/bullet"                    }},
+        {"id": "file_tree_1",     "config": { "url": "./client/assets/models/trees/tree_1"                     }},
+        {"id": "file_tree_2",     "config": { "url": "./client/assets/models/trees/tree_2"                     }},
+        {"id": "file_tree_3",     "config": { "url": "./client/assets/models/trees/tree_3"                     }},
+        {"id": "file_tree_4",     "config": { "url": "./client/assets/models/trees/tree_4"                     }}
       ]
     }
   }

@@ -3,8 +3,8 @@
 require([
     'ThreeAPI',
     'WorkerAPI',
-    'application/Setup',
-    'application/SystemDetector',
+    'application/load/Setup',
+    'application/load/SystemDetector',
     'application/ClientViewer',
     'ui/GameScreen'
 ], function(

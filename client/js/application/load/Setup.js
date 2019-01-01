@@ -1,7 +1,7 @@
 "use strict";
 
 define([
-    'application/DataLoader',
+    'application/load/DataLoader',
     'io/PointerCursor',
     'PipelineAPI'
 ], function(

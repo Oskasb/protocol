@@ -4,37 +4,45 @@
       "MATERIALS":[
         {
           "id":"material_standard",
-          "settings": "standard_settings",
-          "textures":[{
-            "map":"atlas_2k_diff",
-            "envMap":"ref_sphere",
-            "metalnessMap":"atlas_2k_diff",
-            "roughnessMap":"atlas_2k_diff",
-            "normalMap":"atlas_2k_diff"
-          }]
+          "config":{
+            "settings": "standard_settings",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"   } ,
+              {"key":"envMap"        , "id":"ref_sphere"      } ,
+              {"key":"metalnessMap"  , "id":"atlas_2k_diff"   } ,
+              {"key":"roughnessMap"  , "id":"atlas_2k_diff"   } ,
+              {"key":"normalMap"     , "id":"atlas_2k_diff"   }
+            ]
+          }
         },
         {
           "id":"material_opaque",
-          "settings": "phong_opaque_settings",
-          "textures":[{
-            "map":"atlas_2k_diff"
-          }]
+          "config":{
+            "settings": "phong_opaque_settings",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"   }
+            ]
+          }
         },
         {
           "id":"material_nature",
-          "settings": "phong_nature_settings",
-          "textures":[{
-            "map":"atlas_2k_diff"
-          }]
+          "config":{
+            "settings": "phong_nature_settings",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"   }
+            ]
+          }
         },
         {
           "id":"material_glass",
-          "settings": "glass_settings",
-          "textures":[{
-            "normalMap":"canopy_normals",
-            "map":"glass_surface",
-            "envMap":"ref_sphere"
-          }]
+          "config":{
+            "settings": "glass_settings",
+            "textures":[
+              {"key":"map"           , "id":"glass_surface"   } ,
+              {"key":"envMap"        , "id":"ref_sphere"      } ,
+              {"key":"normalMap"     , "id":"canopy_normals"  }
+            ]
+          }
         }
       ]
     }

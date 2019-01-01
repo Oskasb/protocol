@@ -3,11 +3,13 @@
 var MainWorldAPI;
 
 define([
+
         'workers/main/MainWorldCom',
         'workers/main/world/WorldSimulation',
         'evt'
     ],
     function(
+
         MainWorldCom,
         WorldSimulation,
         evt
@@ -36,14 +38,22 @@ define([
             mainWorldCom.handleWorldComMessage(e)
         };
 
-        var testArgs = [ENUMS.Args.FRAME, 0];
+        MainWorldAPI.getTpf = function() {
+            return tpf;
+        };
 
+        var testArgs = [ENUMS.Args.FRAME, 0];
 
         var frameEndMsg = [ENUMS.Message.NOTIFY_FRAME]
 
-        MainWorldAPI.initMainWorldFrame = function(frame, tpf) {
+        var tpf;
+
+        MainWorldAPI.initMainWorldFrame = function(frame, frameTpf) {
+            tpf = frameTpf;
         //    console.log("FRAME ->->-> MainWorldCom");
             evt.initEventFrame(frame);
+
+            GuiAPI.updateGui(sharedBuffers[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)][0], tpf);
 
             worldSimulation.tickWorldSimulation(tpf);
 

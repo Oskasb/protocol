@@ -3,11 +3,13 @@
 define([
         'WorkerAPI',
         '3d/SceneController',
+        '3d/DynamicMain',
 		'evt'
     ],
 	function(
         WorkerAPI,
         SceneController,
+        DynamicMain,
         evt
     ) {
 
@@ -19,10 +21,14 @@ define([
     var workerCallbacks = [];
     var callbackFunctions;
 
+    var dynamicMain;
+
 
         var ClientViewer = function() {
 
             sceneController = new SceneController();
+            dynamicMain = new DynamicMain();
+
 
             var prerenderTick = function(tpf) {
                 this.prerenderTick(tpf)
@@ -35,7 +41,7 @@ define([
 
             var workerFrameCallback = function(frame) {
                 evt.initEventFrame(frame);
-                sceneController.tickAnimationMixers(lastTpf);
+                dynamicMain.tickDynamicMain(lastTpf);
                 sceneController.tickEnvironment(lastTpf);
             };
 
@@ -51,78 +57,13 @@ define([
             }
 		};
 
-        var dummyAsset;
+        ClientViewer.prototype.getDynamicMain = function() {
+            return dynamicMain;
+        };
 
         ClientViewer.prototype.initScene = function(ready) {
             //    console.log("tick", tpf)
-
             sceneController.setup3dScene(ready);
-
-
-            var onAssetReady = function(asset) {
-                console.log("AssetReady:", asset);
-                asset.instantiateAsset(instantiate)
-                asset.instantiateAsset(instantiate)
-            };
-
-            var onAsset2Ready = function(asset) {
-                console.log("Asset2Ready:", asset);
-                asset.instantiateAsset(instantiate)
-                asset.instantiateAsset(instantiate)
-                asset.instantiateAsset(instantiate)
-            };
-
-            ThreeAPI.buildAsset('animated_pilot', onAssetReady);
-            ThreeAPI.buildAsset('animated_pilot', onAsset2Ready);
-            ThreeAPI.buildAsset('asset_tree_2',   onAsset2Ready);
-
-
-
-            var breastplateAsset;
-
-
-
-            var onBarbReady = function(asset) {
-
-                console.log("AssetReady:", asset);
-                var barbReady = function(instancedModel) {
-
-                    var obj3d = instancedModel.obj3d;
-
-                    if (instancedModel.animator) {
-                        var keys = instancedModel.animator.actionKeys;
-                        var animKey = keys[Math.floor(Math.random() * keys.length)];
-                        instancedModel.playAnimation(animKey, Math.random()+0.4, 0.4 + Math.random()*0.6);
-                        sceneController.activateMixer(instancedModel.animator.mixer)
-                    }
-
-                    obj3d.position.x += (0.5-Math.random())*15
-                    obj3d.position.z += (0.5-Math.random())*15
-                    ThreeAPI.addToScene(obj3d)
-
-                    var itemReady = function(instancedItem) {
-                       instancedModel.attachInstancedModel(instancedItem)
-                    };
-
-                    breastplateAsset.instantiateAsset(itemReady)
-
-                };
-
-                asset.instantiateAsset(barbReady);
-                asset.instantiateAsset(barbReady);
-                asset.instantiateAsset(barbReady);
-                asset.instantiateAsset(barbReady);
-            };
-
-
-            var bpReady = function(asset) {
-                breastplateAsset = asset;
-            //    asset.instantiateAsset(instantiate);
-                ThreeAPI.buildAsset('animated_barbarian', onBarbReady);
-            };
-
-            ThreeAPI.buildAsset('skinned_barb_bp', bpReady);
-        //
 
         };
 
@@ -134,7 +75,7 @@ define([
                 var keys = instancedModel.animator.actionKeys;
                 var animKey = keys[Math.floor(Math.random() * keys.length)];
                 instancedModel.playAnimation(animKey, Math.random()+0.4, 0.4 + Math.random()*0.6);
-                sceneController.activateMixer(instancedModel.animator.mixer)
+                dynamicMain.activateMixer(instancedModel.animator.mixer)
             }
 
             obj3d.position.x += (0.5-Math.random())*40

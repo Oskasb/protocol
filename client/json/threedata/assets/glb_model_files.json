@@ -11,6 +11,8 @@
         {"id": "file_barb_idle" , "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle"  }},
 
         {"id": "file_barb_item_bp",  "config": { "url": "./client/assets/models/characters/barb/items/item_breastplate"  }},
+        {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"  }},
+
 
         {"id": "file_bullet",     "config": { "url": "./client/assets/models/shapes/bullet"                    }},
         {"id": "file_tree_1",     "config": { "url": "./client/assets/models/trees/tree_1"                     }},

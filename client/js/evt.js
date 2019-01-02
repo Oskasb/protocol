@@ -1,14 +1,18 @@
 define([
     'EventList',
-    'worker/protocol/EventProtocol'
+    'worker/protocol/EventProtocol',
+    'worker/protocol/EventParser'
 
 ], function(
     eventList,
-    EventProtocol
+    EventProtocol,
+    EventParser
 ) {
 
     var events = [];
     var listeners = [];
+
+    var spliceListeners = [];
 
     var evtStatus = {
         activeListeners:0,
@@ -65,9 +69,14 @@ define([
 
     var dispatchEvent = function(event) {
 
+        while (spliceListeners.length) {
+            spliceListener(spliceListeners.shift(), spliceListeners.shift())
+        }
+
         for (var i = 0; i < listeners[event].length; i++) {
             listeners[event][i](eventArgs(event));
         }
+
     };
 
     var dispatch = function(event, arguments) {
@@ -130,9 +139,10 @@ define([
     };
 
     var asynchifySplice = function(listnrs, cb) {
-        setTimeout(function() {
-            spliceListener(listnrs, cb)
-        }, 0)
+        spliceListeners.push(listnrs, cb);
+    //    setTimeout(function() {
+    //        spliceListener(listnrs, cb)
+    //    }, 0)
     };
 
     var removeListener = function(event, callback) {
@@ -145,8 +155,8 @@ define([
             return;
         }
 
-        //  spliceListener(listeners[event], callback);
-           asynchifySplice(listeners[event], callback);
+        //     spliceListener(listeners[event], callback);
+        asynchifySplice(listeners[event], callback);
     };
 
     var setEventBuffers = function(buffers, workerIndex) {
@@ -200,7 +210,8 @@ define([
         fire:fireEvent,
         list:list,
         setEventBuffers:setEventBuffers,
-        initEventFrame:initEventFrame
+        initEventFrame:initEventFrame,
+        parser:EventParser
     };
 
 });

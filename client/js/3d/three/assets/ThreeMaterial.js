@@ -12,7 +12,7 @@ define([],
 
 
             var materialSettingsLoaded = function(src, asset) {
-                console.log(src, asset);
+        //        console.log(src, asset);
                 this.applyMaterialSettings(asset.config.shader, asset.config.properties);
                 this.setupTextureMap(config, callback);
 
@@ -39,7 +39,6 @@ define([],
             var textureAssetLoaded = function(src, asset) {
                 txLds++;
                 this.mat[this.textureMap[asset.id]] = asset.texture;
-                console.log(this, src, asset)
                 loadCheck()
             }.bind(this);
 

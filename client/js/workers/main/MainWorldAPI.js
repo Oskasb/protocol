@@ -47,15 +47,17 @@ define([
         var frameEndMsg = [ENUMS.Message.NOTIFY_FRAME]
 
         var tpf;
+        var time = 0;
 
         MainWorldAPI.initMainWorldFrame = function(frame, frameTpf) {
             tpf = frameTpf;
+            time += tpf;
         //    console.log("FRAME ->->-> MainWorldCom");
             evt.initEventFrame(frame);
 
             GuiAPI.updateGui(sharedBuffers[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)][0], tpf);
 
-            worldSimulation.tickWorldSimulation(tpf);
+            worldSimulation.tickWorldSimulation(tpf, time);
 
             /*
             testArgs[1] = frame;
@@ -90,6 +92,10 @@ define([
 
         };
 
+        MainWorldAPI.getWorldSimulation = function() {
+            return worldSimulation;
+        };
+
         MainWorldAPI.getSharedBuffers = function() {
             return sharedBuffers;
         };
@@ -100,6 +106,10 @@ define([
 
         MainWorldAPI.readBufferValue = function(bufferType, index, param) {
             return sharedBuffers[ENUMS.getKey('BufferType', bufferType)][index][param];
+        };
+
+        MainWorldAPI.postToRender = function(message) {
+            postMessage(message)
         };
 
         return MainWorldAPI;

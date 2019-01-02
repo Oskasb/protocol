@@ -31,9 +31,14 @@
           "id": "skinned_barb_bp",
           "config":{
             "model": "file_barb_item_bp",
-            "animations":[
-              {"key":"bind"  , "id":"file_barb_item_bp"   }
-            ],
+            "material": "material_opaque",
+            "settings": "pilot_settings"
+          }
+        },
+        {
+          "id": "skinned_barb_greaves",
+          "config":{
+            "model": "file_barb_item_greaves",
             "material": "material_opaque",
             "settings": "pilot_settings"
           }

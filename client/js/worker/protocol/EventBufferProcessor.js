@@ -48,6 +48,7 @@ define([
         EventBufferProcessor.registerWorkerIndex = function(wIndex, dispatchFunction) {
             dispatch = dispatchFunction;
             writeWorkerBaseIndex = wIndex * ENUMS.Numbers.event_buffer_size_per_worker;
+            console.log("writeWorkerBaseIndex", writeWorkerBaseIndex)
             initWriteFrame()
         };
 
@@ -101,7 +102,6 @@ define([
                 eventIndex+=eventLength+1
             }
 
-
         };
 
 
@@ -110,7 +110,6 @@ define([
             for (key in ENUMS.Worker) {
                 workerBaseIndex = ENUMS.Worker[key] * ENUMS.Numbers.event_buffer_size_per_worker;
                 workerMessageCount = buffer[workerBaseIndex];
-
                 if (workerMessageCount) {
                     processWorkerBufferFrom(workerBaseIndex, buffer, workerMessageCount)
                 }
@@ -121,7 +120,14 @@ define([
             workerBaseIndex = workerIndex * ENUMS.Numbers.event_buffer_size_per_worker;
 
             initWriteFrame();
-            buffer[workerBaseIndex] = 0;
+
+            if (writeWorkerBaseIndex === ENUMS.Worker.MAIN_WORKER * ENUMS.Numbers.event_buffer_size_per_worker) {
+
+                for (key in ENUMS.Worker) {
+                    workerBaseIndex = ENUMS.Worker[key] * ENUMS.Numbers.event_buffer_size_per_worker;
+                    buffer[workerBaseIndex] = 0;
+                }
+            }
 
         };
 

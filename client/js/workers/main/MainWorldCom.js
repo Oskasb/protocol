@@ -57,12 +57,17 @@ define([
 
         MainWorldCom.prototype.setupMessageHandlers = function() {
 
+            handlers[ENUMS.Message.REGISTER_ASSET] = function(msg) {
+                MainWorldAPI.getWorldSimulation().registerAssetReady(msg);
+            };
+
             handlers[ENUMS.Message.NOTIFY_FRAME] = function(msg) {
                 MainWorldAPI.initMainWorldFrame(msg[0], msg[1]);
             };
 
             handlers[ENUMS.Message.RENDERER_READY] = function(msg) {
                 console.log("RENDERER_READY", "->->-> MainWorldCom", msg);
+                MainWorldAPI.getWorldSimulation().startWorldSystem();
                 MainWorldAPI.postMessage([ENUMS.Message.INIT_RENDERER, [msg]])
             }
         };

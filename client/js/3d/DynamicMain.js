@@ -2,73 +2,90 @@
 
 define([
     'evt',
-    '3d/SimpleSpatial',
     'PipelineAPI'
 
 ], function(
     evt,
-    SimpleSpatial,
     PipelineAPI
 ) {
 
     var i;
+    var assets = [];
+    var assetIndex = {};
+    var instances = [];
     var spatials = [];
     var msg;
-
-    var camPos;
-    var camQuat;
-    var inverseQuat = new THREE.Quaternion();
-
-    var calcPos = new THREE.Vector3();
-    var calcQuat = new THREE.Quaternion();
-    var calcObj = new THREE.Object3D();
-
-    var addSimpleSpatial = function(ss) {
-        spatials.push(ss);
-    };
-
-    var DynamicMain = function() {
-
-        var standardGeo = function(e) {
-            msg = evt.args(e).msg;
-            console.log("Handle DYNAMIC_MODEL, STANDARD_GEOMETRY", msg);
-            var simpSpat = new SimpleSpatial(msg[0], msg[1], msg[3], msg[4]);
-
-
-            var modelReady = function(sSpat, boneConf) {
-                console.log("SimpleSpatial ready: ", boneConf, sSpat);
-                PipelineAPI.setCategoryKeyValue('DYNAMIC_BONES', sSpat.modelId, boneConf);
-                ThreeAPI.addToScene(sSpat.obj3d);
-                //       ThreeAPI.attachObjectToCamera(sSpat.obj3d);
-                sSpat.dynamicSpatial.setupMechanicalShape(msg[2]);
-                WorkerAPI.registerMainDynamicSpatial(sSpat.getDynamicSpatial());
-            };
-
-            ThreeAPI.loadMeshModel(simpSpat.modelId, simpSpat.obj3d);
-            simpSpat.setReady(modelReady);
-            addSimpleSpatial(simpSpat)
-        };
-    };
 
     var pos;
     var quat;
     var obj3d;
 
-    DynamicMain.prototype.tickDynamicMain = function() {
+    var activeMixers = [];
 
-        for (i = 0; i < spatials.length; i++) {
+    var dynamicMain;
 
-            spatials[i].updateSimpleSpatial();
+    var DynamicMain = function() {
+        dynamicMain = this;
+    };
 
-            obj3d = spatials[i].obj3d;
-            pos = spatials[i].pos;
-            quat = spatials[i].quat;
+    DynamicMain.prototype.requestAsset = function(msg) {
 
-            obj3d.position.copy(pos);
-            obj3d.quaternion.copy(quat)
+        var onAssetReady = function(asset) {
+        //    console.log("AssetReady:", asset);
+            assets.push(asset);
+            assetIndex[asset.id] = assets.length;
+            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER,  [ENUMS.Message.REGISTER_ASSET, [asset.id, assetIndex[asset.id]]])
+        };
 
+        ThreeAPI.buildAsset(msg,   onAssetReady);
+    };
+
+
+    var instanceEvt = [
+        ENUMS.Args.POINTER,             0,
+        ENUMS.Args.INSTANCE_POINTER,    0
+    ];
+
+    var instancePointer = ENUMS.Numbers.INSTANCE_PTR_0;
+
+    var instanceReady = function(modelInstance) {
+        instancePointer++;
+        modelInstance.setPointer(instancePointer);
+        instanceEvt[1] = assetIndex[modelInstance.getAssetId()];
+        instanceEvt[3] = modelInstance.getPointer();
+        evt.fire(ENUMS.Event.REGISTER_INSTANCE, instanceEvt);
+    };
+
+    DynamicMain.prototype.requestAssetInstance = function(event) {
+        var asset = assets[event[1]];
+        asset.instantiateAsset(instanceReady);
+    };
+
+    DynamicMain.prototype.activateMixer = function(mixer) {
+        activeMixers.push(mixer);
+    };
+
+    DynamicMain.prototype.deActivateMixer = function(mixer) {
+        activeMixers.splice(activeMixers.indexOf(mixer), 1);
+    };
+
+    DynamicMain.prototype.tickAnimationMixers = function(tpf) {
+        for (var i = 0; i < activeMixers.length; i ++) {
+            activeMixers[i].update(tpf);
         }
     };
+
+    DynamicMain.prototype.tickDynamicMain = function(tpf) {
+
+        this.tickAnimationMixers(tpf)
+
+    };
+
+    DynamicMain.requestAssetInstance = function(event) {
+        dynamicMain.requestAssetInstance(event);
+    };
+
+    evt.on(ENUMS.Event.REQUEST_ASSET_INSTANCE, DynamicMain.requestAssetInstance);
 
     return DynamicMain;
 

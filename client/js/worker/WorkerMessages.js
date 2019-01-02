@@ -19,6 +19,18 @@ define([
 
         WorkerMessages.prototype.setupMessageHandlers = function() {
 
+            handlers[ENUMS.Message.REQUEST_ASSET] = function(workerKey, msg) {
+                clientViewer.getDynamicMain().requestAsset(msg);
+            };
+
+            handlers[ENUMS.Message.ADD_MODEL_INSTANCE] = function(workerKey, msg) {
+
+            };
+
+            handlers[ENUMS.Message.REMOVE_MODEL_INSTANCE] = function(workerKey, msg) {
+                MainWorldAPI.initMainWorldFrame(msg[0], msg[1]);
+            };
+
             handlers[ENUMS.Message.REGISTER_BUFFER] = function(workerKey, msg) {
             //    console.log("REGISTER_BUFFER", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg);
                 WorkerAPI.registerSharedBuffer(msg[0], msg[1], msg[2])

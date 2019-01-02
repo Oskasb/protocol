@@ -26,7 +26,7 @@ define([
             if (!eventBuffers) {
                 console.log("No eventBuffer", workerIndex);
             }
-            return eventBuffers[1 - writeBufferIndex]
+            return eventBuffers[readBufferIndex]
         };
 
         EventProtocol.setEventBuffer = function(buffers, wIndex, dispatch) {

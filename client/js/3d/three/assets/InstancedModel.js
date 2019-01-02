@@ -1,14 +1,55 @@
 "use strict";
 
 define([
-        '3d/three/assets/InstanceAnimator'
+        '3d/three/assets/InstanceAnimator',
+    'evt'
     ],
-    function(InstanceAnimator) {
+    function(
+        InstanceAnimator,
+        evt
+    ) {
 
-        var InstancedModel = function(originalModel) {
-            this.originalModel = originalModel;
+        var InstancedModel = function(originalAsset) {
+            this.originalAsset = originalAsset;
+            this.originalModel = originalAsset.model;
 
-            this.obj3d;
+            var onUpdateEvent = function(event) {
+                this.handleUpdateEvent(event)
+            }.bind(this);
+
+            this.callbacks = {
+                onUpdateEvent :onUpdateEvent
+            };
+
+            this.active = 0;
+
+            this.attachments = [];
+        };
+
+        InstancedModel.prototype.getAssetId = function() {
+            return this.originalAsset.id;
+        };
+
+        InstancedModel.prototype.setPointer = function(ptr) {
+            this.clearEventListener();
+            this.ptr = ptr;
+            this.setupEventListener();
+        };
+
+        InstancedModel.prototype.getPointer = function() {
+            return this.ptr;
+        };
+
+        InstancedModel.prototype.handleUpdateEvent = function(event) {
+            evt.parser.parseEntityEvent(this, event);
+        };
+
+        InstancedModel.prototype.setupEventListener = function() {
+            evt.on(this.ptr, this.callbacks.onUpdateEvent)
+        };
+
+        InstancedModel.prototype.clearEventListener = function() {
+            evt.removeListener(this.ptr, this.callbacks.onUpdateEvent)
         };
 
         InstancedModel.prototype.initModelInstance = function(callback) {
@@ -19,7 +60,6 @@ define([
 
                 if (this.originalModel.hasAnimations) {
                     this.animator = new InstanceAnimator(this)
-
                 }
 
                 callback(this)
@@ -48,7 +88,41 @@ define([
             return this.obj3d;
         };
 
+        InstancedModel.prototype.setActive = function(bool) {
+            this.active = bool;
+            if (bool) {
+                ThreeAPI.addToScene(this.obj3d)
+            } else {
+                this.decommissionInstancedModel();
+            }
+
+        };
+
+        InstancedModel.prototype.getObj3d = function() {
+            return this.obj3d;
+        };
+
         InstancedModel.prototype.attachInstancedModel = function(instancedModel) {
+
+            var getBoneByName = function(bones, name) {
+                for (var i = 0; i < bones.length; i++) {
+                    if (bones[i].name === name) {
+                        return bones[i];
+                    }
+                }
+                console.log("No bone by name:", name);
+            };
+
+            var replaceChildBones = function(parent, child) {
+                var parentSkel = parent.skeleton;
+                var childSkel = child.skeleton;
+
+                for (var i = 0; i < childSkel.bones.length; i++) {
+                    var boneName = childSkel.bones[i].name;
+                    var useBone = getBoneByName(parentSkel.bones, boneName);
+                    childSkel.bones[i] = useBone;
+                }
+            };
 
             var _this = this;
             instancedModel.obj3d.traverse(function(node) {
@@ -58,18 +132,29 @@ define([
                 if (node.type === 'SkinnedMesh') {
 
                     if (_this.skinNode) {
-
-                        node.bind(_this.skinNode.skeleton, _this.skinNode.matrixWorld)
-                    //    _this.skinNode.parent.add(node)
                         console.log("Bind Skel", _this.skinNode, node);
 
-                    }
+                        replaceChildBones(_this.skinNode, node);
 
+                    }
                 }
-            })
+            });
 
             this.obj3d.add(instancedModel.obj3d);
 
+            this.attachments.push(instancedModel)
+
+        };
+
+        InstancedModel.prototype.detatchInstancedModel = function(instancedModel) {
+            this.obj3d.remove(instancedModel.obj3d);
+            instancedModel.decommissionInstancedModel()
+        };
+
+        InstancedModel.prototype.detatchAllAttachmnets = function() {
+            while (this.attachments.length) {
+                this.detatchInstancedModel(this.attachments.pop())
+            }
         };
 
         InstancedModel.prototype.getAnimationMap = function() {
@@ -78,6 +163,11 @@ define([
 
         InstancedModel.prototype.playAnimation = function(animationKey, timeScale, weight) {
             this.animator.playAnimationAction(animationKey, timeScale, weight);
+        };
+
+        InstancedModel.prototype.decommissionInstancedModel = function() {
+            this.clearEventListener();
+            this.originalAsset.disableAssetInstance(this);
         };
 
         return InstancedModel;

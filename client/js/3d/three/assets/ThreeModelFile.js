@@ -14,7 +14,7 @@ define([
             this.id = id;
 
             var modelLoaded = function(glb) {
-                console.log("glb loaded", glb);
+            //    console.log("glb loaded", glb);
                 this.scene = glb;
                 callback(this);
             }.bind(this);
@@ -83,7 +83,6 @@ define([
                     if (node.isSkinnedMesh) {
                         cloneSkinnedMeshes[node.name] = node;
                     }
-
                 });
 
                 for (var name in skinnedMeshes) {

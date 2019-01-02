@@ -91,11 +91,11 @@ define([
 
         ThreeModel.prototype.getModelClone = function(callback) {
 
-            if (this.hasAnimations) {
+        //    if (this.hasAnimations) {
                 callback(this.model.cloneSkinnedModelOriginal())
-            } else {
-                callback(this.model.cloneMeshModelOriginal())
-            }
+        //    } else {
+        //        callback(this.model.cloneMeshModelOriginal())
+        //    }
 
         };
 

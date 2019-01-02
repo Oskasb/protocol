@@ -1,23 +1,31 @@
 "use strict";
 
 define([
+    'application/ExpandingPool',
         '3d/three/assets/InstancedModel'
     ],
     function(
+        ExpandingPool,
         InstancedModel
     ) {
 
     var datakey = 'MODELS_';
 
         var ThreeAsset = function(assetId, assetReadyCallback) {
-            this.model;
+            this.id = assetId;
+
+            var instantiateAsset = function(assetId, callback) {
+                var modelInstance = new InstancedModel(this);
+                modelInstance.initModelInstance(callback);
+            }.bind(this);
+
+            this.expandingPool = new ExpandingPool(this.id, instantiateAsset);
             this.initAssetConfigs(assetId, assetReadyCallback);
         };
 
         ThreeAsset.prototype.initAssetConfigs = function(assetId, cb) {
 
             var assetLoaded = function(src, asset) {
-            //   PipelineAPI.removeCategoryKeySubscriber('ASSET', datakey+assetId, cb)
                 this.finaliseAsset(asset, cb)
             }.bind(this);
 
@@ -32,11 +40,14 @@ define([
         };
 
         ThreeAsset.prototype.instantiateAsset = function(assetInstanceCallback) {
+            this.expandingPool.getFromExpandingPool(assetInstanceCallback);
 
-            var modelInstance = new InstancedModel(this.model);
+        };
 
-            modelInstance.initModelInstance(assetInstanceCallback);
-
+        ThreeAsset.prototype.disableAssetInstance = function(modelInstance) {
+            modelInstance.detatchAllAttachmnets();
+            ThreeAPI.hideModel(modelInstance.obj3d);
+            this.expandingPool.returnToExpandingPool(modelInstance);
 
         };
 

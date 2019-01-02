@@ -4,6 +4,18 @@ if(typeof(ENUMS) === "undefined"){
 
 (function(ENUMS){
 
+
+    ENUMS.Message = {
+        REGISTER_BUFFER:        0,
+        NOTIFY_FRAME:           1,
+        REGISTER_PORT:          2,
+        FIRE_EVENT:             3,
+        INIT_RENDERER:          4,
+        RENDERER_READY:         5,
+        REQUEST_ASSET:          6,
+        REGISTER_ASSET:         7
+    };
+
     ENUMS.Event = {
         REQUEST_WORKER:         0,
         REQUEST_FRAME:          1,
@@ -15,9 +27,10 @@ if(typeof(ENUMS) === "undefined"){
         PING_MAIN_THREAD:       7,
         TEST_EVENT:             8,
         STATS_UPDATE:           9,
-        INSTANTIATE:            10,
-        UPDATE_CAMERA:          11
-
+        REQUEST_ASSET_INSTANCE: 10,
+        UPDATE_CAMERA:          11,
+        UPDATE_INSTANCE:        12,
+        REGISTER_INSTANCE:      13
     };
 
     ENUMS.Args = {
@@ -102,19 +115,13 @@ if(typeof(ENUMS) === "undefined"){
         CAM_FOV:                70,
         CAM_NEAR:               71,
         CAM_FAR:                72,
-        CAM_ASPECT:             73
+        CAM_ASPECT:             73,
+        INSTANCE_POINTER:       74
 
     };
 
 
-    ENUMS.Message = {
-        REGISTER_BUFFER:        0,
-        NOTIFY_FRAME:           1,
-        REGISTER_PORT:          2,
-        FIRE_EVENT:             3,
-        INIT_RENDERER:          4,
-        RENDERER_READY:         5
-    };
+
 
 
     ENUMS.BufferType = {
@@ -445,10 +452,11 @@ if(typeof(ENUMS) === "undefined"){
     };
 
     ENUMS.Numbers = {
-        event_buffer_size_per_worker:10000,
+        event_buffer_size_per_worker:100000,
             POINTER_MOUSE:  0,
             POINTER_TOUCH0: 1,
-            TOUCHES_COUNT:  10
+            TOUCHES_COUNT:  10,
+            INSTANCE_PTR_0: 10000
 
     };
 

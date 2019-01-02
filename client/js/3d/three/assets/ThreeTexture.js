@@ -31,13 +31,19 @@ define([
 
         ThreeTexture.prototype.applyTxSettings = function(tx, settings) {
 
-            if (settings.combine)           tx.combine          = THREE[settings.combine];
-            if (settings.magFilter)         tx.magFilter        = THREE[settings.magFilter];
-            if (settings.minFilter)         tx.minFilter        = THREE[settings.minFilter];
-            if (settings.wrapS)             tx.wrapS            = THREE[settings.wrapS];
-            if (settings.wrapT)             tx.wrapT            = THREE[settings.wrapT];
-            if (settings.generateMipmaps)   tx.generateMipmaps  = settings.generateMipmaps;
-            if (settings.flipY)             tx.flipY            = settings.flipY;
+            tx.userData = {};
+
+            if (settings.combine)           tx.combine                  = THREE[settings.combine];
+            if (settings.magFilter)         tx.magFilter                = THREE[settings.magFilter];
+            if (settings.minFilter)         tx.minFilter                = THREE[settings.minFilter];
+            if (settings.wrapS)             tx.wrapS                    = THREE[settings.wrapS];
+            if (settings.wrapT)             tx.wrapT                    = THREE[settings.wrapT];
+
+            if (settings.generateMipmaps)   tx.generateMipmaps          = settings.generateMipmaps;
+            if (settings.flipY)             tx.flipY                    = settings.flipY;
+            if (settings.data_rows)         tx.userData.data_rows       = settings.data_rows;
+            if (settings.tiles_x)           tx.userData.tiles_x         = settings.tiles_x;
+            if (settings.tiles_y)           tx.userData.tiles_y         = settings.tiles_y;
             tx.needsUpdate = true;
 
         };

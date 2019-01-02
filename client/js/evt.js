@@ -74,7 +74,15 @@ define([
         }
 
         for (var i = 0; i < listeners[event].length; i++) {
+            if (typeof (listeners[event][i]) !== 'function') {
+                console.log("Bad listener", event, listeners)
+                return;
+            }
             listeners[event][i](eventArgs(event));
+        }
+
+        while (spliceListeners.length) {
+            spliceListener(spliceListeners.shift(), spliceListeners.shift())
         }
 
     };

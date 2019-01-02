@@ -34,6 +34,16 @@
           }
         },
         {
+          "id":"instancing_nature",
+          "config":{
+            "settings": "instancing_nature_settings",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"data_texture"  , "id":"data_texture"   }
+            ]
+          }
+        },
+        {
           "id":"material_glass",
           "config":{
             "settings": "glass_settings",

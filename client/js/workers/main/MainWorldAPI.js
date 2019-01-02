@@ -59,19 +59,6 @@ define([
 
             worldSimulation.tickWorldSimulation(tpf, time);
 
-            /*
-            testArgs[1] = frame;
-            if (Math.random() < 0.05) {
-                evt.fire(ENUMS.Event.TEST_EVENT, testArgs);
-
-                if (Math.random() < 0.5) {
-                    testArgs[1] = Math.random();
-                    evt.fire(ENUMS.Event.TEST_EVENT, testArgs);
-                    testArgs[1] = Math.random();
-                    evt.fire(ENUMS.Event.TEST_EVENT, testArgs);
-                }
-            }
-            */
             frameEndMsg[1] = frame;
             postMessage(frameEndMsg)
 

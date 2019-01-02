@@ -39,15 +39,15 @@ define([
             cb(this);
         };
 
-        ThreeAsset.prototype.instantiateAsset = function(assetInstanceCallback) {
-            this.expandingPool.getFromExpandingPool(assetInstanceCallback);
-
+        ThreeAsset.prototype.instantiateAsset = function(callback) {
+        //    this.expandingPool.getFromExpandingPool(assetInstanceCallback);
+            var modelInstance = new InstancedModel(this);
+            modelInstance.initModelInstance(callback);
         };
 
         ThreeAsset.prototype.disableAssetInstance = function(modelInstance) {
             modelInstance.detatchAllAttachmnets();
-            ThreeAPI.hideModel(modelInstance.obj3d);
-            this.expandingPool.returnToExpandingPool(modelInstance);
+        //    this.expandingPool.returnToExpandingPool(modelInstance);
 
         };
 

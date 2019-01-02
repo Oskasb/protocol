@@ -44,8 +44,8 @@ define([
         };
 
         EventProtocol.initEventFrame = function(frame) {
-            writeBufferIndex = MATH.isOddNumber(frame);
-            readBufferIndex = 1 - writeBufferIndex;
+            writeBufferIndex = (frame+1) % eventBuffers.length;
+            readBufferIndex = (frame) % eventBuffers.length;
             EventBufferProcessor.readBufferEvents(getReadBuffer());
             EventBufferProcessor.initWriteBufferFrame(workerIndex, getWriteBuffer())
         };

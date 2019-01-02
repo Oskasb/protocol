@@ -34,7 +34,9 @@ define([
         //    console.log("AssetReady:", asset);
             assets.push(asset);
             assetIndex[asset.id] = assets.length;
-            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER,  [ENUMS.Message.REGISTER_ASSET, [asset.id, assetIndex[asset.id]]])
+            var idx = assetIndex[asset.id];
+            var anims = asset.model.animationKeys;
+            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER,  [ENUMS.Message.REGISTER_ASSET, [asset.id, {index:idx, animKeys:anims}]])
         };
 
         ThreeAPI.buildAsset(msg,   onAssetReady);
@@ -61,23 +63,10 @@ define([
         asset.instantiateAsset(instanceReady);
     };
 
-    DynamicMain.prototype.activateMixer = function(mixer) {
-        activeMixers.push(mixer);
-    };
-
-    DynamicMain.prototype.deActivateMixer = function(mixer) {
-        activeMixers.splice(activeMixers.indexOf(mixer), 1);
-    };
-
-    DynamicMain.prototype.tickAnimationMixers = function(tpf) {
-        for (var i = 0; i < activeMixers.length; i ++) {
-            activeMixers[i].update(tpf);
-        }
-    };
 
     DynamicMain.prototype.tickDynamicMain = function(tpf) {
 
-        this.tickAnimationMixers(tpf)
+        ThreeAPI.updateAnimationMixers(tpf);
 
     };
 

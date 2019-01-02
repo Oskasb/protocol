@@ -7,11 +7,12 @@ define([
 
     ) {
 
-        var ParticleBuffer = function(verts, uvs, indices, normals) {
+        var InstanceBuffer = function(verts, uvs, indices, normals) {
             this.buildGeometry(verts, uvs, indices, normals);
+            this.attributes = {};
         };
 
-        ParticleBuffer.prototype.buildGeometry = function(verts, uvarray, indices, normals) {
+        InstanceBuffer.prototype.buildGeometry = function(verts, uvarray, indices, normals) {
 
             var geometry = new THREE.InstancedBufferGeometry();
 
@@ -23,14 +24,12 @@ define([
             if (indices) {
                 posBuffer   =      new Float32Array( verts );
                 uvBuffer    =      new Float32Array( uvarray );
-
             } else {
                 indices = [];
                 for ( var i = 0; i < verts.length / 3; i ++ ) {
                     indices[ i ] = i;
                 }
             }
-
 
             if (normals) {
                 var normal = new THREE.BufferAttribute(normals , 3 );
@@ -60,24 +59,33 @@ define([
 
         };
 
-        ParticleBuffer.prototype.applyMesh = function(mesh) {
+
+        InstanceBuffer.prototype.addAttribute = function(name, dimensions, count, dynamic) {
+            var buffer = new Float32Array(count * dimensions);
+            var attribute = new THREE.InstancedBufferAttribute(buffer, dimensions, 1).setDynamic( dynamic );
+            this.geometry.addAttribute(name, attribute);
+        };
+
+        InstanceBuffer.prototype.applyMesh = function(mesh) {
             this.mesh = mesh;
         };
 
-        ParticleBuffer.prototype.setInstancedCount = function(count) {
+        InstanceBuffer.prototype.setInstancedCount = function(count) {
             this.mesh.geometry.maxInstancedCount = count;
         };
 
-        ParticleBuffer.prototype.dispose = function() {
+        InstanceBuffer.prototype.dispose = function() {
             ThreeAPI.hideModel(this.mesh);
             this.geometry.dispose();
         };
 
-        ParticleBuffer.prototype.removeFromScene = function() {
+
+
+        InstanceBuffer.prototype.removeFromScene = function() {
             ThreeAPI.hideModel(this.mesh);
         };
 
-        ParticleBuffer.prototype.addToScene = function(screenSpace) {
+        InstanceBuffer.prototype.addToScene = function(screenSpace) {
             if (screenSpace) {
                 ThreeAPI.attachObjectToCamera(this.mesh);
             } else {
@@ -85,6 +93,26 @@ define([
             }
         };
 
-        return ParticleBuffer;
+
+        InstanceBuffer.extractFirstMeshGeometry = function(child) {
+
+            var geometry;
+
+            child.traverse(function(node) {
+                if (node.type === 'Mesh') {
+                    geometry = node.geometry;
+                    var verts   = geometry.attributes.position.array;
+                    var normals = geometry.attributes.normal.array;
+                    var uvs     = geometry.attributes.uv.array;
+                    var index   = geometry.index.array;
+                    return {verts:verts, indices:index, normals:normals, uvs:uvs}
+                }
+            });
+
+            console.log("No geometry found for:", child)
+
+        };
+
+        return InstanceBuffer;
 
     });

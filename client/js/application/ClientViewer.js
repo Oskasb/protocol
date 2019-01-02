@@ -67,23 +67,6 @@ define([
 
         };
 
-        var instantiate = function(instancedModel) {
-        //    console.log("Instantiated:", assetClone);
-            var obj3d = instancedModel.obj3d;
-
-            if (instancedModel.animator) {
-                var keys = instancedModel.animator.actionKeys;
-                var animKey = keys[Math.floor(Math.random() * keys.length)];
-                instancedModel.playAnimation(animKey, Math.random()+0.4, 0.4 + Math.random()*0.6);
-                dynamicMain.activateMixer(instancedModel.animator.mixer)
-            }
-
-            obj3d.position.x += (0.5-Math.random())*40
-            obj3d.position.z += (0.5-Math.random())*40
-            ThreeAPI.addToScene(obj3d)
-
-        };
-
         ClientViewer.prototype.setRenderCallbacksOn = function(on) {
 
             if (on) {
@@ -91,13 +74,11 @@ define([
                 ThreeAPI.getSetup().addPrerenderCallback(callbackFunctions.prerenderTick);
                 ThreeAPI.getSetup().addPostrenderCallback(callbackFunctions.postrenderTick);
                 workerCallbacks.push(callbackFunctions.workerFrameCallback);
-                evt.on(ENUMS.Event.TEST_EVENT, callbacks.eventTest);
             } else {
         //        console.log("--Detach Renderer Callbacks");
                 ThreeAPI.getSetup().removePrerenderCallback(callbackFunctions.prerenderTick);
                 ThreeAPI.getSetup().removePostrenderCallback(callbackFunctions.postrenderTick);
                 workerCallbacks.splice(workerCallbacks.indexOf(callbackFunctions.workerFrameCallback, 1));
-                evt.removeListener(ENUMS.Event.TEST_EVENT, callbackFunctions.eventTest);
             }
 
         };

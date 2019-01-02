@@ -248,7 +248,7 @@ define([
                 var normals = geometry.attributes.normal.array;
                 var uvs     = geometry.attributes.uv.array;
                 var index   = geometry.index.array;
-                geomStore[modelId] = {verts:verts, indices:index, normals:normals, uvs:uvs}
+                geomStore[modelId] = {verts:verts, uvs:uvs, indices:index, normals:normals}
             }
 
             console.log("Setup particle Mesh geometry", modelId, geometry, geomStore[modelId]);

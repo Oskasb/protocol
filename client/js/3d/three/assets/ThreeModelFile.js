@@ -1,10 +1,10 @@
 "use strict";
 
 define([
-
+        'application/ExpandingPool'
     ],
     function(
-
+        ExpandingPool
     ) {
 
         var ThreeModelFile = function(id, config, callback) {
@@ -12,6 +12,13 @@ define([
         //    console.log("ThreeModelFile", id, config);
 
             this.id = id;
+
+
+            var instantiateAsset = function(assetId, callback) {
+                this.cloneSkinnedModelOriginal(callback)
+            }.bind(this);
+
+            this.expandingPool = new ExpandingPool(this.id, instantiateAsset);
 
             var modelLoaded = function(glb) {
             //    console.log("glb loaded", glb);
@@ -22,12 +29,23 @@ define([
             loadGLB(config.url, modelLoaded)
         };
 
+        ThreeModelFile.prototype.returnCloneToPool = function(clone) {
+            ThreeAPI.hideModel(clone);
+            this.expandingPool.returnToExpandingPool(clone);
+        };
+
+        ThreeModelFile.prototype.getCloneFromPool = function(callback) {
+            this.expandingPool.getFromExpandingPool(callback)
+        };
+
+
         ThreeModelFile.prototype.cloneMeshModelOriginal = function() {
             return this.scene.clone();
         };
 
-        ThreeModelFile.prototype.cloneSkinnedModelOriginal = function() {
-            return cloneGltf(this.scene, this.scene.clone());
+        ThreeModelFile.prototype.cloneSkinnedModelOriginal = function(callback) {
+            var clone = cloneGltf(this.scene, this.cloneMeshModelOriginal());
+            callback(clone)
         };
 
         var loadGLB = function(url, cacheMesh) {

@@ -8,8 +8,8 @@
           "config":{
             "model": "file_pilot_bind",
             "animations":[
-              {"key":"idle"  , "id":"file_pilot_idle"   } ,
-              {"key":"run"   , "id":"file_pilot_run"    }
+              {"key":"IDLE"  , "id":"file_pilot_idle"   } ,
+              {"key":"RUN"   , "id":"file_pilot_run"    }
             ],
             "material": "material_opaque",
             "settings": "pilot_settings"
@@ -20,8 +20,8 @@
           "config":{
             "model": "file_barb_bind",
             "animations":[
-              {"key":"idle"  , "id":"file_barb_idle"   } ,
-              {"key":"run"   , "id":"file_barb_run"    }
+              {"key":"IDLE"  , "id":"file_barb_idle"   } ,
+              {"key":"RUN"   , "id":"file_barb_run"    }
             ],
             "material": "material_opaque",
             "settings": "pilot_settings"
@@ -43,11 +43,11 @@
             "settings": "pilot_settings"
           }
         },
-        {"id": "asset_bullet", "config": { "model": "file_bullet" , "material": "material_opaque", "settings": "default_model_settings" }},
-        {"id": "asset_tree_1", "config": { "model": "file_tree_1" , "material": "material_nature", "settings": "default_model_settings" }},
-        {"id": "asset_tree_2", "config": { "model": "file_tree_2" , "material": "material_nature", "settings": "default_model_settings" }},
-        {"id": "asset_tree_3", "config": { "model": "file_tree_3" , "material": "material_nature", "settings": "default_model_settings" }},
-        {"id": "asset_tree_4", "config": { "model": "file_tree_4" , "material": "material_nature", "settings": "default_model_settings" }}
+        {"id": "asset_bullet", "config": { "model": "file_bullet" , "material": "instancing_nature", "settings": "instancing_settings" }},
+        {"id": "asset_tree_1", "config": { "model": "file_tree_1" , "material": "instancing_nature", "settings": "instancing_settings" }},
+        {"id": "asset_tree_2", "config": { "model": "file_tree_2" , "material": "instancing_nature", "settings": "instancing_settings" }},
+        {"id": "asset_tree_3", "config": { "model": "file_tree_3" , "material": "instancing_nature", "settings": "instancing_settings" }},
+        {"id": "asset_tree_4", "config": { "model": "file_tree_4" , "material": "instancing_nature", "settings": "instancing_settings" }}
       ]
     }
   }

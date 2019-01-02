@@ -55,13 +55,13 @@ define([
 
         WorldSimulation.prototype.registerAssetReady = function(msg) {
             registeredAssets[msg[0]] = msg[1];
-            assetIndex[msg[1]] = msg[0];
+            assetIndex[msg[1].index] = msg[0];
         //    console.log("Asset Prepped: ", registeredAssets);
         };
 
         WorldSimulation.prototype.registerAssetInstance = function(event) {
         //    console.log("Asset Instance Ready: ", event);
-            var worldEntity = new WorldEntity(assetIndex[event[1]], event[3])
+            var worldEntity = new WorldEntity(assetIndex[event[1]], registeredAssets[assetIndex[event[1]]], event[3])
             addEntities.push( worldEntity)
         };
 
@@ -112,11 +112,16 @@ define([
 
             this.worldCamera.tickWorldCamera(tpf);
 
-            if (Math.random()*15+15 < worldEntities.length) {
+            if (Math.random()*250+55 < worldEntities.length) {
+                this.removeRandomAsset();
                 this.removeRandomAsset();
             }
 
-            if (Math.random() < 0.85) {
+            if (Math.random() < 0.2) {
+                this.spamRandomAssets();
+                this.spamRandomAssets();
+                this.spamRandomAssets();
+            } else {
                 this.spamRandomAssets();
             }
 

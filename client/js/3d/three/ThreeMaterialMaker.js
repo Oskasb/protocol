@@ -151,7 +151,7 @@ define([
         };
 
         ThreeMaterialMaker.createCanvasMaterial = function(texture) {
-            var mat = new THREE.MeshBasicMaterial({ map: texture, blending:"AdditiveBlending"});
+            var mat = new THREE.MeshBasicMaterial({ map: texture, blending:THREE["AdditiveBlending"]});
             return mat;
         };
         

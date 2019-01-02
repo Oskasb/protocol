@@ -1,24 +1,32 @@
 "use strict";
 
 define([
-
+        '3d/three/instancer/InstanceAPI'
     ],
     function(
-
+        InstanceAPI
     ) {
 
         var ThreeModel = function(id, config, callback) {
 
             this.config = config;
 
+            this.id = id;
+
             this.animMap = {};
             this.animations = {};
+            this.animationKeys = [];
 
             this.hasAnimations = false;
 
             var materialLoaded = function(src, asset) {
             //    console.log(src, asset);
                 this.material = asset;
+
+                if (this.geometryInstancingSettings()) {
+                    this.setupGeometryInstancing()
+                }
+
                 callback(this);
             }.bind(this);
 
@@ -34,6 +42,15 @@ define([
 
             this.loadModelFiles(config, modelFilesLoaded)
 
+        };
+
+        ThreeModel.prototype.geometryInstancingSettings = function() {
+            return this.settings.instancing;
+        };
+
+        ThreeModel.prototype.setupGeometryInstancing = function() {
+            var instancingSettings = this.geometryInstancingSettings();
+            InstanceAPI.registerGeometry(this.id, this.model, instancingSettings, this.material.getAssetMaterial())
         };
 
         ThreeModel.prototype.getAnimationClip = function(animationClipKey) {
@@ -70,6 +87,11 @@ define([
                     var id = config.animations[i].id;
                     var key = config.animations[i].key;
                     this.animMap[id] = key;
+                    if (typeof(ENUMS.Animations[key]) !== 'number') {
+                        console.log("No animation ENUM mapped for key: ", key)
+                    }
+                    this.animationKeys.push(ENUMS.Animations[key]);
+
                     rqs++;
                     ThreeAPI.loadThreeAsset('FILES_GLB_', id, animLoaded);
                 }
@@ -81,8 +103,8 @@ define([
 
         };
 
-        ThreeModel.prototype.getModelRoot = function() {
-            return this.model.scene;
+        ThreeModel.prototype.recoverModelClone = function(obj3d) {
+            this.model.returnCloneToPool(obj3d);
         };
 
         ThreeModel.prototype.getModelMaterial = function() {
@@ -90,13 +112,7 @@ define([
         };
 
         ThreeModel.prototype.getModelClone = function(callback) {
-
-        //    if (this.hasAnimations) {
-                callback(this.model.cloneSkinnedModelOriginal())
-        //    } else {
-        //        callback(this.model.cloneMeshModelOriginal())
-        //    }
-
+            this.model.getCloneFromPool(callback);
         };
 
         return ThreeModel;

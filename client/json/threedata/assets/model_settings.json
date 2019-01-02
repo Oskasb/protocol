@@ -21,6 +21,19 @@
               "scale": [1, 1, 1]
             }
           }
+        },
+
+        {"id": "instancing_settings" ,
+          "config": {
+            "instancing": {
+              "instances": 500
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
         }
       ]
     }

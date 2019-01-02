@@ -59,7 +59,12 @@ define([
                 this.obj3d = clone;
 
                 if (this.originalModel.hasAnimations) {
-                    this.animator = new InstanceAnimator(this)
+                    if (clone.animator) {
+                        this.animator = clone.animator
+                    } else {
+                        this.animator = new InstanceAnimator(this);
+                        clone.animator = this.animator;
+                    }
                 }
 
                 callback(this)
@@ -84,14 +89,11 @@ define([
             })
         };
 
-        InstancedModel.prototype.getObj3d = function() {
-            return this.obj3d;
-        };
-
         InstancedModel.prototype.setActive = function(bool) {
             this.active = bool;
             if (bool) {
-                ThreeAPI.addToScene(this.obj3d)
+                this.activateInstancedModel();
+
             } else {
                 this.decommissionInstancedModel();
             }
@@ -161,12 +163,32 @@ define([
             return this.originalModel.animMap;
         };
 
-        InstancedModel.prototype.playAnimation = function(animationKey, timeScale, weight) {
-            this.animator.playAnimationAction(animationKey, timeScale, weight);
+
+        InstancedModel.prototype.updateAnimationState = function(animationKey, weight, timeScale) {
+            this.animator.updateAnimationAction(animationKey, weight, timeScale);
+        };
+
+        InstancedModel.prototype.activateInstancedModel = function() {
+            this.isDecomiisisoned = false;
+            ThreeAPI.addToScene(this.obj3d);
+            if (this.animator) {
+                this.animator.activateAnimator();
+            }
         };
 
         InstancedModel.prototype.decommissionInstancedModel = function() {
+
+            if (this.isDecomiisisoned) {
+                console.log("Already Decomissioned");
+            }
+            this.isDecomiisisoned = true;
+
+
             this.clearEventListener();
+            if (this.animator) {
+                this.animator.deActivateAnimator();
+            }
+            this.originalModel.recoverModelClone(this.obj3d);
             this.originalAsset.disableAssetInstance(this);
         };
 

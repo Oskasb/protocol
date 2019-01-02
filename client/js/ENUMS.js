@@ -30,7 +30,9 @@ if(typeof(ENUMS) === "undefined"){
         REQUEST_ASSET_INSTANCE: 10,
         UPDATE_CAMERA:          11,
         UPDATE_INSTANCE:        12,
-        REGISTER_INSTANCE:      13
+        REGISTER_INSTANCE:      13,
+        UPDATE_MODEL:           14,
+        UPDATE_ANIMATIONS:      15
     };
 
     ENUMS.Args = {
@@ -121,7 +123,11 @@ if(typeof(ENUMS) === "undefined"){
     };
 
 
-
+    ENUMS.Animations = {
+        IDLE:               0,
+        WALK:               1,
+        RUN:                2
+    };
 
 
     ENUMS.BufferType = {

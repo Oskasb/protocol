@@ -40,6 +40,7 @@ define([
         var renderFilter;
         var assetLoader;
 
+        var animationMixers = [];
     //    THREE.Object3D.DefaultMatrixAutoUpdate = false;
 
         ThreeAPI = function() {
@@ -323,7 +324,7 @@ define([
         ThreeAPI.hideModel = function(obj3d) {
             ThreeSetup.removeModelFromScene(obj3d);
         };
-        
+
         ThreeAPI.removeModel = function(model) {
 
 //            ThreeSetup.removeModelFromScene(model);
@@ -347,6 +348,21 @@ define([
         ThreeAPI.countPooledModels = function() {
             return ThreeModelLoader.getPooledModelCount();
         };
+
+        ThreeAPI.activateMixer = function(mixer) {
+            animationMixers.push(mixer);
+        };
+
+        ThreeAPI.deActivateMixer = function(mixer) {
+            animationMixers.splice(animationMixers.indexOf(mixer), 1);
+        };
+
+        ThreeAPI.updateAnimationMixers = function(tpf) {
+            for (var i = 0; i < animationMixers.length; i ++) {
+                animationMixers[i].update(tpf);
+            }
+        };
+
 
         ThreeAPI.toRgb = function(r, g, b) {
             return 'rgb('+Math.floor(r*255)+','+Math.floor(g*255)+','+Math.floor(b*255)+')';

@@ -139,14 +139,13 @@ define([
                 buffer = this.buffers[key];
                 lastIndex = buffer.length -1;
 
-                value = buffer[lastIndex];
-
                 if (key === 'offset') {
-                    drawRange = value;
+                    drawRange = buffer[lastIndex-2];
                 }
 
-                if (value !== buffer[lastIndex-1]) {
+                if (buffer[lastIndex]) {
                     buffer[lastIndex-1] = value;
+                    buffer[lastIndex] = 0;
                     this.attributes[key].needsUpdate = true;
                 }
             }

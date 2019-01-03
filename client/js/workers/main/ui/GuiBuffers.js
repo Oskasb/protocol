@@ -35,6 +35,8 @@ define([
             this.uiSysKey = uiSysKey;
             this.assetId = assetId;
             this.buffers = {};
+            this.dormantElements = [];
+            this.activeElements = [];
             this.initAttributeBuffers(elementCount);
         };
 
@@ -44,7 +46,7 @@ define([
 
             for (var i = 0; i < useBuffers.length; i++) {
                 var attrib = attributes[useBuffers[i]];
-                var sab = new SharedArrayBuffer(Float32Array.BYTES_PER_ELEMENT * elementCount * attrib.dimensions + 4);
+                var sab = new SharedArrayBuffer(Float32Array.BYTES_PER_ELEMENT * elementCount * attrib.dimensions);
                 var buffer = new Float32Array(sab);
                 buffers.push(buffer);
                 this.buffers[useBuffers[i]] = buffer;
@@ -61,17 +63,16 @@ define([
             dims = attributes[name].dimensions;
             idx = dims*index;
             buffer[idx] = x;
-
+            this.setUpdated(buffer);
         };
 
         GuiBuffers.prototype.setAttribXY = function(name, index, x, y) {
-
             buffer = this.buffers[name];
             dims = attributes[name].dimensions;
             idx = dims*index;
             buffer[idx] = x;
             buffer[idx+1] = y;
-
+            this.setUpdated(buffer);
         };
 
         GuiBuffers.prototype.setAttribXYZ = function(name, index, x, y, z) {
@@ -82,7 +83,7 @@ define([
             buffer[idx] = x;
             buffer[idx+1] = y;
             buffer[idx+2] = z;
-
+            this.setUpdated(buffer);
         };
 
         GuiBuffers.prototype.setAttribXYZW = function(name, index, x, y, z, w) {
@@ -95,6 +96,27 @@ define([
             buffer[idx+2] = z;
             buffer[idx+3] = z;
             buffer[idx+4] = w;
+            this.setUpdated(buffer);
+        };
+
+
+
+        GuiBuffers.prototype.setUpdated = function(buffer) {
+            buffer[buffer.length-1] = 1
+        };
+
+        GuiBuffers.prototype.recoverElement = function(guiElement) {
+
+            this.dormantElements.push(guiElement);
+
+        };
+
+        GuiBuffers.prototype.registerElement = function(guiElement) {
+
+            this.activeElements.push(guiElement);
+            buffer = this.buffers['offset'];
+            buffer[buffer.length-3] = this.activeElements.length;
+            return this.activeElements.length-1;
 
         };
 

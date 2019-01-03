@@ -153,10 +153,6 @@ define([
         };
 
 
-        GuiPointerSystem.prototype.updateGuiSystem = function() {
-            this.updatePointerState();
-        };
-
         return GuiPointerSystem;
 
     });

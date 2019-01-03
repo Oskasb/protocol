@@ -3,10 +3,14 @@
 var GuiAPI;
 
 define([
-        'client/js/workers/main/ui/GuiBuffers'
+        'client/js/workers/main/ui/GuiBuffers',
+        'client/js/workers/main/ui/systems/InputSystem',
+        'client/js/workers/main/ui/elements/GuiBufferElement'
     ],
     function(
-        GuiBuffers
+        GuiBuffers,
+        InputSystem,
+        GuiBufferElement
     ) {
 
         var i;
@@ -15,6 +19,8 @@ define([
         var pointerSys;
         var guiSurfaceSystem;
         var guiSystems = [];
+
+        var inputSystem;
 
         var guiUpdateCallbacks = [];
         var inputUpdateCallbacks = [];
@@ -32,11 +38,16 @@ define([
 
         };
 
+
         GuiAPI.initGuiApi = function() {
             var uiSysKey = 'ui_main';
             guiBuffers[uiSysKey] = new GuiBuffers(uiSysKey, "asset_cross3d", 5000);
-        //    pointerSys = new GuiPointerSystem();
-        //    guiSurfaceSystem = new GuiSurfaceSystem();
+            inputSystem = new InputSystem(uiSysKey)
+        };
+
+
+        GuiAPI.buildBufferElement = function(guiSysId) {
+            return new GuiBufferElement(guiBuffers[guiSysId]);
         };
 
         GuiAPI.enableGuiSystems = function() {

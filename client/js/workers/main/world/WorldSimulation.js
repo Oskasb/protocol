@@ -139,8 +139,8 @@ define([
             }
 
             if (Math.random() < 0.3) {
-                this.spamRandomAssets();
-                this.spamRandomAssets();
+            //    this.spamRandomAssets();
+            //    this.spamRandomAssets();
             } else {
 
             }

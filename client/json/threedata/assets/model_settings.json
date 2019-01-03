@@ -78,7 +78,7 @@
             "instancing": {
               "instances": 1,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
-              "cameraspace": false
+              "cameraspace": true
             },
             "transform": {
               "pos":   [0, 0, 0],

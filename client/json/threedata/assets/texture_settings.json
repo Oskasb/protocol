@@ -60,6 +60,21 @@
           }
         } ,
         {
+          "id": "ui_tx_tiles_12x12"  ,
+          "config":{
+            "settings" : {
+              "wrapS": "RepeatWrapping",
+              "wrapT": "RepeatWrapping",
+              "generateMipmaps": false,
+              "magFilter": "LinearFilter",
+              "minFilter": "LinearFilter",
+              "tiles_x":12,
+              "tiles_y":12,
+              "flipY": false
+            }
+          }
+        } ,
+        {
           "id": "env_settings"   ,
           "config":{
             "settings" : {

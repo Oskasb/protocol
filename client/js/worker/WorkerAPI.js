@@ -3,9 +3,9 @@
 var WorkerAPI;
 
 define([
-    'PipelineAPI',
+        'PipelineAPI',
         'worker/WorkerRunner',
-    'evt'
+        'evt'
 
     ],
     function(
@@ -21,13 +21,19 @@ define([
         WorkerAPI = function() {};
 
         var sharedBuffers = {};
+        var clientViewer;
 
         var configs;
 
-        WorkerAPI.initWorkers = function(clientViewer) {
+        WorkerAPI.initWorkers = function(cliViewer) {
+            clientViewer = cliViewer;
             configs = PipelineAPI.getCachedConfigs();
             configs.BUFFERS = sharedBuffers;
             workerRunner = new WorkerRunner(clientViewer);
+        };
+
+        WorkerAPI.getDynamicMain = function() {
+            return clientViewer.getDynamicMain();
         };
 
         WorkerAPI.requestWorker = function(workerKey, callback) {

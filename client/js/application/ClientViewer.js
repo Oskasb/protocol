@@ -61,6 +61,7 @@ define([
             return dynamicMain;
         };
 
+
         ClientViewer.prototype.initScene = function(ready) {
             //    console.log("tick", tpf)
             sceneController.setup3dScene(ready);

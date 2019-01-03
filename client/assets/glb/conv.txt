@@ -14,3 +14,6 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\items\item_breastplate    D:\projects\protocol\client\assets\models\characters\barb\items\item_breastplate.FBX    -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\items\item_greaves        D:\projects\protocol\client\assets\models\characters\barb\items\item_greaves.FBX        -b
+
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\shapes\cross3d                             D:\projects\protocol\client\assets\models\shapes\cross3d.FBX    -b

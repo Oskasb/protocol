@@ -2,7 +2,7 @@
 
 define([
         '3d/three/assets/InstanceAnimator',
-    'evt'
+        'evt'
     ],
     function(
         InstanceAnimator,
@@ -46,6 +46,14 @@ define([
 
         InstancedModel.prototype.handleUpdateEvent = function(event) {
             evt.parser.parseEntityEvent(this, event);
+        };
+
+        InstancedModel.prototype.requestAttachment = function(ptr) {
+
+            var attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(ptr);
+
+            this.attachInstancedModel(attachInstance);
+
         };
 
         InstancedModel.prototype.setupEventListener = function() {
@@ -135,12 +143,11 @@ define([
             var _this = this;
             instancedModel.obj3d.traverse(function(node) {
                 if (node.type === 'Mesh') {
-
+                    console.log("Not SkinnedMesh", _this.skinNode);
                 }
                 if (node.type === 'SkinnedMesh') {
 
                     if (_this.skinNode) {
-                        console.log("Bind Skel", _this.skinNode, node);
 
                         replaceChildBones(_this.skinNode, node);
 
@@ -155,7 +162,7 @@ define([
 
         InstancedModel.prototype.detatchInstancedModel = function(instancedModel) {
             this.obj3d.remove(instancedModel.obj3d);
-            instancedModel.decommissionInstancedModel()
+        //    instancedModel.decommissionInstancedModel()
         };
 
         InstancedModel.prototype.detatchAllAttachmnets = function() {
@@ -182,6 +189,8 @@ define([
         };
 
         InstancedModel.prototype.decommissionInstancedModel = function() {
+
+            WorkerAPI.getDynamicMain().removeFromIsntanceIndex(this);
 
             if (this.isDecomiisisoned) {
                 console.log("Already Decomissioned");

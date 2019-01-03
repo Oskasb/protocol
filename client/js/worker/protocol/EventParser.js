@@ -47,9 +47,13 @@ define([
             }
         };
 
+        parser[ENUMS.Event.ATTACH] = function(modelInstance, event) {
+            modelInstance.requestAttachment(event[1])
+        };
+
         EventParser.parseEntityEvent = function(modelInstance, event) {
             if (!parser[event[0]]) {
-                console.log("Bad event: ", event);
+                console.log("Bad event: ", [modelInstance, event]);
                 return;
             }
             parser[event[0]](modelInstance, event);
@@ -89,6 +93,12 @@ define([
                 addAnimation(animStates[i], stride*i+1, animationEvent);
             }
 
+            return animationEvent;
+        };
+
+        EventParser.attachmentEvent = function(hostEntity, itemEntity) {
+            animationEvent[0] = ENUMS.Event.ATTACH;
+            animationEvent[1] = itemEntity.ptr;
             return animationEvent;
         };
 

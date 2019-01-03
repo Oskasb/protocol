@@ -5,6 +5,56 @@
 
         {"id": "pilot_settings" ,
           "config": {
+            "skin": {
+              "skeleton_key": 0,
+              "character": 1,
+              "slots": ["slot_chest", "slot_legs"]
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+
+        {"id": "barb_settings" ,
+          "config": {
+            "skin": {
+              "skeleton_key": 1,
+              "character": 1,
+              "slots": ["slot_chest", "slot_legs"]
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+
+        {"id": "item_chest_settings" ,
+          "config": {
+            "skin": {
+              "skeleton_key": 1,
+              "item": 1,
+              "slot": "slot_chest"
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+
+        {"id": "item_legs_settings" ,
+          "config": {
+            "skin": {
+              "skeleton_key": 1,
+              "item": 1,
+              "slot": "slot_legs"
+            },
             "transform": {
               "pos":   [0, 0, 0],
               "rot":   [0, 0, 0],
@@ -23,10 +73,27 @@
           }
         },
 
+        {"id": "ui_instancing_settings" ,
+          "config": {
+            "instancing": {
+              "instances": 1,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+
         {"id": "instancing_settings" ,
           "config": {
             "instancing": {
-              "instances": 5000
+              "instances": 5000,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
             },
             "transform": {
               "pos":   [0, 0, 0],

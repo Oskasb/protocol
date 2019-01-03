@@ -28,6 +28,7 @@ define([
             mainWorldCom = new MainWorldCom();
             mainWorldCom.initWorldCom(workerIndex);
             worldSimulation = new WorldSimulation();
+            GuiAPI.initGuiApi()
         };
 
         MainWorldAPI.postMessage = function(msg) {

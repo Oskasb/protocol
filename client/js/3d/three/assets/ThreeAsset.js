@@ -1,7 +1,7 @@
 "use strict";
 
 define([
-    'application/ExpandingPool',
+        'application/ExpandingPool',
         '3d/three/assets/InstancedModel'
     ],
     function(

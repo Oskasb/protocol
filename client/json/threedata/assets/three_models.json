@@ -24,7 +24,7 @@
               {"key":"RUN"   , "id":"file_barb_run"    }
             ],
             "material": "material_opaque",
-            "settings": "pilot_settings"
+            "settings": "barb_settings"
           }
         },
         {
@@ -32,7 +32,7 @@
           "config":{
             "model": "file_barb_item_bp",
             "material": "material_opaque",
-            "settings": "pilot_settings"
+            "settings": "item_chest_settings"
           }
         },
         {
@@ -40,14 +40,15 @@
           "config":{
             "model": "file_barb_item_greaves",
             "material": "material_opaque",
-            "settings": "pilot_settings"
+            "settings": "item_legs_settings"
           }
         },
-        {"id": "asset_bullet", "config": { "model": "file_bullet" , "material": "instancing_nature", "settings": "instancing_settings" }},
-        {"id": "asset_tree_1", "config": { "model": "file_tree_1" , "material": "instancing_nature", "settings": "instancing_settings" }},
-        {"id": "asset_tree_2", "config": { "model": "file_tree_2" , "material": "instancing_nature", "settings": "instancing_settings" }},
-        {"id": "asset_tree_3", "config": { "model": "file_tree_3" , "material": "instancing_nature", "settings": "instancing_settings" }},
-        {"id": "asset_tree_4", "config": { "model": "file_tree_4" , "material": "instancing_nature", "settings": "instancing_settings" }}
+        {"id": "asset_bullet",   "config": { "model": "file_bullet" , "material": "mat_instancing_nature",        "settings": "instancing_settings" }},
+        {"id": "asset_cross3d",  "config": { "model": "file_cross3d", "material": "material_instancing_ui",       "settings": "ui_instancing_settings" }},
+        {"id": "asset_tree_1",   "config": { "model": "file_tree_1" , "material": "mat_instancing_nature",        "settings": "instancing_settings" }},
+        {"id": "asset_tree_2",   "config": { "model": "file_tree_2" , "material": "mat_instancing_nature",        "settings": "instancing_settings" }},
+        {"id": "asset_tree_3",   "config": { "model": "file_tree_3" , "material": "mat_instancing_nature",        "settings": "instancing_settings" }},
+        {"id": "asset_tree_4",   "config": { "model": "file_tree_4" , "material": "mat_instancing_nature",        "settings": "instancing_settings" }}
       ]
     }
   }

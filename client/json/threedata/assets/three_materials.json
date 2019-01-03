@@ -34,11 +34,21 @@
           }
         },
         {
-          "id":"instancing_nature",
+          "id":"mat_instancing_nature",
           "config":{
             "settings": "instancing_nature_settings",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"data_texture"  , "id":"data_texture"   }
+            ]
+          }
+        },
+        {
+          "id":"material_instancing_ui",
+          "config":{
+            "settings": "instancing_nature_settings",
+            "textures":[
+              {"key":"map"           , "id":"gui_atlas_6x6"  },
               {"key":"data_texture"  , "id":"data_texture"   }
             ]
           }

@@ -13,7 +13,8 @@ if(typeof(ENUMS) === "undefined"){
         INIT_RENDERER:          4,
         RENDERER_READY:         5,
         REQUEST_ASSET:          6,
-        REGISTER_ASSET:         7
+        REGISTER_ASSET:         7,
+        REGISTER_UI_BUFFERS:    8
     };
 
     ENUMS.Event = {
@@ -32,7 +33,9 @@ if(typeof(ENUMS) === "undefined"){
         UPDATE_INSTANCE:        12,
         REGISTER_INSTANCE:      13,
         UPDATE_MODEL:           14,
-        UPDATE_ANIMATIONS:      15
+        UPDATE_ANIMATIONS:      15,
+        ATTACH:                 16,
+        DETATCH:                17
     };
 
     ENUMS.Args = {

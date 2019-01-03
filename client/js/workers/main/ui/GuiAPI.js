@@ -3,10 +3,10 @@
 var GuiAPI;
 
 define([
-
+        'client/js/workers/main/ui/GuiBuffers'
     ],
     function(
-
+        GuiBuffers
     ) {
 
         var i;
@@ -18,6 +18,8 @@ define([
 
         var guiUpdateCallbacks = [];
         var inputUpdateCallbacks = [];
+
+        var guiBuffers = {}
 
         var systemReady = function(guiSystem) {
 
@@ -31,8 +33,10 @@ define([
         };
 
         GuiAPI.initGuiApi = function() {
-            pointerSys = new GuiPointerSystem();
-            guiSurfaceSystem = new GuiSurfaceSystem();
+            var uiSysKey = 'ui_main';
+            guiBuffers[uiSysKey] = new GuiBuffers(uiSysKey, "asset_cross3d", 5000);
+        //    pointerSys = new GuiPointerSystem();
+        //    guiSurfaceSystem = new GuiSurfaceSystem();
         };
 
         GuiAPI.enableGuiSystems = function() {

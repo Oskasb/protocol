@@ -56,19 +56,36 @@ define([
             mesh.matrixAutoUpdate = false;
             mesh.frustumCulled = false;
             //    mesh.scale.set(1, 1, 1);
-            this.applyMesh(mesh);
+            this.mesh = mesh;
 
         };
 
+        InstanceBuffer.prototype.buildBuffer = function(dimensions, count) {
+            return new Float32Array(count * dimensions);
+        };
+
+        InstanceBuffer.prototype.attachAttribute = function(buffer, name, dimensions, dynamic) {
+
+            if (this.attributes[name]) {
+                this.geometry.removeAttribute(name);
+                this.buffers[name] = buffer;
+            }
+
+            var attribute = new THREE.InstancedBufferAttribute(buffer, dimensions, false).setDynamic( dynamic );
+            this.geometry.addAttribute(name, attribute);
+            this.attributes[name] = attribute;
+        };
+
+/*
         InstanceBuffer.prototype.attachAttribute = function(name, dimensions, count, dynamic) {
             var buffer = new Float32Array(count * dimensions);
             var attribute = new THREE.InstancedBufferAttribute(buffer, dimensions, false).setDynamic( true );
             this.geometry.addAttribute(name, attribute);
             this.attributes[name] = attribute;
         };
-
-        InstanceBuffer.prototype.applyMesh = function(mesh) {
-            this.mesh = mesh;
+*/
+        InstanceBuffer.prototype.buildBuffer = function(dimensions, count) {
+            return new Float32Array(count * dimensions);
         };
 
         InstanceBuffer.prototype.setAttribXYZ = function(name, index, x, y, z) {
@@ -110,6 +127,32 @@ define([
             this.geometry.dispose();
         };
 
+
+        var buffer;
+        var lastIndex;
+        var value;
+        var drawRange;
+        var instanceCount;
+        InstanceBuffer.prototype.updateBufferStates = function() {
+
+            for (var key in this.buffers) {
+                buffer = this.buffers[key];
+                lastIndex = buffer.length -1;
+
+                value = buffer[lastIndex];
+
+                if (key === 'offset') {
+                    drawRange = value;
+                }
+
+                if (value !== buffer[lastIndex-1]) {
+                    buffer[lastIndex-1] = value;
+                    this.attributes[key].needsUpdate = true;
+                }
+            }
+
+            return drawRange;
+        };
 
 
         InstanceBuffer.prototype.removeFromScene = function() {

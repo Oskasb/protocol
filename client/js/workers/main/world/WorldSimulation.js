@@ -12,16 +12,17 @@ define([
     ) {
 
         var possibleModelAssets = [
-        //    "animated_pilot",
-        //    "animated_barbarian",
-        //    "skinned_barb_bp",
-        //    "skinned_barb_greaves",
+            "animated_pilot",
+            "animated_barbarian",
+            "skinned_barb_bp",
+            "skinned_barb_greaves",
         //    "asset_bullet",
-        //    "asset_tree_1",
-        //    "asset_tree_2",
-        //    "asset_tree_3",
+            "asset_tree_1",
+            "asset_tree_2",
+            "asset_tree_3",
             "asset_tree_4"
         ];
+
 
         var registeredAssets = {};
         var assetIndex = [];
@@ -56,7 +57,7 @@ define([
         WorldSimulation.prototype.registerAssetReady = function(msg) {
             registeredAssets[msg[0]] = msg[1];
             assetIndex[msg[1].index] = msg[0];
-        //    console.log("Asset Prepped: ", registeredAssets);
+            console.log("Asset Prepped: ", registeredAssets);
         };
 
         WorldSimulation.prototype.registerAssetInstance = function(event) {
@@ -94,7 +95,25 @@ define([
             while (addEntities.length) {
                 e = addEntities.pop();
                 e.initWorldEntity(time);
+
+
                 worldEntities.push(e);
+
+                if (e.isCharacter()) {
+                    for (var i = 0; i < worldEntities.length; i++) {
+                        if (worldEntities[i].isItem()) {
+                            if (!worldEntities[i].attachedTo) {
+                                if (worldEntities[i].getSkin().skeleton_key === e.getSkin().skeleton_key) {
+                                    if (e.checkSlotFree(worldEntities[i].getSkin().slot)) {
+                                        e.attachItem(worldEntities[i]);
+                                    //    return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         };
 
@@ -114,16 +133,16 @@ define([
 
             this.addNewEntities(time);
 
-            if (Math.random()*5+26 < worldEntities.length) {
+            if (Math.random()*15+72 < worldEntities.length) {
                 this.removeRandomAsset();
                 this.removeRandomAsset();
             }
 
-            if (Math.random() < 0.2) {
+            if (Math.random() < 0.3) {
                 this.spamRandomAssets();
-
+                this.spamRandomAssets();
             } else {
-                this.spamRandomAssets();
+
             }
 
 

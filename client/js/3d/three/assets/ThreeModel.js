@@ -11,7 +11,12 @@ define([
         InstanceSpatial
     ) {
 
+    var models = 0;
+
         var ThreeModel = function(id, config, callback) {
+
+            models++;
+            this.modelNr = models;
 
             this.config = config;
 
@@ -56,7 +61,7 @@ define([
         ThreeModel.prototype.setupGeometryInstancing = function() {
 
             var instancingSettings = this.geometryInstancingSettings();
-            InstanceAPI.registerGeometry(this.id, this.model, instancingSettings, this.material.getAssetMaterial());
+            this.instanceBuffers = InstanceAPI.registerGeometry(this.id, this.model, instancingSettings, this.material.getAssetMaterial());
 
             var instantiateAsset = function(id, callback) {
 
@@ -125,7 +130,8 @@ define([
         ThreeModel.prototype.recoverModelClone = function(spatial) {
 
             if (this.geometryInstancingSettings()) {
-                spatial.setPosXYZ(40, 5+this.expandingPool.poolEntryCount(), 40);
+                spatial.setPosXYZ(20+this.modelNr*5, 5+this.expandingPool.poolEntryCount()*0.3, 30);
+                spatial.setScaleXYZ(0.2, 0.2, 0.2);
                 this.expandingPool.returnToExpandingPool(spatial);
             } else {
                 this.model.returnCloneToPool(spatial);

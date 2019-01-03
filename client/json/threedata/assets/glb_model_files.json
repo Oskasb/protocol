@@ -14,6 +14,7 @@
         {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"  }},
 
 
+        {"id": "file_cross3d",    "config": { "url": "./client/assets/models/shapes/cross3d"                   }},
         {"id": "file_bullet",     "config": { "url": "./client/assets/models/shapes/bullet"                    }},
         {"id": "file_tree_1",     "config": { "url": "./client/assets/models/trees/tree_1"                     }},
         {"id": "file_tree_2",     "config": { "url": "./client/assets/models/trees/tree_2"                     }},

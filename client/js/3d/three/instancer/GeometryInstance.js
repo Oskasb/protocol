@@ -12,7 +12,6 @@ define([],
             this.index = index;
             this.instancingBuffers = insBuffers;
             this.baseScale = 10;
-            this.baseQuat = new THREE.Quaternion();
             this.obj3d = new THREE.Object3D();
             this.color = new THREE.Color();
             this.alpha = 1;
@@ -41,9 +40,7 @@ define([],
         };
 
         GeometryInstance.prototype.setQuaternion = function(quaternion) {
-            tempQuat.copy(quaternion);
-            tempQuat.multiply(this.baseQuat);
-            this.instancingBuffers.setBufferVec4("orientation", this.index, tempQuat)
+            this.instancingBuffers.setBufferVec4("orientation", this.index, quaternion)
         };
 
         GeometryInstance.prototype.setScale = function(scale) {
@@ -60,16 +57,25 @@ define([],
             this.setScale(this.obj3d.scale)
         };
 
+        GeometryInstance.prototype.applyObjPos = function() {
+            this.setPosition(this.obj3d.position);
+        };
+
+        GeometryInstance.prototype.applyObjQuat = function() {
+            this.setQuaternion(this.obj3d.quaternion)
+        };
+
+        GeometryInstance.prototype.applyObjScale = function() {
+            this.setScale(this.obj3d.scale)
+        };
+
 
         GeometryInstance.prototype.initBuffers = function() {
-            this.obj3d.position.x = Math.random() * -40;
-            this.obj3d.position.z = Math.random() * -40;
+        //    this.obj3d.position.x = Math.random() * -40;
+        //    this.obj3d.position.z = Math.random() * -40;
         //    this.obj3d.rotateX(-Math.PI*0.25);
-            this.setVertexColor(0.5+Math.random() * 0.5,0.5+Math.random() * 0.5,0.5+Math.random() * 0.2,0.5+Math.random() * 0.5)
-
-            this.baseQuat.copy(this.obj3d.quaternion);
-            this.setVertexColor(1, 1, 1, 1);
-            this.applyObj3d()
+            this.setVertexColor(0.6+Math.random() * 0.6,0.7+Math.random() * 0.5,0.5+Math.random() * 0.5,0.5+Math.random() * 0.5)
+        //    this.applyObj3d()
         };
 
 

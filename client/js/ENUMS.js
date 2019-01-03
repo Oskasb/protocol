@@ -147,9 +147,13 @@ if(typeof(ENUMS) === "undefined"){
 
     };
 
-    ENUMS.ModelInstance = {
-        POINTER:            0,
-        RENDER:             1
+    ENUMS.InstanceState = {
+        INITIATING:         0,
+        ACTIVE_HIDDEN:      1,
+        ACTIVE_VISIBLE:     2,
+        INACTIVE_VISIBLE:   3,
+        INACTIVE_HIDDEN:    4,
+        DECOMISSION:        5
     };
 
     ENUMS.DynamicBone = {

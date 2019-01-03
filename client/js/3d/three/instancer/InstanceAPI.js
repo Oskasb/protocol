@@ -54,9 +54,9 @@ define([
             if (!instances[id]) {
                 instances[id] = []
             }
-            var idx =  instances[id].length;
-            var instance = new GeometryInstance(id, idx, instanceBuffers[id]);
+            var idx = instances[id].length;
             instanceBuffers[id].setInstancedCount(idx+1);
+            var instance = new GeometryInstance(id, idx, instanceBuffers[id]);
             instances[id].push(instance);
             callback(instance);
         };
@@ -85,12 +85,12 @@ define([
 
             for (var key in instances) {
                 for (var i = 0; i < instances[key].length; i++) {
-                    instances[key][i].obj3d.position.x += (Math.random()-0.5)*0.2
-                    instances[key][i].obj3d.position.z += (Math.random()-0.5)*0.2
-                    instances[key][i].obj3d.rotateY(0.05);
-                    instances[key][i].setVertexColor(0.7+Math.random() * 0.5,0.7+Math.random() * 0.5,0.8+Math.random() * 0.5,0.8+Math.random() * 0.5)
+                //    instances[key][i].obj3d.position.x += (Math.random()-0.5)*0.2
+                //    instances[key][i].obj3d.position.z += (Math.random()-0.5)*0.2
+                //    instances[key][i].obj3d.rotateY(0.05);
+                //    instances[key][i].setVertexColor(0.7+Math.random() * 0.5,0.7+Math.random() * 0.5,0.8+Math.random() * 0.5,0.8+Math.random() * 0.5)
 
-                    instances[key][i].applyObj3d();
+                //    instances[key][i].applyObj3d();
                 //    instances[key][i].setAttribXYZ('offset', Math.random()* 10, 0, Math.random()*40)
                 //    instances[key][i].setAttribXYZ('orientation', 0, 0, 0, 1)
                 }

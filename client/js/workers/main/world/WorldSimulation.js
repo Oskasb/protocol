@@ -12,10 +12,10 @@ define([
     ) {
 
         var possibleModelAssets = [
-            "animated_pilot",
-            "animated_barbarian",
-            "skinned_barb_bp",
-            "skinned_barb_greaves",
+        //    "animated_pilot",
+        //    "animated_barbarian",
+        //    "skinned_barb_bp",
+        //    "skinned_barb_greaves",
         //    "asset_bullet",
         //    "asset_tree_1",
         //    "asset_tree_2",
@@ -112,20 +112,21 @@ define([
 
             this.worldCamera.tickWorldCamera(tpf);
 
-            if (Math.random()*250+55 < worldEntities.length) {
+            this.addNewEntities(time);
+
+            if (Math.random()*5+26 < worldEntities.length) {
                 this.removeRandomAsset();
                 this.removeRandomAsset();
             }
-
+            
             if (Math.random() < 0.2) {
                 this.spamRandomAssets();
-                this.spamRandomAssets();
-                this.spamRandomAssets();
+
             } else {
                 this.spamRandomAssets();
             }
 
-            this.addNewEntities(time);
+
 
         };
 

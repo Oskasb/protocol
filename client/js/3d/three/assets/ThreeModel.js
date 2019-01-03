@@ -1,10 +1,12 @@
 "use strict";
 
 define([
-        '3d/three/instancer/InstanceAPI'
+        '3d/three/instancer/InstanceAPI',
+        '3d/three/assets/InstanceSpatial'
     ],
     function(
-        InstanceAPI
+        InstanceAPI,
+        InstanceSpatial
     ) {
 
         var ThreeModel = function(id, config, callback) {
@@ -104,12 +106,12 @@ define([
 
         };
 
-        ThreeModel.prototype.recoverModelClone = function(obj3d) {
+        ThreeModel.prototype.recoverModelClone = function(spatial) {
 
             if (this.geometryInstancingSettings()) {
-
+                spatial.setPosXYZ(40, 10, 40)
             } else {
-                this.model.returnCloneToPool(obj3d);
+                this.model.returnCloneToPool(spatial);
             }
 
         };
@@ -123,7 +125,9 @@ define([
             if (this.geometryInstancingSettings()) {
 
                 var instanceCb = function(geomIns) {
-                    callback(geomIns.obj3d);
+                    var spatial = new InstanceSpatial(geomIns.obj3d);
+                    spatial.setGeometryInstance(geomIns);
+                    callback(spatial);
                 };
 
                 InstanceAPI.instantiateGeometry(this.id, instanceCb);

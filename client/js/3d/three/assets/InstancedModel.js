@@ -21,7 +21,7 @@ define([
                 onUpdateEvent :onUpdateEvent
             };
 
-            this.active = 0;
+            this.active = ENUMS.InstanceState.INITIATING;
 
             this.attachments = [];
         };
@@ -40,6 +40,10 @@ define([
             return this.ptr;
         };
 
+        InstancedModel.prototype.getSpatial = function() {
+            return this.spatial;
+        };
+
         InstancedModel.prototype.handleUpdateEvent = function(event) {
             evt.parser.parseEntityEvent(this, event);
         };
@@ -54,16 +58,18 @@ define([
 
         InstancedModel.prototype.initModelInstance = function(callback) {
 
-            var cloned = function(clone) {
-                this.applyModelMaterial(clone, this.originalModel.getModelMaterial());
-                this.obj3d = clone;
+            var cloned = function(spatial) {
+                this.spatial = spatial;
+                this.obj3d = spatial.obj3d;
+                this.applyModelMaterial(this.obj3d , this.originalModel.getModelMaterial());
+
 
                 if (this.originalModel.hasAnimations) {
-                    if (clone.animator) {
-                        this.animator = clone.animator
+                    if (this.obj3d.animator) {
+                        this.animator = this.obj3d.animator
                     } else {
                         this.animator = new InstanceAnimator(this);
-                        clone.animator = this.animator;
+                        this.obj3d.animator = this.animator;
                     }
                 }
 
@@ -89,9 +95,9 @@ define([
             })
         };
 
-        InstancedModel.prototype.setActive = function(bool) {
-            this.active = bool;
-            if (bool) {
+        InstancedModel.prototype.setActive = function(ENUM) {
+            this.active = ENUM;
+            if (this.active !== ENUMS.InstanceState.DECOMISSION ) {
                 this.activateInstancedModel();
 
             } else {
@@ -143,7 +149,6 @@ define([
             });
 
             this.obj3d.add(instancedModel.obj3d);
-
             this.attachments.push(instancedModel)
 
         };
@@ -188,7 +193,7 @@ define([
             if (this.animator) {
                 this.animator.deActivateAnimator();
             }
-            this.originalModel.recoverModelClone(this.obj3d);
+            this.originalModel.recoverModelClone(this.getSpatial());
             this.originalAsset.disableAssetInstance(this);
         };
 

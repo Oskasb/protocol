@@ -16,6 +16,7 @@ define([
         var obj3d;
         var count;
         var stride;
+        var spatial;
 
         var EventParser = function() {};
 
@@ -23,16 +24,11 @@ define([
         parser[ENUMS.Event.UPDATE_MODEL] = function(modelInstance, event) {
             obj3d = modelInstance.obj3d;
 
-            obj3d.position.x     =  event[1]   ;
-            obj3d.position.y     =  event[2]   ;
-            obj3d.position.z     =  event[3]   ;
-            obj3d.quaternion.x   =  event[4]   ;
-            obj3d.quaternion.y   =  event[5]   ;
-            obj3d.quaternion.z   =  event[6]   ;
-            obj3d.quaternion.w   =  event[7]   ;
-            obj3d.scale.x        =  event[8]   ;
-            obj3d.scale.y        =  event[9]   ;
-            obj3d.scale.z        =  event[10]   ;
+            spatial = modelInstance.getSpatial();
+            spatial.setPosXYZ(   event[1],  event[2],  event[3]  );
+            spatial.setQuatXYZW( event[4],  event[5],  event[6],  event[7] );
+            spatial.setScaleXYZ( event[8],  event[9],  event[10] );
+
 
             if (modelInstance.active !== event[11]) {
                 modelInstance.setActive(event[11]);

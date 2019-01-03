@@ -1,10 +1,12 @@
 "use strict";
 
 define([
-        'application/ExpandingPool'
+        'application/ExpandingPool',
+        '3d/three/assets/InstanceSpatial'
     ],
     function(
-        ExpandingPool
+        ExpandingPool,
+        InstanceSpatial
     ) {
 
         var ThreeModelFile = function(id, config, callback) {
@@ -29,9 +31,9 @@ define([
             loadGLB(config.url, modelLoaded)
         };
 
-        ThreeModelFile.prototype.returnCloneToPool = function(clone) {
-            ThreeAPI.hideModel(clone);
-            this.expandingPool.returnToExpandingPool(clone);
+        ThreeModelFile.prototype.returnCloneToPool = function(spatial) {
+            ThreeAPI.hideModel(spatial.obj3d);
+            this.expandingPool.returnToExpandingPool(spatial);
         };
 
         ThreeModelFile.prototype.getCloneFromPool = function(callback) {
@@ -45,7 +47,8 @@ define([
 
         ThreeModelFile.prototype.cloneSkinnedModelOriginal = function(callback) {
             var clone = cloneGltf(this.scene, this.cloneMeshModelOriginal());
-            callback(clone)
+            var spatial = new InstanceSpatial(clone)
+            callback(spatial)
         };
 
         var loadGLB = function(url, cacheMesh) {

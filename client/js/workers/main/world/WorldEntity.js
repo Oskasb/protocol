@@ -32,7 +32,7 @@ define([
         };
 
         WorldEntity.prototype.initWorldEntity = function(time) {
-            this.active = 1;
+            this.active = ENUMS.InstanceState.ACTIVE_VISIBLE;
             this.obj3d.position.x = 35 + Math.random() * 20 + Math.sin(time*1)*40;
             this.obj3d.position.z = 35 + Math.random() * 20 + Math.cos(time*1)*40;
             this.obj3d.rotateY(Math.random()*5);
@@ -46,7 +46,7 @@ define([
         };
 
         WorldEntity.prototype.decommissionWorldEntity = function() {
-            this.active = 0;
+            this.active = ENUMS.InstanceState.DECOMISSION;
             eventData = evt.parser.worldEntityEvent(this);
             evt.fire(this.ptr, eventData)
         };

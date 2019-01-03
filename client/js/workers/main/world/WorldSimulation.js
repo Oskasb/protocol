@@ -118,7 +118,7 @@ define([
                 this.removeRandomAsset();
                 this.removeRandomAsset();
             }
-            
+
             if (Math.random() < 0.2) {
                 this.spamRandomAssets();
 

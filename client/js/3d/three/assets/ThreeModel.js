@@ -1,10 +1,12 @@
 "use strict";
 
 define([
+        'application/ExpandingPool',
         '3d/three/instancer/InstanceAPI',
         '3d/three/assets/InstanceSpatial'
     ],
     function(
+        ExpandingPool,
         InstanceAPI,
         InstanceSpatial
     ) {
@@ -52,8 +54,22 @@ define([
         };
 
         ThreeModel.prototype.setupGeometryInstancing = function() {
+
             var instancingSettings = this.geometryInstancingSettings();
-            InstanceAPI.registerGeometry(this.id, this.model, instancingSettings, this.material.getAssetMaterial())
+            InstanceAPI.registerGeometry(this.id, this.model, instancingSettings, this.material.getAssetMaterial());
+
+            var instantiateAsset = function(id, callback) {
+
+                var instanceCb = function(geomIns) {
+                    var spatial = new InstanceSpatial(geomIns.obj3d);
+                    spatial.setGeometryInstance(geomIns);
+                    callback(spatial);
+                };
+
+                InstanceAPI.instantiateGeometry(this.id, instanceCb);
+            }.bind(this);
+
+            this.expandingPool = new ExpandingPool(this.id, instantiateAsset);
         };
 
         ThreeModel.prototype.getAnimationClip = function(animationClipKey) {
@@ -109,7 +125,8 @@ define([
         ThreeModel.prototype.recoverModelClone = function(spatial) {
 
             if (this.geometryInstancingSettings()) {
-                spatial.setPosXYZ(40, 10, 40)
+                spatial.setPosXYZ(40, 5+this.expandingPool.poolEntryCount(), 40);
+                this.expandingPool.returnToExpandingPool(spatial);
             } else {
                 this.model.returnCloneToPool(spatial);
             }
@@ -123,15 +140,7 @@ define([
         ThreeModel.prototype.getModelClone = function(callback) {
 
             if (this.geometryInstancingSettings()) {
-
-                var instanceCb = function(geomIns) {
-                    var spatial = new InstanceSpatial(geomIns.obj3d);
-                    spatial.setGeometryInstance(geomIns);
-                    callback(spatial);
-                };
-
-                InstanceAPI.instantiateGeometry(this.id, instanceCb);
-
+                this.expandingPool.getFromExpandingPool(callback);
             } else {
                 this.model.getCloneFromPool(callback);
             }

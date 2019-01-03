@@ -5,7 +5,7 @@ define([],
     function() {
 
     var tempVec1 = new THREE.Vector3();
-        var tempQuat = new THREE.Quaternion();
+
 
         var GeometryInstance = function(id, index, insBuffers) {
             this.id = id;

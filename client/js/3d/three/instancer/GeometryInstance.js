@@ -33,7 +33,7 @@ define([],
             this.color.r = r;
             this.color.g = g;
             this.color.b = b;
-            this.instancingBuffers.setBufferVec4("vertexColor", this.index, r, g, b, a)
+            this.instancingBuffers.setAttribXYZW("vertexColor", this.index, r, g, b, a)
         };
 
         GeometryInstance.prototype.setPosition = function(position) {

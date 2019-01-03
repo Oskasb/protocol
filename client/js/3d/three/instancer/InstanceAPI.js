@@ -87,8 +87,8 @@ define([
                 for (var i = 0; i < instances[key].length; i++) {
                     instances[key][i].obj3d.position.x += (Math.random()-0.5)*0.2
                     instances[key][i].obj3d.position.z += (Math.random()-0.5)*0.2
-                    instances[key][i].obj3d.rotateY(0.01);
-                    instances[key][i].setVertexColor(0.8+Math.random() * 0.5,0.8+Math.random() * 0.5,0.8+Math.random() * 0.2,0.8+Math.random() * 0.5)
+                    instances[key][i].obj3d.rotateY(0.05);
+                    instances[key][i].setVertexColor(0.7+Math.random() * 0.5,0.7+Math.random() * 0.5,0.8+Math.random() * 0.5,0.8+Math.random() * 0.5)
 
                     instances[key][i].applyObj3d();
                 //    instances[key][i].setAttribXYZ('offset', Math.random()* 10, 0, Math.random()*40)

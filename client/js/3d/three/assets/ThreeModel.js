@@ -32,7 +32,7 @@ define([
 
             var modelSettingsLoaded = function(src, asset) {
              //   console.log(src, asset);
-                this.settings = asset;
+                this.settings = asset.settings;
                 ThreeAPI.loadThreeAsset('MATERIALS_', config.material, materialLoaded);
             }.bind(this);
 
@@ -45,6 +45,7 @@ define([
         };
 
         ThreeModel.prototype.geometryInstancingSettings = function() {
+        //    console.log(this.settings.instancing)
             return this.settings.instancing;
         };
 
@@ -104,7 +105,13 @@ define([
         };
 
         ThreeModel.prototype.recoverModelClone = function(obj3d) {
-            this.model.returnCloneToPool(obj3d);
+
+            if (this.geometryInstancingSettings()) {
+
+            } else {
+                this.model.returnCloneToPool(obj3d);
+            }
+
         };
 
         ThreeModel.prototype.getModelMaterial = function() {
@@ -112,7 +119,19 @@ define([
         };
 
         ThreeModel.prototype.getModelClone = function(callback) {
-            this.model.getCloneFromPool(callback);
+
+            if (this.geometryInstancingSettings()) {
+
+                var instanceCb = function(geomIns) {
+                    callback(geomIns.obj3d);
+                };
+
+                InstanceAPI.instantiateGeometry(this.id, instanceCb);
+
+            } else {
+                this.model.getCloneFromPool(callback);
+            }
+
         };
 
         return ThreeModel;

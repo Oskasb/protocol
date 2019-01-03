@@ -2,11 +2,13 @@
 
 define([
     'evt',
-    'PipelineAPI'
+    'PipelineAPI',
+    '3d/three/instancer/InstanceAPI'
 
 ], function(
     evt,
-    PipelineAPI
+    PipelineAPI,
+    InstanceAPI
 ) {
 
     var i;
@@ -65,7 +67,7 @@ define([
 
 
     DynamicMain.prototype.tickDynamicMain = function(tpf) {
-
+        InstanceAPI.updateInstances(tpf);
         ThreeAPI.updateAnimationMixers(tpf);
 
     };

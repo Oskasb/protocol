@@ -2,6 +2,7 @@
   {
     "SHADERS_THREE": {
       "LOAD_SHADER_INDEX":[
+        "GEOMETRY_INSTANCING_STANDARD",
         "TERRAIN_SHADER",
         "OCEAN_SHADER",
         "INSTANCING_GPU_TRAIL",
@@ -798,8 +799,23 @@
 
           {"source":"INSTANCING_CHUNKS", "chunk":"exitVoidMain"}
         ]
-      }
 
+      },
+
+      "GEOMETRY_INSTANCING_STANDARD": {
+        "vertex": [
+          {
+            "source": "INSTANCING_PROGRAMS",
+            "chunk": "vertexGeometryInstancing"
+          }
+        ],
+        "fragment": [
+          {
+            "source": "INSTANCING_PROGRAMS",
+            "chunk": "fragmentGeometryInstancing"
+          }
+        ]
+      }
     }
   }
 ]

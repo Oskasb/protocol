@@ -3,23 +3,27 @@
 
 define([
         '3d/three/instancer/InstanceBuffer',
-        '3d/three/instancer/InstancingMaterial'
+        '3d/three/instancer/GeometryInstance'
     ],
     function(
         InstanceBuffer,
-        InstancingMaterial
+        GeometryInstance
     ) {
 
         var instanceBuffers = {};
 
+        var instances = {};
+        var materials = [];
+
         var attributes = [
-            {"name":"startTime",   "dimensions":1, "dynamic":true},
-            {"name":"duration",    "dimensions":1, "dynamic":false},
-            {"name":"offsetSize",  "dimensions":4, "dynamic":false},
-            {"name":"texelRowSelect", "dimensions":4, "dynamic":false},
-            {"name":"tileindex",   "dimensions":2},
-            {"name":"diffusors",   "dimensions":4, "dynamic":false},
-            {"name":"scale3d",     "dimensions":4, "dynamic":false},
+        //    {"name":"startTime",   "dimensions":1, "dynamic":true},
+        //    {"name":"duration",    "dimensions":1, "dynamic":false},
+            {"name":"offset",       "dimensions":3, "dynamic":false},
+        //    {"name":"texelRowSelect", "dimensions":4, "dynamic":false},
+        //    {"name":"tileindex",   "dimensions":2},
+        //    {"name":"diffusors",   "dimensions":4, "dynamic":false},
+            {"name":"vertexColor", "dimensions":4, "dynamic":false},
+            {"name":"scale3d",     "dimensions":3, "dynamic":false},
             {"name":"orientation", "dimensions":4, "dynamic":false}
         ];
 
@@ -27,52 +31,103 @@ define([
 
 
         InstanceAPI.registerGeometry = function(id, model, settings, material) {
-
+            materials.push(material);
             var count = settings.instances;
-            var buffers = InstanceBuffer.extractFirstMeshGeometry(model.children[0]);
+
+            var buffers = {};
+            InstanceBuffer.extractFirstMeshGeometry(model.scene.children[0], buffers);
             var insBufs = new InstanceBuffer(buffers.verts, buffers.uvs, buffers.indices, buffers.normals);
 
             for (var i = 0; i < attributes.length; i++) {
-                var attrib = attributes[i]
-                insBufs.addAttribute(attrib.name, attrib.dimensions, count, attrib.dynamic);
+                var attrib = attributes[i];
+                insBufs.attachAttribute(attrib.name, attrib.dimensions, count, attrib.dynamic);
             }
 
+            insBufs.setMaterial(material);
             instanceBuffers[id] = insBufs;
+            instanceBuffers[id].setInstancedCount(0);
+            insBufs.addToScene();
 
-            var conf = {
-                "id":"gpu_main_atlas_spatial_material",
-                "shader":"INSTANCING_GPU_GEOMETRY",
+        };
 
-                "particle_texture":"atlas_2k_diff",
-                "data_texture":"data_texture",
+        InstanceAPI.instantiateGeometry = function(id, callback) {
+            if (!instances[id]) {
+                instances[id] = []
+            }
+            var idx =  instances[id].length;
+            var instance = new GeometryInstance(id, idx, instanceBuffers[id]);
+            instanceBuffers[id].setInstancedCount(idx+1);
+            instances[id].push(instance);
+            callback(instance);
+        };
 
-                "global_uniforms":{
-                    "fogDensity": { "value": 0.00025 },
-                    "fogColor": { "value": {"r":1, "g":1, "b":1}},
-                    "ambientLightColor": { "value": {"r":1, "g":1, "b":1}},
-                    "sunLightColor": { "value": {"r":1, "g":1, "b":1}},
-                    "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
-                },
 
-                "settings":{
-                    "tiles_x":1,
-                    "tiles_y":1,
-                    "flip_y":false,
-                    "data_rows":128
+        var color;
+        var applyUniformEnvironmentColor = function(uniform, worldProperty) {
+            color = ThreeAPI.readEnvironmentUniform(worldProperty, 'color');
+            uniform.value.r = color.r;
+            uniform.value.g = color.g;
+            uniform.value.b = color.b;
+        };
+
+        var quat;
+        var tempVec = new THREE.Vector3();
+        var applyUniformEnvironmentQuaternion = function(uniform, worldProperty) {
+            quat = ThreeAPI.readEnvironmentUniform(worldProperty, 'quaternion');
+            tempVec.set(0, 0, -1);
+            tempVec.applyQuaternion(quat);
+            uniform.value.x = tempVec.x;
+            uniform.value.y = tempVec.y;
+            uniform.value.z = tempVec.z;
+        };
+
+        InstanceAPI.updateInstances = function(tpf) {
+
+            for (var key in instances) {
+                for (var i = 0; i < instances[key].length; i++) {
+                    instances[key][i].obj3d.position.x += (Math.random()-0.5)*0.2
+                    instances[key][i].obj3d.position.z += (Math.random()-0.5)*0.2
+                    instances[key][i].obj3d.rotateY(0.01);
+                    instances[key][i].setVertexColor(0.8+Math.random() * 0.5,0.8+Math.random() * 0.5,0.8+Math.random() * 0.2,0.8+Math.random() * 0.5)
+
+                    instances[key][i].applyObj3d();
+                //    instances[key][i].setAttribXYZ('offset', Math.random()* 10, 0, Math.random()*40)
+                //    instances[key][i].setAttribXYZ('orientation', 0, 0, 0, 1)
                 }
+
             }
 
-        };
+            var mat;
+            for (var i = 0; i < materials.length; i++) {
+                mat = materials[i];
 
-        InstanceAPI.request = function(workerKey, callback) {
+                if (mat.uniforms.systemTime) {
+                    mat.uniforms.systemTime.value += tpf;
+                } else {
+                    console.log("no uniform yet...")
+                }
 
-        };
+                if (mat.uniforms.fogColor) {
+                    applyUniformEnvironmentColor(mat.uniforms.fogColor, 'fog')
+                }
 
-        InstanceAPI.buildMessage = function(protocolKey, data) {
+                if (mat.uniforms.fogDensity) {
+                    mat.uniforms.fogDensity.value = ThreeAPI.readEnvironmentUniform('fog', 'density');
+                }
 
-        };
+                if (mat.uniforms.ambientLightColor) {
+                    applyUniformEnvironmentColor(mat.uniforms.ambientLightColor, 'ambient');
+                }
 
-        InstanceAPI.callWorker = function(workerKey, msg, transfer) {
+                if (mat.uniforms.sunLightColor) {
+                    applyUniformEnvironmentColor(mat.uniforms.sunLightColor, 'sun');
+                }
+
+                if (mat.uniforms.sunLightDirection) {
+                    applyUniformEnvironmentQuaternion(mat.uniforms.sunLightDirection, 'sun');
+                }
+                mat.needsUpdate = true;
+            }
 
         };
 

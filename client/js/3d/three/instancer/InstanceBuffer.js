@@ -8,8 +8,9 @@ define([
     ) {
 
         var InstanceBuffer = function(verts, uvs, indices, normals) {
-            this.buildGeometry(verts, uvs, indices, normals);
             this.attributes = {};
+            this.buffers = {};
+           this.buildGeometry(verts, uvs, indices, normals);
         };
 
         InstanceBuffer.prototype.buildGeometry = function(verts, uvarray, indices, normals) {
@@ -33,7 +34,7 @@ define([
 
             if (normals) {
                 var normal = new THREE.BufferAttribute(normals , 3 );
-                geometry.addAttribute( 'vertexNormal', normal );
+                geometry.addAttribute( 'normal', normal );
             }
 
 
@@ -59,19 +60,49 @@ define([
 
         };
 
-
-        InstanceBuffer.prototype.addAttribute = function(name, dimensions, count, dynamic) {
+        InstanceBuffer.prototype.attachAttribute = function(name, dimensions, count, dynamic) {
             var buffer = new Float32Array(count * dimensions);
-            var attribute = new THREE.InstancedBufferAttribute(buffer, dimensions, 1).setDynamic( dynamic );
+            var attribute = new THREE.InstancedBufferAttribute(buffer, dimensions, false).setDynamic( true );
             this.geometry.addAttribute(name, attribute);
+            this.attributes[name] = attribute;
         };
 
         InstanceBuffer.prototype.applyMesh = function(mesh) {
             this.mesh = mesh;
         };
 
+        InstanceBuffer.prototype.setAttribXYZ = function(name, index, x, y, z) {
+            this.attributes[name].setXYZ( index, x, y, z);
+            this.attributes[name].needsUpdate = true;
+        };
+
+        InstanceBuffer.prototype.setAttribXYZW = function(name, index, x, y, z, w) {
+            this.attributes[name].setXYZW( index, x, y, z, w);
+            this.attributes[name].needsUpdate = true;
+        };
+
+        InstanceBuffer.prototype.setBufferVec3 = function(name, index, vec3) {
+            this.attributes[name].setXYZ( index, vec3.x, vec3.y, vec3.z );
+            this.attributes[name].needsUpdate = true;
+        };
+
+        InstanceBuffer.prototype.setBufferVec4 = function(name, index, vec4) {
+            this.attributes[name].setXYZW( index, vec4.x, vec4.y, vec4.z, vec4.w );
+            this.attributes[name].needsUpdate = true;
+        };
+
+        InstanceBuffer.prototype.setBufferValue = function(name, index, value) {
+            this.attributes[name].setX( index, value );
+            this.attributes[name].needsUpdate = true;
+        };
+
+        InstanceBuffer.prototype.setMaterial = function(material) {
+            this.mesh.material = material;;
+        };
+
         InstanceBuffer.prototype.setInstancedCount = function(count) {
             this.mesh.geometry.maxInstancedCount = count;
+            this.mesh.geometry.needsUpdate = true;
         };
 
         InstanceBuffer.prototype.dispose = function() {
@@ -94,22 +125,19 @@ define([
         };
 
 
-        InstanceBuffer.extractFirstMeshGeometry = function(child) {
+        InstanceBuffer.extractFirstMeshGeometry = function(child, buffers) {
 
             var geometry;
 
             child.traverse(function(node) {
                 if (node.type === 'Mesh') {
                     geometry = node.geometry;
-                    var verts   = geometry.attributes.position.array;
-                    var normals = geometry.attributes.normal.array;
-                    var uvs     = geometry.attributes.uv.array;
-                    var index   = geometry.index.array;
-                    return {verts:verts, indices:index, normals:normals, uvs:uvs}
+                    buffers.verts   = geometry.attributes.position.array;
+                    buffers.normals = geometry.attributes.normal.array;
+                    buffers.uvs     = geometry.attributes.uv.array;
+                    buffers.indices = geometry.index.array;
                 }
             });
-
-            console.log("No geometry found for:", child)
 
         };
 

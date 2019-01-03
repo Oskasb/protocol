@@ -26,7 +26,7 @@
         {"id": "instancing_settings" ,
           "config": {
             "instancing": {
-              "instances": 500
+              "instances": 5000
             },
             "transform": {
               "pos":   [0, 0, 0],

@@ -105,10 +105,10 @@ define([        'application/PipelineObject'],
                 props.shaders = data;
 
                 var uniforms = {
-                    systemTime: {value:0},
+                    systemTime: {value:5},
                     alphaTest:  {value:props.settings.alphaTest},
                     map:        {value:mapTexture},
-                    tiles:      {value:new THREE.Vector2(this.txSettings.tiles_x, this.txSettings.tiles_y)}
+                    tiles:      {value:new THREE.Vector2(mapTexture.userData.tiles_x, mapTexture.userData.tiles_y)}
                 };
 
                 if (props.data_texture) {
@@ -126,7 +126,7 @@ define([        'application/PipelineObject'],
                     uniforms: uniforms,
                     side: THREE.DoubleSide,
                     vertexShader: props.shaders.vertex,
-                    fragmentShader: props.shaders.fragment,
+                    fragmentShader: props.shaders.fragment
                 };
 
                 if (props.blending) {

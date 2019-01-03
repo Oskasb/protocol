@@ -37,11 +37,11 @@
           }
         },
         {
-          "id": "_instancing_nature_settings"  ,
+          "id": "instancing_nature_settings"  ,
           "config": {
             "shader": "RawShaderMaterial",
             "properties": {
-              "program": "INSTANCING_GPU_GEOMETRY",
+              "program": "GEOMETRY_INSTANCING_STANDARD",
               "blending": "NoBlending",
               "global_uniforms":{
                 "fogDensity": { "value": 0.00025 },
@@ -52,20 +52,14 @@
               },
               "data_texture": "data_texture",
               "side": "DoubleSide",
-              "color": {  "r": 1,  "g": 1, "b": 1 },
               "settings": {
-                "alphaTest": 0.5,
-                "shininess": 0.1,
-                "reflectivity": 0.4,
-                "aoMapIntensity": 0.5,
-                "lightMapIntensity": 1,
-                "emissiveIntensity": 1
+                "alphaTest": 0.5
               }
             }
           }
         },
         {
-          "id": "instancing_nature_settings"  ,
+          "id": "phong_nature_settings"  ,
           "config": {
             "shader": "MeshPhongMaterial",
             "properties": {

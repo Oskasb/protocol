@@ -6,12 +6,14 @@ define([
         'application/ExpandingPool',
         'client/js/workers/main/ui/GuiBuffers',
         'client/js/workers/main/ui/systems/InputSystem',
+        'client/js/workers/main/ui/systems/TextSystem',
         'client/js/workers/main/ui/elements/GuiBufferElement'
     ],
     function(
         ExpandingPool,
         GuiBuffers,
         InputSystem,
+        TextSystem,
         GuiBufferElement
     ) {
 
@@ -25,6 +27,10 @@ define([
         var elementPools = {};
 
         var inputSystem;
+        var textSystem;
+
+        var uiSysKey = 'ui_main';
+        var txtSysKey = 'ui_txt';
 
         var guiUpdateCallbacks = [];
         var inputUpdateCallbacks = [];
@@ -42,20 +48,29 @@ define([
 
         };
 
+        var addUiSystem = function(sysKey, assetName, poolSize) {
 
-        GuiAPI.initGuiApi = function() {
-            var uiSysKey = 'ui_main';
-            guiBuffers[uiSysKey] = new GuiBuffers(uiSysKey, "asset_nineQuad", 5000);
-            inputSystem = new InputSystem(uiSysKey);
-
+            guiBuffers[sysKey] = new GuiBuffers(sysKey, assetName, poolSize);
 
             var addElement = function(sysKey, callback) {
                 var element = new GuiBufferElement();
-                element.initGuiBufferElement(guiBuffers[sysKey]);
                 callback(sysKey, element)
             };
 
-            elementPools[uiSysKey] = new ExpandingPool(uiSysKey, addElement)
+            elementPools[sysKey] = new ExpandingPool(sysKey, addElement);
+
+        };
+
+
+        GuiAPI.initGuiApi = function() {
+
+
+
+            addUiSystem(uiSysKey,   "asset_nineQuad",   2500);
+            addUiSystem(txtSysKey,  "asset_letterQuad", 4000);
+
+            inputSystem = new InputSystem(uiSysKey);
+            textSystem = new TextSystem();
 
         };
 
@@ -177,6 +192,15 @@ define([
             }
         };
 
+        var dymmy2 = function() {
+
+        }
+
+        var dummyCb = function(element) {
+            textSystem.addTextElement( element);
+            element.drawTextString(txtSysKey,"txxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", dymmy2)
+        }
+
         GuiAPI.updateGui = function(INPUT_BUFFER) {
             updateBufferIndices();
             updateInput(INPUT_BUFFER);
@@ -187,6 +211,9 @@ define([
             for (i = 0; i < guiUpdateCallbacks.length; i++) {
                 guiUpdateCallbacks[i]();
             }
+
+
+            textSystem.buildTextElement(dummyCb)
 
         };
 

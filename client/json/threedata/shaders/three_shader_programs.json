@@ -729,10 +729,9 @@
 
           "vUv = scaledUv + tileOffset;",
 
-          "vPosition.x = vPosition.x * (1.0 * scale3d.x);",
-          "vPosition.y = vPosition.y * (1.0 * scale3d.y);",
-          "vPosition.z = vPosition.z * (1.0 * scale3d.z) - zHideFactor;",
-
+          "vPosition.x = vPosition.x * (1.0 * scale3d.x) - zHideFactor*0.01;",
+          "vPosition.y = vPosition.y * (1.0 * scale3d.y) + zHideFactor*0.01;",
+          "vPosition.z = vPosition.z * (1.0 * scale3d.z) - zHideFactor*0.3;",
 
           "vColor = vertexColor;",
 

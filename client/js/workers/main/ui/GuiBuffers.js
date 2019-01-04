@@ -35,6 +35,7 @@ define([
         ];
 
         var GuiBuffers = function(uiSysKey, assetId, elementCount) {
+            this.highestRenderingIndex = 0;
             this.uiSysKey = uiSysKey;
             this.assetId = assetId;
             this.buffers = {};
@@ -128,6 +129,7 @@ define([
             while (this.removes.length) {
                 element = this.removes.pop();
                 this.recoverElement(element);
+                this.spliceElement(element);
                 this.releasedElements.splice(this.releasedElements.indexOf(element), 1)
             }
 
@@ -150,50 +152,82 @@ define([
 
         GuiBuffers.prototype.recoverElement = function(guiElement) {
             this.returnAvailableIndex(guiElement.index);
+        };
+
+        GuiBuffers.prototype.spliceElement = function(guiElement) {
             this.activeElements.splice(this.activeElements.indexOf(guiElement), 1);
         };
 
-
         var currentDrawRange;
 
-        GuiBuffers.prototype.getCurrentDrawRange = function() {
+        GuiBuffers.prototype.bufferRangeOk = function() {
             buffer = this.buffers['offset'];
-            return buffer[buffer.length-3];
-        };
+            currentDrawRange = buffer[buffer.length-3];
 
-        GuiBuffers.prototype.updateDrawRange = function(testIndex) {
-
-            currentDrawRange = this.getCurrentDrawRange();
-            if (currentDrawRange < testIndex) {
-                buffer[buffer.length-3] = testIndex;
+            if (Math.floor(currentDrawRange) !== currentDrawRange) {
+                console.log("Buffer not int!", currentDrawRange,  buffer)
+                return
             }
 
+            if (this.highestRenderingIndex > (buffer.length-3) / 3) {
+                console.log("Buffer out of draw range...")
+                return
+            }
+            return true
         };
 
+
+        GuiBuffers.prototype.updateDrawRange = function() {
+
+            buffer = this.buffers['offset'];
+            buffer[buffer.length-3] = this.highestRenderingIndex+1;
+
+        };
+
+
         GuiBuffers.prototype.returnAvailableIndex = function(idx) {
-            this.availableIndex.unshift(idx);
+            this.availableIndex.push(idx);
+
+            if (!this.activeElements.length) {
+                this.highestRenderingIndex = -1;
+                this.updateDrawRange();
+            }
         };
 
         var availableIndex;
 
-        GuiBuffers.prototype.getAvailableIndex = function() {
+        GuiBuffers.prototype.drawFromAvailableIndex = function() {
 
-            availableIndex = this.availableIndex.pop();
-
-            if (typeof(availableIndex) !== 'number') {
-                availableIndex = this.getCurrentDrawRange()
+            if (this.availableIndex.length) {
+                return this.availableIndex.shift();
             }
 
-            this.updateDrawRange(availableIndex+1);
+            return this.highestRenderingIndex+1;
+        };
+
+
+        GuiBuffers.prototype.getAvailableIndex = function() {
+
+            availableIndex = this.drawFromAvailableIndex();
+
+        //    console.log(availableIndex)
+
+            if (availableIndex > this.highestRenderingIndex) {
+
+                if (!this.bufferRangeOk()) {
+                    return false;
+                }
+
+                this.highestRenderingIndex = availableIndex;
+                this.updateDrawRange();
+            }
+
             return availableIndex;
         };
 
 
         GuiBuffers.prototype.registerElement = function(guiElement) {
-
             this.activeElements.push(guiElement);
-            return this.getAvailableIndex()
-
         };
 
         return GuiBuffers;

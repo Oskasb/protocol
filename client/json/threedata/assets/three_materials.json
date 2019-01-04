@@ -54,6 +54,16 @@
           }
         },
         {
+          "id":"material_instancing_font",
+          "config":{
+            "settings": "instancing_ui_settings",
+            "textures":[
+              {"key":"map"           , "id":"fontatlas"  },
+              {"key":"data_texture"  , "id":"data_texture"   }
+            ]
+          }
+        },
+        {
           "id":"material_glass",
           "config":{
             "settings": "glass_settings",

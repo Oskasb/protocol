@@ -14,7 +14,6 @@ define([
         GuiBufferElement.prototype.initGuiBufferElement = function(guiBuffers) {
             this.guiBuffers = guiBuffers;
             this.index = this.guiBuffers.getAvailableIndex();
-            if (!this.index) return;
             this.guiBuffers.registerElement(this);
 
             this.rgba =     {r:1, g:1, b:1, a:1};
@@ -66,8 +65,8 @@ define([
             this.guiBuffers.setAttribXYZW('lifecycle', this.index, xyzw.x, xyzw.y, xyzw.z, xyzw.w)
         };
 
-        GuiBufferElement.prototype.endLifecycleNow = function() {
-            this.lifecycle.z = this.guiBuffers.getSystemTime();
+        GuiBufferElement.prototype.endLifecycleNow = function(systemTime) {
+            this.lifecycle.z = systemTime;
             this.setLifecycle(this.lifecycle);
         };
 
@@ -85,9 +84,9 @@ define([
             this.guiBuffers.setElementReleased(this);
         };
 
-        GuiBufferElement.prototype.testLifetimeIsOver = function() {
+        GuiBufferElement.prototype.testLifetimeIsOver = function(systemTime) {
 
-            if ((this.lifecycle.z + this.lifecycle.w) < this.guiBuffers.getSystemTime()) {
+            if ((this.lifecycle.z + this.lifecycle.w) < systemTime) {
                 return true;
             }
 

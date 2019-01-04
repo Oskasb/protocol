@@ -36,12 +36,18 @@ define([
 
         var GuiBuffers = function(uiSysKey, assetId, elementCount) {
             this.highestRenderingIndex = 0;
+            this.activeCount = 0;
+
+            this.elementBook = [];
+            this.elementBook[ENUMS.IndexState.INDEX_BOOKED] = [];
+            this.elementBook[ENUMS.IndexState.INDEX_RELEASING] = [];
+            this.elementBook[ENUMS.IndexState.INDEX_FRAME_CLEANUP] = [];
+            this.elementBook[ENUMS.IndexState.INDEX_AVAILABLE] = [];
+
+
             this.uiSysKey = uiSysKey;
             this.assetId = assetId;
             this.buffers = {};
-            this.releasedElements = [];
-            this.removes = [];
-            this.availableIndex = [];
             this.activeElements = [];
             this.needsUpdate = false;
             this.initAttributeBuffers(elementCount);
@@ -117,46 +123,42 @@ define([
         var element;
         var i;
 
+        var elemIndex;
+
         GuiBuffers.prototype.updateGuiBuffer = function() {
 
-            for (i = 0; i < this.releasedElements.length; i++) {
-                element = this.releasedElements[i];
-                if (element.testLifetimeIsOver()) {
-                    this.removes.push(element);
+            var releasedIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
+
+            while (releasedIndices.length) {
+                elemIndex = releasedIndices.pop();
+                element = this.activeElements[elemIndex];
+                if (element.testLifetimeIsOver(this.getSystemTime())) {
+                    this.activeCount--;
+                    this.setIndexBookState(elemIndex, ENUMS.IndexState.INDEX_AVAILABLE);
+                } else {
+                    this.setIndexBookState(elemIndex, ENUMS.IndexState.INDEX_FRAME_CLEANUP);
                 }
             }
 
-            while (this.removes.length) {
-                element = this.removes.pop();
-                this.recoverElement(element);
-                this.spliceElement(element);
-                this.releasedElements.splice(this.releasedElements.indexOf(element), 1)
+            var cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
+
+            while (cleanupIndices.length) {
+                elemIndex = cleanupIndices.pop();
+                this.setIndexBookState(elemIndex, ENUMS.IndexState.INDEX_RELEASING);
             }
 
-        //    if (!this.needsUpdate) return;
-/*
-            for (var i = 0;i < this.activeElements.length; i++) {
-                this.activeElements[i].setIndex(i);
+            if (!this.activeCount) {
+                this.highestRenderingIndex = -1;
+                this.updateDrawRange();
             }
-*/
 
-        //    this.updateDrawRange();
         };
-
-
 
         GuiBuffers.prototype.setElementReleased = function(guiElement) {
-            guiElement.endLifecycleNow();
-            this.releasedElements.push(guiElement);
+            guiElement.endLifecycleNow(this.getSystemTime());
+            this.setIndexBookState(guiElement.index, ENUMS.IndexState.INDEX_RELEASING);
         };
 
-        GuiBuffers.prototype.recoverElement = function(guiElement) {
-            this.returnAvailableIndex(guiElement.index);
-        };
-
-        GuiBuffers.prototype.spliceElement = function(guiElement) {
-            this.activeElements.splice(this.activeElements.indexOf(guiElement), 1);
-        };
 
         var currentDrawRange;
 
@@ -165,7 +167,7 @@ define([
             currentDrawRange = buffer[buffer.length-3];
 
             if (Math.floor(currentDrawRange) !== currentDrawRange) {
-                console.log("Buffer not int!", currentDrawRange,  buffer)
+                console.log("Buffer not int!", currentDrawRange,  buffer);
                 return
             }
 
@@ -185,26 +187,16 @@ define([
         };
 
 
-        GuiBuffers.prototype.returnAvailableIndex = function(idx) {
-            this.availableIndex.push(idx);
-
-            if (!this.activeElements.length) {
-                this.highestRenderingIndex = -1;
-                this.updateDrawRange();
-            }
-        };
-
-        var availableIndex;
-
         GuiBuffers.prototype.drawFromAvailableIndex = function() {
 
-            if (this.availableIndex.length) {
-                return this.availableIndex.shift();
+            if (this.getBookState(ENUMS.IndexState.INDEX_AVAILABLE).length) {
+                return this.getBookState(ENUMS.IndexState.INDEX_AVAILABLE).shift();
             }
 
             return this.highestRenderingIndex+1;
         };
 
+        var availableIndex;
 
         GuiBuffers.prototype.getAvailableIndex = function() {
 
@@ -225,9 +217,17 @@ define([
             return availableIndex;
         };
 
+        GuiBuffers.prototype.setIndexBookState = function(index, state) {
+            this.elementBook[state].push(index);
+        };
+
+        GuiBuffers.prototype.getBookState = function(state) {
+            return this.elementBook[state];
+        };
 
         GuiBuffers.prototype.registerElement = function(guiElement) {
-            this.activeElements.push(guiElement);
+            this.activeCount++;
+            this.activeElements[guiElement.index] = guiElement;
         };
 
         return GuiBuffers;

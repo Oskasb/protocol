@@ -159,6 +159,13 @@ if(typeof(ENUMS) === "undefined"){
         DECOMISSION:        5
     };
 
+    ENUMS.IndexState = {
+        INDEX_BOOKED:       0,
+        INDEX_RELEASING:    1,
+        INDEX_FRAME_CLEANUP:2,
+        INDEX_AVAILABLE:    3
+    };
+
     ENUMS.DynamicBone = {
         BONE_INDEX:         0,
         HAS_UPDATE:         1,

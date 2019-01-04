@@ -198,7 +198,7 @@ define([
 
         var dummyCb = function(element) {
             textSystem.addTextElement( element);
-            element.drawTextString(txtSysKey,"txxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", dymmy2)
+            element.drawTextString(txtSysKey,"txxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", dymmy2)
         }
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {

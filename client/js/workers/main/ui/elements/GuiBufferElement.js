@@ -20,7 +20,7 @@ define([
             this.quat =     {x:0, y:0, z:0, w:1};
             this.sprite =   {x:7, y:0, z:0.06, w:0.06};// z for nineslice expand y, w for expand x (x = width 2d)
 
-            this.lifecycle = {x:1, y:1, z:1, w:1}; // x = startTime, y = attackTime, z = endTime, w = decayTime
+            this.lifecycle = {x:0, y:0.3, z:0, w:0.2}; // x = startTime, y = attackTime, z = endTime, w = decayTime
             this.setDefaultBuffers();
 
         };

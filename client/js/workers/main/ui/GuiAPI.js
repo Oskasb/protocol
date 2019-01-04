@@ -41,10 +41,15 @@ define([
 
         GuiAPI.initGuiApi = function() {
             var uiSysKey = 'ui_main';
-            guiBuffers[uiSysKey] = new GuiBuffers(uiSysKey, "asset_cross3d", 5000);
+            guiBuffers[uiSysKey] = new GuiBuffers(uiSysKey, "asset_nineQuad", 5000);
             inputSystem = new InputSystem(uiSysKey)
         };
 
+        var updateBufferIndices = function() {
+            for (var key in guiBuffers) {
+                guiBuffers[key].updateIndices()
+            }
+        };
 
         GuiAPI.buildBufferElement = function(guiSysId) {
             return new GuiBufferElement(guiBuffers[guiSysId]);
@@ -152,6 +157,7 @@ define([
         };
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {
+            updateBufferIndices();
             updateInput(INPUT_BUFFER);
             for (var i = 0; i < guiSystems.length; i++) {
                 guiSystems[i].updateGuiSystem();

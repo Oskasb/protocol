@@ -17,6 +17,8 @@ define([
             "duration"       : { "dimensions":1, "dynamic":false},
             "texelRowSelect" : { "dimensions":4, "dynamic":false},
             "tileindex"      : { "dimensions":2                 },
+            "sprite"         : { "dimensions":4, "dynamic":false},
+            "lifecycle"      : { "dimensions":4, "dynamic":false},
             "diffusors"      : { "dimensions":4, "dynamic":false},
             "vertexColor"    : { "dimensions":4, "dynamic":false},
             "scale3d"        : { "dimensions":3, "dynamic":false},
@@ -27,8 +29,9 @@ define([
             "offset",
             "scale3d",
             "vertexColor",
-            "tileindex",
-            "orientation"
+            "orientation",
+            "sprite",
+            "lifecycle"
         ];
 
         var GuiBuffers = function(uiSysKey, assetId, elementCount) {
@@ -37,6 +40,7 @@ define([
             this.buffers = {};
             this.dormantElements = [];
             this.activeElements = [];
+            this.needsUpdate = false;
             this.initAttributeBuffers(elementCount);
         };
 
@@ -94,8 +98,7 @@ define([
             buffer[idx] = x;
             buffer[idx+1] = y;
             buffer[idx+2] = z;
-            buffer[idx+3] = z;
-            buffer[idx+4] = w;
+            buffer[idx+3] = w;
             this.setUpdated(buffer);
         };
 
@@ -105,17 +108,38 @@ define([
             buffer[buffer.length-1] = 1
         };
 
-        GuiBuffers.prototype.recoverElement = function(guiElement) {
+        GuiBuffers.prototype.updateIndices = function() {
 
-            this.dormantElements.push(guiElement);
+            if (!this.needsUpdate) return;
+
+            for (var i = 0;i < this.activeElements.length; i++) {
+                this.activeElements[i].setIndex(i);
+            }
+            this.updateDrawRange();
+            this.needsUpdate = false;
+        };
+
+        GuiBuffers.prototype.getSystemTime = function() {
+            buffer = this.buffers['offset'];
+            return buffer[buffer.length - 2];
+        };
+
+        GuiBuffers.prototype.recoverElement = function(guiElement) {
+            this.needsUpdate = true;
+            this.activeElements.splice(this.activeElements.indexOf(guiElement), 1);
+
+        };
+
+        GuiBuffers.prototype.updateDrawRange = function() {
+            buffer = this.buffers['offset'];
+            buffer[buffer.length-3] = this.activeElements.length;
 
         };
 
         GuiBuffers.prototype.registerElement = function(guiElement) {
 
             this.activeElements.push(guiElement);
-            buffer = this.buffers['offset'];
-            buffer[buffer.length-3] = this.activeElements.length;
+            this.updateDrawRange();
             return this.activeElements.length-1;
 
         };

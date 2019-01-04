@@ -77,7 +77,7 @@
           "config": {
             "instancing": {
               "instances": 1,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "lifecycle" ],
               "cameraspace": true
             },
             "transform": {

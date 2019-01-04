@@ -42,6 +42,10 @@ define([
             this.bufferElement.setPositionVec3(vec3)
         };
 
+        GuiPointer.prototype.releasePointer = function() {
+            this.bufferElement.endLifecycleNow()
+        };
+
         GuiPointer.prototype.setPointerScale = function(vec3) {
             this.bufferElement.setScaleVec3(vec3)
         };

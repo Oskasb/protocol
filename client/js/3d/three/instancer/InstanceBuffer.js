@@ -133,7 +133,9 @@ define([
         var value;
         var drawRange;
         var instanceCount;
-        InstanceBuffer.prototype.updateBufferStates = function() {
+        InstanceBuffer.prototype.updateBufferStates = function(systemTime) {
+
+            this.setSystemTime(systemTime);
 
             for (var key in this.buffers) {
                 buffer = this.buffers[key];
@@ -144,7 +146,6 @@ define([
                 }
 
                 if (buffer[lastIndex]) {
-                    buffer[lastIndex-1] = value;
                     buffer[lastIndex] = 0;
                     this.attributes[key].needsUpdate = true;
                 }
@@ -152,6 +153,12 @@ define([
 
             return drawRange;
         };
+
+        InstanceBuffer.prototype.setSystemTime = function(systemTime) {
+            buffer = this.buffers['offset'];
+            buffer[buffer.length - 2] = systemTime;
+        };
+
 
 
         InstanceBuffer.prototype.removeFromScene = function() {

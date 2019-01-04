@@ -105,7 +105,7 @@ define([        'application/PipelineObject'],
                 props.shaders = data;
 
                 var uniforms = {
-                    systemTime: {value:5},
+                    systemTime: {value:0},
                     alphaTest:  {value:props.settings.alphaTest},
                     map:        {value:mapTexture},
                     tiles:      {value:new THREE.Vector2(mapTexture.userData.tiles_x, mapTexture.userData.tiles_y)}

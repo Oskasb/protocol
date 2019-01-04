@@ -7,26 +7,40 @@ define([
 
     ) {
 
-    var baseObj3d = new THREE.Object3D();
-
-    var pos = baseObj3d.position;
-    var scale = baseObj3d.scale;
-    var quat = baseObj3d.quaternion;
-    var rgba = {r:1, g:1, b:1, a:1};
-
         var GuiBufferElement = function(guiBuffers) {
-            this.guiBuffers = guiBuffers;
-            this.index = this.guiBuffers.registerElement(this);
-            this.setDefaultBuffers()
+            this.initGuiBufferElement(guiBuffers)
         };
 
+        GuiBufferElement.prototype.initGuiBufferElement = function(guiBuffers) {
+            this.guiBuffers = guiBuffers;
+            this.index = this.guiBuffers.registerElement(this);
+            this.rgba =     {r:1, g:1, b:1, a:1};
+            this.pos =      {x:0, y:0, z:0};
+            this.scale =    {x:1, y:1, z:1};
+            this.quat =     {x:0, y:0, z:0, w:1};
+            this.sprite =   {x:7, y:0, z:0.06, w:0.06};// z for nineslice expand y, w for expand x (x = width 2d)
+
+            this.lifecycle = {x:1, y:1, z:1, w:1}; // x = startTime, y = attackTime, z = endTime, w = decayTime
+            this.setDefaultBuffers();
+
+        };
+
+        GuiBufferElement.prototype.setIndex = function(index) {
+            this.index = index;
+        };
 
         GuiBufferElement.prototype.setAttribX = function(name, index, x) {
 
         };
 
-        GuiBufferElement.prototype.setAttribXY = function(name, index, x, y) {
+        GuiBufferElement.prototype.setTileXY = function(xy) {
+            this.sprite.x = xy.x;
+            this.sprite.y = xy.y;
+            this.setSprite(this.sprite);
+        };
 
+        GuiBufferElement.prototype.setSprite = function(xyzw) {
+            this.guiBuffers.setAttribXYZW('sprite', this.index, xyzw.x, xyzw.y, xyzw.z, xyzw.w)
         };
 
         GuiBufferElement.prototype.setPositionVec3 = function(vec3) {
@@ -45,15 +59,23 @@ define([
             this.guiBuffers.setAttribXYZW('vertexColor', this.index, color.r, color.g, color.b, color.a)
         };
 
-        GuiBufferElement.prototype.setAttribXY = function(name, index, x, y) {
+        GuiBufferElement.prototype.setLifecycle = function(xyzw) {
+            this.guiBuffers.setAttribXYZW('lifecycle', this.index, xyzw.x, xyzw.y, xyzw.z, xyzw.w)
+        };
 
+        GuiBufferElement.prototype.endLifecycleNow = function() {
+            this.lifecycle.z = this.guiBuffers.getSystemTime();
+            this.setLifecycle(this.lifecycle);
         };
 
         GuiBufferElement.prototype.setDefaultBuffers = function() {
-            this.setPositionVec3(pos);
-            this.setScaleVec3(scale);
-            this.setQuat(quat);
-            this.setColorRGBA(rgba)
+            this.setPositionVec3(this.pos);
+            this.setScaleVec3(this.scale);
+            this.setQuat(this.quat);
+            this.setColorRGBA(this.rgba);
+            this.setSprite(this.sprite);
+            this.lifecycle.x = this.guiBuffers.getSystemTime();
+            this.setLifecycle(this.lifecycle);
         };
 
         GuiBufferElement.prototype.deactivateElement = function() {

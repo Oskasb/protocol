@@ -17,12 +17,16 @@ define([
 
         var uiSystems = {};
 
+        var systemTime = 0;
+
         var attributes = {
             "startTime"      : { "dimensions":1, "dynamic":true },
             "duration"       : { "dimensions":1, "dynamic":false},
             "offset"         : { "dimensions":3, "dynamic":false},
             "texelRowSelect" : { "dimensions":4, "dynamic":false},
+            "lifecycle"      : { "dimensions":4, "dynamic":false},
             "tileindex"      : { "dimensions":2                 },
+            "sprite"         : { "dimensions":4, "dynamic":false},
             "diffusors"      : { "dimensions":4, "dynamic":false},
             "vertexColor"    : { "dimensions":4, "dynamic":false},
             "scale3d"        : { "dimensions":3, "dynamic":false},
@@ -96,7 +100,7 @@ define([
 
         var updateUiSystemBuffers = function(instanceBuffers) {
 
-            instanceBuffers.setInstancedCount(instanceBuffers.updateBufferStates());
+            instanceBuffers.setInstancedCount(instanceBuffers.updateBufferStates(systemTime));
         };
 
         var color;
@@ -122,6 +126,8 @@ define([
 
         InstanceAPI.updateInstances = function(tpf) {
 
+            systemTime += tpf;
+
             for (var key in uiSystems) {
                 for (i = 0; i < uiSystems[key].length; i++) {
                     updateUiSystemBuffers(uiSystems[key][i])
@@ -133,7 +139,7 @@ define([
                 mat = materials[i];
 
                 if (mat.uniforms.systemTime) {
-                    mat.uniforms.systemTime.value += tpf;
+                    mat.uniforms.systemTime.value = systemTime;
                 } else {
                     console.log("no uniform yet...")
                 }

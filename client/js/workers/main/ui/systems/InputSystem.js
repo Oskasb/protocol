@@ -14,6 +14,7 @@ define([
         var tempVec1 = new THREE.Vector3();
 
         var pointers = [];
+        var pointerBuffer = []
         var pointer;
 
         var uiSysId;
@@ -41,7 +42,7 @@ define([
                 tempVec1.x =  inputBuffer[startIndex+ ENUMS.InputState.MOUSE_X] //+ inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_X] ;
                 tempVec1.y =  inputBuffer[startIndex+ ENUMS.InputState.MOUSE_Y] //+ inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_Y] ;
                 tempVec1.z = -1 // (Math.random()-0.5 ) * 5 //;
-                
+
                 if (!pointers[inputIndex]) {
                     pointers[inputIndex] = new GuiPointer(GuiAPI.buildBufferElement(uiSysId));
                 //    GuiAPI.addInputUpdateCallback(pointers[inputIndex].callbacks.onMove);
@@ -54,7 +55,9 @@ define([
                 if (pointers[inputIndex]) {
                     pointer = pointers[inputIndex];
                 //    GuiAPI.removeInputUpdateCallback(pointers[inputIndex].callbacks.onMove);
-                    pointer.bufferElement.deactivateElement();
+                    pointerBuffer.push(pointer);
+
+                    pointer.releasePointer();
                     pointers[inputIndex] = null;
                 }
 

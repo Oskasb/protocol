@@ -333,9 +333,6 @@
           "quat.w=sqrt(2.0 +  dot(frameVel, zAxis));",
 
 
-
-
-
           "vec4 modelPosition =  vec4(vPosition.xyz + velocityOffset, 1.0);",
 
           "vec4 finalVpos = projectionMatrix * modelViewMatrix * vec4( velocityOffset + vPosition, 1.0 );"
@@ -579,6 +576,7 @@
           "gl_FragColor = vec4( color * vColor, 1.0 );",
           "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );"
         ],
+
         "vertexGeometryInstancing": [
           "precision highp float;",
           "uniform mat4 modelViewMatrix;",
@@ -608,9 +606,6 @@
           "varying float vFragDepth;",
 
 
-          "vec3 applyQuaternionToVector( vec4 q, vec3 v ){;",
-            "return v + 2.0 * cross( q.xyz, cross( q.xyz, v ) + q.w * v );",
-          "}",
 
           "void main(){",
             "vec3 vPosition = vertexPosition.xzy;",
@@ -671,6 +666,91 @@
             "if (finalColor.a <= alphaTest) discard;",
 
             "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
+
+          "}",
+          ""
+
+        ],
+
+        "vertexGuiInstancing": [
+          "precision highp float;",
+          "uniform mat4 modelViewMatrix;",
+          "uniform mat4 projectionMatrix;",
+
+          "attribute vec3 vertexPosition;",
+          "attribute vec3 normal;",
+          "attribute vec3 offset;",
+          "attribute vec3 scale3d;",
+          "attribute vec2 uv;",
+          "attribute vec4 sprite;",
+          "attribute vec4 lifecycle;",
+
+          "uniform float systemTime;",
+          "uniform vec2 tiles;",
+          "varying vec2 tileOffset;",
+
+          "attribute vec4 vertexColor;",
+          "varying vec4 vColor;",
+
+          "varying vec2 vUv;",
+          "attribute vec4 orientation;",
+
+
+          "void main(){",
+
+          "float startTime = lifecycle.x;",
+          "float effectAge = systemTime - startTime;",
+
+
+          "vec3 vPosition = vertexPosition.xzy;",
+          "vPosition.y = vPosition.y - sign(uv.y - 0.5) * sprite.z * sin(effectAge);",
+          "vPosition.x = vPosition.x + sign(uv.x - 0.5) * sprite.w * sin(effectAge);",
+
+          "vec3 vcV = cross(orientation.xyz, vPosition);",
+          "vPosition = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + vPosition);",
+
+
+          "vec2 tileScale = 1.0/tiles;",
+
+          "vec2 tileOffset = vec2(sprite.x * tileScale.x, (tiles.y-1.0 - sprite.y) * sprite.y);",
+
+          "vec2 scaledUv = uv*tileScale;",
+
+          "vUv = scaledUv + tileOffset;",
+
+          "vPosition.x = vPosition.x * (1.0 * scale3d.x);",
+          "vPosition.y = vPosition.y * (1.0 * scale3d.y);",
+          "vPosition.z = vPosition.z * (1.0 * scale3d.z);",
+
+
+          "vColor = vertexColor;",
+
+          "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",
+
+          "}",
+          ""
+        ],
+
+        "fragmentGuiInstancing":[
+          "precision highp float;",
+
+          "uniform float alphaTest;",
+
+          "uniform sampler2D map;",
+
+          "varying vec2 vUv;",
+
+          "varying vec4 vColor;",
+
+          "void main(){",
+
+
+          "vec4 txColor = texture2D( map, vUv);",
+
+          "vec4 finalColor = txColor * vColor;",
+          "if (finalColor.a <= alphaTest) discard;",
+
+          "gl_FragColor = finalColor;",
 
           "}",
           ""

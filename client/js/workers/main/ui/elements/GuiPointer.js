@@ -7,34 +7,8 @@ define([
 
     ) {
 
-        var startIndex;
-        var inputIndex;
-        var inputBuffer;
-        var tempVec1 = new THREE.Vector3();
-
         var GuiPointer = function(element) {
-
             this.bufferElement = element;
-
-            var onMove = function(input, buffer) {
-                inputIndex = input;
-
-                startIndex = input * ENUMS.InputState.BUFFER_SIZE;
-
-                inputBuffer = buffer;
-
-                    tempVec1.x =  inputBuffer[startIndex+ ENUMS.InputState.MOUSE_X] // inputBuffer[startIndex+ ENUMS.InputState.VIEW_WIDTH] ;
-                    tempVec1.y =  inputBuffer[startIndex+ ENUMS.InputState.MOUSE_Y] // inputBuffer[startIndex+ ENUMS.InputState.VIEW_HEIGHT] ;
-                    tempVec1.z =  1 // (Math.random()-0.5 ) * 5 //;
-
-                    this.setPointerPosition(tempVec1)
-
-            }.bind(this);
-
-            this.callbacks = {
-                onMove:onMove
-            }
-
         };
 
 
@@ -43,7 +17,7 @@ define([
         };
 
         GuiPointer.prototype.releasePointer = function() {
-            this.bufferElement.endLifecycleNow()
+            this.bufferElement.releaseElement()
         };
 
         GuiPointer.prototype.setPointerScale = function(vec3) {

@@ -44,19 +44,24 @@ define([
                 tempVec1.z = -1 // (Math.random()-0.5 ) * 5 //;
 
                 if (!pointers[inputIndex]) {
-                    pointers[inputIndex] = new GuiPointer(GuiAPI.buildBufferElement(uiSysId));
-                //    GuiAPI.addInputUpdateCallback(pointers[inputIndex].callbacks.onMove);
+
+                    var addPointer = function(bufferElem) {
+                        pointers[inputIndex] = new GuiPointer(bufferElem);
+                    };
+                    pointers[inputIndex] = true;
+                    GuiAPI.buildBufferElement(uiSysId, addPointer)
+
+                } else {
+
+                    pointer = pointers[inputIndex];
+                    pointer.setPointerPosition(tempVec1)
+
                 }
-                pointer = pointers[inputIndex];
-                pointer.setPointerPosition(tempVec1)
 
             } else {
 
                 if (pointers[inputIndex]) {
                     pointer = pointers[inputIndex];
-                //    GuiAPI.removeInputUpdateCallback(pointers[inputIndex].callbacks.onMove);
-                    pointerBuffer.push(pointer);
-
                     pointer.releasePointer();
                     pointers[inputIndex] = null;
                 }

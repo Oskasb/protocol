@@ -38,7 +38,9 @@ define([
             this.uiSysKey = uiSysKey;
             this.assetId = assetId;
             this.buffers = {};
-            this.dormantElements = [];
+            this.releasedElements = [];
+            this.removes = [];
+            this.availableIndex = [];
             this.activeElements = [];
             this.needsUpdate = false;
             this.initAttributeBuffers(elementCount);
@@ -102,45 +104,95 @@ define([
             this.setUpdated(buffer);
         };
 
-
-
-        GuiBuffers.prototype.setUpdated = function(buffer) {
-            buffer[buffer.length-1] = 1
-        };
-
-        GuiBuffers.prototype.updateIndices = function() {
-
-            if (!this.needsUpdate) return;
-
-            for (var i = 0;i < this.activeElements.length; i++) {
-                this.activeElements[i].setIndex(i);
-            }
-            this.updateDrawRange();
-            this.needsUpdate = false;
-        };
-
         GuiBuffers.prototype.getSystemTime = function() {
             buffer = this.buffers['offset'];
             return buffer[buffer.length - 2];
         };
 
+        GuiBuffers.prototype.setUpdated = function(buffer) {
+            buffer[buffer.length-1] = 1
+        };
+
+        var element;
+        var i;
+
+        GuiBuffers.prototype.updateGuiBuffer = function() {
+
+            for (i = 0; i < this.releasedElements.length; i++) {
+                element = this.releasedElements[i];
+                if (element.testLifetimeIsOver()) {
+                    this.removes.push(element);
+                }
+            }
+
+            while (this.removes.length) {
+                element = this.removes.pop();
+                this.recoverElement(element);
+                this.releasedElements.splice(this.releasedElements.indexOf(element), 1)
+            }
+
+        //    if (!this.needsUpdate) return;
+/*
+            for (var i = 0;i < this.activeElements.length; i++) {
+                this.activeElements[i].setIndex(i);
+            }
+*/
+
+        //    this.updateDrawRange();
+        };
+
+
+
+        GuiBuffers.prototype.setElementReleased = function(guiElement) {
+            guiElement.endLifecycleNow();
+            this.releasedElements.push(guiElement);
+        };
+
         GuiBuffers.prototype.recoverElement = function(guiElement) {
-            this.needsUpdate = true;
+            this.returnAvailableIndex(guiElement.index);
             this.activeElements.splice(this.activeElements.indexOf(guiElement), 1);
-
         };
 
-        GuiBuffers.prototype.updateDrawRange = function() {
+
+        var currentDrawRange;
+
+        GuiBuffers.prototype.getCurrentDrawRange = function() {
             buffer = this.buffers['offset'];
-            buffer[buffer.length-3] = this.activeElements.length;
+            return buffer[buffer.length-3];
+        };
+
+        GuiBuffers.prototype.updateDrawRange = function(testIndex) {
+
+            currentDrawRange = this.getCurrentDrawRange();
+            if (currentDrawRange < testIndex) {
+                buffer[buffer.length-3] = testIndex;
+            }
 
         };
+
+        GuiBuffers.prototype.returnAvailableIndex = function(idx) {
+            this.availableIndex.unshift(idx);
+        };
+
+        var availableIndex;
+
+        GuiBuffers.prototype.getAvailableIndex = function() {
+
+            availableIndex = this.availableIndex.pop();
+
+            if (typeof(availableIndex) !== 'number') {
+                availableIndex = this.getCurrentDrawRange()
+            }
+
+            this.updateDrawRange(availableIndex+1);
+            return availableIndex;
+        };
+
 
         GuiBuffers.prototype.registerElement = function(guiElement) {
 
             this.activeElements.push(guiElement);
-            this.updateDrawRange();
-            return this.activeElements.length-1;
+            return this.getAvailableIndex()
 
         };
 

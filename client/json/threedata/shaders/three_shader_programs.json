@@ -705,12 +705,13 @@
 
           "float isPreEnd = max(sign(endTime - startTime), 0.0);",
 
-          "float decayTime = min(systemTime - endTime, isPreEnd);",
+          "float decayTime = min(systemTime - endTime, isPreEnd * lifecycle.w);",
 
           "float attackProg = 1.0 - max(lifecycle.y - (effectAge / lifecycle.y), 0.0);",
 
-          "float decayProg  = min(max(decayTime / lifecycle.w, 0.0), 1.0);",
+          "float decayProg  = max(decayTime, 0.0) / lifecycle.w;",
 
+          "float zHideFactor = floor(decayProg);",
 
           "vec3 vPosition = vertexPosition.xzy;",
           "vPosition.y = vPosition.y - sign(uv.y - 0.5) * sprite.z * (attackProg - decayProg);",
@@ -730,7 +731,7 @@
 
           "vPosition.x = vPosition.x * (1.0 * scale3d.x);",
           "vPosition.y = vPosition.y * (1.0 * scale3d.y);",
-          "vPosition.z = vPosition.z * (1.0 * scale3d.z);",
+          "vPosition.z = vPosition.z * (1.0 * scale3d.z) - zHideFactor;",
 
 
           "vColor = vertexColor;",

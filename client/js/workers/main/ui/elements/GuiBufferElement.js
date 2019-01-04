@@ -7,8 +7,8 @@ define([
 
     ) {
 
-        var GuiBufferElement = function(guiBuffers) {
-            this.initGuiBufferElement(guiBuffers)
+        var GuiBufferElement = function() {
+
         };
 
         GuiBufferElement.prototype.initGuiBufferElement = function(guiBuffers) {
@@ -20,7 +20,7 @@ define([
             this.quat =     {x:0, y:0, z:0, w:1};
             this.sprite =   {x:7, y:0, z:0.06, w:0.06};// z for nineslice expand y, w for expand x (x = width 2d)
 
-            this.lifecycle = {x:0, y:0.3, z:0, w:0.2}; // x = startTime, y = attackTime, z = endTime, w = decayTime
+            this.lifecycle = {x:0, y:0.3, z:0, w:0.25}; // x = startTime, y = attackTime, z = endTime, w = decayTime
             this.setDefaultBuffers();
 
         };
@@ -78,9 +78,18 @@ define([
             this.setLifecycle(this.lifecycle);
         };
 
-        GuiBufferElement.prototype.deactivateElement = function() {
-            this.guiBuffers.recoverElement(this);
+        GuiBufferElement.prototype.releaseElement = function() {
+            this.guiBuffers.setElementReleased(this);
         };
+
+        GuiBufferElement.prototype.testLifetimeIsOver = function() {
+
+            if ((this.lifecycle.z + this.lifecycle.w) < this.guiBuffers.getSystemTime()) {
+                return true;
+            }
+
+        };
+
 
         return GuiBufferElement;
 

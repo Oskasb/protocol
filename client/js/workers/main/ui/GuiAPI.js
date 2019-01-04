@@ -3,11 +3,13 @@
 var GuiAPI;
 
 define([
+        'application/ExpandingPool',
         'client/js/workers/main/ui/GuiBuffers',
         'client/js/workers/main/ui/systems/InputSystem',
         'client/js/workers/main/ui/elements/GuiBufferElement'
     ],
     function(
+        ExpandingPool,
         GuiBuffers,
         InputSystem,
         GuiBufferElement
@@ -20,12 +22,14 @@ define([
         var guiSurfaceSystem;
         var guiSystems = [];
 
+        var elementPools = {};
+
         var inputSystem;
 
         var guiUpdateCallbacks = [];
         var inputUpdateCallbacks = [];
 
-        var guiBuffers = {}
+        var guiBuffers = {};
 
         var systemReady = function(guiSystem) {
 
@@ -42,17 +46,34 @@ define([
         GuiAPI.initGuiApi = function() {
             var uiSysKey = 'ui_main';
             guiBuffers[uiSysKey] = new GuiBuffers(uiSysKey, "asset_nineQuad", 5000);
-            inputSystem = new InputSystem(uiSysKey)
+            inputSystem = new InputSystem(uiSysKey);
+
+
+            var addElement = function(sysKey, callback) {
+                var element = new GuiBufferElement();
+                element.initGuiBufferElement(guiBuffers[sysKey]);
+                callback(sysKey, element)
+            };
+
+            elementPools[uiSysKey] = new ExpandingPool(uiSysKey, addElement)
+
         };
 
         var updateBufferIndices = function() {
             for (var key in guiBuffers) {
-                guiBuffers[key].updateIndices()
+                guiBuffers[key].updateGuiBuffer()
             }
         };
 
-        GuiAPI.buildBufferElement = function(guiSysId) {
-            return new GuiBufferElement(guiBuffers[guiSysId]);
+        GuiAPI.buildBufferElement = function(guiSysId, cb) {
+
+            var getElement = function(sysKey, elem) {
+                elem.initGuiBufferElement(guiBuffers[sysKey]);
+                cb(elem);
+            };
+
+            elementPools[guiSysId].getFromExpandingPool(getElement)
+
         };
 
         GuiAPI.enableGuiSystems = function() {

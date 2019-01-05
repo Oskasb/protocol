@@ -16,8 +16,8 @@ define([
 
         GuiString.prototype.setString = function(string, guiSysId) {
             this.guiSysId = guiSysId;
-            this.rootPosition.x = 0.1;
-            this.rootPosition.y = 0.1;
+            this.rootPosition.x = 0.0;
+            this.rootPosition.y = 0.0;
             this.rootPosition.z = -1;
 
             this.setupLetters(string, guiSysId);
@@ -25,8 +25,8 @@ define([
         };
 
         var sprite = {x:7, y:0, z:0.0, w:0.0};
-        var scale = {x:0.5, y:0.5, z:1.0};
-        var lifecycle = {x:0, y:0.3, z:0, w:0.25};
+        var scale = {x:0.4, y:0.4, z:1.0};
+        var lifecycle = {x:0, y:0, z:0, w:0.25};
 
         var createLetter = function(guiSysId, letter, index, cb) {
 
@@ -46,6 +46,7 @@ define([
 
             var addLetter = function(guiLetter, letter, index) {
                 this.letters[index] = guiLetter;
+                guiLetter.setLetter(letter);
                 adds--;
                 if (!adds) {
                     this.applyStringData();
@@ -72,16 +73,29 @@ define([
 
         GuiString.prototype.applyStringData = function() {
 
+            var spriteKey = GuiAPI.getTextSystem().getSpriteKey();
+            var fontSprites = GuiAPI.getFontSprites(spriteKey);
+            var letterSprite;
+
             for (var i = 0; i < this.letters.length; i++) {
                 var guiLetter = this.letters[i];
-                sprite.x = Math.floor(Math.random()*16);
-                sprite.y = Math.floor(Math.random()*16);
+
+                var letter = guiLetter.getLetter();
+
+                letterSprite = fontSprites[letter];
+                if (!letterSprite) {
+                    sprite.x = 2;
+                    sprite.y = 2;
+                } else {
+                    sprite.x = letterSprite[0];
+                    sprite.y = letterSprite[1];
+                }
 
                 guiLetter.setLetterScale(scale);
                 guiLetter.setLetterSprite(sprite);
             }
 
-            this.setStringPosition(this.rootPosition)
+        //    this.setStringPosition(this.rootPosition)
 
         };
 
@@ -93,7 +107,7 @@ define([
         };
 
         GuiString.prototype.applyRootPositionToLetter = function(vec3, index, guiLetter) {
-            tempVec1.x = vec3.x + index*0.03;
+            tempVec1.x = vec3.x + index*0.02;
             tempVec1.y = vec3.y;
             tempVec1.z = vec3.z;
 

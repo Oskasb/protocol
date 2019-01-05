@@ -3,10 +3,10 @@
 
 
 define([
-        'evt'
+        'ConfigObject'
     ],
     function(
-        evt
+        ConfigObject
     ) {
 
         var handlers = [];
@@ -15,6 +15,17 @@ define([
         var WorkerMessages = function(client) {
             clientViewer = client;
             this.setupMessageHandlers();
+        };
+
+        var setupFetcher = function(workerKey, msg) {
+            var fetcher = new ConfigObject(msg[0], msg[1], msg[2]);
+            console.log("Fetcher Added: ", msg);
+            var dataUpdated = function(data) {
+                console.log("Fetcher Data Updated: ", data);
+                WorkerAPI.callWorker(workerKey, [ENUMS.Message.RELAY_CONFIG_DATA, [msg[0], msg[1], msg[2], data[msg[2]]]]);
+            };
+
+            fetcher.addCallback(dataUpdated);
         };
 
         WorkerMessages.prototype.setupMessageHandlers = function() {
@@ -48,6 +59,11 @@ define([
             handlers[ENUMS.Message.INIT_RENDERER] = function(workerKey, msg) {
                 clientViewer.setRenderCallbacksOn(msg[0]);
             //    console.log("INIT_RENDERER", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg[0])
+            }
+
+            handlers[ENUMS.Message.RELAY_CONFIG_DATA] = function(workerKey, msg) {
+                console.log("fetch data: ", workerKey, msg);
+                setupFetcher(workerKey, msg);
             }
 
         };

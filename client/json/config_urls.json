@@ -6,6 +6,9 @@
       "threedata/shaders/three_particle_shaders.json" ,
       "threedata/shaders/three_shader_programs.json"  ,
 
+      "threedata/assets/sprites/font_sprites_16x16.json"    ,
+      "threedata/assets/sprites/gui_sprites_12x12.json"     ,
+      "threedata/assets/sprites/particle_sprites_6x6.json"  ,
       "threedata/assets/asset_environment.json"       ,
       "threedata/assets/asset_ocean.json"             ,
       "threedata/assets/asset_terrain.json"           ,

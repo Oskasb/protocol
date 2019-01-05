@@ -12,6 +12,14 @@ define([
             this.pos = new THREE.Vector3();
         };
 
+        GuiLetter.prototype.setLetter = function(letter) {
+            this.letter = letter;
+        };
+
+        GuiLetter.prototype.getLetter = function() {
+            return this.letter;
+        };
+
         GuiLetter.prototype.getLetterPosition = function() {
             return this.pos;
         };
@@ -35,6 +43,7 @@ define([
         GuiLetter.prototype.releaseGuiLetter = function() {
             this.bufferElement.releaseElement()
         };
+
 
         return GuiLetter;
 

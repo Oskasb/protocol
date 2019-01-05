@@ -41,7 +41,6 @@ define([
         };
 
 
-
         GuiTextElement.prototype.setElementPosition = function(vec3) {
 
             for (var i = 0; i < this.guiStrings.length; i++) {

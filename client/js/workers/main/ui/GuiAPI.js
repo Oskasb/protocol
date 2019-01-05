@@ -62,16 +62,38 @@ define([
         };
 
 
+        var fonts = {};
+
         GuiAPI.initGuiApi = function() {
 
 
+            var fontSprites = function(src, data) {
+
+                fonts[src] = {};
+                for (var i = 0; i < data.length; i ++) {
+                    fonts[src][data[i].id] = [data[i].tiles[0][0], data[i].tiles[0][1]]
+                }
+                console.log("FONT SPRITES:", fonts[src]);
+            };
+
+
+            MainWorldAPI.fetchConfigData("ASSETS", "SPRITES", "FONT_16x16", fontSprites);
+
 
             addUiSystem(uiSysKey,   "asset_nineQuad",   2500);
-            addUiSystem(txtSysKey,  "asset_letterQuad", 4000);
+            addUiSystem(txtSysKey,  "asset_letterQuad", 5000);
 
             inputSystem = new InputSystem(uiSysKey);
-            textSystem = new TextSystem();
+            textSystem = new TextSystem("FONT_16x16");
 
+        };
+
+        GuiAPI.getTextSystem = function(spriteKey) {
+            return textSystem;
+        };
+
+        GuiAPI.getFontSprites = function(spriteKey) {
+            return fonts[spriteKey];
         };
 
         var updateBufferIndices = function() {
@@ -197,8 +219,11 @@ define([
         }
 
         var dummyCb = function(element) {
-            textSystem.addTextElement( element);
-            element.drawTextString(txtSysKey,"txxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", dymmy2)
+
+            if (Math.random() < 0.1) {
+                textSystem.addTextElement( element);
+                element.drawTextString(txtSysKey,"1 2 3 4 5 6 7 ABCDE abcdefghijklmnopqrstuvxyzåäö", dymmy2)
+            }
         }
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {

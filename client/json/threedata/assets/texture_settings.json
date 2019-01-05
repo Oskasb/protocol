@@ -85,7 +85,8 @@
               "minFilter": "LinearFilter",
               "tiles_x":16,
               "tiles_y":16,
-              "flipY": false
+              "flipY": true,
+              "flipX": false
             }
           }
         } ,

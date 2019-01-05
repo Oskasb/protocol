@@ -3,13 +3,13 @@
 var MainWorldAPI;
 
 define([
-
+        'PipelineAPI',
         'workers/main/MainWorldCom',
         'workers/main/world/WorldSimulation',
         'evt'
     ],
     function(
-
+        PipelineAPI,
         MainWorldCom,
         WorldSimulation,
         evt
@@ -25,6 +25,7 @@ define([
         var sharedBuffers = {};
 
         MainWorldAPI.initMainWorld = function(workerIndex) {
+            console.log('CONFIGS WORLD:', PipelineAPI.getCachedConfigs());
             mainWorldCom = new MainWorldCom();
             mainWorldCom.initWorldCom(workerIndex);
             worldSimulation = new WorldSimulation();
@@ -41,6 +42,10 @@ define([
 
         MainWorldAPI.getTpf = function() {
             return tpf;
+        };
+
+        MainWorldAPI.fetchConfigData = function(category, key, dataId, callback) {
+            mainWorldCom.setupConfigDataCallback(category, key, dataId, callback)
         };
 
         var testArgs = [ENUMS.Args.FRAME, 0];

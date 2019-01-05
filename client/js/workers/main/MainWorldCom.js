@@ -1,10 +1,10 @@
 "use strict";
 
 define([
-        'evt'
+        'workers/DataFetcher'
     ],
     function(
-        evt
+        DataFetcher
     ) {
 
         var key;
@@ -70,6 +70,11 @@ define([
                 console.log("RENDERER_READY", "->->-> MainWorldCom", msg);
                 MainWorldAPI.getWorldSimulation().startWorldSystem();
                 MainWorldAPI.postMessage([ENUMS.Message.INIT_RENDERER, [msg]])
+            };
+
+            handlers[ENUMS.Message.RELAY_CONFIG_DATA] = function(msg) {
+                console.log("DATA FETCHED", "->->-> MainWorldCom", msg);
+                DataFetcher.setConfigData(msg);
             }
         };
 
@@ -80,6 +85,10 @@ define([
             } else {
                 console.log("Non Numerical message:", "->->-> MainWorldCom", e.data);
             }
+        };
+
+        MainWorldCom.prototype.setupConfigDataCallback = function(category, key, dataId, callback) {
+            DataFetcher.fetchConfigData(category, key, dataId, callback)
         };
 
         return MainWorldCom;

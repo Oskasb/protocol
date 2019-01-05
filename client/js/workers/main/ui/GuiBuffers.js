@@ -150,6 +150,14 @@ define([
             if (!this.activeCount) {
                 this.highestRenderingIndex = -1;
                 this.updateDrawRange();
+                cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
+                while (cleanupIndices.length) {
+                    cleanupIndices.pop();
+                }
+                cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
+                while (cleanupIndices.length) {
+                    cleanupIndices.pop();
+                }
             }
 
         };

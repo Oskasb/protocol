@@ -11,7 +11,7 @@ define([
 ) {
 
     var dataLoader;
-    console.log(PipelineAPI.getCachedConfigs());
+    console.log('CONFIGS RENDER:', PipelineAPI.getCachedConfigs());
 
     var Setup = function() {
 

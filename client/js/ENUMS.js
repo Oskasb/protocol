@@ -14,7 +14,8 @@ if(typeof(ENUMS) === "undefined"){
         RENDERER_READY:         5,
         REQUEST_ASSET:          6,
         REGISTER_ASSET:         7,
-        REGISTER_UI_BUFFERS:    8
+        REGISTER_UI_BUFFERS:    8,
+        RELAY_CONFIG_DATA:      9
     };
 
     ENUMS.Event = {
@@ -61,7 +62,7 @@ if(typeof(ENUMS) === "undefined"){
         SET_GEOMETRY_BUFFER:    18,
         REGISTER_GEOMETRY:      19,
 
-        FETCH_CONFIG_DATA:      20,
+        XXX:                    20,
         SET_CONFIG_DATA:        21,
         CANVAS_DYNAMIC_ADD:     22,
         CANVAS_CALL_UPDATE:     23,

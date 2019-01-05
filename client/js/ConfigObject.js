@@ -20,7 +20,8 @@ define([
                 this.dataLoaded(data);
             }.bind(this);
 
-            this.pipeObj = new PipelineObject(config, key, dataUpdated);
+            this.pipeObj = new PipelineObject(config, key);
+            this.pipeObj.subscribe(dataUpdated)
         };
 
         ConfigObject.prototype.dataLoaded = function(data) {

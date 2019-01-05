@@ -91,7 +91,7 @@ onmessage = function(e){
 
     if (!port) return;
 
-    console.log("MainWorldWorker Worker connected");
+//    console.log("MainWorldWorker Worker connected");
     WorkerPort = port;
 
     postMessage = function(msg) {

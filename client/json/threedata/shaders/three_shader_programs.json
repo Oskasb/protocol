@@ -723,7 +723,7 @@
 
           "vec2 tileScale = 1.0/tiles;",
 
-          "vec2 tileOffset = vec2(sprite.x * tileScale.x, (tiles.y-1.0 - sprite.y) * sprite.y);",
+          "vec2 tileOffset = vec2(sprite.x * tileScale.x, sprite.y * tileScale.y);",
 
           "vec2 scaledUv = uv*tileScale;",
 

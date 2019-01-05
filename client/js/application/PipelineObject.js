@@ -13,10 +13,6 @@ define([
 
             this.subscribe(onDataCallback, immediateDataKey);
 
-            if (self.WorldAPI !== undefined) {
-                self.WorldAPI.fetchCategoryKeyData(category, key);
-            }
-
         };
 
 
@@ -44,7 +40,6 @@ define([
                 },0);
             }
         };
-        
         PipelineObject.prototype.buildConfig = function(dataName) {
 
             if (!dataName) dataName = 'data';

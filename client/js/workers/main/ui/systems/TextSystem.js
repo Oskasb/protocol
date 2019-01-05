@@ -11,8 +11,10 @@ define([
 
         var tempVec1 = new THREE.Vector3();
 
-        var TextSystem = function() {
+        var TextSystem = function(spriteKey) {
             this.elements = [];
+
+            this.spriteKey = spriteKey;
 
             var addElement = function(sysKey, callback) {
                 var element = new GuiTextElement();
@@ -23,14 +25,16 @@ define([
         };
 
 
-
+        TextSystem.prototype.getSpriteKey = function() {
+            return this.spriteKey;
+        };
 
         TextSystem.prototype.addTextElement = function(element) {
 
-            this.elements.push(element);
+            this.elements.unshift(element);
 
-            if (this.elements.length > 27) {
-                var recoverElem = this.elements.shift();
+            if (this.elements.length > 8) {
+                var recoverElem = this.elements.pop();
                 this.removeTextElement(recoverElem);
             }
 
@@ -39,7 +43,7 @@ define([
             tempVec1.z = -1;
 
             for (var i = 0; i < this.elements.length; i++) {
-                tempVec1.y += 0.03;
+                tempVec1.y += 0.04;
                 this.elements[i].setElementPosition(tempVec1)
             }
 

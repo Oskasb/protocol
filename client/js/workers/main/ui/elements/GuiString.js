@@ -84,8 +84,8 @@ define([
 
                 letterSprite = fontSprites[letter];
                 if (!letterSprite) {
-                    sprite.x = 2;
-                    sprite.y = 2;
+                    sprite.x = 1;
+                    sprite.y = 1;
                 } else {
                     sprite.x = letterSprite[0];
                     sprite.y = letterSprite[1];
@@ -99,15 +99,15 @@ define([
 
         };
 
-        GuiString.prototype.setStringPosition = function(vec3) {
+        GuiString.prototype.setStringPosition = function(vec3, txtLayout) {
             for (var i = 0; i < this.letters.length; i++) {
                 var guiLetter = this.letters[i];
-                this.applyRootPositionToLetter(vec3, i, guiLetter);
+                this.applyRootPositionToLetter(vec3, i, guiLetter, txtLayout);
             }
         };
 
-        GuiString.prototype.applyRootPositionToLetter = function(vec3, index, guiLetter) {
-            tempVec1.x = vec3.x + index*0.02;
+        GuiString.prototype.applyRootPositionToLetter = function(vec3, index, guiLetter, txtLayout) {
+            tempVec1.x = vec3.x + index*txtLayout.letterWidth;;
             tempVec1.y = vec3.y;
             tempVec1.z = vec3.z;
 

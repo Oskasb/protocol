@@ -11,10 +11,8 @@ importScripts(baseUrl+'client/js/ENUMS.js');
 importScripts(baseUrl+'client/js/MATH.js');
 importScripts(baseUrl+'client/js/lib/three.js');
 
-importScripts(baseUrl+'client/js/lib/three/OBJLoader.js');
 importScripts(baseUrl+'client/js/worker/terrain/ServerTerrain.js');
 importScripts(baseUrl+'client/js/lib/require.js');
-
 
 
 require.config({

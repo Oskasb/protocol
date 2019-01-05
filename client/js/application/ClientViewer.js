@@ -2,12 +2,14 @@
 
 define([
         'WorkerAPI',
+        'PipelineAPI',
         '3d/SceneController',
         '3d/DynamicMain',
 		'evt'
     ],
 	function(
         WorkerAPI,
+        PipelineAPI,
         SceneController,
         DynamicMain,
         evt
@@ -110,6 +112,8 @@ define([
             for (i = 0; i < workerCallbacks.length; i++) {
                 workerCallbacks[i](msg);
             }
+
+            PipelineAPI.tickPipelineAPI(lastTpf)
 
         };
 

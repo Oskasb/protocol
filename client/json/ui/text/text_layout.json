@@ -1,0 +1,21 @@
+
+[
+  {
+    "UI": {
+      "TEXT_LAYOUT":[
+        {
+          "id": "FONT_16x16",
+          "data": [
+            {
+              "id":"default",
+              "config": {
+                "letterWidth": 0.025,
+                "letterHeight": 0.04
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

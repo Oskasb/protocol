@@ -42,9 +42,13 @@ define([
             tempVec1.y = -0.4;
             tempVec1.z = -1;
 
+            var guiSettings = GuiAPI.getGuiSettings();
+
+            var txtLayout = guiSettings.getSetting('textLayouts', this.spriteKey, 'default');
+
             for (var i = 0; i < this.elements.length; i++) {
-                tempVec1.y += 0.04;
-                this.elements[i].setElementPosition(tempVec1)
+                tempVec1.y += txtLayout.letterHeight;
+                this.elements[i].setElementPosition(tempVec1, txtLayout)
             }
 
         };

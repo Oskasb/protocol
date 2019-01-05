@@ -41,10 +41,10 @@ define([
         };
 
 
-        GuiTextElement.prototype.setElementPosition = function(vec3) {
+        GuiTextElement.prototype.setElementPosition = function(vec3, txtLayout) {
 
             for (var i = 0; i < this.guiStrings.length; i++) {
-                this.guiStrings[i].setStringPosition(vec3);
+                this.guiStrings[i].setStringPosition(vec3, txtLayout);
             }
 
         };

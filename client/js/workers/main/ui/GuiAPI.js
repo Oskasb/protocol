@@ -4,6 +4,7 @@ var GuiAPI;
 
 define([
         'application/ExpandingPool',
+        'client/js/workers/main/ui/GuiSettings',
         'client/js/workers/main/ui/GuiBuffers',
         'client/js/workers/main/ui/systems/InputSystem',
         'client/js/workers/main/ui/systems/TextSystem',
@@ -11,6 +12,7 @@ define([
     ],
     function(
         ExpandingPool,
+        GuiSettings,
         GuiBuffers,
         InputSystem,
         TextSystem,
@@ -28,6 +30,8 @@ define([
 
         var inputSystem;
         var textSystem;
+
+        var guiSettings = new GuiSettings();
 
         var uiSysKey = 'ui_main';
         var txtSysKey = 'ui_txt';
@@ -67,18 +71,7 @@ define([
         GuiAPI.initGuiApi = function() {
 
 
-            var fontSprites = function(src, data) {
-
-                fonts[src] = {};
-                for (var i = 0; i < data.length; i ++) {
-                    fonts[src][data[i].id] = [data[i].tiles[0][0], data[i].tiles[0][1]]
-                }
-                console.log("FONT SPRITES:", fonts[src]);
-            };
-
-
-            MainWorldAPI.fetchConfigData("ASSETS", "SPRITES", "FONT_16x16", fontSprites);
-
+            guiSettings.initGuiSettings();
 
             addUiSystem(uiSysKey,   "asset_nineQuad",   2500);
             addUiSystem(txtSysKey,  "asset_letterQuad", 5000);
@@ -88,12 +81,16 @@ define([
 
         };
 
-        GuiAPI.getTextSystem = function(spriteKey) {
+        GuiAPI.getTextSystem = function() {
             return textSystem;
         };
 
         GuiAPI.getFontSprites = function(spriteKey) {
-            return fonts[spriteKey];
+            return guiSettings.getFontSprites(spriteKey);
+        };
+
+        GuiAPI.getGuiSettings = function() {
+            return guiSettings;
         };
 
         var updateBufferIndices = function() {
@@ -216,15 +213,15 @@ define([
 
         var dymmy2 = function() {
 
-        }
+        };
 
         var dummyCb = function(element) {
 
             if (Math.random() < 0.1) {
                 textSystem.addTextElement( element);
-                element.drawTextString(txtSysKey,"1 2 3 4 5 6 7 ABCDE abcdefghijklmnopqrstuvxyzåäö", dymmy2)
+                element.drawTextString(txtSysKey,"1 2 3 4 5 6 7 ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ", dymmy2)
             }
-        }
+        };
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {
             updateBufferIndices();

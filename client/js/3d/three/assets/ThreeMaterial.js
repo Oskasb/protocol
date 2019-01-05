@@ -89,6 +89,7 @@ define([        'application/PipelineObject'],
             }
 
             if (props.side) mat.side = THREE[props.side];
+            if (props.depthTest) mat.depthTest = props.depthTest;
 
             this.mat = mat;
             cb(this);
@@ -127,6 +128,10 @@ define([        'application/PipelineObject'],
                     side: THREE.DoubleSide,
                     vertexShader: props.shaders.vertex,
                     fragmentShader: props.shaders.fragment
+                };
+
+                for (var key in props.settings) {
+                    opts[key] = props.settings[key]
                 };
 
                 if (props.blending) {

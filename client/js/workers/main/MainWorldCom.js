@@ -73,7 +73,6 @@ define([
             };
 
             handlers[ENUMS.Message.RELAY_CONFIG_DATA] = function(msg) {
-                console.log("DATA FETCHED", "->->-> MainWorldCom", msg);
                 DataFetcher.setConfigData(msg);
             }
         };

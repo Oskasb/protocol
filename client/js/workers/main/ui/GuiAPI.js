@@ -33,8 +33,8 @@ define([
 
         var guiSettings = new GuiSettings();
 
-        var uiSysKey = 'ui_main';
-        var txtSysKey = 'ui_txt';
+        var uiSysKey = 'ATLAS_6x6';
+        var txtSysKey = 'FONT_16x16';
 
         var guiUpdateCallbacks = [];
         var inputUpdateCallbacks = [];
@@ -52,32 +52,44 @@ define([
 
         };
 
-        var addUiSystem = function(sysKey, assetName, poolSize) {
+        var addUiSystem = function(sysKey, spriteKey, assetName, poolSize) {
 
-            guiBuffers[sysKey] = new GuiBuffers(sysKey, assetName, poolSize);
+            guiBuffers[spriteKey] = new GuiBuffers(spriteKey, assetName, poolSize);
 
             var addElement = function(sysKey, callback) {
                 var element = new GuiBufferElement();
                 callback(sysKey, element)
             };
 
-            elementPools[sysKey] = new ExpandingPool(sysKey, addElement);
+            elementPools[spriteKey] = new ExpandingPool(spriteKey, addElement);
 
         };
 
 
-        var fonts = {};
-
         GuiAPI.initGuiApi = function() {
 
+            var loadCb = function() {}
 
-            guiSettings.initGuiSettings();
 
-            addUiSystem(uiSysKey,   "asset_nineQuad",   2500);
-            addUiSystem(txtSysKey,  "asset_letterQuad", 5000);
+            guiSettings.loadUiConfig("TEXT_LAYOUT", "FONT_16x16", loadCb);
+            guiSettings.loadUiConfig("SURFACE_LAYOUT", "BACKGROUNDS", loadCb);
+            guiSettings.initGuiSprite("SPRITES", "FONT_16x16");
+            guiSettings.initGuiSprite("SPRITES", "ATLAS_6x6");
 
-            inputSystem = new InputSystem(uiSysKey);
-            textSystem = new TextSystem("FONT_16x16");
+            var onInputSetting = function(src, data) {
+                console.log("UI INPUT DATA", src, data.config);
+                addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"]);
+                inputSystem = new InputSystem(data.config["sprite_atlas"]);
+            };
+
+            var onTextSetting = function(src, data) {
+                console.log("UI TXT DATA", src, data.config);
+                addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"]);
+                textSystem = new TextSystem(data.config["sprite_atlas"]);
+            };
+
+            guiSettings.initGuiSettings(["UI_ELEMENTS_MAIN"], onInputSetting);
+            guiSettings.initGuiSettings(["UI_TEXT_MAIN"], onTextSetting);
 
         };
 
@@ -85,8 +97,8 @@ define([
             return textSystem;
         };
 
-        GuiAPI.getFontSprites = function(spriteKey) {
-            return guiSettings.getFontSprites(spriteKey);
+        GuiAPI.getUiSprites = function(spriteKey) {
+            return guiSettings.getUiSprites(spriteKey);
         };
 
         GuiAPI.getGuiSettings = function() {
@@ -117,6 +129,10 @@ define([
 
         GuiAPI.getSurfaceSystem = function() {
             return guiSurfaceSystem;
+        };
+
+        GuiAPI.activateGuiElement = function() {
+
         };
 
         GuiAPI.activateDefaultGui = function() {

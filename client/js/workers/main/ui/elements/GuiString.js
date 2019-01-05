@@ -74,7 +74,7 @@ define([
         GuiString.prototype.applyStringData = function() {
 
             var spriteKey = GuiAPI.getTextSystem().getSpriteKey();
-            var fontSprites = GuiAPI.getFontSprites(spriteKey);
+            var fontSprites = GuiAPI.getUiSprites(spriteKey);
             var letterSprite;
 
             for (var i = 0; i < this.letters.length; i++) {

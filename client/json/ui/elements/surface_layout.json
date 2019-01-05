@@ -1,0 +1,28 @@
+
+[
+  {
+    "UI": {
+      "SURFACE_LAYOUT":[
+        {
+          "id": "BACKGROUNDS",
+          "data": [
+            {
+              "id":"surface_default",
+              "config": {
+                "elementWidth": 0.15,
+                "elementHeight": 0.14,
+                "image": {
+                  "atlas_key": "ATLAS_6x6",
+                  "sprite": "plate",
+                  "border_width": 0.1,
+                  "border_height": 0.1
+
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

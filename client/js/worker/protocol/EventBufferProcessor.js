@@ -48,7 +48,6 @@ define([
         EventBufferProcessor.registerWorkerIndex = function(wIndex, dispatchFunction) {
             dispatch = dispatchFunction;
             writeWorkerBaseIndex = wIndex * ENUMS.Numbers.event_buffer_size_per_worker;
-            console.log("writeWorkerBaseIndex", writeWorkerBaseIndex)
             initWriteFrame()
         };
 

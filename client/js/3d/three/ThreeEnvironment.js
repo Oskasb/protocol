@@ -75,7 +75,7 @@ define(['application/PipelineObject',
 
         var worldListLoaded = function(src, data) {
 
-            console.log("Load Env World Data:", src, data);
+        //    console.log("Load Env World Data:", src, data);
 
             for (var i = 0; i < data.params.length; i++){
                 worldSetup[data.params[i].id] = data.params[i]

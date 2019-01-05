@@ -1,34 +1,33 @@
 [{
   "config_url_index":{
     "files":[
-      "threedata/assets/load_assets.json"            ,
-      "ui/text/text_layout.json"                      ,
-
+      "threedata/assets/load_assets.json"                   ,
+      "ui/text/text_layout.json"                            ,
+      "ui/elements/surface_layout.json"                     ,
+      "ui/gui_systems.json"                                 ,
       "threedata/assets/sprites/font_sprites_16x16.json"    ,
       "threedata/assets/sprites/gui_sprites_12x12.json"     ,
       "threedata/assets/sprites/particle_sprites_6x6.json"  ,
 
-      "threedata/shaders/three_shader_chunks.json"    ,
-      "threedata/shaders/three_particle_shaders.json" ,
-      "threedata/shaders/three_shader_programs.json"  ,
+      "threedata/shaders/three_shader_chunks.json"          ,
+      "threedata/shaders/three_particle_shaders.json"       ,
+      "threedata/shaders/three_shader_programs.json"        ,
 
 
+      "threedata/assets/asset_environment.json"             ,
+      "threedata/assets/asset_ocean.json"                   ,
+      "threedata/assets/asset_terrain.json"                 ,
+      "threedata/assets/asset_world.json"                   ,
 
+      "threedata/assets/image_files.json"                   ,
+      "threedata/assets/glb_model_files.json"               ,
 
-      "threedata/assets/asset_environment.json"       ,
-      "threedata/assets/asset_ocean.json"             ,
-      "threedata/assets/asset_terrain.json"           ,
-      "threedata/assets/asset_world.json"             ,
+      "threedata/assets/texture_settings.json"              ,
+      "threedata/assets/model_settings.json"                ,
+      "threedata/assets/material_settings.json"             ,
 
-      "threedata/assets/image_files.json"             ,
-      "threedata/assets/glb_model_files.json"         ,
-
-      "threedata/assets/texture_settings.json"        ,
-      "threedata/assets/model_settings.json"          ,
-      "threedata/assets/material_settings.json"       ,
-
-      "threedata/assets/three_textures.json"          ,
-      "threedata/assets/three_materials.json"         ,
+      "threedata/assets/three_textures.json"                ,
+      "threedata/assets/three_materials.json"               ,
       "threedata/assets/three_models.json"
 
     ]

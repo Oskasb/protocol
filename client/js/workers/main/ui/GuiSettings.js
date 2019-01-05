@@ -8,60 +8,89 @@ define([
     ) {
 
 
-    var fonts ={};
+    var sprites ={};
     var textLayouts = {};
-
-
+    var settings = {};
 
         var GuiSettings = function() {
-            this.settings = {
-                fonts:fonts,
+            settings = {
+                sprites:sprites,
                 textLayouts:textLayouts
             };
         };
 
-        GuiSettings.prototype.initGuiSettings = function() {
+        var fetchSetting = function(conf, key, dataId, cb) {
 
-            var fontSprites = function(src, data) {
+            if (!settings[key]) {
+                settings[key] = {};
+            }
 
-                fonts[src] = {};
+            if (!settings[key][dataId]) {
+                settings[key][dataId] = {};
+            }
+
+            var settingUpdate = function(src, data) {
+
                 for (var i = 0; i < data.length; i ++) {
-                    fonts[src][data[i].id] = [data[i].tiles[0][0], data[i].tiles[0][1]]
+                    settings[key][src][data[i].id] = data[i];
                 }
-                console.log("FONT SPRITES:", fonts[src]);
+                console.log("SETTING:", src, settings);
+                cb(src, settings[key][src]);
             };
 
-            MainWorldAPI.fetchConfigData("ASSETS", "SPRITES", "FONT_16x16", fontSprites);
+            MainWorldAPI.fetchConfigData(conf, key, dataId, settingUpdate);
+        };
 
 
-            var textLayout = function(src, data) {
+        var fontSprites = function(src, data) {
 
-                textLayouts[src] = {};
-                for (var i = 0; i < data.length; i ++) {
-                    textLayouts[src][data[i].id] = data[i].config
-                }
-                console.log("TEXT_LAYOUT:", textLayouts[src]);
+            if (typeof (data) === 'undefined') {
+                console.log("Bad data fetch;", src);
+                return;
+            }
+
+            sprites[src] = {};
+            for (var i = 0; i < data.length; i ++) {
+                sprites[src][data[i].id] = [data[i].tiles[0][0], data[i].tiles[0][1]]
+            }
+            console.log("FONT SPRITES:", sprites[src]);
+        };
+
+
+        GuiSettings.prototype.initGuiSprite = function(key, dataId) {
+            MainWorldAPI.fetchConfigData("ASSETS", key, dataId, fontSprites);
+        };
+
+
+        GuiSettings.prototype.loadUiConfig = function(key, dataId, cb) {
+            fetchSetting("UI", key, dataId, cb)
+        };
+
+
+        GuiSettings.prototype.initGuiSettings = function(UI_SYSTEMS, onGuiSetting) {
+
+            var systemDataCb = function(src, data) {
+                onGuiSetting(src, data['gui_buffer']);
             };
 
-            MainWorldAPI.fetchConfigData("UI", "TEXT_LAYOUT", "FONT_16x16", textLayout);
-
-
-        };
-
-        GuiSettings.prototype.getLetter = function() {
-
-            return this.letter;
+            for (var i = 0; i < UI_SYSTEMS.length; i++) {
+                fetchSetting("UI", "UI_SYSTEMS", UI_SYSTEMS[i], systemDataCb)
+            }
 
         };
 
-        GuiSettings.prototype.getFontSprites = function(key) {
-            return fonts[key];
+
+        GuiSettings.prototype.getUiSprites = function(key) {
+            return sprites[key];
         };
 
-        GuiSettings.prototype.getSetting = function(setting, key, id) {
-            return this.settings[setting][key][id];
+        GuiSettings.prototype.getSettingData = function(setting, key, id) {
+            return settings[setting][key][id];
         };
 
+        GuiSettings.prototype.getSettingDataConfig = function(setting, key, id) {
+            return settings[setting][key][id].config;
+        };
 
         return GuiSettings;
 

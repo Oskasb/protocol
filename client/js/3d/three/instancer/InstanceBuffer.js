@@ -60,6 +60,11 @@ define([
 
         };
 
+        InstanceBuffer.prototype.setRenderOrder = function(order) {
+            this.mesh.renderOrder = order;
+            this.mesh.needsUpdate = true;
+        };
+
         InstanceBuffer.prototype.buildBuffer = function(dimensions, count) {
             return new Float32Array(count * dimensions);
         };

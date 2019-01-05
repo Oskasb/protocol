@@ -74,7 +74,7 @@ define([
         };
 
         InstanceAPI.setupUiInstancing = function(msg) {
-            console.log("setupUiInstancing", msg);
+
             var uiSysId = msg[0];
             var assetId = msg[1];
             var bufferNames = msg[2];
@@ -85,12 +85,14 @@ define([
             }
 
             var assetLoaded = function(src, asset) {
-                console.log("Ui Asset Loaded", asset);
+
                 var instanceBuffers = asset.instanceBuffers;
                 for (var i = 0; i < bufferNames.length; i++) {
                     var attrib = attributes[bufferNames[i]];
                     instanceBuffers.attachAttribute(buffers[i], bufferNames[i], attrib.dimensions, attrib.dynamic)
                 }
+
+                instanceBuffers.setRenderOrder(1)
                 uiSystems[uiSysId].push(instanceBuffers);
             }
 

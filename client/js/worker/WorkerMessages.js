@@ -19,9 +19,14 @@ define([
 
         var setupFetcher = function(workerKey, msg) {
             var fetcher = new ConfigObject(msg[0], msg[1], msg[2]);
-            console.log("Fetcher Added: ", msg);
+
             var dataUpdated = function(data) {
-                console.log("Fetcher Data Updated: ", data);
+
+                if ( typeof(data[msg[2]]) === 'undefined') {
+                //    console.log("no data for key", msg[2], data);
+                    return;
+                }
+
                 WorkerAPI.callWorker(workerKey, [ENUMS.Message.RELAY_CONFIG_DATA, [msg[0], msg[1], msg[2], data[msg[2]]]]);
             };
 
@@ -62,7 +67,6 @@ define([
             }
 
             handlers[ENUMS.Message.RELAY_CONFIG_DATA] = function(workerKey, msg) {
-                console.log("fetch data: ", workerKey, msg);
                 setupFetcher(workerKey, msg);
             }
 

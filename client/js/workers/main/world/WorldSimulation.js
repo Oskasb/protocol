@@ -57,7 +57,7 @@ define([
         WorldSimulation.prototype.registerAssetReady = function(msg) {
             registeredAssets[msg[0]] = msg[1];
             assetIndex[msg[1].index] = msg[0];
-            console.log("Asset Prepped: ", registeredAssets);
+    //        console.log("Asset Prepped: ", registeredAssets);
         };
 
         WorldSimulation.prototype.registerAssetInstance = function(event) {

@@ -44,7 +44,7 @@ define([
 
             var guiSettings = GuiAPI.getGuiSettings();
 
-            var txtLayout = guiSettings.getSetting('textLayouts', this.spriteKey, 'default');
+            var txtLayout = guiSettings.getSettingDataConfig('TEXT_LAYOUT', this.spriteKey, 'default');
 
             for (var i = 0; i < this.elements.length; i++) {
                 tempVec1.y += txtLayout.letterHeight;

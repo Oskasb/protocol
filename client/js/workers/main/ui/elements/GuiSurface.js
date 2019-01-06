@@ -14,17 +14,34 @@ define([
             this.centerXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
 
+            this.surfaceState = ENUMS.ElementState.NONE;
+
         };
 
 
         GuiSurface.prototype.setBufferElement = function(bufferElement) {
-
+            this.surfaceState = ENUMS.ElementState.NONE;
             this.bufferElement = bufferElement
+        };
+
+        GuiSurface.prototype.testIntersection = function(x, y) {
+
+            if (x > this.minXY.x && x < this.maxXY.x && y > this.minXY.y && y < this.maxXY.y) {
+                return true;
+            }
 
         };
 
-        GuiSurface.prototype.recoverBufferElement = function() {
+        GuiSurface.prototype.setSurfaceState = function(state) {
+            this.surfaceState = state;
+            this.applyStateFeedback();
+        };
 
+        GuiSurface.prototype.getSurfaceState = function() {
+            return this.surfaceState;
+        };
+
+        GuiSurface.prototype.recoverBufferElement = function() {
             this.bufferElement.releaseElement()
         };
 
@@ -42,6 +59,26 @@ define([
 
         };
 
+
+        GuiSurface.prototype.surfaceOnHover = function(inputIndex) {
+            GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
+        };
+
+        GuiSurface.prototype.surfaceOnHoverEnd = function(inputIndex) {
+            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
+        };
+
+        GuiSurface.prototype.surfaceOnPressStart = function(inputIndex) {
+            GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
+        };
+
+        GuiSurface.prototype.surfaceOnPressEnd = function(inputIndex) {
+            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
+        };
+
+        GuiSurface.prototype.surfaceOnPressActivate = function(inputIndex) {
+            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
+        };
 
         GuiSurface.prototype.setSurfaceMinXY = function(vec3) {
             this.minXY.copy(vec3);;
@@ -67,6 +104,7 @@ define([
             }
 
         };
+
         var extent;
         var stretch;
         var border;
@@ -81,7 +119,6 @@ define([
         GuiSurface.prototype.configureNineslice = function() {
 
             this.sprite.w = calcNincesliceAxis(this.minXY.x, this.maxXY.x, this.scale.x);
-
             this.sprite.z = calcNincesliceAxis(this.minXY.y, this.maxXY.y, this.scale.y);
 
         };
@@ -92,30 +129,68 @@ define([
 
             this.configureNineslice();
 
-
-            GuiAPI.debugDrawGuiPosition(this.minXY.x, this.minXY.y);
-            GuiAPI.debugDrawGuiPosition(this.maxXY.x, this.maxXY.y);
-            GuiAPI.debugDrawGuiPosition(this.minXY.x, this.maxXY.y);
-            GuiAPI.debugDrawGuiPosition(this.maxXY.x, this.minXY.y);
+            GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
 
             this.bufferElement.setSprite(this.sprite);
             this.bufferElement.setScaleVec3(this.scale);
 
         };
 
-        GuiSurface.prototype.setElementPosition = function(vec3) {
 
+        GuiSurface.prototype.setElementPosition = function(vec3) {
             this.bufferElement.setPositionVec3(vec3);
+        };
+
+
+        var imgConf;
+        var state_feedback;
+        var stateKey;
+        var color;
+        var sprites;
+        var sprite;
+        var spriteName;
+
+
+        GuiSurface.prototype.applyStateFeedback = function() {
+            imgConf = this.config['image'];
+            state_feedback = this.config['state_feedback'];
+            if (imgConf) {
+                if (state_feedback) {
+
+                    stateKey = ENUMS.getKey('ElementState', this.surfaceState);
+
+                    if (state_feedback[stateKey]) {
+
+                        color = state_feedback[stateKey]['color_rgba'];
+                        if (color) {
+                            this.bufferElement.setColorRGBA(color);
+                        }
+
+                        spriteName = state_feedback[stateKey]['sprite'];
+
+                        if (spriteName) {
+
+                            sprites = GuiAPI.getUiSprites(imgConf['atlas_key']);
+                            sprite = sprites[spriteName];
+
+                            this.sprite.x = sprite[0];
+                            this.sprite.y = sprite[1];
+
+                            this.bufferElement.setSprite(this.sprite);
+
+                        }
+
+                    }
+                }
+            }
         };
 
 
         GuiSurface.prototype.applySurfaceConfig = function(config) {
 
-            var sprites = GuiAPI.getUiSprites(config.image.atlas_key);
-            var sprite = sprites[config.image.sprite];
-
-            this.sprite.x = sprite[0];
-            this.sprite.y = sprite[1];
+            this.bufferElement.setAttackTime(0);
+            this.bufferElement.setReleaseTime(0);
+            this.applyStateFeedback();
 
             this.scale.x = config.image["border_thickness"].x;
             this.scale.y = config.image["border_thickness"].y;

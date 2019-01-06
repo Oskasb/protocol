@@ -17,7 +17,7 @@ define([
             this.guiBuffers.registerElement(this);
 
             this.rgba =     {r:1, g:1, b:1, a:1};
-            this.pos =      {x:0, y:0, z:-1};
+            this.pos =      {x:1, y:1, z:-1};
             this.scale =    {x:1, y:1, z:1};
             this.quat =     {x:0, y:0, z:0, w:1};
             this.sprite =   {x:7, y:0, z:0.06, w:0.06};// z for nineslice expand y, w for expand x (axis x for width 2d)

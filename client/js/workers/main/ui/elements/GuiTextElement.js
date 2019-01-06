@@ -49,12 +49,15 @@ define([
 
             var surfaceReady = function(surface) {
             //    console.log("surface ready",surface)
+
                 this.expandingPool.getFromExpandingPool(getElement)
             }.bind(this);
-
+            GuiAPI.registerInteractiveGuiElement(this.guiSurface);
             this.guiSurface.setupSurfaceElement( sconf , surfaceReady);
 
+            var onHover = function() {
 
+            };
 
         };
 
@@ -78,8 +81,9 @@ define([
                 var guiString = this.guiStrings.pop();
                 guiString.recoverGuiString();
                 this.expandingPool.returnToExpandingPool(guiString);
-
             }
+
+            GuiAPI.unregisterInteractiveGuiElement(this.guiSurface);
             this.guiSurface.recoverBufferElement();
 
         };

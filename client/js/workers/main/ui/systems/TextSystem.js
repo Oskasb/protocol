@@ -33,7 +33,7 @@ define([
 
             this.elements.unshift(element);
 
-            if (this.elements.length > 8) {
+            if (this.elements.length > 4) {
                 var recoverElem = this.elements.pop();
                 this.removeTextElement(recoverElem);
             }
@@ -49,7 +49,7 @@ define([
             var txtLayout = GuiAPI.getGuiSettingConfig('TEXT_LAYOUT', this.spriteKey, 'default');
 
             for (var i = 0; i < this.elements.length; i++) {
-                tempVec1.y += txtLayout.letterHeight + 0.05;
+                tempVec1.y += txtLayout.letterHeight + 0.02;
                 this.elements[i].setElementPosition(tempVec1, txtLayout)
             }
 

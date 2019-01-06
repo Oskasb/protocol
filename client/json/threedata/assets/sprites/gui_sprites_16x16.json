@@ -46,6 +46,16 @@
             "id":"button_full_pressed",
             "tiles":[[9, 2]]
           },
+
+          {
+            "id":"button_rounded",
+            "tiles":[[11, 1]]
+          },
+          {
+            "id":"button_rounded_pressed",
+            "tiles":[[11, 2]]
+          },
+
           {
             "id":"horizontal",
             "tiles":[[0, 2]]

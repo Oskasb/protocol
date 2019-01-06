@@ -11,10 +11,33 @@
               "config": {
                 "offsetX": -0.01,
                 "offsetY": -0.01,
-                "padding": { "x":0.018, "y":0.008},
+                "padding": { "x":0.008, "y":0.0005},
+
+                "state_feedback": {
+                  "NONE": {
+                    "color_rgba": {"r": 0.15, "g": 0.40, "b": 0.76, "a": 1},
+                    "sprite": "button_rounded"
+                  },
+                  "HOVER": {
+                    "color_rgba": {"r": 0.35, "g": 0.60, "b": 0.99, "a": 1},
+                    "sprite": "button_rounded"
+                  },
+                  "PRESS": {
+                    "color_rgba": {"r": 0.75, "g": 0.80, "b": 0.99, "a": 1},
+                    "sprite": "button_rounded_pressed"
+                  },
+                  "ACTIVE": {
+                    "color_rgba": {"r": 0.55, "g": 0.99, "b": 0.69, "a": 1},
+                    "sprite": "button_rounded"
+                  },
+                  "DEACTIVATE": {
+                    "color_rgba": {"r": 0.25, "g": 0.89, "b": 0.25, "a": 1},
+                    "sprite": "button_rounded_pressed"
+                  }
+                },
+
                 "image": {
                   "atlas_key": "GUI_16x16",
-                  "sprite": "debug_nine",
                   "border_thickness": {"x": 0.55, "y": 0.40}
                 }
               }

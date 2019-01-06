@@ -249,6 +249,15 @@ if(typeof(ENUMS) === "undefined"){
 
     };
 
+    ENUMS.ElementState = {
+        NONE:             0,
+        HOVER:            1,
+        PRESS:            2,
+        ACTIVE:           3,
+        RELEASE:          4,
+        DEACTIVATE:         5
+    };
+
     ENUMS.Environments = {
         PRE_DAWN:         1,
         DAWN:             2,

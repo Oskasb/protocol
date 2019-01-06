@@ -142,6 +142,18 @@ define([
             GuiDebug.debugDrawPoint(x, y)
         };
 
+        GuiAPI.debugDrawRectExtents = function(minVec, maxVec) {
+            GuiDebug.drawRectExtents(minVec, maxVec)
+        };
+
+        GuiAPI.registerInteractiveGuiElement = function(surfaceElement) {
+            inputSystem.registerInteractiveSurfaceElement(surfaceElement)
+        };
+
+        GuiAPI.unregisterInteractiveGuiElement = function(surfaceElement) {
+            inputSystem.unregisterInteractiveSurfaceElement(surfaceElement)
+        };
+
         GuiAPI.activateGuiElement = function() {
 
         };
@@ -239,6 +251,8 @@ define([
         };
 
         var dymmy2 = function(element) {
+
+
             textSystem.updateElementPosition( element);
         };
 
@@ -255,21 +269,25 @@ define([
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {
 
+            GuiDebug.updateDebugElements();
             updateBufferIndices();
             updateInput(INPUT_BUFFER);
-            GuiDebug.updateDebugElements();
+
 
             for (var i = 0; i < guiSystems.length; i++) {
                 guiSystems[i].updateGuiSystem();
             }
 
+
+
             for (i = 0; i < guiUpdateCallbacks.length; i++) {
                 guiUpdateCallbacks[i]();
             }
 
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.02) {
                 textSystem.buildTextElement(dummyCb)
             }
+
 
 
         };

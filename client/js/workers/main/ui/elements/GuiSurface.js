@@ -1,10 +1,10 @@
 "use strict";
 
 define([
-
+        'client/js/workers/main/ui/states/ElementStateProcessor'
     ],
     function(
-
+        ElementStateProcessor
     ) {
 
         var GuiSurface = function() {
@@ -16,8 +16,13 @@ define([
 
             this.surfaceState = ENUMS.ElementState.NONE;
 
+            this.textElements = [];
+
         };
 
+        GuiSurface.prototype.attachTextElement = function(textElement) {
+            this.textElements.push(textElement);
+        };
 
         GuiSurface.prototype.setBufferElement = function(bufferElement) {
             this.surfaceState = ENUMS.ElementState.NONE;
@@ -41,8 +46,15 @@ define([
             return this.surfaceState;
         };
 
-        GuiSurface.prototype.recoverBufferElement = function() {
+        GuiSurface.prototype.recoverGuiSurface = function() {
+            while (this.textElements.length) {
+                this.textElements.pop();
+            }
             this.bufferElement.releaseElement()
+        };
+
+        GuiSurface.prototype.getBufferElement = function() {
+            return this.bufferElement;
         };
 
         GuiSurface.prototype.setupSurfaceElement = function(config, callback) {
@@ -142,47 +154,13 @@ define([
         };
 
 
-        var imgConf;
-        var state_feedback;
-        var stateKey;
-        var color;
-        var sprites;
-        var sprite;
-        var spriteName;
-
-
         GuiSurface.prototype.applyStateFeedback = function() {
-            imgConf = this.config['image'];
-            state_feedback = this.config['state_feedback'];
-            if (imgConf) {
-                if (state_feedback) {
+            ElementStateProcessor.applyElementStateFeedback(this, this.getSurfaceState());
 
-                    stateKey = ENUMS.getKey('ElementState', this.surfaceState);
-
-                    if (state_feedback[stateKey]) {
-
-                        color = state_feedback[stateKey]['color_rgba'];
-                        if (color) {
-                            this.bufferElement.setColorRGBA(color);
-                        }
-
-                        spriteName = state_feedback[stateKey]['sprite'];
-
-                        if (spriteName) {
-
-                            sprites = GuiAPI.getUiSprites(imgConf['atlas_key']);
-                            sprite = sprites[spriteName];
-
-                            this.sprite.x = sprite[0];
-                            this.sprite.y = sprite[1];
-
-                            this.bufferElement.setSprite(this.sprite);
-
-                        }
-
-                    }
-                }
+            for (var i = 0; i < this.textElements.length; i++) {
+                ElementStateProcessor.applyStateToTextElement(this.textElements[i], this.getSurfaceState());
             }
+
         };
 
 

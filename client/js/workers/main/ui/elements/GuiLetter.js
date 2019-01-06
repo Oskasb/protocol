@@ -34,6 +34,10 @@ define([
             this.bufferElement.setPositionVec3(this.pos)
         };
 
+        GuiLetter.prototype.setLetterColorRGBA = function(rgba) {
+            this.bufferElement.setColorRGBA(rgba)
+        };
+
         GuiLetter.prototype.setLetterSprite = function(xyzw) {
             this.bufferElement.setSprite(xyzw)
         };

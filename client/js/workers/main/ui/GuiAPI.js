@@ -253,7 +253,7 @@ define([
         var dymmy2 = function(element) {
 
 
-            textSystem.updateElementPosition( element);
+            textSystem.updateElementPositions();
         };
 
         var dymmy1 = function(element) {

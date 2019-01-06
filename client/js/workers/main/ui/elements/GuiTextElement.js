@@ -14,11 +14,7 @@ define([
         var GuiTextElement = function() {
 
             this.guiStrings = [];
-
             this.guiSurface = new GuiSurface();
-
-
-
 
 
             var addElement = function(sysKey, callback) {
@@ -32,17 +28,6 @@ define([
         GuiTextElement.prototype.drawTextString = function(uiSysKey, string, cb) {
 
 
-            var initString = function(guiString) {
-                guiString.setString(string, uiSysKey);
-                this.guiStrings.push(guiString);
-                cb(this);
-            }.bind(this);
-
-
-            var getElement = function(elem) {
-                initString(elem)
-            };
-
 
             var sconf = GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", "surface_default")
 
@@ -50,8 +35,23 @@ define([
             var surfaceReady = function(surface) {
             //    console.log("surface ready",surface)
 
+                var initString = function(guiString) {
+                    guiString.setString(string, uiSysKey);
+                    this.guiStrings.push(guiString);
+                    surface.applyStateFeedback();
+                    cb(this);
+                }.bind(this);
+
+
+                var getElement = function(elem) {
+                    initString(elem)
+                };
+
+
+                surface.attachTextElement(this);
                 this.expandingPool.getFromExpandingPool(getElement)
             }.bind(this);
+
             GuiAPI.registerInteractiveGuiElement(this.guiSurface);
             this.guiSurface.setupSurfaceElement( sconf , surfaceReady);
 
@@ -61,12 +61,18 @@ define([
 
         };
 
-        GuiTextElement.prototype.setElementPosition = function(vec3, txtLayout) {
+        GuiTextElement.prototype.setElementConfig = function(config) {
+            this.config = config;
+        }
+
+        GuiTextElement.prototype.setElementPosition = function(vec3) {
+
+
 
             this.guiSurface.setSurfaceMinXY(vec3);
 
             for (var i = 0; i < this.guiStrings.length; i++) {
-                this.guiStrings[i].setStringPosition(vec3, txtLayout);
+                this.guiStrings[i].setStringPosition(vec3, this.config['letter_width'], this.config['letter_height']);
                 this.guiSurface.setSurfaceMaxXY(this.guiStrings[i].maxXY);
             }
 
@@ -84,7 +90,7 @@ define([
             }
 
             GuiAPI.unregisterInteractiveGuiElement(this.guiSurface);
-            this.guiSurface.recoverBufferElement();
+            this.guiSurface.recoverGuiSurface();
 
         };
 

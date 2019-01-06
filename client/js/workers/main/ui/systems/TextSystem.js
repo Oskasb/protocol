@@ -37,20 +37,19 @@ define([
                 var recoverElem = this.elements.pop();
                 this.removeTextElement(recoverElem);
             }
-
         };
 
-        TextSystem.prototype.updateElementPosition = function(element) {
+
+        TextSystem.prototype.updateElementPositions = function() {
 
             tempVec1.x = -0.8;
             tempVec1.y = -0.4;
             tempVec1.z = -1;
 
-            var txtLayout = GuiAPI.getGuiSettingConfig('TEXT_LAYOUT', this.spriteKey, 'default');
-
             for (var i = 0; i < this.elements.length; i++) {
-                tempVec1.y += txtLayout.letterHeight + 0.02;
-                this.elements[i].setElementPosition(tempVec1, txtLayout)
+                var config = this.elements[i].config;
+                tempVec1.y += config['letter_height'] + config['row_spacing'];
+                this.elements[i].setElementPosition(tempVec1)
             }
 
         };
@@ -66,7 +65,8 @@ define([
         TextSystem.prototype.buildTextElement = function(cb) {
 
             var getElement = function(elem) {
-
+                var config = GuiAPI.getGuiSettingConfig('TEXT_LAYOUT', this.spriteKey, 'default');
+                elem.setElementConfig(config);
                 cb(elem);
             }.bind(this);
 

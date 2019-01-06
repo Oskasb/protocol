@@ -75,10 +75,11 @@ define([
 
         InstanceAPI.setupUiInstancing = function(msg) {
 
-            var uiSysId = msg[0];
-            var assetId = msg[1];
+            var uiSysId     = msg[0];
+            var assetId     = msg[1];
             var bufferNames = msg[2];
             var buffers     = msg[3];
+            var order       = msg[4];
 
             if (!uiSystems[uiSysId]) {
                 uiSystems[uiSysId] = [];
@@ -92,7 +93,7 @@ define([
                     instanceBuffers.attachAttribute(buffers[i], bufferNames[i], attrib.dimensions, attrib.dynamic)
                 }
 
-                instanceBuffers.setRenderOrder(1)
+                instanceBuffers.setRenderOrder(order)
                 uiSystems[uiSysId].push(instanceBuffers);
             }
 

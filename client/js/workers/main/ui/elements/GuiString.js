@@ -11,6 +11,9 @@ define([
 
         var GuiString = function() {
             this.rootPosition = new THREE.Vector3();
+            this.minXY = new THREE.Vector3();
+            this.maxXY = new THREE.Vector3();
+            this.centerXY = new THREE.Vector3();
         };
 
 
@@ -37,7 +40,6 @@ define([
 
             GuiAPI.buildBufferElement(guiSysId, addLetterCb)
         };
-
 
 
         GuiString.prototype.setupLetters = function(string, guiSysId) {
@@ -100,18 +102,28 @@ define([
         };
 
         GuiString.prototype.setStringPosition = function(vec3, txtLayout) {
+            this.minXY.copy(vec3);
+            this.maxXY.copy(vec3);
             for (var i = 0; i < this.letters.length; i++) {
                 var guiLetter = this.letters[i];
-                this.applyRootPositionToLetter(vec3, i, guiLetter, txtLayout);
+                this.applyRootPositionToLetter(i, guiLetter, txtLayout);
             }
+            this.maxXY.x += txtLayout.letterWidth*0.5;
         };
 
-        GuiString.prototype.applyRootPositionToLetter = function(vec3, index, guiLetter, txtLayout) {
-            tempVec1.x = vec3.x + index*txtLayout.letterWidth;;
-            tempVec1.y = vec3.y;
-            tempVec1.z = vec3.z;
+        GuiString.prototype.applyRootPositionToLetter = function(index, guiLetter, txtLayout) {
 
-            guiLetter.setLetterPosition(tempVec1);
+
+            this.maxXY.x = this.minXY.x + (index) * txtLayout.letterWidth + txtLayout.letterWidth*0.5;
+
+            this.maxXY.y = this.minXY.y + txtLayout.letterHeight;
+
+            this.centerXY.addVectors(this.minXY, this.maxXY).multiplyScalar(0.5);
+
+            guiLetter.setLetterPositionXYZ(this.maxXY.x, this.centerXY.y, this.minXY.z);
+
+        //    GuiAPI.debugDrawGuiPosition(guiLetter.pos.x, guiLetter.pos.y );
+
             guiLetter.applyLetterPosition()
         };
 

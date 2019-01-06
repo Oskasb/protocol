@@ -24,8 +24,10 @@ define([
             return this.pos;
         };
 
-        GuiLetter.prototype.setLetterPosition = function(vec3) {
-            this.pos.copy(vec3);
+        GuiLetter.prototype.setLetterPositionXYZ = function(x, y, z) {
+            this.pos.x = x;
+            this.pos.y = y;
+            this.pos.z = z;
         };
 
         GuiLetter.prototype.applyLetterPosition = function() {

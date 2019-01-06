@@ -34,9 +34,11 @@ define([
             "lifecycle"
         ];
 
-        var GuiBuffers = function(uiSysKey, assetId, elementCount) {
+        var GuiBuffers = function(uiSysKey, assetId, elementCount, renderOrder) {
             this.highestRenderingIndex = 0;
             this.activeCount = 0;
+
+            this.renderOrder = renderOrder;
 
             this.elementBook = [];
             this.elementBook[ENUMS.IndexState.INDEX_BOOKED] = [];
@@ -65,7 +67,7 @@ define([
                 this.buffers[useBuffers[i]] = buffer;
             };
 
-            var msg = [this.uiSysKey, this.assetId, useBuffers, buffers];
+            var msg = [this.uiSysKey, this.assetId, useBuffers, buffers, this.renderOrder];
             MainWorldAPI.postToRender([ENUMS.Message.REGISTER_UI_BUFFERS, msg])
 
         };
@@ -122,13 +124,10 @@ define([
 
         var element;
         var i;
-
+        var clears;
         var elemIndex;
 
-        GuiBuffers.prototype.updateGuiBuffer = function() {
-
-            var releasedIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
-
+        GuiBuffers.prototype.updateReleaseIndices = function(releasedIndices) {
             while (releasedIndices.length) {
                 elemIndex = releasedIndices.pop();
                 element = this.activeElements[elemIndex];
@@ -139,26 +138,39 @@ define([
                     this.setIndexBookState(elemIndex, ENUMS.IndexState.INDEX_FRAME_CLEANUP);
                 }
             }
+        };
 
-            var cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
-
+        GuiBuffers.prototype.updateCleanupIndices = function(cleanupIndices) {
             while (cleanupIndices.length) {
                 elemIndex = cleanupIndices.pop();
                 this.setIndexBookState(elemIndex, ENUMS.IndexState.INDEX_RELEASING);
             }
+        };
+
+
+        GuiBuffers.prototype.updateActiveCount = function() {
 
             if (!this.activeCount) {
                 this.highestRenderingIndex = -1;
                 this.updateDrawRange();
-                cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
-                while (cleanupIndices.length) {
-                    cleanupIndices.pop();
+                clears = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
+                while (clears.length) {
+                    clears.pop();
                 }
-                cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
-                while (cleanupIndices.length) {
-                    cleanupIndices.pop();
+                clears = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
+                while (clears.length) {
+                    clears.pop();
                 }
             }
+        };
+
+        GuiBuffers.prototype.updateGuiBuffer = function() {
+
+            var releasedIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
+            this.updateReleaseIndices(releasedIndices);
+            var cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
+            this.updateCleanupIndices(cleanupIndices);
+            this.updateActiveCount();
 
         };
 

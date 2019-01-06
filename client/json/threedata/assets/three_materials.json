@@ -48,7 +48,7 @@
           "config":{
             "settings": "instancing_ui_settings",
             "textures":[
-              {"key":"map"           , "id":"gui_atlas_12x12"  },
+              {"key":"map"           , "id":"gui_atlas_16x16"  },
               {"key":"data_texture"  , "id":"data_texture"   }
             ]
           }

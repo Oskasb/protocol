@@ -6,6 +6,7 @@ define([
         'application/ExpandingPool',
         'client/js/workers/main/ui/GuiSettings',
         'client/js/workers/main/ui/GuiBuffers',
+        'client/js/workers/main/ui/systems/GuiDebug',
         'client/js/workers/main/ui/systems/InputSystem',
         'client/js/workers/main/ui/systems/TextSystem',
         'client/js/workers/main/ui/elements/GuiBufferElement'
@@ -14,6 +15,7 @@ define([
         ExpandingPool,
         GuiSettings,
         GuiBuffers,
+        GuiDebug,
         InputSystem,
         TextSystem,
         GuiBufferElement
@@ -33,7 +35,7 @@ define([
 
         var guiSettings = new GuiSettings();
 
-        var uiSysKey = 'ATLAS_6x6';
+
         var txtSysKey = 'FONT_16x16';
 
         var guiUpdateCallbacks = [];
@@ -52,9 +54,9 @@ define([
 
         };
 
-        var addUiSystem = function(sysKey, spriteKey, assetName, poolSize) {
+        var addUiSystem = function(sysKey, spriteKey, assetName, poolSize, renderOrder) {
 
-            guiBuffers[spriteKey] = new GuiBuffers(spriteKey, assetName, poolSize);
+            guiBuffers[spriteKey] = new GuiBuffers(spriteKey, assetName, poolSize, renderOrder);
 
             var addElement = function(sysKey, callback) {
                 var element = new GuiBufferElement();
@@ -75,16 +77,17 @@ define([
             guiSettings.loadUiConfig("SURFACE_LAYOUT", "BACKGROUNDS", loadCb);
             guiSettings.initGuiSprite("SPRITES", "FONT_16x16");
             guiSettings.initGuiSprite("SPRITES", "ATLAS_6x6");
+            guiSettings.initGuiSprite("SPRITES", "GUI_16x16");
 
             var onInputSetting = function(src, data) {
                 console.log("UI INPUT DATA", src, data.config);
-                addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"]);
+                addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
                 inputSystem = new InputSystem(data.config["sprite_atlas"]);
             };
 
             var onTextSetting = function(src, data) {
                 console.log("UI TXT DATA", src, data.config);
-                addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"]);
+                addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
                 textSystem = new TextSystem(data.config["sprite_atlas"]);
             };
 
@@ -105,20 +108,24 @@ define([
             return guiSettings;
         };
 
+        GuiAPI.getGuiSettingConfig = function(uiKey, dataKey, dataId) {
+            return guiSettings.getSettingDataConfig(uiKey, dataKey, dataId);
+        };
+
         var updateBufferIndices = function() {
             for (var key in guiBuffers) {
                 guiBuffers[key].updateGuiBuffer()
             }
         };
 
-        GuiAPI.buildBufferElement = function(guiSysId, cb) {
+        GuiAPI.buildBufferElement = function(spriteKey, cb) {
 
-            var getElement = function(sysKey, elem) {
-                elem.initGuiBufferElement(guiBuffers[sysKey]);
+            var getElement = function(key, elem) {
+                elem.initGuiBufferElement(guiBuffers[key]);
                 cb(elem);
             };
 
-            elementPools[guiSysId].getFromExpandingPool(getElement)
+            elementPools[spriteKey].getFromExpandingPool(getElement)
 
         };
 
@@ -129,6 +136,10 @@ define([
 
         GuiAPI.getSurfaceSystem = function() {
             return guiSurfaceSystem;
+        };
+
+        GuiAPI.debugDrawGuiPosition = function(x, y) {
+            GuiDebug.debugDrawPoint(x, y)
         };
 
         GuiAPI.activateGuiElement = function() {
@@ -227,21 +238,27 @@ define([
             }
         };
 
-        var dymmy2 = function() {
+        var dymmy2 = function(element) {
+            textSystem.updateElementPosition( element);
+        };
 
+        var dymmy1 = function(element) {
+            element.drawTextString(txtSysKey,"1 2 3 4 5 6 7 ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ", dymmy2)
         };
 
         var dummyCb = function(element) {
 
-            if (Math.random() < 0.1) {
                 textSystem.addTextElement( element);
-                element.drawTextString(txtSysKey,"1 2 3 4 5 6 7 ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ", dymmy2)
-            }
+                dymmy1(element);
+
         };
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {
+
             updateBufferIndices();
             updateInput(INPUT_BUFFER);
+            GuiDebug.updateDebugElements();
+
             for (var i = 0; i < guiSystems.length; i++) {
                 guiSystems[i].updateGuiSystem();
             }
@@ -250,8 +267,10 @@ define([
                 guiUpdateCallbacks[i]();
             }
 
+            if (Math.random() < 0.1) {
+                textSystem.buildTextElement(dummyCb)
+            }
 
-            textSystem.buildTextElement(dummyCb)
 
         };
 

@@ -38,20 +38,23 @@ define([
                 this.removeTextElement(recoverElem);
             }
 
+        };
+
+        TextSystem.prototype.updateElementPosition = function(element) {
+
             tempVec1.x = -0.8;
             tempVec1.y = -0.4;
             tempVec1.z = -1;
 
-            var guiSettings = GuiAPI.getGuiSettings();
-
-            var txtLayout = guiSettings.getSettingDataConfig('TEXT_LAYOUT', this.spriteKey, 'default');
+            var txtLayout = GuiAPI.getGuiSettingConfig('TEXT_LAYOUT', this.spriteKey, 'default');
 
             for (var i = 0; i < this.elements.length; i++) {
-                tempVec1.y += txtLayout.letterHeight;
+                tempVec1.y += txtLayout.letterHeight + 0.05;
                 this.elements[i].setElementPosition(tempVec1, txtLayout)
             }
 
         };
+
 
         TextSystem.prototype.removeTextElement = function(element) {
 

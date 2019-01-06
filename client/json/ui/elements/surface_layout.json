@@ -9,14 +9,13 @@
             {
               "id":"surface_default",
               "config": {
-                "elementWidth": 0.15,
-                "elementHeight": 0.14,
+                "offsetX": -0.01,
+                "offsetY": -0.01,
+                "padding": { "x":0.018, "y":0.008},
                 "image": {
-                  "atlas_key": "ATLAS_6x6",
-                  "sprite": "plate",
-                  "border_width": 0.1,
-                  "border_height": 0.1
-
+                  "atlas_key": "GUI_16x16",
+                  "sprite": "debug_nine",
+                  "border_thickness": {"x": 0.55, "y": 0.40}
                 }
               }
             }

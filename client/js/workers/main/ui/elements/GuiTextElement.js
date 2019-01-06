@@ -2,16 +2,24 @@
 
 define([
         'application/ExpandingPool',
-        'client/js/workers/main/ui/elements/GuiString'
+        'client/js/workers/main/ui/elements/GuiString',
+        'client/js/workers/main/ui/elements/GuiSurface'
     ],
     function(
         ExpandingPool,
-        GuiString
+        GuiString,
+        GuiSurface
     ) {
 
         var GuiTextElement = function() {
 
             this.guiStrings = [];
+
+            this.guiSurface = new GuiSurface();
+
+
+
+
 
             var addElement = function(sysKey, callback) {
                 var element = new GuiString();
@@ -21,14 +29,13 @@ define([
             this.expandingPool = new ExpandingPool('strings', addElement);
         };
 
-
         GuiTextElement.prototype.drawTextString = function(uiSysKey, string, cb) {
 
 
             var initString = function(guiString) {
                 guiString.setString(string, uiSysKey);
                 this.guiStrings.push(guiString);
-                cb(guiString);
+                cb(this);
             }.bind(this);
 
 
@@ -36,17 +43,32 @@ define([
                 initString(elem)
             };
 
-            this.expandingPool.getFromExpandingPool(getElement)
+
+            var sconf = GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", "surface_default")
+
+
+            var surfaceReady = function(surface) {
+            //    console.log("surface ready",surface)
+                this.expandingPool.getFromExpandingPool(getElement)
+            }.bind(this);
+
+            this.guiSurface.setupSurfaceElement( sconf , surfaceReady);
+
+
 
         };
 
-
         GuiTextElement.prototype.setElementPosition = function(vec3, txtLayout) {
+
+            this.guiSurface.setSurfaceMinXY(vec3);
 
             for (var i = 0; i < this.guiStrings.length; i++) {
                 this.guiStrings[i].setStringPosition(vec3, txtLayout);
+                this.guiSurface.setSurfaceMaxXY(this.guiStrings[i].maxXY);
             }
 
+            this.guiSurface.positionOnCenter();
+            this.guiSurface.fitToExtents();
         };
 
         GuiTextElement.prototype.recoverTextElement = function() {
@@ -58,9 +80,9 @@ define([
                 this.expandingPool.returnToExpandingPool(guiString);
 
             }
+            this.guiSurface.recoverBufferElement();
 
         };
-
 
         return GuiTextElement;
 

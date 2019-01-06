@@ -7,9 +7,10 @@
           {
             "id":"gui_buffer",
             "config": {
-              "sprite_atlas": "ATLAS_6x6",
+              "sprite_atlas": "GUI_16x16",
               "mesh_asset":  "asset_nineQuad",
-              "pool_size": 2500
+              "pool_size": 22500,
+              "render_order": 5
             }
           }
         ]
@@ -22,7 +23,8 @@
             "config": {
               "sprite_atlas": "FONT_16x16",
               "mesh_asset":  "asset_letterQuad",
-              "pool_size": 5000
+              "pool_size": 5000,
+              "render_order": 10
             }
           }
         ]

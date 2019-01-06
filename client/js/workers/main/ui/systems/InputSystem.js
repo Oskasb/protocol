@@ -40,15 +40,26 @@ define([
                 surface = this.interactiveElements[i];
                 intersects = surface.testIntersection(x, y);
 
+                if (surface.getSurfaceState() === ENUMS.ElementState.DISABLED) {
+                    continue;
+                }
+
                 if (pointer) {
 
                     if (intersects) {
 
+                        if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_HOVER) {
+                            surface.setSurfaceState(ENUMS.ElementState.DEACTIVATE);
+                            surface.surfaceOnPressStart(inputIndex);
+                            continue;
+                        }
+
                         if (surface.getSurfaceState() === ENUMS.ElementState.DEACTIVATE) {
+                            continue;
+                        }
 
 
-
-                        } else if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE) {
+                        if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE) {
 
                             surface.setSurfaceState(ENUMS.ElementState.DEACTIVATE);
                             surface.surfaceOnPressStart(inputIndex);
@@ -73,15 +84,21 @@ define([
 
                 } else if (intersects) {
 
+
+                    if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_HOVER) {
+                        continue;
+                    }
+
+                    if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE) {
+                        surface.setSurfaceState(ENUMS.ElementState.ACTIVE_HOVER);
+                        surface.surfaceOnHover(inputIndex);
+                        continue;
+                    }
+
                     if (surface.getSurfaceState() === ENUMS.ElementState.PRESS) {
 
                         surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
                         surface.surfaceOnPressActivate(inputIndex);
-
-                    } else if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE) {
-
-                    //    surface.setSurfaceState(ENUMS.ElementState.DEACTIVATE);
-                    //    surface.surfaceOnPressStart(inputIndex);
 
                     } else if (surface.getSurfaceState() !== ENUMS.ElementState.HOVER) {
                         surface.setSurfaceState(ENUMS.ElementState.HOVER);
@@ -91,11 +108,15 @@ define([
                 } else {
 
                     if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE) {
+                        continue;
+                    }
 
-                        //    surface.setSurfaceState(ENUMS.ElementState.DEACTIVATE);
-                        //    surface.surfaceOnPressStart(inputIndex);
+                    if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_HOVER) {
+                        surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
+                        continue;
+                    }
 
-                    } else if (surface.getSurfaceState() !== ENUMS.ElementState.NONE) {
+                    if (surface.getSurfaceState() !== ENUMS.ElementState.NONE) {
                         surface.setSurfaceState(ENUMS.ElementState.NONE);
                         surface.surfaceOnHoverEnd(inputIndex);
 

@@ -50,6 +50,7 @@ define([
             while (this.textElements.length) {
                 this.textElements.pop();
             }
+            this.config = null;
             this.bufferElement.releaseElement()
         };
 

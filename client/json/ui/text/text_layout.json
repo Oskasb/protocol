@@ -7,11 +7,11 @@
           "id": "FONT_16x16",
           "data": [
             {
-              "id":"default",
+              "id":"default_text_layout",
               "config": {
                 "letter_width": 0.025,
-                "letter_height": 0.043,
-                "row_spacing": 0.003,
+                "letter_height": 0.03,
+                "row_spacing": 0.0015,
                 "state_feedback": {
                   "NONE": {
                     "color_rgba": {"r": 0.32, "g": 0.63, "b": 0.88, "a": 1}
@@ -25,8 +25,27 @@
                   "ACTIVE": {
                     "color_rgba": {"r": 0.85, "g": 0.96, "b": 0.99, "a": 1}
                   },
+                  "ACTIVE_HOVER": {
+                    "color_rgba": {"r": 0.95, "g": 0.99, "b": 0.99, "a": 1}
+                  },
                   "DEACTIVATE": {
                     "color_rgba": {"r": 0.35, "g": 0.33, "b": 0.59, "a": 1}
+                  },
+                  "DISABLED": {
+                    "color_rgba": {"r": 0.35, "g": 0.33, "b": 0.33, "a": 1}
+                  }
+                }
+              }
+            },
+            {
+              "id":"debug_text",
+              "config": {
+                "letter_width": 0.025,
+                "letter_height": 0.155,
+                "row_spacing": 0.00,
+                "state_feedback": {
+                  "NONE": {
+                    "color_rgba": {"r": 0.32, "g": 0.63, "b": 0.88, "a": 1}
                   }
                 }
               }

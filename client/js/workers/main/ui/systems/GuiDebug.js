@@ -18,6 +18,8 @@ define([
         var rgba = {r:1, g:1, b:1, a:1};
 
 
+        var debugTxtPos = new THREE.Vector3();
+
         var GuiDebug = function() {
 
         };
@@ -75,6 +77,32 @@ define([
             drawPointXY(minVec.x, maxVec.y);
             drawPointXY(maxVec.x, maxVec.y);
         };
+
+
+
+
+        GuiDebug.addDebugTextString = function(string, configId) {
+
+            debugTxtPos.x = 0.4;
+            debugTxtPos.y = 0.4;
+            debugTxtPos.z = -1;
+
+
+            var dymmy2 = function(element) {
+
+                textSystem.updateElementPositions();
+            };
+
+            var addTextCB = function(element) {
+                GuiAPI.getTextSystem().addTextElement(element)
+                element.drawTextString('FONT_16x16',string )
+            };
+
+
+            GuiAPI.getTextSystem().buildTextElement(addTextCB, configId, debugTxtPos)
+        };
+
+
 
         GuiDebug.updateDebugElements = function() {
             frameDraws = 0;

@@ -100,17 +100,18 @@ define([
         //    this.setStringPosition(this.rootPosition)
         };
 
-        GuiString.prototype.setStringPosition = function(vec3, letterWidth, letterHeight) {
+        GuiString.prototype.setStringPosition = function(vec3, letterWidth, letterHeight, rowSpacing, row) {
             this.minXY.copy(vec3);
-            this.maxXY.copy(vec3);
+            this.minXY.y += row*rowSpacing + row*letterHeight;
+            this.maxXY.copy(this.minXY);
             for (var i = 0; i < this.letters.length; i++) {
                 var guiLetter = this.letters[i];
-                this.applyRootPositionToLetter(i, guiLetter, letterWidth, letterHeight);
+                this.applyRootPositionToLetter(i, guiLetter, letterWidth, letterHeight, rowSpacing, row);
             }
             this.maxXY.x += letterWidth*0.5;
         };
 
-        GuiString.prototype.applyRootPositionToLetter = function(index, guiLetter, letterWidth, letterHeight) {
+        GuiString.prototype.applyRootPositionToLetter = function(index, guiLetter, letterWidth, letterHeight, rowSpacing, row) {
 
 
             this.maxXY.x = this.minXY.x + index * letterWidth + letterWidth*0.5;

@@ -33,23 +33,13 @@ define([
 
             this.elements.unshift(element);
 
-            if (this.elements.length > 4) {
-                var recoverElem = this.elements.pop();
-                this.removeTextElement(recoverElem);
-            }
         };
 
 
         TextSystem.prototype.updateElementPositions = function() {
 
-            tempVec1.x = -0.8;
-            tempVec1.y = -0.4;
-            tempVec1.z = -1;
-
             for (var i = 0; i < this.elements.length; i++) {
-                var config = this.elements[i].config;
-                tempVec1.y += config['letter_height'] + config['row_spacing'];
-                this.elements[i].setElementPosition(tempVec1)
+                this.elements[i].updateElementPosition()
             }
 
         };
@@ -62,11 +52,13 @@ define([
 
         };
 
-        TextSystem.prototype.buildTextElement = function(cb) {
+        TextSystem.prototype.buildTextElement = function(cb, dataId, elementPos) {
 
             var getElement = function(elem) {
-                var config = GuiAPI.getGuiSettingConfig('TEXT_LAYOUT', this.spriteKey, 'default');
-                elem.setElementConfig(config);
+
+                elem.setElementAnchorPos(elementPos);
+                elem.setElementDataKeys('TEXT_LAYOUT', this.spriteKey, dataId);
+
                 cb(elem);
             }.bind(this);
 

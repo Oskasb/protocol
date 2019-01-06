@@ -35,7 +35,8 @@ define([
 
         var guiSettings = new GuiSettings();
 
-
+        var dummyTxtPos = new THREE.Vector3(-0.5, -0.3, -1)
+        var basicText;
         var txtSysKey = 'FONT_16x16';
 
         var guiUpdateCallbacks = [];
@@ -70,8 +71,12 @@ define([
 
         GuiAPI.initGuiApi = function() {
 
-            var loadCb = function() {}
+            var loadCb = function() {};
 
+            var textSysCb = function(txtElem) {
+                basicText = txtElem;
+                textSystem.addTextElement( basicText );
+            };
 
             guiSettings.loadUiConfig("TEXT_LAYOUT", "FONT_16x16", loadCb);
             guiSettings.loadUiConfig("SURFACE_LAYOUT", "BACKGROUNDS", loadCb);
@@ -89,6 +94,12 @@ define([
                 console.log("UI TXT DATA", src, data.config);
                 addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
                 textSystem = new TextSystem(data.config["sprite_atlas"]);
+
+                setTimeout(function() {
+                    textSystem.buildTextElement(textSysCb, "default_text_layout", dummyTxtPos)
+                }, 500)
+
+
             };
 
             guiSettings.initGuiSettings(["UI_ELEMENTS_MAIN"], onInputSetting);
@@ -145,6 +156,11 @@ define([
         GuiAPI.debugDrawRectExtents = function(minVec, maxVec) {
             GuiDebug.drawRectExtents(minVec, maxVec)
         };
+
+        GuiAPI.printDebugText = function(string, txtLayout) {
+            GuiDebug.drawRectExtents(minVec, maxVec)
+        };
+
 
         GuiAPI.registerInteractiveGuiElement = function(surfaceElement) {
             inputSystem.registerInteractiveSurfaceElement(surfaceElement)
@@ -250,22 +266,17 @@ define([
             }
         };
 
+
+
         var dymmy2 = function(element) {
-
-
             textSystem.updateElementPositions();
         };
 
         var dymmy1 = function(element) {
-            element.drawTextString(txtSysKey,"1 2 3 4 5 6 7 ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ", dymmy2)
+            element.drawTextString(txtSysKey,"MOO "+Math.random(), dymmy2)
         };
 
-        var dummyCb = function(element) {
 
-                textSystem.addTextElement( element);
-                dymmy1(element);
-
-        };
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {
 
@@ -279,16 +290,14 @@ define([
             }
 
 
+            if (Math.random() < 0.02) {
+                dymmy1(basicText);
+            }
+
 
             for (i = 0; i < guiUpdateCallbacks.length; i++) {
                 guiUpdateCallbacks[i]();
             }
-
-            if (Math.random() < 0.02) {
-                textSystem.buildTextElement(dummyCb)
-            }
-
-
 
         };
 

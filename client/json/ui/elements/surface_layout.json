@@ -9,8 +9,8 @@
             {
               "id":"surface_default",
               "config": {
-                "offsetX": -0.01,
-                "offsetY": -0.01,
+                "offsetX": 0.0,
+                "offsetY": 0.0,
                 "padding": { "x":0.008, "y":0.0005},
 
                 "state_feedback": {
@@ -30,8 +30,60 @@
                     "color_rgba": {"r": 0.32, "g": 0.41, "b": 0.79, "a": 1},
                     "sprite": "button_rounded"
                   },
+                  "ACTIVE_HOVER": {
+                    "color_rgba": {"r": 0.32, "g": 0.41, "b": 0.79, "a": 1},
+                    "sprite": "button_rounded"
+                  },
                   "DEACTIVATE": {
                     "color_rgba": {"r": 0.07, "g": 0.11, "b": 0.40, "a": 1},
+                    "sprite": "button_rounded_pressed"
+                  },
+                  "DISABLED": {
+                    "color_rgba": {"r": 0.17, "g": 0.16, "b": 0.16, "a": 1},
+                    "sprite": "button_rounded_pressed"
+                  }
+                },
+
+                "image": {
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.55, "y": 0.40}
+                }
+              }
+            },
+            {
+              "id":"button_default",
+              "config": {
+                "offsetX": 0.0,
+                "offsetY": 0.0,
+                "padding": { "x":0.008, "y":0.0005},
+
+                "state_feedback": {
+                  "NONE": {
+                    "color_rgba": {"r": 0.15, "g": 0.21, "b": 0.51, "a": 1},
+                    "sprite": "button_rounded"
+                  },
+                  "HOVER": {
+                    "color_rgba": {"r": 0.20, "g": 0.25, "b": 0.67, "a": 1},
+                    "sprite": "button_rounded"
+                  },
+                  "PRESS": {
+                    "color_rgba": {"r": 0.15, "g": 0.21, "b": 0.61, "a": 1},
+                    "sprite": "button_rounded_pressed"
+                  },
+                  "ACTIVE": {
+                    "color_rgba": {"r": 0.32, "g": 0.41, "b": 0.79, "a": 1},
+                    "sprite": "button_rounded"
+                  },
+                  "ACTIVE_HOVER": {
+                    "color_rgba": {"r": 0.92, "g": 0.51, "b": 0.84, "a": 1},
+                    "sprite": "button_rounded"
+                  },
+                  "DEACTIVATE": {
+                    "color_rgba": {"r": 0.07, "g": 0.11, "b": 0.40, "a": 1},
+                    "sprite": "button_rounded_pressed"
+                  },
+                  "DISABLED": {
+                    "color_rgba": {"r": 0.17, "g": 0.16, "b": 0.16, "a": 1},
                     "sprite": "button_rounded_pressed"
                   }
                 },

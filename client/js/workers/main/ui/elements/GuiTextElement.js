@@ -16,6 +16,7 @@ define([
             this.guiStrings = [];
             this.guiSurface = new GuiSurface();
 
+            this.anchorPosVec = new THREE.Vector3();
 
             var addElement = function(sysKey, callback) {
                 var element = new GuiString();
@@ -26,11 +27,6 @@ define([
         };
 
         GuiTextElement.prototype.drawTextString = function(uiSysKey, string, cb) {
-
-
-
-            var sconf = GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", "surface_default")
-
 
             var surfaceReady = function(surface) {
             //    console.log("surface ready",surface)
@@ -47,34 +43,76 @@ define([
                     initString(elem)
                 };
 
-
                 surface.attachTextElement(this);
                 this.expandingPool.getFromExpandingPool(getElement)
             }.bind(this);
 
+            if (this.guiSurface.config) {
+                surfaceReady(this.guiSurface);
+                return;
+            }
+
             GuiAPI.registerInteractiveGuiElement(this.guiSurface);
+
+            var sconf = GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", "surface_default")
+
             this.guiSurface.setupSurfaceElement( sconf , surfaceReady);
 
-            var onHover = function() {
+        };
 
-            };
-
+        GuiTextElement.prototype.setElementDataKeys = function(uiKey, dataKey, dataId) {
+            this.uiKey = uiKey;
+            this.dataKey = dataKey;
+            this.dataId = dataId;
+            var config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);
+            this.setElementConfig(config);
         };
 
         GuiTextElement.prototype.setElementConfig = function(config) {
             this.config = config;
-        }
-
-        GuiTextElement.prototype.setElementPosition = function(vec3) {
+        };
 
 
+        GuiTextElement.prototype.setElementAnchorPos = function(posV) {
+            this.anchorPosVec.copy(posV);
+        };
 
-            this.guiSurface.setSurfaceMinXY(vec3);
+        GuiTextElement.prototype.updateElementPosition = function() {
+
+                if (this.guiStrings.length > 4) {
+                    var guiString = this.guiStrings.shift();
+                    guiString.recoverGuiString();
+                    this.expandingPool.returnToExpandingPool(guiString);
+
+                }
+
+            this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);
+
+            this.guiSurface.setSurfaceMinXY(this.anchorPosVec);
+            this.guiSurface.setSurfaceMaxXY(this.anchorPosVec);
+
+                var letterW = this.config['letter_width'];
+                var letterH = this.config['letter_height'];
+
+                var maxW = 0;
+                var maxH = 0;
 
             for (var i = 0; i < this.guiStrings.length; i++) {
-                this.guiStrings[i].setStringPosition(vec3, this.config['letter_width'], this.config['letter_height']);
-                this.guiSurface.setSurfaceMaxXY(this.guiStrings[i].maxXY);
+
+                this.guiStrings[i].setStringPosition(this.anchorPosVec, letterW, letterH, this.config['row_spacing'], i);
+
+                if (this.guiStrings[i].maxXY.x > maxW) {
+                    maxW = this.guiStrings[i].maxXY.x;
+                }
+
+                maxH = this.guiStrings[i].maxXY.y
+
             }
+
+            // this.guiSurface.minXY.y = maxH //letterH/2;
+
+            this.guiSurface.maxXY.x = maxW;
+            this.guiSurface.maxXY.y = maxH ;
 
             this.guiSurface.positionOnCenter();
             this.guiSurface.fitToExtents();

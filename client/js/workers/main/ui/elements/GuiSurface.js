@@ -38,6 +38,7 @@ define([
         };
 
         GuiSurface.prototype.setSurfaceState = function(state) {
+            if (this.surfaceState === state) return;
             this.surfaceState = state;
             this.applyStateFeedback();
         };

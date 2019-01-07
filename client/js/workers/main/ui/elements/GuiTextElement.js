@@ -23,28 +23,32 @@ define([
                 callback(element)
             };
 
-            this.expandingPool = new ExpandingPool('strings', addElement);
+            this.guiStringPool = new ExpandingPool('strings', addElement);
         };
 
         GuiTextElement.prototype.drawTextString = function(uiSysKey, string, cb) {
 
+            if (this.guiStrings.length > 4) {
+                var guiString = this.guiStrings.shift();
+                guiString.recoverGuiString();
+                this.guiStringPool.returnToExpandingPool(guiString);
+            }
+
+            var initString = function(guiString, surface) {
+                guiString.setString(string, uiSysKey);
+                this.guiStrings.push(guiString);
+                surface.applyStateFeedback();
+                cb(this);
+            }.bind(this);
+
             var surfaceReady = function(surface) {
             //    console.log("surface ready",surface)
-
-                var initString = function(guiString) {
-                    guiString.setString(string, uiSysKey);
-                    this.guiStrings.push(guiString);
-                    surface.applyStateFeedback();
-                    cb(this);
-                }.bind(this);
-
-
                 var getElement = function(elem) {
-                    initString(elem)
+                    initString(elem, surface)
                 };
 
                 surface.attachTextElement(this);
-                this.expandingPool.getFromExpandingPool(getElement)
+                this.guiStringPool.getFromExpandingPool(getElement)
             }.bind(this);
 
             if (this.guiSurface.config) {
@@ -79,12 +83,7 @@ define([
 
         GuiTextElement.prototype.updateElementPosition = function() {
 
-                if (this.guiStrings.length > 4) {
-                    var guiString = this.guiStrings.shift();
-                    guiString.recoverGuiString();
-                    this.expandingPool.returnToExpandingPool(guiString);
 
-                }
 
             this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);
 
@@ -122,9 +121,9 @@ define([
 
             while (this.guiStrings.length) {
 
-                var guiString = this.guiStrings.pop();
+                var guiString = this.guiStrings.shift();
                 guiString.recoverGuiString();
-                this.expandingPool.returnToExpandingPool(guiString);
+                this.guiStringPool.returnToExpandingPool(guiString);
             }
 
             GuiAPI.unregisterInteractiveGuiElement(this.guiSurface);

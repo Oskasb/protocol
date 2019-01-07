@@ -290,7 +290,7 @@ define([
             }
 
 
-            if (Math.random() < 0.02) {
+            if (basicText) {
                 dymmy1(basicText);
             }
 

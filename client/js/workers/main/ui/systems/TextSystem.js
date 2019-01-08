@@ -25,23 +25,33 @@ define([
         };
 
 
+        TextSystem.prototype.initTextSystem = function(callback) {
+
+            var textSystem = this;
+
+            var onTextSetting = function(src, data) {
+            //    console.log("UI TXT DATA", src, data.config);
+                textSystem.spriteKey = data.config["sprite_atlas"];
+                GuiAPI.addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
+                callback();
+
+
+            };
+
+            GuiAPI.getGuiSettings().initGuiSettings(["UI_TEXT_MAIN"], onTextSetting)
+
+        };
+
+
+
         TextSystem.prototype.getSpriteKey = function() {
             return this.spriteKey;
         };
 
+
+
         TextSystem.prototype.addTextElement = function(element) {
-
             this.elements.unshift(element);
-
-        };
-
-
-        TextSystem.prototype.updateAllTextPositions = function() {
-
-            for (var i = 0; i < this.elements.length; i++) {
-                this.elements[i].updateElementPosition()
-            }
-
         };
 
 
@@ -51,6 +61,8 @@ define([
             this.expandingPool.returnToExpandingPool(element);
 
         };
+
+
 
         TextSystem.prototype.buildTextElement = function(cb, dataId, elementPos) {
 
@@ -65,6 +77,17 @@ define([
             this.expandingPool.getFromExpandingPool(getElement)
 
         };
+
+
+
+        TextSystem.prototype.updateAllTextPositions = function() {
+
+            for (var i = 0; i < this.elements.length; i++) {
+                this.elements[i].updateElementPosition()
+            }
+
+        };
+
 
         return TextSystem;
 

@@ -21,12 +21,25 @@ define([
         var surface;
         var intersects;
 
-        var InputSystem = function(uiSysKey) {
-            uiSysId = uiSysKey;
+        var InputSystem = function() {
 
             this.surfaceElements = [];
-
             this.stupListener();
+
+        };
+
+
+        InputSystem.prototype.initInputSystem = function(callback) {
+
+            var onInputSetting = function(src, data) {
+
+                uiSysId = data.config["sprite_atlas"];
+                GuiAPI.addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
+                callback();
+            };
+
+            GuiAPI.getGuiSettings().initGuiSettings(["UI_ELEMENTS_MAIN"], onInputSetting);
+
         };
 
 

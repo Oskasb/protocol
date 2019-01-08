@@ -24,8 +24,6 @@ define([
         var i;
         var inputs;
         var ib;
-        var pointerSys;
-        var guiSurfaceSystem;
         var guiSystems = [];
 
         var elementPools = {};
@@ -51,6 +49,7 @@ define([
             }
         };
 
+
         var GuiAPI = function() {
 
         };
@@ -63,58 +62,68 @@ define([
                 var element = new GuiBufferElement();
                 callback(sysKey, element)
             };
-
             elementPools[spriteKey] = new ExpandingPool(spriteKey, addElement);
+        };
 
+
+        var defaultTextCB = function(txtElem) {
+            basicText = txtElem;
+
+            var surfaceReady = function() {
+                textSystem.addTextElement( basicText );
+            };
+
+            basicText.setupTextSurface("surface_default", surfaceReady)
+        };
+
+        var textSysCb = function() {
+
+            var dummyTxtPos = new THREE.Vector3(-0.5, -0.3, -1);
+
+            textSystem.buildTextElement(defaultTextCB, "default_text_layout", dummyTxtPos);
+
+            var debugTextPos = new THREE.Vector3(0.3, 0.3, -1);
+            GuiDebug.addDebugTextPanel("debug_text", debugTextPos)
+        };
+
+        var inputReady = function() {
+            textSystem = new TextSystem();
+            textSystem.initTextSystem(textSysCb);
+        };
+
+        var configsLoaded = function() {
+            inputSystem = new InputSystem();
+            inputSystem.initInputSystem(inputReady);
+        };
+
+        var reqs = 0;
+        var loads = 0;
+
+        var loadCb = function() {
+            loads++
+            if (loads === reqs) {
+                configsLoaded();
+            }
+        };
+
+        var loadUiConfig = function(key, dataId) {
+            reqs++;
+            guiSettings.loadUiConfig(key, dataId, loadCb);
         };
 
 
         GuiAPI.initGuiApi = function() {
 
-            var loadCb = function() {};
-
-            var textSysCb = function(txtElem) {
-                basicText = txtElem;
-
-                var surfaceReady = function() {
-                    textSystem.addTextElement( basicText );
-                };
-
-                basicText.setupTextSurface("surface_default", surfaceReady)
-
-            };
-
-            guiSettings.loadUiConfig("TEXT_LAYOUT", "FONT_16x16", loadCb);
-            guiSettings.loadUiConfig("SURFACE_LAYOUT", "BACKGROUNDS", loadCb);
             guiSettings.initGuiSprite("SPRITES", "FONT_16x16");
             guiSettings.initGuiSprite("SPRITES", "ATLAS_6x6");
             guiSettings.initGuiSprite("SPRITES", "GUI_16x16");
 
-            var onInputSetting = function(src, data) {
-                console.log("UI INPUT DATA", src, data.config);
-                addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
-                inputSystem = new InputSystem(data.config["sprite_atlas"]);
-            };
-
-            var onTextSetting = function(src, data) {
-                console.log("UI TXT DATA", src, data.config);
-                addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
-                textSystem = new TextSystem(data.config["sprite_atlas"]);
-
-                setTimeout(function() {
-                    var dummyTxtPos = new THREE.Vector3(-0.5, -0.3, -1)
-                    textSystem.buildTextElement(textSysCb, "default_text_layout", dummyTxtPos)
-                    var debugTextPos = new THREE.Vector3(0.3, 0.3, -1);
-                    GuiDebug.addDebugTextPanel("debug_text", debugTextPos)
-                }, 500)
-
-
-            };
-
-            guiSettings.initGuiSettings(["UI_ELEMENTS_MAIN"], onInputSetting);
-            guiSettings.initGuiSettings(["UI_TEXT_MAIN"], onTextSetting);
+            loadUiConfig("TEXT_LAYOUT", "FONT_16x16");
+            loadUiConfig("SURFACE_LAYOUT", "BACKGROUNDS");
 
         };
+
+        GuiAPI.addUiSystem = addUiSystem;
 
         GuiAPI.getTextSystem = function() {
             return textSystem;
@@ -144,18 +153,7 @@ define([
                 elem.initGuiBufferElement(guiBuffers[key]);
                 cb(elem);
             };
-
             elementPools[spriteKey].getFromExpandingPool(getElement)
-
-        };
-
-        GuiAPI.enableGuiSystems = function() {
-            GuiAPI.addGuiSystem(pointerSys);
-            GuiAPI.addGuiSystem(guiSurfaceSystem)
-        };
-
-        GuiAPI.getSurfaceSystem = function() {
-            return guiSurfaceSystem;
         };
 
         GuiAPI.debugDrawGuiPosition = function(x, y) {

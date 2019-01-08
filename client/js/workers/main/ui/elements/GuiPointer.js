@@ -7,35 +7,59 @@ define([
 
     ) {
 
+    var intersects;
+
         var GuiPointer = function(element) {
+            this.pos = new THREE.Vector3(0, 0, -1);
             this.bufferElement = element;
             this.pointerState = null;
-            this.activeElement = null;
+            this.interactiveElement = null;
             this.targetElementState = null;
             this.inputIndex = null;
+            this.isSeeking = false;
         };
 
-        GuiPointer.prototype.setPointerActiveElement = function(activeElement) {
+        GuiPointer.prototype.setPointerInteractiveElement = function(interactiveElement) {
+            this.interactiveElement = interactiveElement;
+        };
 
-            if (this.activeElement !== activeElement) {
-            //    GuiAPI.printDebugText("CHANGE POINTER TARGET");
-                this.activeElement = activeElement;
-                return true;
+        GuiPointer.prototype.getPointerInteractiveElement = function() {
+            return this.interactiveElement;
+        };
+
+        GuiPointer.prototype.pointerPressElementStart = function(interactiveElem) {
+            if (this.getIsSeeking()) {
+                this.setPointerInteractiveElement(interactiveElem);
+            }
+        };
+
+        GuiPointer.prototype.setIsSeeking = function(bool) {
+
+            if (this.isSeeking !== bool){
+                GuiAPI.printDebugText("SEEK: "+bool);
+            }
+
+            this.isSeeking = bool;
+        };
+
+        GuiPointer.prototype.getIsSeeking = function() {
+            return this.isSeeking;
+        };
+
+        GuiPointer.prototype.updatePointerInteractiveElement = function() {
+
+            this.setIsSeeking(false);
+
+            intersects = this.interactiveElement.testSurfaceIntersects(this.pos);
+
+            if (intersects) {
+                this.interactiveElement.notifyPointerPress(this.getInputIndex());
+            } else {
+                this.interactiveElement = null;
             }
 
         };
 
-        GuiPointer.prototype.updateTargetElementState = function(elementState) {
-
-            if (this.targetElementState !== elementState) {
-
-                GuiAPI.printDebugText("ELEMENT STATE:", ENUMS.getKey('ElementState', elementState));
-
-                this.targetElementState = elementState;
-                return true;
-            }
-
-        };
 
         GuiPointer.prototype.setInputIndex = function(inputIndex) {
             this.inputIndex = inputIndex;
@@ -45,21 +69,9 @@ define([
             return this.inputIndex;
         };
 
-        GuiPointer.prototype.updatePointerState = function(element) {
-            return this.activeElement === element;
-        };
-
-
-        GuiPointer.prototype.elementMatchesCurrentTarget = function(element) {
-            return this.activeElement === element;
-        };
-
-        GuiPointer.prototype.pointerMathesState = function(state) {
-            return this.pointerState === state;
-        };
-
 
         GuiPointer.prototype.setPointerPosition = function(vec3) {
+            this.pos.copy(vec3);
             this.bufferElement.setPositionVec3(vec3)
         };
 
@@ -67,7 +79,6 @@ define([
         //    GuiAPI.printDebugText("RELEASE POINTER");
             this.bufferElement.releaseElement()
         };
-
 
 
         GuiPointer.prototype.setPointerScale = function(vec3) {

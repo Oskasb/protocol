@@ -27,11 +27,11 @@
                     "sprite": "button_rounded_pressed"
                   },
                   "ACTIVE": {
-                    "color_rgba": {"r": 0.32, "g": 0.41, "b": 0.79, "a": 1},
+                    "color_rgba": {"r": 0.24, "g": 0.41, "b": 0.79, "a": 1},
                     "sprite": "button_rounded"
                   },
                   "ACTIVE_HOVER": {
-                    "color_rgba": {"r": 0.32, "g": 0.41, "b": 0.79, "a": 1},
+                    "color_rgba": {"r": 0.42, "g": 0.57, "b": 0.99, "a": 1},
                     "sprite": "button_rounded"
                   },
                   "ACTIVE_PRESS": {

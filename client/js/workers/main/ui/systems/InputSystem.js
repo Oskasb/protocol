@@ -14,7 +14,7 @@ define([
         var tempVec1 = new THREE.Vector3();
 
         var pointers = [];
-        var pointerBuffer = []
+
         var pointer;
 
         var uiSysId;
@@ -24,278 +24,58 @@ define([
         var InputSystem = function(uiSysKey) {
             uiSysId = uiSysKey;
 
-            this.interactiveElements = [];
+            this.surfaceElements = [];
 
             this.stupListener();
         };
 
 
-        InputSystem.prototype.updatePointerSurfaceIntersecting = function(pointer, surface) {
+        InputSystem.prototype.getIntersectingElement = function(x, y, inputIndex) {
+            for (var i = 0; i < this.surfaceElements.length; i++) {
+                surface = this.surfaceElements[i];
 
-            if (surface.getSurfaceState() === ENUMS.ElementState.PRESS) {
-                return;
-            }
+                intersects = surface.testIntersection(x, y);
 
-            if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_PRESS) {
-                return;
-            }
+                interactiveElem = surface.getInteractiveElement();
 
-            if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_HOVER) {
-                surface.setSurfaceState(ENUMS.ElementState.ACTIVE_PRESS);
-                surface.surfaceOnPressStart();
-                return;
-            }
-
-            if (surface.getSurfaceState() === ENUMS.ElementState.HOVER) {
-                surface.setSurfaceState(ENUMS.ElementState.PRESS);
-                surface.surfaceOnPressStart();
-            }
-
-        };
-
-        InputSystem.prototype.updatePointerSurfaceExit = function(pointer, surface) {
-
-            surface.setActiveInputIndex(null);
-
-            if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_HOVER) {
-                surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
-                surface.surfaceOnHoverEnd();
-                return;
-            }
-
-            if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_PRESS) {
-                surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
-                surface.surfaceOnPressEnd();
-                return;
-            }
-
-            if (surface.getSurfaceState() === ENUMS.ElementState.HOVER) {
-                //    surface.setSurfaceState(ENUMS.ElementState.NONE);
-                //    surface.surfaceOnHoverEnd();
-                return;
-            }
-
-
-            if (surface.getSurfaceState() === ENUMS.ElementState.PRESS) {
-                //    surface.setSurfaceState(ENUMS.ElementState.NONE);
-                //    surface.surfaceOnPressEnd();
-                return;
-            }
-
-            if (surface.getSurfaceState() !== ENUMS.ElementState.PRESS) {
-                //    surface.setSurfaceState(ENUMS.ElementState.PRESS);
-                //    surface.surfaceOnPressEnd();
-            }
-        };
-
-
-        InputSystem.prototype.updatePointerSurfaceStatus = function(pointer, surface, intersects) {
-
-            if (intersects) {
-
-                this.updatePointerSurfaceIntersecting(pointer, surface);
-
-            } else {
-
-                if (pointer.activeElement) {
-
-                    pointer.setPointerActiveElement(null)
-                    this.updatePointerSurfaceExit(pointer, surface);
-
-                }
-
-            }
-
-        };
-
-        InputSystem.prototype.updateHoverStart = function(surface, intersects) {
-
-
-
-            if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_HOVER) {
-                surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
-                return;
-            }
-            //
-
-            if (intersects) {
-                if (surface.getSurfaceState() === ENUMS.ElementState.NONE) {
-                    surface.setSurfaceState(ENUMS.ElementState.HOVER);
-                    surface.surfaceOnHover();
-                    return;
-                }
-
-                if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE) {
-                    surface.setSurfaceState(ENUMS.ElementState.ACTIVE_HOVER);
-                    surface.surfaceOnHover();
-                    return;
+                if (intersects) {
+                    return interactiveElem;
+                } else {
+                    interactiveElem.notifyInputOutside(inputIndex)
                 }
             }
-
-            if (surface.getSurfaceState() !== ENUMS.ElementState.NONE) {
-                surface.setSurfaceState(ENUMS.ElementState.NONE);
-                surface.surfaceOnHoverEnd();
-            }
-
         };
 
+        var interactiveElem;
 
-        InputSystem.prototype.updateHoverEnd = function(surface) {
+        InputSystem.prototype.updateInteractiveElements = function(inputIndex, x, y, pointer) {
 
-            if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_HOVER) {
-                surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
-                GuiAPI.printDebugText("5 "+surface.getSurfaceState());
-                return;
-            }
-
-            if (surface.getSurfaceState() !== ENUMS.ElementState.NONE) {
-                surface.setSurfaceState(ENUMS.ElementState.NONE);
-                surface.surfaceOnHoverEnd();
-            }
-
-        };
-
-        InputSystem.prototype.startPointerIntersectSurface = function(pointer, surface, intersects) {
-
-        };
-
-        InputSystem.prototype.endActiveSurfaceInput = function(pointer, surface) {
-
-
-            surface.activeInputIndex = null;
-
-            if (surface.getSurfaceState() === (ENUMS.ElementState.ACTIVE)) {
-                surface.setSurfaceState(ENUMS.ElementState.NONE);
-                surface.surfaceOnPressDeactivate();
-                return;
-            }
-
-            if (surface.getSurfaceState() === (ENUMS.ElementState.PRESS)) {
-                surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
-                surface.surfaceOnPressActivate();
-                return;
-            }
-
-            if (surface.getSurfaceState() === (ENUMS.ElementState.PRESS)) {
-                surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
-                surface.surfaceOnPressActivate();
-                return;
-            }
-
-
-            GuiAPI.printDebugText("3 "+surface.getSurfaceState());
-
-
-        };
-
-        InputSystem.prototype.updateInputActiveOnSurface = function(pointer, surface, inputIndex) {
-
+            GuiAPI.debugDrawGuiPosition(x, y);
 
             if (pointer) {
 
-                if (surface.getSurfaceState() === (ENUMS.ElementState.HOVER || ENUMS.ElementState.NONE)) {
-                    surface.setSurfaceState(ENUMS.ElementState.PRESS);
-                    surface.surfaceOnPressStart(pointer.getInputIndex());
+                if (pointer.getPointerInteractiveElement()) {
+                    pointer.updatePointerInteractiveElement();
                     return;
                 }
 
-                if (surface.getSurfaceState() === (ENUMS.ElementState.ACTIVE || ENUMS.ElementState.ACTIVE_HOVER)) {
-                    surface.setSurfaceState(ENUMS.ElementState.ACTIVE_PRESS);
-                    surface.surfaceOnPressStart(pointer.getInputIndex());
-                    return;
-                }
+                interactiveElem = this.getIntersectingElement(x, y, inputIndex);
 
-                GuiAPI.printDebugText("2 "+surface.getSurfaceState());
-
-            } else {
-
-                if (surface.getSurfaceState() === ENUMS.ElementState.PRESS) {
-                    surface.setSurfaceState(ENUMS.ElementState.ACTIVE);
-                    surface.surfaceOnPressActivate();
-                    return;
-                }
-
-                if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE_PRESS) {
-                    surface.setSurfaceState(ENUMS.ElementState.NONE);
-                    surface.surfaceOnPressActivate();
-                    return;
-                }
-
-                if (surface.getSurfaceState() === ENUMS.ElementState.NONE) {
-                    surface.setSurfaceState(ENUMS.ElementState.HOVER);
-                    surface.surfaceOnHover();
-                    return;
-                }
-
-                if (surface.getSurfaceState() === ENUMS.ElementState.ACTIVE) {
-                    surface.setSurfaceState(ENUMS.ElementState.ACTIVE_HOVER);
-                    surface.surfaceOnHover();
-                    return;
-                }
-
-                if (surface.getSurfaceState() === ENUMS.ElementState.HOVER) {
-                    GuiAPI.printDebugText("0"+surface.getSurfaceState());
-                    return;
-                }
-
-                GuiAPI.printDebugText("1"+surface.getSurfaceState());
-            }
-
-
-
-        };
-
-
-        InputSystem.prototype.updateInputAgainstSurface = function(inputIndex, pointer, surface, intersects) {
-            var currentSurfaceInput = surface.getActiveInputIndex();
-
-            if (typeof(currentSurfaceInput) === 'number') {
-
-                if (currentSurfaceInput === inputIndex) {
-
-                    if (intersects) {
-                        this.updateInputActiveOnSurface(pointer, surface, inputIndex);
-                    } else {
-                        this.endActiveSurfaceInput(pointer, surface);
-                    }
-                }
-
-                return;
-            }
-
-            surface.activeInputIndex = null;
-
-            if (intersects) {
-
-                if (pointer) {
-                    this.startPointerIntersectSurface(pointer, surface, intersects)
+                if (interactiveElem) {
+                    pointer.pointerPressElementStart(interactiveElem);
                 } else {
-                    surface.surfaceOnHover(inputIndex);
+                    pointer.setIsSeeking(false);
                 }
 
             } else {
-                surface.setActiveInputIndex(false);
-                this.updateHoverEnd(surface)
-            }
 
-        };
+                interactiveElem = this.getIntersectingElement(x, y, inputIndex);
 
-
-
-        InputSystem.prototype.updateInteractiveElements = function(inputIndex, x, y, pointer) {
-            GuiAPI.debugDrawGuiPosition(x, y);
-
-            for (var i = 0; i < this.interactiveElements.length; i++) {
-                surface = this.interactiveElements[i];
-                intersects = surface.testIntersection(x, y);
-
-                if (surface.getSurfaceState() === ENUMS.ElementState.DISABLED) {
-                    continue;
+                if (interactiveElem) {
+                    interactiveElem.notifyHoverStateOn(inputIndex);
                 }
-
-                this.updateInputAgainstSurface(inputIndex, pointer, surface, intersects)
-
             }
+
         };
 
 
@@ -322,6 +102,7 @@ define([
                         var addPointer = function(bufferElem) {
                             pointer = new GuiPointer(bufferElem);
                             pointer.setPointerPosition(tempVec1);
+                            pointer.setIsSeeking(true);
                             pointers[inputIndex] = pointer;
                         };
                         pointers[inputIndex] = true;
@@ -356,11 +137,11 @@ define([
         };
 
         InputSystem.prototype.registerInteractiveSurfaceElement = function(surfaceElement) {
-            this.interactiveElements.push(surfaceElement);
+            this.surfaceElements.push(surfaceElement);
         };
 
         InputSystem.prototype.unregisterInteractiveSurfaceElement = function(surfaceElement) {
-            this.interactiveElements.splice(this.interactiveElements.indexOf(surfaceElement), 1);
+            this.surfaceElements.splice(this.surfaceElements.indexOf(surfaceElement), 1);
         };
 
         InputSystem.prototype.setAttribXYZ = function(name, index, x, y, z) {

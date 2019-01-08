@@ -1,10 +1,12 @@
 "use strict";
 
 define([
-        'client/js/workers/main/ui/states/ElementStateProcessor'
+        'client/js/workers/main/ui/states/ElementStateProcessor',
+        'client/js/workers/main/ui/states/InteractiveElement'
     ],
     function(
-        ElementStateProcessor
+        ElementStateProcessor,
+        InteractiveElement
     ) {
 
         var GuiSurface = function() {
@@ -14,20 +16,29 @@ define([
             this.centerXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
 
-            this.surfaceState = ENUMS.ElementState.NONE;
-
             this.textElements = [];
-            this.activeInputIndex = false;
 
+            this.active = false;
+
+            this.interactiveElement = new InteractiveElement(this);
         };
 
-
-        GuiSurface.prototype.setActiveInputIndex = function(inputIndex) {
-            this.activeInputIndex = inputIndex;
+        GuiSurface.prototype.hasActivePointer = function(inputIndex) {
+            if (this.interactiveElement.pressIndices.indexOf(inputIndex) !== -1) {
+                return true;
+            }
         };
 
-        GuiSurface.prototype.getActiveInputIndex = function() {
-            return this.activeInputIndex;
+        GuiSurface.prototype.toggleActive = function() {
+            this.active = !this.active;
+        };
+
+        GuiSurface.prototype.getActive = function() {
+            return this.active;
+        };
+
+        GuiSurface.prototype.getInteractiveElement = function() {
+            return this.interactiveElement;
         };
 
         GuiSurface.prototype.attachTextElement = function(textElement) {
@@ -41,7 +52,6 @@ define([
         };
 
         GuiSurface.prototype.setBufferElement = function(bufferElement) {
-            this.surfaceState = ENUMS.ElementState.NONE;
             this.bufferElement = bufferElement
         };
 
@@ -51,12 +61,6 @@ define([
                 return true;
             }
 
-        };
-
-        GuiSurface.prototype.setSurfaceState = function(state) {
-            if (this.surfaceState === state) return;
-            this.surfaceState = state;
-            this.applyStateFeedback();
         };
 
         GuiSurface.prototype.getSurfaceState = function() {
@@ -90,47 +94,6 @@ define([
         };
 
 
-        GuiSurface.prototype.surfaceOnHover = function(inputIndex) {
-            GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
-            GuiAPI.printDebugText("HOVER");
-            this.setActiveInputIndex(inputIndex);
-        };
-
-        GuiSurface.prototype.surfaceOnHoverEnd = function() {
-            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
-            GuiAPI.printDebugText("HOVER END");
-            this.setActiveInputIndex(false);
-        };
-
-        GuiSurface.prototype.surfaceOnPressStart = function(inputIndex) {
-            GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
-            this.setActiveInputIndex(inputIndex);
-            GuiAPI.printDebugText("PRESS");
-        };
-
-        GuiSurface.prototype.surfaceOnPressEnd = function() {
-            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
-            GuiAPI.printDebugText("PRESS END");
-            this.setActiveInputIndex(false);
-        };
-
-        GuiSurface.prototype.surfaceOnPressActivate = function() {
-            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
-            GuiAPI.printDebugText("ACTIVATE");
-            this.setActiveInputIndex(false);
-        };
-
-        GuiSurface.prototype.surfaceOnPressDeactivate = function() {
-            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
-            GuiAPI.printDebugText("DEACTIVATE");
-            this.setActiveInputIndex(false);
-        };
-
-        GuiSurface.prototype.surfaceOnPressCancel = function() {
-            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
-            GuiAPI.printDebugText("CANCEL");
-            this.setActiveInputIndex(false);
-        };
 
         GuiSurface.prototype.setSurfaceMinXY = function(vec3) {
             this.minXY.copy(vec3);;
@@ -181,7 +144,7 @@ define([
 
             this.configureNineslice();
 
-            GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
+        //    GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
 
             this.bufferElement.setSprite(this.sprite);
             this.bufferElement.setScaleVec3(this.scale);
@@ -194,12 +157,13 @@ define([
         };
 
 
+        var state;
         GuiSurface.prototype.applyStateFeedback = function() {
-
-            ElementStateProcessor.applyElementStateFeedback(this, this.getSurfaceState());
+            state = this.getInteractiveElement().getInteractiveElementState();
+            ElementStateProcessor.applyElementStateFeedback(this, state);
 
             for (var i = 0; i < this.textElements.length; i++) {
-                ElementStateProcessor.applyStateToTextElement(this.textElements[i], this.getSurfaceState());
+                ElementStateProcessor.applyStateToTextElement(this.textElements[i], state);
             }
 
         };

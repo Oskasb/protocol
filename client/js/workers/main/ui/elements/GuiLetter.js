@@ -15,9 +15,9 @@ define([
 
             this.bufferElement = bufferElement;
 
-            this.bufferElement.lifecycle = {x:0.1, y:0.1, z:0.1, w:0.1};
+            this.bufferElement.lifecycle = {x:0.1, y:0.1, z:0.1, w:0.0};
             this.bufferElement.pos = {x:0, y:0, z:1};
-            this.bufferElement.scale = {x:1, y:1, z:1};
+            this.scale = {x:1, y:1, z:1};
             this.sprite = {x:0, y:0, z:0, w:0};
             this.pos.x = 0;
             this.pos.y = 0;
@@ -61,8 +61,14 @@ define([
             this.bufferElement.setSprite(xyzw)
         };
 
-        GuiLetter.prototype.setLetterScale = function(vec3) {
-            this.bufferElement.setScaleVec3(vec3)
+        GuiLetter.prototype.applyFontSizeAndHeight = function(fontSize, letterHeight) {
+            this.setLetterScaleXY(fontSize * letterHeight * 10, fontSize * letterHeight * 10)
+        };
+
+        GuiLetter.prototype.setLetterScaleXY = function(x, y) {
+            this.scale.x = x;
+            this.scale.y = y;
+            this.bufferElement.setScaleVec3(this.scale)
         };
 
         GuiLetter.prototype.setLetterReleaseTime = function(time) {

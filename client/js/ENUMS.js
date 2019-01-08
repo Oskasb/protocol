@@ -254,10 +254,9 @@ if(typeof(ENUMS) === "undefined"){
         HOVER:            1,
         PRESS:            2,
         ACTIVE:           3,
-        RELEASE:          4,
-        ACTIVE_HOVER:     5,
-        DEACTIVATE:       6,
-        DISABLED:         7
+        ACTIVE_HOVER:     4,
+        ACTIVE_PRESS:     5,
+        DISABLED:         6
     };
 
     ENUMS.Environments = {

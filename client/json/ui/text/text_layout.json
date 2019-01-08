@@ -9,9 +9,9 @@
             {
               "id":"default_text_layout",
               "config": {
-                "letter_width": 0.025,
-                "letter_height": 0.03,
-                "row_spacing": 0.0015,
+                "letter_width": 0.0017,
+                "letter_height": 0.0031,
+                "row_spacing": 0.00001,
                 "state_feedback": {
                   "NONE": {
                     "color_rgba": {"r": 0.32, "g": 0.63, "b": 0.88, "a": 1}
@@ -28,7 +28,7 @@
                   "ACTIVE_HOVER": {
                     "color_rgba": {"r": 0.95, "g": 0.99, "b": 0.99, "a": 1}
                   },
-                  "DEACTIVATE": {
+                  "ACTIVE_PRESS": {
                     "color_rgba": {"r": 0.35, "g": 0.33, "b": 0.59, "a": 1}
                   },
                   "DISABLED": {
@@ -40,9 +40,9 @@
             {
               "id":"debug_text",
               "config": {
-                "letter_width": 0.025,
-                "letter_height": 0.155,
-                "row_spacing": 0.00,
+                "letter_width": 0.0017,
+                "letter_height": 0.0031,
+                "row_spacing": 0.00001,
                 "state_feedback": {
                   "NONE": {
                     "color_rgba": {"r": 0.32, "g": 0.63, "b": 0.88, "a": 1}

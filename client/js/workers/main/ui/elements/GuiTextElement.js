@@ -26,32 +26,43 @@ define([
             this.guiStringPool = new ExpandingPool('strings', addElement);
         };
 
-        GuiTextElement.prototype.drawTextString = function(uiSysKey, string, cb) {
+        GuiTextElement.prototype.removeGuiString = function(guiString) {
 
-            if (this.guiStrings.length > 4) {
-                var guiString = this.guiStrings.shift();
-                guiString.recoverGuiString();
-                this.guiStringPool.returnToExpandingPool(guiString);
-            }
+            guiString.recoverGuiString();
+            this.guiStringPool.returnToExpandingPool(guiString);
+
+        };
+
+        GuiTextElement.prototype.drawTextString = function(uiSysKey, string, fontSize) {
+
 
             var initString = function(guiString, surface) {
-                guiString.setString(string, uiSysKey);
+
+                guiString.setString(string, uiSysKey, fontSize);
                 this.guiStrings.push(guiString);
                 surface.applyStateFeedback();
-                cb(this);
+                this.updateElementPosition()
+
             }.bind(this);
 
             var surfaceReady = function(surface) {
             //    console.log("surface ready",surface)
+
+                if (this.guiStrings.length > 4) {
+                    this.removeGuiString(this.guiStrings.shift())
+                }
+
                 var getElement = function(elem) {
                     initString(elem, surface)
                 };
 
                 surface.attachTextElement(this);
                 this.guiStringPool.getFromExpandingPool(getElement)
+
             }.bind(this);
 
             if (this.guiSurface.config) {
+
                 surfaceReady(this.guiSurface);
                 return;
             }
@@ -82,8 +93,6 @@ define([
         };
 
         GuiTextElement.prototype.updateElementPosition = function() {
-
-
 
             this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);
 

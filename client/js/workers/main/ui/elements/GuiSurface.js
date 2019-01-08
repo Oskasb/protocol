@@ -17,11 +17,27 @@ define([
             this.surfaceState = ENUMS.ElementState.NONE;
 
             this.textElements = [];
+            this.activeInputIndex = false;
 
         };
 
+
+        GuiSurface.prototype.setActiveInputIndex = function(inputIndex) {
+            this.activeInputIndex = inputIndex;
+        };
+
+        GuiSurface.prototype.getActiveInputIndex = function() {
+            return this.activeInputIndex;
+        };
+
         GuiSurface.prototype.attachTextElement = function(textElement) {
-            this.textElements.push(textElement);
+            if (this.textElements.indexOf(textElement) === -1) {
+                this.textElements.push(textElement);
+            }
+        };
+
+        GuiSurface.prototype.detachTextElement = function(textElement) {
+            this.textElements.splice( this.textElements.indexOf(textElement) );
         };
 
         GuiSurface.prototype.setBufferElement = function(bufferElement) {
@@ -76,22 +92,44 @@ define([
 
         GuiSurface.prototype.surfaceOnHover = function(inputIndex) {
             GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
+            GuiAPI.printDebugText("HOVER");
+            this.setActiveInputIndex(inputIndex);
         };
 
-        GuiSurface.prototype.surfaceOnHoverEnd = function(inputIndex) {
+        GuiSurface.prototype.surfaceOnHoverEnd = function() {
             GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
+            GuiAPI.printDebugText("HOVER END");
+            this.setActiveInputIndex(false);
         };
 
         GuiSurface.prototype.surfaceOnPressStart = function(inputIndex) {
             GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
+            this.setActiveInputIndex(inputIndex);
+            GuiAPI.printDebugText("PRESS");
         };
 
-        GuiSurface.prototype.surfaceOnPressEnd = function(inputIndex) {
+        GuiSurface.prototype.surfaceOnPressEnd = function() {
             GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
+            GuiAPI.printDebugText("PRESS END");
+            this.setActiveInputIndex(false);
         };
 
-        GuiSurface.prototype.surfaceOnPressActivate = function(inputIndex) {
+        GuiSurface.prototype.surfaceOnPressActivate = function() {
             GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
+            GuiAPI.printDebugText("ACTIVATE");
+            this.setActiveInputIndex(false);
+        };
+
+        GuiSurface.prototype.surfaceOnPressDeactivate = function() {
+            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
+            GuiAPI.printDebugText("DEACTIVATE");
+            this.setActiveInputIndex(false);
+        };
+
+        GuiSurface.prototype.surfaceOnPressCancel = function() {
+            GuiAPI.debugDrawGuiPosition(this.centerXY.x, this.centerXY.y);
+            GuiAPI.printDebugText("CANCEL");
+            this.setActiveInputIndex(false);
         };
 
         GuiSurface.prototype.setSurfaceMinXY = function(vec3) {
@@ -157,6 +195,7 @@ define([
 
 
         GuiSurface.prototype.applyStateFeedback = function() {
+
             ElementStateProcessor.applyElementStateFeedback(this, this.getSurfaceState());
 
             for (var i = 0; i < this.textElements.length; i++) {

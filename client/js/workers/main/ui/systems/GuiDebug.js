@@ -80,28 +80,21 @@ define([
 
 
 
-
-        GuiDebug.addDebugTextString = function(string, configId) {
-
-            debugTxtPos.x = 0.4;
-            debugTxtPos.y = 0.4;
-            debugTxtPos.z = -1;
-
-
-            var dymmy2 = function(element) {
-
-                textSystem.updateElementPositions();
-            };
-
-            var addTextCB = function(element) {
-                GuiAPI.getTextSystem().addTextElement(element)
-                element.drawTextString('FONT_16x16',string )
-            };
-
-
-            GuiAPI.getTextSystem().buildTextElement(addTextCB, configId, debugTxtPos)
+        GuiDebug.addDebugTextString = function(string) {
+            debugText.drawTextString('FONT_16x16',string, 7 )
         };
 
+        var debugText;
+
+
+        GuiDebug.addDebugTextPanel = function(configId, pos) {
+
+            var addTextCB = function(element) {
+                debugText = element;
+            };
+
+            GuiAPI.getTextSystem().buildTextElement(addTextCB, configId, pos)
+        };
 
 
         GuiDebug.updateDebugElements = function() {

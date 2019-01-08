@@ -35,7 +35,7 @@ define([
 
         var guiSettings = new GuiSettings();
 
-        var dummyTxtPos = new THREE.Vector3(-0.5, -0.3, -1)
+
         var basicText;
         var txtSysKey = 'FONT_16x16';
 
@@ -96,7 +96,10 @@ define([
                 textSystem = new TextSystem(data.config["sprite_atlas"]);
 
                 setTimeout(function() {
+                    var dummyTxtPos = new THREE.Vector3(-0.5, -0.3, -1)
                     textSystem.buildTextElement(textSysCb, "default_text_layout", dummyTxtPos)
+                    var debugTextPos = new THREE.Vector3(0.3, 0.3, -1);
+                    GuiDebug.addDebugTextPanel("debug_text", debugTextPos)
                 }, 500)
 
 
@@ -157,8 +160,8 @@ define([
             GuiDebug.drawRectExtents(minVec, maxVec)
         };
 
-        GuiAPI.printDebugText = function(string, txtLayout) {
-            GuiDebug.drawRectExtents(minVec, maxVec)
+        GuiAPI.printDebugText = function(string) {
+            GuiDebug.addDebugTextString(string)
         };
 
 
@@ -268,14 +271,9 @@ define([
 
 
 
-        var dymmy2 = function(element) {
-            textSystem.updateElementPositions();
+        var dymmy1 = function(textElement) {
+            textElement.drawTextString(txtSysKey,"MOO "+Math.random(), 7)
         };
-
-        var dymmy1 = function(element) {
-            element.drawTextString(txtSysKey,"MOO "+Math.random(), dymmy2)
-        };
-
 
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {

@@ -36,7 +36,7 @@ define([
         };
 
 
-        TextSystem.prototype.updateElementPositions = function() {
+        TextSystem.prototype.updateAllTextPositions = function() {
 
             for (var i = 0; i < this.elements.length; i++) {
                 this.elements[i].updateElementPosition()

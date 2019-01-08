@@ -1,70 +1,69 @@
 "use strict";
 
 define([
-        'client/js/workers/main/ui/elements/GuiLetter',
-        'application/ExpandingPool'
+        'application/ExpandingPool',
+        'client/js/workers/main/ui/elements/GuiLetter'
     ],
     function(
-        GuiLetter,
-        ExpandingPool
+        ExpandingPool,
+        GuiLetter
     ) {
-
-        var i;
-        var tempVec1 = new THREE.Vector3();
-
-        var createLetter = function(guiSysId, letter, index, cb) {
-
-            var fetch = function(guiLetter) {
-
-            //    var guiLetter = new GuiLetter();
-
-                var bufferCB = function(bufferElement) {
-                    guiLetter.initLetterBuffers(bufferElement);
-                    cb(guiLetter, letter, index);
-                };
-
-                GuiAPI.buildBufferElement(guiSysId, bufferCB)
-
-            };
-
-            letterPools[guiSysId].getFromExpandingPool(fetch)
-        };
-
-
-        var buildLetter = function(guiSysId, letterReadyCB) {
-
-            var bufferCb = function(bufferElem) {
-                letterReadyCB(new GuiLetter())
-            };
-
-        };
 
         var letterPools = {};
 
+        var fetch = function(sysKey, cb) {
+
+            var addLetterCb = function(bufferElem) {
+
+                var letter = new GuiLetter();
+                letter.initLetterBuffers(bufferElem);
+                cb(letter)
+            };
+
+            GuiAPI.buildBufferElement(sysKey, addLetterCb)
+        };
+
+
+        var createLetter = function(guiSysId, letter, index, cb) {
+
+            var getLetter = function(guiLetter) {
+                cb(guiLetter, letter, index);
+            };
+
+            letterPools[guiSysId].getFromExpandingPool(getLetter);
+
+        };
+
 
         var GuiString = function() {
+
             this.minXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
             this.centerXY = new THREE.Vector3();
-            this.letters = [];
         };
 
-
-        GuiString.prototype.setString = function(string, guiSysId) {
+        GuiString.prototype.setString = function(string, guiSysId, fontSize) {
 
             if (!letterPools[guiSysId]) {
-                letterPools[guiSysId]= new ExpandingPool(guiSysId, buildLetter)
+                letterPools[guiSysId] = new ExpandingPool(guiSysId, fetch)
             }
 
             this.guiSysId = guiSysId;
-            this.setupLetters(string);
+            this.fontSize = fontSize;
+
+            this.setupLetters(string, guiSysId);
 
         };
 
-        var s;
 
-        GuiString.prototype.setupLetters = function(string) {
+        var sprite = {x:7, y:0, z:0.0, w:0.0};
 
+        var lifecycle = {x:0, y:0, z:0, w:0.25};
+
+
+        GuiString.prototype.setupLetters = function(string, guiSysId) {
+
+            this.letters = [];
 
             var addLetter = function(guiLetter, letter, index) {
                 this.letters[index] = guiLetter;
@@ -77,8 +76,8 @@ define([
 
             var adds = string.length;
 
-            for (s = 0; s < string.length; s++) {
-                createLetter(this.guiSysId, string[s], s, addLetter);
+            for (var i = 0; i < string.length; i++) {
+                createLetter(guiSysId, string[i], i, addLetter);
             }
 
         };
@@ -86,15 +85,12 @@ define([
         GuiString.prototype.recoverGuiString = function() {
 
             while (this.letters.length) {
+
                 var letter = this.letters.pop();
                 letter.releaseGuiLetter();
-                letterPools[this.guiSysId].returnToExpandingPool(letter)
+            //    this.expandingPool.returnToExpandingPool(letter);
             }
-        }
-
-        var scale = {x:0.4, y:0.4, z:1.0};
-
-        var ia;
+        };
 
         GuiString.prototype.applyStringData = function() {
 
@@ -102,40 +98,48 @@ define([
             var fontSprites = GuiAPI.getUiSprites(spriteKey);
             var letterSprite;
 
-            for (ia = 0; ia < this.letters.length; ia++) {
-                var guiLetter = this.letters[ia];
+            for (var i = 0; i < this.letters.length; i++) {
+                var guiLetter = this.letters[i];
 
                 var letter = guiLetter.getLetter();
 
-                guiLetter.initLetterBuffers();
                 letterSprite = fontSprites[letter];
+                if (!letterSprite) {
+                    sprite.x = 1;
+                    sprite.y = 1;
+                } else {
+                    sprite.x = letterSprite[0];
+                    sprite.y = letterSprite[1];
+                }
 
-                guiLetter.setLetterScale(scale);
-                guiLetter.setSriteXY(letterSprite[0], letterSprite[1]);
 
+                guiLetter.setLetterSprite(sprite);
             }
 
+        //    this.setStringPosition(this.rootPosition)
         };
 
-        var l;
 
         GuiString.prototype.setStringPosition = function(vec3, letterWidth, letterHeight, rowSpacing, row) {
             this.minXY.copy(vec3);
-            this.minXY.y += row*rowSpacing + row*letterHeight;
+            this.minXY.y += this.fontSize*row*rowSpacing + this.fontSize*row*letterHeight;
             this.maxXY.copy(this.minXY);
-            for (l = 0; l < this.letters.length; l++) {
-                var guiLetter = this.letters[l];
-                this.applyRootPositionToLetter(l, guiLetter, letterWidth, letterHeight, rowSpacing, row);
+            for (var i = 0; i < this.letters.length; i++) {
+                var guiLetter = this.letters[i];
+                this.applyRootPositionToLetter(i, guiLetter, letterWidth, letterHeight, rowSpacing, row);
             }
-            this.maxXY.x += letterWidth*0.5;
+            this.maxXY.x += this.fontSize*letterWidth*0.5;
         };
+
 
         GuiString.prototype.applyRootPositionToLetter = function(index, guiLetter, letterWidth, letterHeight, rowSpacing, row) {
 
 
-            this.maxXY.x = this.minXY.x + index * letterWidth + letterWidth*0.5;
+            guiLetter.applyFontSizeAndHeight(this.fontSize ,letterHeight);
 
-            this.maxXY.y = this.minXY.y + letterHeight;
+            this.maxXY.x = this.minXY.x + index * this.fontSize*letterWidth + this.fontSize*letterWidth*0.5;
+
+            this.maxXY.y = this.minXY.y + this.fontSize*letterHeight;
 
             this.centerXY.addVectors(this.minXY, this.maxXY).multiplyScalar(0.5);
 
@@ -147,19 +151,15 @@ define([
         };
 
 
-        var c;
-
         GuiString.prototype.setStringColorRGBA = function(rgba) {
 
-            for (c = 0; c < this.letters.length; c++) {
-                 this.letters[c].setLetterColorRGBA(rgba);;
+            for (var i = 0; i < this.letters.length; i++) {
+                var guiLetter = this.letters[i];
+                guiLetter.setLetterColorRGBA(rgba);
             }
 
         };
 
-        GuiString.prototype.setLetterScale = function(vec3) {
-            this.bufferElement.setScaleVec3(vec3)
-        };
 
         return GuiString;
 

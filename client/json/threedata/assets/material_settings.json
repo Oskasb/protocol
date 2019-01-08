@@ -64,12 +64,30 @@
             "shader": "RawShaderMaterial",
             "properties": {
               "program": "GUI_INSTANCING_STANDARD",
-              "blending": "NoBlending",
+              "blending": "NormalBlending",
               "data_texture": "data_texture",
               "side": "DoubleSide",
               "settings": {
                 "depthTest": false,
-                "alphaTest": 0.5
+                "alphaTest": 0.05,
+                "transparent": true
+              }
+            }
+          }
+        },
+        {
+          "id": "instancing_font_settings"  ,
+          "config": {
+            "shader": "RawShaderMaterial",
+            "properties": {
+              "program": "GUI_INSTANCING_STANDARD",
+              "blending": "NormalBlending",
+              "data_texture": "data_texture",
+              "side": "DoubleSide",
+              "settings": {
+                "depthTest": false,
+                "alphaTest": 0.05,
+                "transparent": true
               }
             }
           }

@@ -79,9 +79,11 @@ define([
             return this.bufferElement;
         };
 
-        GuiSurface.prototype.setupSurfaceElement = function(config, callback) {
+        GuiSurface.prototype.setupSurfaceElement = function(configId, callback) {
 
-            this.config = config;
+            this.configId = configId;
+
+            this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", this.configId);
 
             var addSurfaceCb = function(bufferElem) {
                 this.setBufferElement(bufferElem);
@@ -89,10 +91,8 @@ define([
                 callback(this)
             }.bind(this);
 
-            GuiAPI.buildBufferElement(config.image.atlas_key, addSurfaceCb);
-
+            GuiAPI.buildBufferElement(this.config.image.atlas_key, addSurfaceCb);
         };
-
 
 
         GuiSurface.prototype.setSurfaceMinXY = function(vec3) {
@@ -159,6 +159,9 @@ define([
 
         var state;
         GuiSurface.prototype.applyStateFeedback = function() {
+
+            this.applySurfaceConfig();
+
             state = this.getInteractiveElement().getInteractiveElementState();
             ElementStateProcessor.applyElementStateFeedback(this, state);
 
@@ -169,14 +172,15 @@ define([
         };
 
 
-        GuiSurface.prototype.applySurfaceConfig = function(config) {
+        GuiSurface.prototype.applySurfaceConfig = function() {
+
+            this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", this.configId);
 
             this.bufferElement.setAttackTime(0);
             this.bufferElement.setReleaseTime(0);
-            this.applyStateFeedback();
 
-            this.scale.x = config.image["border_thickness"].x;
-            this.scale.y = config.image["border_thickness"].y;
+            this.scale.x = this.config.image["border_thickness"].x;
+            this.scale.y = this.config.image["border_thickness"].y;
         };
 
         return GuiSurface;

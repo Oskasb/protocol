@@ -45,35 +45,29 @@ define([
 
             }.bind(this);
 
-            var surfaceReady = function(surface) {
-            //    console.log("surface ready",surface)
 
                 if (this.guiStrings.length > 4) {
                     this.removeGuiString(this.guiStrings.shift())
                 }
 
                 var getElement = function(elem) {
-                    initString(elem, surface)
-                };
+                    initString(elem, this.guiSurface)
+                }.bind(this);
 
-                surface.attachTextElement(this);
+                this.guiSurface.attachTextElement(this);
                 this.guiStringPool.getFromExpandingPool(getElement)
 
-            }.bind(this);
+        };
 
-            if (this.guiSurface.config) {
 
-                surfaceReady(this.guiSurface);
-                return;
-            }
+
+        GuiTextElement.prototype.setupTextSurface = function(configId, surfaceReady) {
 
             GuiAPI.registerInteractiveGuiElement(this.guiSurface);
-
-            var sconf = GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", "surface_default")
-
-            this.guiSurface.setupSurfaceElement( sconf , surfaceReady);
+            this.guiSurface.setupSurfaceElement( configId , surfaceReady);
 
         };
+
 
         GuiTextElement.prototype.setElementDataKeys = function(uiKey, dataKey, dataId) {
             this.uiKey = uiKey;

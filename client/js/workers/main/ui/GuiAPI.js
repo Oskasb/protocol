@@ -75,7 +75,13 @@ define([
 
             var textSysCb = function(txtElem) {
                 basicText = txtElem;
-                textSystem.addTextElement( basicText );
+
+                var surfaceReady = function() {
+                    textSystem.addTextElement( basicText );
+                };
+
+                basicText.setupTextSurface("surface_default", surfaceReady)
+
             };
 
             guiSettings.loadUiConfig("TEXT_LAYOUT", "FONT_16x16", loadCb);

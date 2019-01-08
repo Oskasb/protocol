@@ -91,6 +91,13 @@ define([
 
             var addTextCB = function(element) {
                 debugText = element;
+
+                var surfaceReady = function() {
+                    GuiAPI.getTextSystem().addTextElement( debugText );
+                };
+
+                debugText.setupTextSurface("debug_text_box", surfaceReady)
+
             };
 
             GuiAPI.getTextSystem().buildTextElement(addTextCB, configId, pos)

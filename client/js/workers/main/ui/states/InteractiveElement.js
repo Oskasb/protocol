@@ -28,6 +28,7 @@ define([
             GuiAPI.printDebugText("" + ENUMS.getKey('ElementState', state));
 
             this.state = state;
+            this.getSurfaceElement().applyStateFeedback()
         };
 
 

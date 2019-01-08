@@ -56,7 +56,7 @@
         {
           "id":"material_instancing_font",
           "config":{
-            "settings": "instancing_ui_settings",
+            "settings": "instancing_font_settings",
             "textures":[
               {"key":"map"           , "id":"fontatlas"  },
               {"key":"data_texture"  , "id":"data_texture"   }

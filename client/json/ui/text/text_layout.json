@@ -9,8 +9,8 @@
             {
               "id":"default_text_layout",
               "config": {
-                "letter_width": 0.0017,
-                "letter_height": 0.0031,
+                "letter_width": 0.0013,
+                "letter_height": 0.0025,
                 "row_spacing": 0.00001,
                 "state_feedback": {
                   "NONE": {
@@ -40,12 +40,30 @@
             {
               "id":"debug_text",
               "config": {
-                "letter_width": 0.0017,
-                "letter_height": 0.0031,
-                "row_spacing": 0.00001,
+                "letter_width": 0.0012,
+                "letter_height": 0.0020,
+                "row_spacing": 0.000001,
                 "state_feedback": {
                   "NONE": {
-                    "color_rgba": {"r": 0.32, "g": 0.63, "b": 0.88, "a": 1}
+                    "color_rgba": {"r": 0.49, "g": 0.76, "b": 0.95, "a": 0.85}
+                  },
+                  "HOVER": {
+                    "color_rgba": {"r": 0.55, "g": 0.81, "b": 0.99, "a": 1}
+                  },
+                  "PRESS": {
+                    "color_rgba": {"r": 0.5,  "g": 0.6,  "b": 0.85, "a": 1}
+                  },
+                  "ACTIVE": {
+                    "color_rgba": {"r": 0.61, "g": 0.99, "b": 0.89, "a": 1}
+                  },
+                  "ACTIVE_HOVER": {
+                    "color_rgba": {"r": 0.71, "g": 1.10, "b": 0.93, "a": 1}
+                  },
+                  "ACTIVE_PRESS": {
+                    "color_rgba": {"r": 0.15, "g": 0.73, "b": 0.59, "a": 0.7}
+                  },
+                  "DISABLED": {
+                    "color_rgba": {"r": 0.17, "g": 0.16, "b": 0.16, "a": 1}
                   }
                 }
               }

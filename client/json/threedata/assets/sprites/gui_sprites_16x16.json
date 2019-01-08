@@ -31,6 +31,10 @@
             "tiles":[[7, 1]]
           },
           {
+            "id":"text_box_framed",
+            "tiles":[[6, 2]]
+          },
+          {
             "id":"button_sub_frame",
             "tiles":[[8, 1]]
           },

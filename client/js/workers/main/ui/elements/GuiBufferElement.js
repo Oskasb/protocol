@@ -16,6 +16,7 @@ define([
             this.index = this.guiBuffers.getAvailableIndex();
             this.guiBuffers.registerElement(this);
 
+            // negative r inverts lut gradient direction
             this.rgba =     {r:1, g:1, b:1, a:1};
             this.pos =      {x:1, y:1, z:-1};
             this.scale =    {x:1, y:1, z:1};

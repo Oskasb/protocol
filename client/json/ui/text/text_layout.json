@@ -19,26 +19,26 @@
                   },
                   "HOVER": {
                     "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_cyan"
+                    "lut_color": "grad_dk_blue"
                   },
                   "PRESS": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_dk_red"
+                    "color_rgba": {"r": -0.4, "g": 0.4, "b": 0.9, "a": 1.0},
+                    "lut_color": "grad_blue"
                   },
                   "ACTIVE": {
                     "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_cyan"
+                    "lut_color": "grad_green"
                   },
                   "ACTIVE_HOVER": {
                     "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_yellow"
+                    "lut_color": "grad_brt_green"
                   },
                   "ACTIVE_PRESS": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_magenta"
+                    "color_rgba": {"r": -0.4, "g": 0.8, "b": 0.4, "a": 1.0},
+                    "lut_color": "grad_dk_green"
                   },
                   "DISABLED": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
+                    "color_rgba": {"r": 0.6, "g": 0.6, "b": 0.6, "a": 1.0},
                     "lut_color": "zeroToOne"
                   }
                 }

@@ -56,7 +56,7 @@
               "config": {
                 "offsetX": 0.0,
                 "offsetY": 0.0,
-                "padding": { "x":0.01, "y":0.01},
+                "padding": { "x":0.02, "y":0.015},
 
                 "state_feedback": {
                   "NONE": {
@@ -106,7 +106,7 @@
               "config": {
                 "offsetX": 0.0,
                 "offsetY": 0.0,
-                "padding": { "x":0.008, "y":0.0005},
+                "padding": { "x":0.018, "y":0.0005},
 
                 "state_feedback": {
                   "NONE": {

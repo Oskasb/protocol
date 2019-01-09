@@ -759,16 +759,29 @@
           "uniform sampler2D data_texture;",
           "uniform float data_rows;",
 
+          "varying vec4 texelRowAttribute;",
+          "uniform vec2 pixelSelector;",
+
           "varying vec2 vUv;",
 
           "varying vec4 vColor;",
+
+
 
           "void main(){",
 
 
           "vec4 txColor = texture2D( map, vUv);",
+          "float rowLutColor = texelRowAttribute.x;",
 
-          "vec4 finalColor = txColor * vColor;",
+          "vec2 pixelSelector = vec2((txColor.r - (0.5/data_rows)), ((rowLutColor / data_rows) - (0.5 / data_rows)) * 1.0);",
+
+
+          "vec4 lutColor = texture2D( data_texture, pixelSelector);",
+
+          "lutColor.a = txColor.a;",
+
+          "vec4 finalColor = lutColor * vColor;",
           "if (finalColor.a <= alphaTest) discard;",
 
           "gl_FragColor = finalColor;",

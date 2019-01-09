@@ -32,14 +32,15 @@ define([
                     if (color) {
 
                         for (var i = 0; i < element.guiStrings.length; i++) {
-                            element.guiStrings[i].setStringColorRGBA(color);
+                            element.guiStrings[i].setStringColorRGBA(color, state_feedback[stateKey]['lut_color']);
                         }
                     }
                 }
             }
         };
 
-
+var lutColor;
+var bufferElem;
         ElementStateProcessor.applyElementStateFeedback = function(element, elementState) {
             imgConf = element.config['image'];
             state_feedback = element.config['state_feedback'];
@@ -49,11 +50,21 @@ define([
                     stateKey = ENUMS.getKey('ElementState', elementState);
 
                     if (state_feedback[stateKey]) {
+                        bufferElem = element.getBufferElement();
+
 
                         color = state_feedback[stateKey]['color_rgba'];
                         if (color) {
-                            element.getBufferElement().setColorRGBA(color);
+                            bufferElem.setColorRGBA(color);
                         }
+
+                        lutColor = state_feedback[stateKey]['lut_color'];
+
+                        if (lutColor) {
+                            bufferElem.setLutColor(ENUMS.ColorCurve[lutColor]);
+                            bufferElem.applyDataTexture();
+                        }
+
 
                         spriteName = state_feedback[stateKey]['sprite'];
 

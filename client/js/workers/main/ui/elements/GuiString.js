@@ -151,11 +151,12 @@ define([
         };
 
 
-        GuiString.prototype.setStringColorRGBA = function(rgba) {
+        GuiString.prototype.setStringColorRGBA = function(rgba, lutColor) {
 
             for (var i = 0; i < this.letters.length; i++) {
                 var guiLetter = this.letters[i];
                 guiLetter.setLetterColorRGBA(rgba);
+                guiLetter.setLetterLutColor(ENUMS.ColorCurve[lutColor]);
             }
 
         };

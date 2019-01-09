@@ -61,6 +61,11 @@ define([
             this.bufferElement.setSprite(xyzw)
         };
 
+        GuiLetter.prototype.setLetterLutColor = function(value) {
+            this.bufferElement.setLutColor(value);
+            this.bufferElement.applyDataTexture()
+        };
+
         GuiLetter.prototype.applyFontSizeAndHeight = function(fontSize, letterHeight) {
             this.setLetterScaleXY(fontSize * letterHeight * 10, fontSize * letterHeight * 10)
         };

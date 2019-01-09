@@ -21,8 +21,8 @@
           "id": "data_settings"  ,
           "config":{
             "settings" : {
-              "wrapS": "RepeatWrapping",
-              "wrapT": "RepeatWrapping",
+              "wrapS": "ClampToEdgeWrapping",
+              "wrapT": "ClampToEdgeWrapping",
               "generateMipmaps": false,
               "magFilter": "LinearFilter",
               "minFilter": "LinearFilter",

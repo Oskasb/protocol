@@ -25,7 +25,7 @@ define([
             this.lifecycle = {x:0, y:0.3, z:0, w:0.45}; // x = startTime, y = attackTime, z = endTime, w = decayTime
 
             // x:lutColor, y:lutAlpha
-            this.texelRowSelect = {x:16, y:42, z:42, w:42}; // 42 = fullWhite;
+            this.texelRowSelect = {x:105, y:42, z:42, w:42}; // 42 = fullWhite;
 
             this.setDefaultBuffers();
 
@@ -39,8 +39,8 @@ define([
             this.lifecycle.w = time;
         };
 
-        GuiBufferElement.prototype.setAttribX = function(name, index, x) {
-
+        GuiBufferElement.prototype.setLutColor = function(value) {
+            this.texelRowSelect.x = value;
         };
 
         GuiBufferElement.prototype.setIndex = function(index) {

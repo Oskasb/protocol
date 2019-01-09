@@ -340,6 +340,15 @@ if(typeof(ENUMS) === "undefined"){
 
     ENUMS.ColorCurve = {
 
+        grad_dk_purple:   120,
+        grad_dk_blue:     119,
+        grad_dk_yellow:   118,
+        grad_dk_cyan:     117,
+        grad_dk_green:    116,
+        grad_dk_orange:   115,
+        grad_dk_magenta:  114,
+        grad_dk_red:      113,
+
         grad_purple:   112,
         grad_blue:     111,
         grad_yellow:   110,

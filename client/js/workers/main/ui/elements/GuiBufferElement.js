@@ -23,6 +23,10 @@ define([
             this.sprite =   {x:7, y:0, z:0.06, w:0.06};// z for nineslice expand y, w for expand x (axis x for width 2d)
 
             this.lifecycle = {x:0, y:0.3, z:0, w:0.45}; // x = startTime, y = attackTime, z = endTime, w = decayTime
+
+            // x:lutColor, y:lutAlpha
+            this.texelRowSelect = {x:16, y:42, z:42, w:42}; // 42 = fullWhite;
+
             this.setDefaultBuffers();
 
         };
@@ -35,8 +39,8 @@ define([
             this.lifecycle.w = time;
         };
 
-        GuiBufferElement.prototype.applyLifecycle = function() {
-            this.guiBuffers.setAttribXYZW('lifecycle', this.index, this.lifecycle.x, this.lifecycle.y, this.lifecycle.z, this.lifecycle.w);
+        GuiBufferElement.prototype.setAttribX = function(name, index, x) {
+
         };
 
         GuiBufferElement.prototype.setIndex = function(index) {
@@ -74,6 +78,26 @@ define([
         };
 
 
+        GuiBufferElement.prototype.applyDataTexture = function() {
+            this.guiBuffers.setAttribXYZW('texelRowSelect',
+                this.index,
+                this.texelRowSelect.x,
+                this.texelRowSelect.y,
+                this.texelRowSelect.z,
+                this.texelRowSelect.w
+            )
+        };
+
+        GuiBufferElement.prototype.applyLifecycle = function() {
+            this.guiBuffers.setAttribXYZW('lifecycle',
+                this.index,
+                this.lifecycle.x,
+                this.lifecycle.y,
+                this.lifecycle.z,
+                this.lifecycle.w
+            );
+        };
+
         GuiBufferElement.prototype.startLifecycleNow = function() {
             this.lifecycle.x = this.guiBuffers.getSystemTime();
             this.lifecycle.z = 0;
@@ -93,6 +117,7 @@ define([
             this.setSprite(this.sprite);
             this.lifecycle.x = this.guiBuffers.getSystemTime();
             this.applyLifecycle();
+            this.applyDataTexture();
         };
 
         GuiBufferElement.prototype.releaseElement = function() {

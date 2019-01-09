@@ -56,8 +56,10 @@
         "vx_data_texture":[
           "uniform sampler2D data_texture;",
           "uniform float data_rows;",
-          "attribute vec4 diffusors;",
           "attribute vec4 texelRowSelect;",
+
+          "attribute vec4 diffusors;",
+
           "varying vec2 pixelSelector;",
           "varying vec4 sampledDataTexel;",
 

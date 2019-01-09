@@ -103,6 +103,18 @@ define([        'application/PipelineObject'],
 
             var applyShaders = function(src, data) {
 
+                if (this.mat) {
+
+                    this.mat.vertexShader = data.vertex;
+                    this.mat.fragmentShader = data.fragment;
+
+                    console.log("Update custom material shaders");
+
+                //    this.mat.needsUpdate = true;
+                    return;
+
+                }
+
                 props.shaders = data;
 
                 var uniforms = {
@@ -139,6 +151,8 @@ define([        'application/PipelineObject'],
                 }
 
                 if (props.side) opts.side = THREE[props.side];
+
+
 
                 var mat = new THREE[shader](opts);
 

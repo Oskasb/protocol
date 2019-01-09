@@ -31,7 +31,8 @@ define([
             "vertexColor",
             "orientation",
             "sprite",
-            "lifecycle"
+            "lifecycle",
+            "texelRowSelect"
         ];
 
         var GuiBuffers = function(uiSysKey, assetId, elementCount, renderOrder) {

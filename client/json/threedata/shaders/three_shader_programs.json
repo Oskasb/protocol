@@ -696,7 +696,15 @@
           "attribute vec4 orientation;",
 
 
+          "uniform sampler2D data_texture;",
+          "uniform float data_rows;",
+          "attribute vec4 texelRowSelect;",
+
+          "varying vec4 texelRowAttribute;",
+
           "void main(){",
+
+          "texelRowAttribute = texelRowSelect;",
 
           "float startTime = lifecycle.x;",
           "float endTime = lifecycle.z;",
@@ -747,6 +755,9 @@
           "uniform float alphaTest;",
 
           "uniform sampler2D map;",
+
+          "uniform sampler2D data_texture;",
+          "uniform float data_rows;",
 
           "varying vec2 vUv;",
 

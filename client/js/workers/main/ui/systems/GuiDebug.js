@@ -81,6 +81,7 @@ define([
 
 
         GuiDebug.addDebugTextString = function(string) {
+            if (!debugText) return;
             debugText.drawTextString('FONT_16x16',string, 7 )
         };
 

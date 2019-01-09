@@ -7,8 +7,6 @@ define([
         'client/js/workers/main/ui/GuiSettings',
         'client/js/workers/main/ui/GuiBuffers',
         'client/js/workers/main/ui/systems/GuiDebug',
-        'client/js/workers/main/ui/systems/InputSystem',
-        'client/js/workers/main/ui/systems/TextSystem',
         'client/js/workers/main/ui/elements/GuiBufferElement'
     ],
     function(
@@ -16,8 +14,6 @@ define([
         GuiSettings,
         GuiBuffers,
         GuiDebug,
-        InputSystem,
-        TextSystem,
         GuiBufferElement
     ) {
 
@@ -31,6 +27,7 @@ define([
         var inputSystem;
         var textSystem;
 
+
         var guiSettings = new GuiSettings();
 
 
@@ -41,13 +38,6 @@ define([
         var inputUpdateCallbacks = [];
 
         var guiBuffers = {};
-
-        var systemReady = function(guiSystem) {
-
-            if (guiSystems.indexOf(guiSystem) === -1) {
-                guiSystems.push(guiSystem);
-            }
-        };
 
 
         var GuiAPI = function() {
@@ -66,53 +56,22 @@ define([
         };
 
 
-        var defaultTextCB = function(txtElem) {
-            basicText = txtElem;
+        GuiAPI.initGuiApi = function(onReadyCB) {
 
-            var surfaceReady = function() {
-                textSystem.addTextElement( basicText );
+            var reqs = 0;
+            var loads = 0;
+
+            var loadCb = function() {
+                loads++
+                if (loads === reqs) {
+                    onReadyCB();
+                }
             };
 
-            basicText.setupTextSurface("surface_default", surfaceReady)
-        };
-
-        var textSysCb = function() {
-
-            var dummyTxtPos = new THREE.Vector3(-0.5, -0.3, -1);
-
-            textSystem.buildTextElement(defaultTextCB, "default_text_layout", dummyTxtPos);
-
-            var debugTextPos = new THREE.Vector3(0.3, 0.3, -1);
-            GuiDebug.addDebugTextPanel("debug_text", debugTextPos)
-        };
-
-        var inputReady = function() {
-            textSystem = new TextSystem();
-            textSystem.initTextSystem(textSysCb);
-        };
-
-        var configsLoaded = function() {
-            inputSystem = new InputSystem();
-            inputSystem.initInputSystem(inputReady);
-        };
-
-        var reqs = 0;
-        var loads = 0;
-
-        var loadCb = function() {
-            loads++
-            if (loads === reqs) {
-                configsLoaded();
-            }
-        };
-
-        var loadUiConfig = function(key, dataId) {
-            reqs++;
-            guiSettings.loadUiConfig(key, dataId, loadCb);
-        };
-
-
-        GuiAPI.initGuiApi = function() {
+            var loadUiConfig = function(key, dataId) {
+                reqs++;
+                guiSettings.loadUiConfig(key, dataId, loadCb);
+            };
 
             guiSettings.initGuiSprite("SPRITES", "FONT_16x16");
             guiSettings.initGuiSprite("SPRITES", "ATLAS_6x6");
@@ -125,8 +84,33 @@ define([
 
         GuiAPI.addUiSystem = addUiSystem;
 
+        var registeredTextElements = {};
+
+        GuiAPI.registerTextSurfaceElement = function(elemKey, txtElem) {
+            registeredTextElements[elemKey] = txtElem;
+            textSystem.addTextElement(txtElem);
+        };
+
+        GuiAPI.setInputSystem = function(inputSys) {
+            inputSystem = inputSys;
+        };
+
+
+
+        GuiAPI.getInputSystem = function() {
+            return inputSystem;
+        };
+
+        GuiAPI.setTextSystem = function(txtSys) {
+            textSystem = txtSys;
+        };
+
         GuiAPI.getTextSystem = function() {
             return textSystem;
+        };
+
+        GuiAPI.getGuiDebug = function() {
+            return GuiDebug;
         };
 
         GuiAPI.getUiSprites = function(spriteKey) {
@@ -189,50 +173,6 @@ define([
 
         };
 
-        GuiAPI.getMouseX = function() {
-            return WorldAPI.sampleInputBuffer(ENUMS.InputState.MOUSE_X);
-        };
-
-        GuiAPI.getMouseY = function() {
-            return WorldAPI.sampleInputBuffer(ENUMS.InputState.MOUSE_Y);
-        };
-
-        GuiAPI.getStartDragX = function() {
-            return WorldAPI.sampleInputBuffer(ENUMS.InputState.START_DRAG_X)
-        };
-
-        GuiAPI.getStartDragY = function() {
-            return WorldAPI.sampleInputBuffer(ENUMS.InputState.START_DRAG_Y);
-        };
-
-        GuiAPI.viewToLayoutX = function(x) {
-            return -x / WorldAPI.sampleInputBuffer(ENUMS.InputState.FRUSTUM_FACTOR) / WorldAPI.sampleInputBuffer(ENUMS.InputState.ASPECT);
-        };
-
-        GuiAPI.viewToLayoutY = function(y) {
-            return  0.5 - (y / WorldAPI.sampleInputBuffer(ENUMS.InputState.FRUSTUM_FACTOR));
-        };
-
-        GuiAPI.layoutToViewX = function(x) {
-            return GuiAPI.scaleByWidth(x - 0.5 );
-        };
-
-        GuiAPI.layoutToViewY = function(y) {
-            return GuiAPI.scaleByHeight(1 - (0.5 + y));
-        };
-
-        GuiAPI.scaleByWidth = function(value) {
-            return value * WorldAPI.sampleInputBuffer(ENUMS.InputState.FRUSTUM_FACTOR) * WorldAPI.sampleInputBuffer(ENUMS.InputState.ASPECT);
-        };
-
-        GuiAPI.scaleByHeight = function(value) {
-            return value * WorldAPI.sampleInputBuffer(ENUMS.InputState.FRUSTUM_FACTOR);
-        };
-
-        GuiAPI.scaleByClampedAspect = function(value) {
-            return value * WorldAPI.sampleInputBuffer(ENUMS.InputState.FRUSTUM_FACTOR) * Math.min(WorldAPI.sampleInputBuffer(ENUMS.InputState.ASPECT), 1);
-        };
-
         GuiAPI.addInputUpdateCallback = function(cb) {
             inputUpdateCallbacks.push(cb);
         };
@@ -247,10 +187,6 @@ define([
 
         GuiAPI.removeGuiUpdateCallback = function(cb) {
             guiUpdateCallbacks.splice(guiUpdateCallbacks.indexOf(cb, 1));
-        };
-
-        GuiAPI.addGuiSystem = function(guiSystem) {
-            guiSystem.initGuiSystem(systemReady)
         };
 
         var cbs;
@@ -274,7 +210,6 @@ define([
         };
 
 
-
         var dymmy1 = function(textElement) {
             textElement.drawTextString(txtSysKey,"MOO "+Math.random(), 7)
         };
@@ -292,8 +227,8 @@ define([
             }
 
 
-            if (basicText) {
-                dymmy1(basicText);
+            if (registeredTextElements['main_text_box']) {
+                dymmy1(registeredTextElements['main_text_box']);
             }
 
 

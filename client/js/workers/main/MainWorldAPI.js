@@ -4,12 +4,14 @@ var MainWorldAPI;
 
 define([
         'PipelineAPI',
+        'workers/main/ui/UiSetup',
         'workers/main/MainWorldCom',
         'workers/main/world/WorldSimulation',
         'evt'
     ],
     function(
         PipelineAPI,
+        UiSetup,
         MainWorldCom,
         WorldSimulation,
         evt
@@ -18,6 +20,8 @@ define([
         var key;
         var mainWorldCom;
         var worldSimulation;
+
+        var uiSetup = new UiSetup();
 
         MainWorldAPI = function() {};
 
@@ -29,7 +33,16 @@ define([
             mainWorldCom = new MainWorldCom();
             mainWorldCom.initWorldCom(workerIndex);
             worldSimulation = new WorldSimulation();
-            GuiAPI.initGuiApi()
+
+            var uiSetupReady = function() {
+                uiSetup.setupDefaultUi()
+            };
+
+            var uiReady = function() {
+                uiSetup.initUiSetup(uiSetupReady)
+            };
+
+            GuiAPI.initGuiApi(uiReady)
         };
 
         MainWorldAPI.postMessage = function(msg) {

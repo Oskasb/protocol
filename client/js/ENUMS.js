@@ -340,7 +340,7 @@ if(typeof(ENUMS) === "undefined"){
 
     ENUMS.ColorCurve = {
 
-
+        lut_vdk:       108,
         lut_dk:        107,
         lut_base:      106,
         lut_brt:       105,

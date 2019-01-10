@@ -778,17 +778,33 @@
 
           "vec4 useColor = vColor;",
 
-          "useColor.r = vColor.r * sampleDirection;",
+          "useColor.r = -vColor.r * sampleDirection;",
 
           "float direction = max(sampleDirection, 0.0);",
 
-          "vec2 pixelSelector = vec2(( (direction - txColor.r*sampleDirection ) + ((0.5)/data_rows) ), ((rowLutColor / data_rows) - (0.5 / data_rows)) * 1.0);",
 
-          "vec4 lutColor = texture2D( data_texture, pixelSelector);",
+          "float dataRow = (rowLutColor / data_rows) - (0.5 / data_rows);",
 
-          "lutColor.a = txColor.a;",
+          "float halfTexel = (0.5/data_rows);",
 
-          "vec4 finalColor = lutColor * useColor;",
+          "float intensityPixel = (txColor.r - direction) * -sampleDirection;",
+
+          "vec2 pixelSelector =   vec2( (0.25 - halfTexel) * intensityPixel * useColor.r   + halfTexel , dataRow);",
+
+          "vec4 lutColor = texture2D( data_texture, pixelSelector) ;",
+
+          "pixelSelector =        vec2( (0.25 - halfTexel) * intensityPixel * useColor.g   + halfTexel + 0.25, dataRow);",
+
+          "lutColor += texture2D( data_texture, pixelSelector);",
+
+          "pixelSelector =        vec2( (0.25 - halfTexel) * intensityPixel * useColor.b   + halfTexel + 0.5, dataRow);",
+
+          "lutColor += texture2D( data_texture, pixelSelector) ;",
+
+
+          "lutColor.a = txColor.a * useColor.a;",
+
+          "vec4 finalColor = lutColor;",
 
           "if (finalColor.a <= alphaTest) discard;",
 

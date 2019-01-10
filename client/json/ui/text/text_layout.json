@@ -14,32 +14,32 @@
                 "row_spacing": 0.00001,
                 "state_feedback": {
                   "NONE": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 0.95},
-                    "lut_color": "grad_blue"
+                    "color_rgba": {"r": -0.7, "g": 0.2, "b": 0.1, "a": 0.8},
+                    "lut_color": "lut_base"
                   },
                   "HOVER": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_dk_blue"
+                    "color_rgba": {"r": 0.3, "g": 0.5, "b": 0.7, "a": 0.65},
+                    "lut_color": "lut_base"
                   },
                   "PRESS": {
                     "color_rgba": {"r": -0.4, "g": 0.4, "b": 0.9, "a": 1.0},
-                    "lut_color": "grad_blue"
+                    "lut_color": "lut_base"
                   },
                   "ACTIVE": {
                     "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_green"
+                    "lut_color": "lut_base"
                   },
                   "ACTIVE_HOVER": {
                     "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_brt_green"
+                    "lut_color": "lut_base"
                   },
                   "ACTIVE_PRESS": {
                     "color_rgba": {"r": -0.4, "g": 0.8, "b": 0.4, "a": 1.0},
-                    "lut_color": "grad_dk_green"
+                    "lut_color": "lut_base"
                   },
                   "DISABLED": {
                     "color_rgba": {"r": 0.6, "g": 0.6, "b": 0.6, "a": 1.0},
-                    "lut_color": "zeroToOne"
+                    "lut_color": "lut_base"
                   }
                 }
               }
@@ -53,32 +53,32 @@
 
                 "state_feedback": {
                   "NONE": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 0.95},
-                    "lut_color": "grad_blue"
+                    "color_rgba": {"r": 0.1, "g": 0.5, "b": 0.8, "a": 0.75},
+                    "lut_color": "lut_dk"
                   },
                   "HOVER": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_cyan"
+                    "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.8, "a": 0.85},
+                    "lut_color": "lut_base"
                   },
                   "PRESS": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_purple"
+                    "color_rgba": {"r": -0.2, "g": 0.98, "b": 0.99, "a": 0.95},
+                    "lut_color": "lut_base"
                   },
                   "ACTIVE": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_cyan"
+                    "color_rgba": {"r": 0.2, "g": 0.85, "b": 0.2, "a": 0.8},
+                    "lut_color": "lut_dk"
                   },
                   "ACTIVE_HOVER": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_yellow"
+                    "color_rgba": {"r": 0.2, "g": 0.9, "b": 0.3, "a": 1.0},
+                    "lut_color": "lut_base"
                   },
                   "ACTIVE_PRESS": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_magenta"
+                    "color_rgba": {"r": -0.2, "g": 0.7, "b": 0.2, "a": 1.0},
+                    "lut_color": "lut_dk"
                   },
                   "DISABLED": {
                     "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "zeroToOne"
+                    "lut_color": "lut_base"
                   }
                 }
               }

@@ -15,33 +15,35 @@
 
                 "state_feedback": {
                   "NONE": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 0.65},
-                    "lut_color": "grad_blue",
+                    "color_rgba": {"r": 0.1, "g": 0.55, "b": 0.85, "a": 0.75},
+                    "lut_color": "lut_dk",
                     "sprite": "text_box_framed"
                   },
                   "HOVER": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_cyan"
+                    "color_rgba": {"r": 0.2, "g": 0.6, "b": 0.7, "a": 0.85},
+                    "lut_color": "lut_brt"
                   },
                   "PRESS": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_purple"
+                    "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.8, "a": 0.75},
+                    "lut_color": "lut_dk"
                   },
+
                   "ACTIVE": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_cyan"
+                    "color_rgba": {"r": 0.1, "g": 0.9, "b": 0.4, "a": 1.0},
+                    "lut_color": "lut_dk"
                   },
+
                   "ACTIVE_HOVER": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_yellow"
+                    "color_rgba": {"r": 0.15, "g": 0.99, "b": 0.45, "a": 1.0},
+                    "lut_color": "lut_base"
                   },
                   "ACTIVE_PRESS": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_magenta"
+                    "color_rgba": {"r": 0.1, "g": 0.65, "b": 0.15, "a": 1.0},
+                    "lut_color": "lut_dk"
                   },
                   "DISABLED": {
                     "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "zeroToOne"
+                    "lut_color": "lut_base"
                   }
                 },
 
@@ -60,37 +62,37 @@
 
                 "state_feedback": {
                   "NONE": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_dk_blue",
+                    "color_rgba": {"r": 0.9, "g": 0.22, "b": 0.0, "a": 1.0},
+                    "lut_color": "lut_base",
                     "sprite": "button_rounded"
                   },
                   "HOVER": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_blue",
+                    "color_rgba": {"r": 0.90, "g": 0.20, "b": 0.0, "a": 1.0},
+                    "lut_color": "lut_base",
                     "sprite": "button_rounded"
                   },
                   "PRESS": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_blue",
+                    "color_rgba": {"r": 0.90, "g": 0.20, "b": 0.0, "a": 1.0},
+                    "lut_color": "lut_base",
                     "sprite": "button_rounded_pressed"
                   },
                   "ACTIVE": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_dk_green",
+                    "color_rgba": {"r": 0.90, "g": 0.20, "b": 0.0, "a": 1.0},
+                    "lut_color": "lut_base",
                     "sprite": "button_rounded"
                   },
                   "ACTIVE_HOVER": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_green",
+                    "color_rgba": {"r": 0.90, "g": 0.20, "b": 0.0, "a": 1.0},
+                    "lut_color": "lut_base",
                     "sprite": "button_rounded"
                   },
                   "ACTIVE_PRESS": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                    "lut_color": "grad_green",
+                    "color_rgba": {"r": 0.90, "g": 0.20, "b": 0.0, "a": 1.0},
+                    "lut_color": "lut_base",
                     "sprite": "button_rounded_pressed"
                   },
                   "DISABLED": {
-                    "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
+                    "color_rgba": {"r": 0.3, "g": 0.3, "b": 0.3, "a": 1.0},
                     "sprite": "button_rounded_pressed"
                   }
                 },
@@ -110,13 +112,13 @@
 
                 "state_feedback": {
                   "NONE": {
-                    "color_rgba": {"r": 0.15, "g": 0.21, "b": 0.51, "a": 1},
-                    "lut_color": "grad_blue",
+                    "color_rgba": {"r": 1.0, "g": 0.0, "b": 0.0, "a": 1},
+                    "lut_color": "lut_base",
                     "sprite": "button_rounded"
                   },
                   "HOVER": {
                     "color_rgba": {"r": 0.20, "g": 0.25, "b": 0.67, "a": 1},
-                    "lut_color": "grad_dk_red",
+                    "lut_color": "lut_base",
                     "sprite": "button_rounded"
                   },
                   "PRESS": {

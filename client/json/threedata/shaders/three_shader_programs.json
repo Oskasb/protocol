@@ -659,11 +659,13 @@
 
           "void main(){",
 
-            "vec4 lightColor = vec4(sunDir, 1.0);",
-            "vec4 txColor = texture2D( map, vUv);",
+          "vec4 txColor = texture2D( map, vUv);",
 
-            "vec4 finalColor = txColor * vColor;",
-            "if (finalColor.a <= alphaTest) discard;",
+
+            "if (txColor.a <= alphaTest) discard;",
+
+            "vec4 lightColor = vec4(sunDir, 1.0);",
+
 
             "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
 
@@ -783,30 +785,43 @@
           "float direction = max(sampleDirection, 0.0);",
 
 
-          "float dataRow = (rowLutColor / data_rows) - (0.5 / data_rows);",
-
-          "float halfTexel = (0.5/data_rows);",
-
           "float intensityPixel = (txColor.r - direction) * -sampleDirection;",
 
-          "vec2 pixelSelector =   vec2( (0.25 - halfTexel) * intensityPixel * useColor.r   + halfTexel , dataRow);",
-
-          "vec4 lutColor = texture2D( data_texture, pixelSelector) ;",
-
-          "pixelSelector =        vec2( (0.25 - halfTexel) * intensityPixel * useColor.g   + halfTexel + 0.25, dataRow);",
-
-          "lutColor += texture2D( data_texture, pixelSelector);",
-
-          "pixelSelector =        vec2( (0.25 - halfTexel) * intensityPixel * useColor.b   + halfTexel + 0.5, dataRow);",
-
-          "lutColor += texture2D( data_texture, pixelSelector) ;",
 
 
-          "lutColor.a = txColor.a * useColor.a;",
+          "float dblIntens = intensityPixel + intensityPixel;",
+          "float quadIntens = (1.0-dblIntens) * (1.0-dblIntens) * 1.0;",
 
-          "vec4 finalColor = lutColor;",
 
-          "if (finalColor.a <= alphaTest) discard;",
+          "float cR1 = min(dblIntens * (intensityPixel*2.0), 1.0);",
+
+          "float cR2 = min((quadIntens*1.0) * intensityPixel*1.0, 1.0);",
+
+          "float cR3 = sin(intensityPixel * 3.14 * 0.5) * quadIntens*1.0;",
+
+
+          "float colorRr = cR1 * useColor.r;",
+          "float colorGr = cR2 * useColor.r;",
+          "float colorBr = cR3 * useColor.r;",
+
+
+          "float colorRg = (cR3+cR2) * useColor.g;",
+          "float colorGg = cR1 * useColor.g;",
+          "float colorBg = (cR3+cR2) * useColor.g;",
+
+
+          "float colorRb = cR2 * useColor.b;",
+          "float colorGb = cR3 * useColor.b;",
+          "float colorBb = cR1 * useColor.b;",
+
+
+
+          "vec4 curveColor = vec4( colorRr + colorRg + colorRb, colorGr + colorGg + colorGb , colorBr + colorBg + colorBb , txColor.a * useColor.a);",
+
+
+          "float zeroOut = min(sign(curveColor.a - alphaTest), 1.0);",
+
+          "vec4 finalColor = curveColor* zeroOut;",
 
           "gl_FragColor = finalColor;",
 

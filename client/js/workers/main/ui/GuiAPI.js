@@ -214,6 +214,9 @@ define([
             textElement.drawTextString(txtSysKey,"MOO "+Math.random(), 7)
         };
 
+        GuiAPI.getTextSysKey = function() {
+            return txtSysKey;
+        };
 
         GuiAPI.updateGui = function(INPUT_BUFFER) {
 

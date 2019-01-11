@@ -61,7 +61,25 @@ define([
             var debugTextPos = new THREE.Vector3(0.3, 0.3, -1);
             GuiAPI.getGuiDebug().addDebugTextPanel("debug_text", debugTextPos)
 
+            this.buildButton();
         }
+
+        UiSetup.prototype.buildButton = function() {
+
+            var elementReady = function(txtElem) {
+
+
+            //    GuiAPI.registerTextSurfaceElement('test_button', txtElem );
+
+                txtElem.drawTextString(GuiAPI.getTextSysKey(),"BUTTON", 27)
+
+            };
+
+            var buttonPos = new THREE.Vector3(-0.5, 0.3, -1);
+            this.addTextSurface("button_red_text_layout", "button_red_default", buttonPos, elementReady)
+
+        }
+
 
 
         return UiSetup;

@@ -3,12 +3,14 @@
 define([
 
         'client/js/workers/main/ui/systems/InputSystem',
-        'client/js/workers/main/ui/systems/TextSystem'
+        'client/js/workers/main/ui/systems/TextSystem',
+        'client/js/workers/main/ui/elements/GuiWidget'
     ],
     function(
 
         InputSystem,
         TextSystem,
+        GuiWidget
     ) {
 
         var UiSetup = function() {
@@ -32,53 +34,47 @@ define([
 
 
 
-        UiSetup.prototype.addTextSurface = function(txtConfig, surfaceConfig, surfacePos, callback) {
+        UiSetup.prototype.setupDefaultUi = function() {
 
-            var textCB = function(txtElem) {
+            var elementReady = function(widget) {
+                GuiAPI.registerTextSurfaceElement(widget.configId, widget );
+                this.buildButtons();
+            }.bind(this);
 
-                var surfaceReady = function(surface) {
-                    callback(txtElem)
-                };
+            var dtxtPos = new THREE.Vector3(-0.5, -0.3, -1);
 
-                txtElem.setupTextSurface(surfaceConfig, surfaceReady);
+            var mainTextWidget = new GuiWidget('main_text_box');
+            mainTextWidget.initGuiWidget(dtxtPos, elementReady);
+
+            var debugElementReady = function(widget) {
+                GuiAPI.getGuiDebug().setDebugTextPanel(widget);
             };
 
+            var debugTextPos = new THREE.Vector3(0.3, 0.3, -1);
 
-            GuiAPI.getTextSystem().buildTextElement(textCB, txtConfig, surfacePos);
+            var debugWidget = new GuiWidget('debug_text_box');
+            debugWidget.initGuiWidget(debugTextPos, debugElementReady);
+
 
         };
 
+        UiSetup.prototype.buildButtons = function() {
 
-        UiSetup.prototype.setupDefaultUi = function() {
-
-            var elementReady = function(txtElem) {
-                GuiAPI.registerTextSurfaceElement('main_text_box', txtElem );
+            var elementReady = function(widget) {
+                widget.printWidgetText(widget.configId, 27)
             };
 
-            var dtxtPos = new THREE.Vector3(-0.5, -0.3, -1);
-            this.addTextSurface("default_text_layout", "surface_default", dtxtPos, elementReady)
+            var button1Pos = new THREE.Vector3(-0.5, 0.3, -1);
 
-            var debugTextPos = new THREE.Vector3(0.3, 0.3, -1);
-            GuiAPI.getGuiDebug().addDebugTextPanel("debug_text", debugTextPos)
-
-            this.buildButton();
-        }
-
-        UiSetup.prototype.buildButton = function() {
-
-            var elementReady = function(txtElem) {
+            var button1Widget = new GuiWidget('button_big_blue');
+            button1Widget.initGuiWidget(button1Pos, elementReady);
 
 
-            //    GuiAPI.registerTextSurfaceElement('test_button', txtElem );
+            var button2Pos = new THREE.Vector3(-0.5, 0.2, -1);
+            var button2Widget = new GuiWidget('button_big_red');
+            button2Widget.initGuiWidget(button2Pos, elementReady);
 
-                txtElem.drawTextString(GuiAPI.getTextSysKey(),"BUTTON", 27)
-
-            };
-
-            var buttonPos = new THREE.Vector3(-0.5, 0.3, -1);
-            this.addTextSurface("button_red_text_layout", "button_red_default", buttonPos, elementReady)
-
-        }
+        };
 
 
 

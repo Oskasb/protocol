@@ -20,7 +20,8 @@ define([
         };
 
         ElementStateProcessor.applyStateToTextElement = function(element, elementState) {
-            state_feedback = element.config['state_feedback'];
+            feedbackId = element.getFeedbackConfigId();
+            state_feedback =  GuiAPI.getGuiSettingConfig('FEEDBACK', 'TEXT', feedbackId);
 
             if (state_feedback) {
 
@@ -41,9 +42,12 @@ define([
 
 var lutColor;
 var bufferElem;
+var feedbackId;
         ElementStateProcessor.applyElementStateFeedback = function(element, elementState) {
             imgConf = element.config['image'];
-            state_feedback = element.config['state_feedback'];
+            feedbackId = element.getFeedbackConfigId();
+            state_feedback =  GuiAPI.getGuiSettingConfig('FEEDBACK', 'SURFACE', feedbackId);
+
             if (imgConf) {
                 if (state_feedback) {
 

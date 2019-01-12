@@ -17,6 +17,7 @@ define([
                 sprites:sprites,
                 textLayouts:textLayouts
             };
+            console.log("GUI SETTINGS: ", settings)
         };
 
         var fetchSetting = function(conf, key, dataId, cb) {
@@ -34,7 +35,7 @@ define([
                 for (var i = 0; i < data.length; i ++) {
                     settings[key][src][data[i].id] = data[i];
                 }
-                console.log("SETTING:", src, settings);
+        //        console.log("SETTING:", src, settings);
                 cb(src, settings[key][src]);
             };
 
@@ -53,7 +54,7 @@ define([
             for (var i = 0; i < data.length; i ++) {
                 sprites[src][data[i].id] = [data[i].tiles[0][0], data[i].tiles[0][1]]
             }
-            console.log("FONT SPRITES:", sprites[src]);
+        //    console.log("FONT SPRITES:", sprites[src]);
         };
 
 
@@ -84,12 +85,20 @@ define([
             return sprites[key];
         };
 
-        GuiSettings.prototype.getSettingData = function(setting, key, id) {
-            return settings[setting][key][id];
+        GuiSettings.prototype.getSettingConfig = function(setting, configId) {
+            return settings[setting][configId];
         };
 
-        GuiSettings.prototype.getSettingDataConfig = function(setting, key, id) {
-            return settings[setting][key][id].config;
+        GuiSettings.prototype.getSettingData = function(setting, configId, dataId) {
+            return settings[setting][configId][dataId];
+        };
+
+        GuiSettings.prototype.getSettingDataConfig = function(setting, configId, dataId) {
+            if (!settings[setting][configId][dataId]) {
+                console.log("Bad settings lookup: ", setting, configId, dataId);
+                return;
+            }
+            return settings[setting][configId][dataId].config;
         };
 
         return GuiSettings;

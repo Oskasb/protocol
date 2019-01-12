@@ -82,26 +82,12 @@ define([
 
         GuiDebug.addDebugTextString = function(string) {
             if (!debugText) return;
-            debugText.drawTextString('FONT_16x16',string, 7 )
+            debugText.printWidgetText(string, 7 )
         };
-
         var debugText;
 
-
-        GuiDebug.addDebugTextPanel = function(configId, pos) {
-
-            var addTextCB = function(element) {
-                debugText = element;
-
-                var surfaceReady = function() {
-                    GuiAPI.getTextSystem().addTextElement( debugText );
-                };
-
-                debugText.setupTextSurface("debug_text_box", surfaceReady)
-
-            };
-
-            GuiAPI.getTextSystem().buildTextElement(addTextCB, configId, pos)
+        GuiDebug.setDebugTextPanel = function(element) {
+            debugText = element;
         };
 
 

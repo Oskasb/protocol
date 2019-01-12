@@ -69,7 +69,7 @@ define([
             var getElement = function(elem) {
 
                 elem.setElementAnchorPos(elementPos);
-                elem.setElementDataKeys('TEXT_LAYOUT', this.spriteKey, dataId);
+                elem.setElementDataKeys('SPRITE_FONT', this.spriteKey, dataId);
 
                 cb(elem);
             }.bind(this);
@@ -83,7 +83,7 @@ define([
         TextSystem.prototype.updateAllTextPositions = function() {
 
             for (var i = 0; i < this.elements.length; i++) {
-                this.elements[i].updateElementPosition()
+                this.elements[i].updateTextMinMaxPositions()
             }
 
         };

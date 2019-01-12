@@ -102,6 +102,10 @@ define([
 
                 inputBuffer = buffer;
 
+                if (inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] === 3) {
+                    inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] = 0;
+                }
+
                 pointer = null;
 
                 if (inputBuffer[startIndex + ENUMS.InputState.ACTION_0]) {
@@ -140,7 +144,8 @@ define([
 
                 }
 
-                if (inputBuffer[startIndex+ ENUMS.InputState.HAS_UPDATE]) {
+                if (inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE]) {
+                    inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE]++;
                     this.updateInteractiveElements(inputIndex, inputBuffer[startIndex+ ENUMS.InputState.MOUSE_X], inputBuffer[startIndex+ ENUMS.InputState.MOUSE_Y], pointer)
                 }
 

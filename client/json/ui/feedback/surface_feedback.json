@@ -1,0 +1,130 @@
+
+[
+  {
+    "UI": {
+      "FEEDBACK":[
+        {
+          "id": "SURFACE",
+          "data": [
+            {
+              "id":"feedback_surface_debug",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.35, "g": 0.45, "b": 0.75, "a": 0.85},
+                  "lut_color": "lut_dk",
+                  "sprite": "text_box_framed"
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.2, "g": 0.6, "b": 0.75, "a": 0.85},
+                  "lut_color": "lut_brt"
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.8, "a": 0.75},
+                  "lut_color": "lut_dk"
+                },
+
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.01, "g": 0.99, "b": 0.01, "a": 1.0},
+                  "lut_color": "lut_base"
+                },
+
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.15, "g": 0.99, "b": 0.25, "a": 1.0},
+                  "lut_color": "lut_brt"
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.1, "g": 0.65, "b": 0.15, "a": 1.0},
+                  "lut_color": "lut_dk"
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
+                  "lut_color": "lut_base"
+                }
+              }
+            },
+            {
+              "id":"feedback_surface_red",
+              "config": {
+
+                "NONE": {
+                  "color_rgba": {"r": 0.8, "g": 0.1, "b": 0.05, "a": 1.0},
+                  "lut_color": "lut_base",
+                  "sprite": "button_rounded"
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.15, "b": 0.05, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded"
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.95, "g": 0.10, "b": 0.0, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded_pressed"
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.99, "g": 0.79, "b": 0.25, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded"
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.89, "b": 0.45, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded"
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.99, "g": 0.89, "b": 0.45, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded_pressed"
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 0.3, "g": 0.3, "b": 0.3, "a": 1.0},
+                  "sprite": "button_rounded_pressed"
+                }
+
+              }
+            },
+            {
+              "id":"feedback_surface_blue",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.1, "g": 0.4, "b": 0.65, "a": 1.0},
+                  "lut_color": "lut_base",
+                  "sprite": "button_rounded"
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.75, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded"
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.75, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded_pressed"
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.21, "g": 0.71, "b": 0.91, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded"
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.41, "g": 0.81, "b": 0.97, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded"
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.41, "g": 0.81, "b": 0.97, "a": 1.0},
+                  "lut_color": "lut_brt",
+                  "sprite": "button_rounded_pressed"
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 0.3, "g": 0.3, "b": 0.3, "a": 1.0},
+                  "sprite": "button_rounded_pressed"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

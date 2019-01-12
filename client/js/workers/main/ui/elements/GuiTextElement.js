@@ -2,21 +2,21 @@
 
 define([
         'application/ExpandingPool',
-        'client/js/workers/main/ui/elements/GuiString',
-        'client/js/workers/main/ui/elements/GuiSurface'
+        'client/js/workers/main/ui/elements/GuiString'
     ],
     function(
         ExpandingPool,
-        GuiString,
-        GuiSurface
+        GuiString
     ) {
 
         var GuiTextElement = function() {
 
             this.guiStrings = [];
-            this.guiSurface = new GuiSurface();
 
             this.anchorPosVec = new THREE.Vector3();
+
+            this.minXY = new THREE.Vector3();
+            this.maxXY = new THREE.Vector3();
 
             var addElement = function(sysKey, callback) {
                 var element = new GuiString();
@@ -33,39 +33,34 @@ define([
 
         };
 
-        GuiTextElement.prototype.drawTextString = function(uiSysKey, string, fontSize) {
+        GuiTextElement.prototype.drawTextString = function(uiSysKey, string, fontSize, cb) {
 
-
-            var initString = function(guiString, surface) {
+            var initString = function(guiString) {
 
                 guiString.setString(string, uiSysKey, fontSize);
                 this.guiStrings.push(guiString);
-                surface.applyStateFeedback();
-                this.updateElementPosition()
-
+                this.updateTextMinMaxPositions()
+                cb();
             }.bind(this);
-
 
                 if (this.guiStrings.length > 4) {
                     this.removeGuiString(this.guiStrings.shift())
                 }
 
                 var getElement = function(elem) {
-                    initString(elem, this.guiSurface)
+                    initString(elem)
                 }.bind(this);
 
-                this.guiSurface.attachTextElement(this);
                 this.guiStringPool.getFromExpandingPool(getElement)
 
         };
 
+        GuiTextElement.prototype.setFeedbackConfigId = function(feedbackConfigId) {
+            this.feedbackConfigId = feedbackConfigId;
+        };
 
-
-        GuiTextElement.prototype.setupTextSurface = function(configId, surfaceReady) {
-
-            GuiAPI.registerInteractiveGuiElement(this.guiSurface);
-            this.guiSurface.setupSurfaceElement( configId , surfaceReady);
-
+        GuiTextElement.prototype.getFeedbackConfigId = function() {
+            return this.feedbackConfigId;
         };
 
 
@@ -86,12 +81,12 @@ define([
             this.anchorPosVec.copy(posV);
         };
 
-        GuiTextElement.prototype.updateElementPosition = function() {
+        GuiTextElement.prototype.updateTextMinMaxPositions = function() {
 
             this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);
 
-            this.guiSurface.setSurfaceMinXY(this.anchorPosVec);
-            this.guiSurface.setSurfaceMaxXY(this.anchorPosVec);
+            this.minXY.copy(this.anchorPosVec);
+            this.maxXY.copy(this.anchorPosVec);
 
                 var letterW = this.config['letter_width'];
                 var letterH = this.config['letter_height'];
@@ -111,14 +106,11 @@ define([
 
             }
 
-            // this.guiSurface.minXY.y = maxH //letterH/2;
+            this.maxXY.x = maxW;
+            this.maxXY.y = maxH ;
 
-            this.guiSurface.maxXY.x = maxW;
-            this.guiSurface.maxXY.y = maxH ;
-
-            this.guiSurface.positionOnCenter();
-            this.guiSurface.fitToExtents();
         };
+
 
         GuiTextElement.prototype.recoverTextElement = function() {
 
@@ -128,9 +120,6 @@ define([
                 guiString.recoverGuiString();
                 this.guiStringPool.returnToExpandingPool(guiString);
             }
-
-            GuiAPI.unregisterInteractiveGuiElement(this.guiSurface);
-            this.guiSurface.recoverGuiSurface();
 
         };
 

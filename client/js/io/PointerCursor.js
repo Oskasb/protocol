@@ -53,12 +53,14 @@ define([
             if (buffer[key] !== value) {
                 buffer[key] = value;
                 buffer[ENUMS.InputState.HAS_UPDATE] = 1
+            //    console.log("Update input: ", key)
             }
 
         };
 
 
         var updateInputBuffer = function(buffer, inputState) {
+            buffer[ENUMS.InputState.HAS_UPDATE] = 0;
 
            updateBufferValue( buffer, ENUMS.InputState.VIEW_LEFT         , GameScreen.getLeft()       );
            updateBufferValue( buffer, ENUMS.InputState.VIEW_TOP          , GameScreen.getTop()        );
@@ -73,6 +75,7 @@ define([
             updateBufferValue( buffer , ENUMS.InputState.WHEEL_DELTA   ,    inputState.wheelDelta     );
 
             if (inputState.pressFrames === 0) {
+                buffer[ENUMS.InputState.HAS_UPDATE] = 1;
                 updateBufferValue( buffer , ENUMS.InputState.START_DRAG_X , tempVec.x ) ;
                 updateBufferValue( buffer , ENUMS.InputState.START_DRAG_Y , tempVec.y ) ;
             }

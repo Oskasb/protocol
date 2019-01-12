@@ -1,33 +1,28 @@
 "use strict";
 
 define([
-        'client/js/workers/main/ui/states/ElementStateProcessor',
         'client/js/workers/main/ui/states/InteractiveElement'
     ],
     function(
-        ElementStateProcessor,
         InteractiveElement
     ) {
 
         var GuiSurface = function() {
             this.sprite = {x:7, y:0, z:0.0, w:0.0};
             this.scale  = {x:1.0, y:1.0, z:1.0};
-            this.minXY = new THREE.Vector3();
+
             this.centerXY = new THREE.Vector3();
+
+            this.minXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
 
-            this.textElements = [];
-
             this.active = false;
+
+            this.onUpdateCallbacks = [];
 
             this.interactiveElement = new InteractiveElement(this);
         };
 
-        GuiSurface.prototype.hasActivePointer = function(inputIndex) {
-            if (this.interactiveElement.pressIndices.indexOf(inputIndex) !== -1) {
-                return true;
-            }
-        };
 
         GuiSurface.prototype.toggleActive = function() {
             this.active = !this.active;
@@ -41,15 +36,6 @@ define([
             return this.interactiveElement;
         };
 
-        GuiSurface.prototype.attachTextElement = function(textElement) {
-            if (this.textElements.indexOf(textElement) === -1) {
-                this.textElements.push(textElement);
-            }
-        };
-
-        GuiSurface.prototype.detachTextElement = function(textElement) {
-            this.textElements.splice( this.textElements.indexOf(textElement) );
-        };
 
         GuiSurface.prototype.setBufferElement = function(bufferElement) {
             this.bufferElement = bufferElement
@@ -63,16 +49,15 @@ define([
 
         };
 
-        GuiSurface.prototype.getSurfaceState = function() {
-            return this.surfaceState;
-        };
-
         GuiSurface.prototype.recoverGuiSurface = function() {
-            while (this.textElements.length) {
-                this.textElements.pop();
-            }
+
             this.config = null;
-            this.bufferElement.releaseElement()
+            this.bufferElement.releaseElement();
+
+            while (this.onUpdateCallbacks.length) {
+                this.onUpdateCallbacks.pop();
+            }
+
         };
 
         GuiSurface.prototype.getBufferElement = function() {
@@ -83,7 +68,7 @@ define([
 
             this.configId = configId;
 
-            this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", this.configId);
+            this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_NINESLICE", "GUI_16x16", this.configId);
 
             var addSurfaceCb = function(bufferElem) {
                 this.setBufferElement(bufferElem);
@@ -136,6 +121,9 @@ define([
             this.sprite.w = calcNincesliceAxis(this.minXY.x, this.maxXY.x, this.scale.x);
             this.sprite.z = calcNincesliceAxis(this.minXY.y, this.maxXY.y, this.scale.y);
 
+            this.bufferElement.setSprite(this.sprite);
+            this.bufferElement.setScaleVec3(this.scale);
+
         };
 
         GuiSurface.prototype.fitToExtents = function() {
@@ -146,9 +134,6 @@ define([
 
         //    GuiAPI.debugDrawRectExtents(this.minXY, this.maxXY);
 
-            this.bufferElement.setSprite(this.sprite);
-            this.bufferElement.setScaleVec3(this.scale);
-
         };
 
 
@@ -156,25 +141,40 @@ define([
             this.bufferElement.setPositionVec3(vec3);
         };
 
+        GuiSurface.prototype.setFeedbackConfigId = function(feedbackConfigId) {
+            this.feedbackConfigId = feedbackConfigId;
+        };
 
-        var state;
-        GuiSurface.prototype.applyStateFeedback = function() {
+        GuiSurface.prototype.getFeedbackConfigId = function() {
+            return this.feedbackConfigId;
+        };
 
-            this.applySurfaceConfig();
+        GuiSurface.prototype.getInteractiveState = function() {
+            return this.getInteractiveElement().getInteractiveElementState();
+        };
 
-            state = this.getInteractiveElement().getInteractiveElementState();
-            ElementStateProcessor.applyElementStateFeedback(this, state);
+        GuiSurface.prototype.registerStateUpdateCallback = function(cb) {
+            this.onUpdateCallbacks.push(cb);
+        };
 
-            for (var i = 0; i < this.textElements.length; i++) {
-                ElementStateProcessor.applyStateToTextElement(this.textElements[i], state);
+        GuiSurface.prototype.notifyStateUpdated = function() {
+            for (var i = 0; i < this.onUpdateCallbacks.length; i++) {
+                this.onUpdateCallbacks[i]();
             }
 
         };
 
 
+        GuiSurface.prototype.applyStateFeedback = function() {
+
+            this.applySurfaceConfig();
+            this.notifyStateUpdated();
+
+        };
+
         GuiSurface.prototype.applySurfaceConfig = function() {
 
-            this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_LAYOUT", "BACKGROUNDS", this.configId);
+            this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_NINESLICE", "GUI_16x16", this.configId);
 
             this.bufferElement.setAttackTime(0);
             this.bufferElement.setReleaseTime(0);

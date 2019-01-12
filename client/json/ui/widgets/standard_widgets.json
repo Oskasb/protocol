@@ -1,0 +1,58 @@
+
+[
+  {
+    "UI": {
+      "WIDGET":[
+        {
+          "id": "STANDARD_WIDGETS",
+          "data": [
+            {
+              "id":"button_big_red",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_red"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_button_big",
+                "feedback": "feedback_surface_red"
+              }
+            },
+            {
+              "id":"button_big_blue",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_blue"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_button_big",
+                "feedback": "feedback_surface_blue"
+              }
+            },
+            {
+              "id":"main_text_box",
+              "text": {
+                "sprite_font": "sprite_font_main_text",
+                "feedback": "feedback_text_blue"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_main_text",
+                "feedback": "feedback_surface_blue"
+              }
+            },
+            {
+              "id":"debug_text_box",
+              "text": {
+                "sprite_font": "sprite_font_debug",
+                "feedback": "feedback_debug_text"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_debug",
+                "feedback": "feedback_surface_debug"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

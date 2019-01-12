@@ -77,8 +77,11 @@ define([
             guiSettings.initGuiSprite("SPRITES", "ATLAS_6x6");
             guiSettings.initGuiSprite("SPRITES", "GUI_16x16");
 
-            loadUiConfig("TEXT_LAYOUT", "FONT_16x16");
-            loadUiConfig("SURFACE_LAYOUT", "BACKGROUNDS");
+            loadUiConfig("WIDGET", "STANDARD_WIDGETS");
+            loadUiConfig("FEEDBACK", "SURFACE");
+            loadUiConfig("FEEDBACK", "TEXT");
+            loadUiConfig("SPRITE_FONT", "FONT_16x16");
+            loadUiConfig("SURFACE_NINESLICE", "GUI_16x16");
 
         };
 
@@ -210,9 +213,10 @@ define([
         };
 
 
-        var dymmy1 = function(textElement) {
-            textElement.drawTextString(txtSysKey,"MOO "+Math.random(), 7)
+        var dymmy1 = function(textWidget) {
+            textWidget.printWidgetText("MOO "+Math.random(), 7)
         };
+
 
         GuiAPI.getTextSysKey = function() {
             return txtSysKey;

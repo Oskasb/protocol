@@ -40,16 +40,6 @@ define([
 
         UiSetup.prototype.setupDefaultUi = function() {
 
-            var elementReady = function(widget) {
-                GuiAPI.registerTextSurfaceElement(widget.configId, widget );
-                this.buildButtons();
-            }.bind(this);
-
-            var dtxtPos = new THREE.Vector3(-0.5, -0.3, 0);
-
-            var mainTextWidget = new GuiWidget('main_text_box');
-            mainTextWidget.initGuiWidget(dtxtPos, elementReady);
-
             var debugElementReady = function(widget) {
                 GuiAPI.getGuiDebug().setDebugTextPanel(widget);
             };
@@ -59,7 +49,19 @@ define([
             var debugWidget = new GuiWidget('debug_text_box');
             debugWidget.initGuiWidget(debugTextPos, debugElementReady);
 
-            mainTextWidget.addChild(debugWidget);
+
+            var elementReady = function(widget) {
+                GuiAPI.registerTextSurfaceElement(widget.configId, widget );
+                this.buildButtons(debugWidget);
+            }.bind(this);
+
+            var dtxtPos = new THREE.Vector3(-0.5, -0.3, 0);
+
+            var mainTextWidget = new GuiWidget('main_text_box');
+            mainTextWidget.initGuiWidget(dtxtPos, elementReady);
+
+
+
 
             var guiUpdatez = function(tpf, time) {
 
@@ -74,7 +76,7 @@ define([
                 if (bool) {
                     console.log("Activate Button");
                     GuiAPI.addGuiUpdateCallback(guiUpdatez)
-
+                    mainTextWidget.addChild(debugWidget);
                 } else {
                     console.log("Deactivate Button");
                     GuiAPI.removeGuiUpdateCallback(guiUpdatez)
@@ -84,9 +86,20 @@ define([
             mainTextWidget.addOnActiaveCallback(onActiave);
 
 
+            var onActiaved = function(bool) {
+
+                if (bool) {
+                    debugWidget.detatchFromParent();
+                } else {
+
+                }
+            };
+
+            debugWidget.addOnActiaveCallback(onActiaved);
+
         };
 
-        UiSetup.prototype.buildButtons = function() {
+        UiSetup.prototype.buildButtons = function(debugWidget) {
 
             var elementReady = function(widget) {
                 widget.printWidgetText(widget.configId, 27)
@@ -123,6 +136,18 @@ define([
             var button2Pos = new THREE.Vector3(-0.5, 0.2, 0);
             var button2Widget = new GuiWidget('button_big_red');
             button2Widget.initGuiWidget(button2Pos, elementReady);
+
+
+            var onActiaved = function(bool) {
+
+                if (bool) {
+                    button2Widget.addChild(debugWidget);
+                } else {
+
+                }
+            };
+
+            button2Widget.addOnActiaveCallback(onActiaved);
 
         };
 

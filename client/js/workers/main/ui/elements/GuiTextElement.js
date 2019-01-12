@@ -15,10 +15,11 @@ define([
 
             this.guiStrings = [];
 
-            this.anchorPosVec = new THREE.Vector3(0, 0, 0);
-
             this.minXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
+
+            this.textLayout = {"x": 0.5, "y": 0.5, "fontsize": 15};
+            this.maxRows = 1;
 
             var addElement = function(sysKey, callback) {
                 var element = new GuiString();
@@ -35,18 +36,19 @@ define([
 
         };
 
-        GuiTextElement.prototype.drawTextString = function(uiSysKey, string, fontSize, cb) {
+        GuiTextElement.prototype.drawTextString = function(uiSysKey, string, cb) {
 
             var initString = function(guiString) {
 
-                guiString.setString(string, uiSysKey, fontSize);
-                this.guiStrings.push(guiString);
+                guiString.setString(string, uiSysKey);
+                this.guiStrings.unshift(guiString);
                 cb();
             }.bind(this);
 
-                if (this.guiStrings.length > 4) {
-                    this.removeGuiString(this.guiStrings.shift())
+                while (this.guiStrings.length > this.getTextMaxRows()-1) {
+                    this.removeGuiString(this.guiStrings.pop())
                 }
+
 
                 var getElement = function(elem) {
                     initString(elem)
@@ -78,29 +80,63 @@ define([
         };
 
 
-        GuiTextElement.prototype.setElementAnchorPos = function(posV) {
-            this.anchorPosVec.copy(posV);
+        GuiTextElement.prototype.setTextLayout = function(fontSize) {
+            this.textLayout = fontSize;
         };
 
+        GuiTextElement.prototype.getTextLayout = function() {
+            return this.textLayout;
+        };
 
-        GuiTextElement.prototype.updateTextMinMaxPositions = function(parentPos) {
+        GuiTextElement.prototype.getTextMaxRows = function() {
+            return this.maxRows;
+        };
 
-            tempVec1.addVectors(this.anchorPosVec, parentPos);
+        GuiTextElement.prototype.updateTextMinMaxPositions = function(parentPos, parentSize) {
+
+
 
             this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);
 
-            this.minXY.copy(tempVec1);
-            this.maxXY.copy(tempVec1);
+            this.minXY.copy(parentPos);
+            this.maxXY.addVectors(parentPos, parentSize);
 
-                var letterW = this.config['letter_width'];
-                var letterH = this.config['letter_height'];
+            var txtLayout = this.getTextLayout();
+
+                var letterW = this.config['letter_width']  * txtLayout.fontsize;
+                var letterH = this.config['letter_height'] * txtLayout.fontsize;
 
                 var maxW = -1;
                 var maxH = -1;
 
-            for (var i = 0; i < this.guiStrings.length; i++) {
+                var rowSpacing = this.config['row_spacing']
 
-                this.guiStrings[i].setStringPosition(tempVec1, letterW, letterH, this.config['row_spacing'], i);
+            var maxRows = Math.max(Math.floor((parentSize.y + rowSpacing) / (letterH + rowSpacing)), 1);
+
+                var useRows = Math.min(maxRows, this.guiStrings.length);
+
+            var stringHeight = useRows * (letterH + rowSpacing) - rowSpacing;
+            var marginH = parentSize.y - stringHeight;
+            var offsetY = marginH * txtLayout.y;
+
+            this.maxRows = maxRows;
+
+            for (var i = 0; i < useRows; i++) {
+
+                if (maxH + letterH > parentPos.y + parentSize.y) {
+                    continue;
+                }
+
+                tempVec1.copy(parentPos);
+
+                var stringLength = Math.min(Math.floor(parentSize.x / letterW), this.guiStrings[i].getLetterCount());
+                var stringWidth = stringLength*letterW;
+                var margin = parentSize.x - stringWidth;
+                var offsetX = margin * txtLayout.x;
+                tempVec1.x += offsetX;
+                tempVec1.y += offsetY;
+
+                this.guiStrings[i].setStringPosition(tempVec1, letterW, letterH, rowSpacing, i,  parentPos.x + parentSize.x);
 
                 if (this.guiStrings[i].maxXY.x > maxW) {
                     maxW = this.guiStrings[i].maxXY.x;

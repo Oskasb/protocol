@@ -92,11 +92,13 @@ define([
         var layoutId;
         var layout;
 
-        var parentExtents = new THREE.Vector3();
+
         var offset = new THREE.Vector3();
         var anchor = new THREE.Vector3();
         var widgetOrigin = new THREE.Vector3();
         var widgetExtents = new THREE.Vector3();
+        var parentExtents = new THREE.Vector3();
+
 
         ElementStateProcessor.applyElementLayout = function(widget) {
             layoutId = widget.getLayoutConfigId();
@@ -118,6 +120,10 @@ define([
             widgetOrigin.add(offset);
             widgetOrigin.add(anchor);
             widget.pos.copy(widgetOrigin);
+            widget.size.copy(layout.size);
+            if (widget.text) {
+                widget.text.setTextLayout(layout.text)
+            }
 
         };
 

@@ -42,14 +42,11 @@ define([
             this.centerXY = new THREE.Vector3();
         };
 
-        GuiString.prototype.setString = function(string, guiSysId, fontSize) {
+        GuiString.prototype.setString = function(string, guiSysId) {
 
             if (!letterPools[guiSysId]) {
                 letterPools[guiSysId] = new ExpandingPool(guiSysId, fetch)
             }
-
-            this.guiSysId = guiSysId;
-            this.fontSize = fontSize;
 
             this.setupLetters(string, guiSysId);
 
@@ -66,6 +63,7 @@ define([
             this.letters = [];
 
             var addLetter = function(guiLetter, letter, index) {
+                this.hideLetter(guiLetter);
                 this.letters[index] = guiLetter;
                 guiLetter.setLetter(letter);
                 adds--;
@@ -120,26 +118,37 @@ define([
         };
 
 
-        GuiString.prototype.setStringPosition = function(vec3, letterWidth, letterHeight, rowSpacing, row) {
+        GuiString.prototype.getLetterCount = function() {
+            return this.letters.length
+        };
+
+        GuiString.prototype.setStringPosition = function(vec3, letterWidth, letterHeight, rowSpacing, row, maxW) {
             this.minXY.copy(vec3);
-            this.minXY.y += this.fontSize*row*rowSpacing + this.fontSize*row*letterHeight;
+            this.minXY.y += row*rowSpacing + row*letterHeight;
             this.maxXY.copy(this.minXY);
             for (var i = 0; i < this.letters.length; i++) {
+
                 var guiLetter = this.letters[i];
+                if (this.maxXY.x + letterWidth > maxW) {
+                    this.hideLetter(guiLetter);
+                    continue;
+                }
+
+
                 this.applyRootPositionToLetter(i, guiLetter, letterWidth, letterHeight, rowSpacing, row);
             }
-            this.maxXY.x += this.fontSize*letterWidth*0.5;
+            this.maxXY.x += letterWidth*0.5;
         };
 
 
         GuiString.prototype.applyRootPositionToLetter = function(index, guiLetter, letterWidth, letterHeight, rowSpacing, row) {
 
 
-            guiLetter.applyFontSizeAndHeight(this.fontSize ,letterHeight);
+            guiLetter.applyLetterHeight(letterHeight);
 
-            this.maxXY.x = this.minXY.x + index * this.fontSize*letterWidth + this.fontSize*letterWidth*0.5;
+            this.maxXY.x = this.minXY.x + index * letterWidth + letterWidth*0.5;
 
-            this.maxXY.y = this.minXY.y + this.fontSize*letterHeight;
+            this.maxXY.y = this.minXY.y + letterHeight;
 
             this.centerXY.addVectors(this.minXY, this.maxXY).multiplyScalar(0.5);
 
@@ -148,6 +157,13 @@ define([
         //    GuiAPI.debugDrawGuiPosition(guiLetter.pos.x, guiLetter.pos.y );
 
             guiLetter.applyLetterPosition()
+        };
+
+        GuiString.prototype.hideLetter = function(guiLetter) {
+            guiLetter.applyLetterHeight(0);
+            guiLetter.setLetterPositionXYZ(0, 0, 1);
+            guiLetter.applyLetterPosition()
+
         };
 
 

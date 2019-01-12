@@ -17,7 +17,6 @@ define([
             this.maxXY = new THREE.Vector3();
 
             this.anchor = new THREE.Vector3();
-            this.offset = new THREE.Vector3();
 
             this.active = false;
 
@@ -115,6 +114,10 @@ define([
             this.minXY.copy(vec3);;
         };
 
+        GuiSurface.prototype.applySurfaceSize = function(vec3) {
+            this.maxXY.addVectors(this.minXY, vec3);
+        };
+
         GuiSurface.prototype.setSurfaceMaxXY = function(vec3) {
             this.maxXY.copy(vec3);;
         };
@@ -179,7 +182,6 @@ define([
             this.bufferElement.setPositionVec3(vec3);
         };
 
-
         GuiSurface.prototype.getInteractiveState = function() {
             return this.getInteractiveElement().getInteractiveElementState();
         };
@@ -193,7 +195,6 @@ define([
                 this.onUpdateCallbacks[i]();
             }
         };
-
 
         GuiSurface.prototype.applyStateFeedback = function() {
 

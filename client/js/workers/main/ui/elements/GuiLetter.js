@@ -66,8 +66,8 @@ define([
             this.bufferElement.applyDataTexture()
         };
 
-        GuiLetter.prototype.applyFontSizeAndHeight = function(fontSize, letterHeight) {
-            this.setLetterScaleXY(fontSize * letterHeight * 10, fontSize * letterHeight * 10)
+        GuiLetter.prototype.applyLetterHeight = function(letterHeight) {
+            this.setLetterScaleXY(letterHeight * 10, letterHeight * 10)
         };
 
         GuiLetter.prototype.setLetterScaleXY = function(x, y) {

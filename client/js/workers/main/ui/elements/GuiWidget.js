@@ -17,7 +17,8 @@ define([
 
             this.configId = configId;
 
-            this.pos    = new THREE.Vector3();
+            this.pos  = new THREE.Vector3();
+            this.size = new THREE.Vector3();
             this.quat = new THREE.Quaternion();
 
             this.guiSurface = new GuiSurface();
@@ -68,6 +69,7 @@ define([
                     //    this.guiSurface.applyStateFeedback();
                     GuiAPI.registerInteractiveGuiElement(this.guiSurface);
                     this.guiSurface.addOnActivateCallback(this.callbacks.onElementActivate);
+                    this.setPosition(this.pos);
                     cb(this);
                 }
 
@@ -131,7 +133,6 @@ define([
 
         };
 
-
         GuiWidget.prototype.initWidgetIcon = function(iconConf, cb) {
 
         };
@@ -148,9 +149,13 @@ define([
             }
         };
 
+        GuiWidget.prototype.updateTextPositions = function() {
+            this.text.updateTextMinMaxPositions(this.pos, this.size);
+        };
+
         GuiWidget.prototype.updateSurfacePositions = function() {
-            this.guiSurface.setSurfaceMinXY(this.text.minXY);
-            this.guiSurface.setSurfaceMaxXY(this.text.maxXY);
+            this.guiSurface.setSurfaceMinXY(this.pos);
+            this.guiSurface.applySurfaceSize(this.size);
             this.guiSurface.positionOnCenter();
             this.guiSurface.fitToExtents();
         };
@@ -158,20 +163,20 @@ define([
         GuiWidget.prototype.notifyStringReady = function() {
             //    var state = this.guiSurface.getInteractiveState();
             //    ElementStateProcessor.applyStateToTextElement(this.text, state);
-            this.text.updateTextMinMaxPositions(this.pos);
+            this.updateTextPositions();
             this.updateSurfacePositions();
 
             this.updateWidgetStateFeedback();
         };
 
-        GuiWidget.prototype.printWidgetText = function(string, size) {
+        GuiWidget.prototype.printWidgetText = function(string) {
 
             if (!this.text) {
                 console.log("No text element present!", this);
                 return;
             }
 
-            this.text.drawTextString(GuiAPI.getTextSysKey(), string, size, this.callbacks.onStringReady);
+            this.text.drawTextString(GuiAPI.getTextSysKey(), string, this.callbacks.onStringReady);
 
         };
 
@@ -199,11 +204,10 @@ define([
         GuiWidget.prototype.setPosition = function(pos) {
             this.pos.copy(pos);
 
-
             ElementStateProcessor.applyElementLayout(this);
 
             if (this.text) {
-                this.text.updateTextMinMaxPositions(this.pos);
+                this.updateTextPositions();
             }
 
             this.updateSurfacePositions();
@@ -223,9 +227,16 @@ define([
                 guiWidget.parent.removeChild(guiWidget)
             }
             guiWidget.parent = this;
+            guiWidget.setPosition(this.pos);
             this.children.push(guiWidget);
         };
 
+        GuiWidget.prototype.detatchFromParent = function() {
+
+            if (this.parent) {
+                this.parent.removeChild(this)
+            }
+        };
 
         GuiWidget.prototype.recoverGuiWidget = function() {
 

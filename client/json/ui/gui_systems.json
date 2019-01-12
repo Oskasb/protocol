@@ -10,7 +10,7 @@
               "sprite_atlas": "GUI_16x16",
               "mesh_asset":  "asset_nineQuad",
               "pool_size": 2500,
-              "render_order": 10
+              "render_order": 19
             }
           }
         ]

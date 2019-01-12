@@ -181,7 +181,7 @@ define([
         };
 
         GuiAPI.removeInputUpdateCallback = function(cb) {
-            inputUpdateCallbacks.splice(inputUpdateCallbacks.indexOf(cb, 1));
+            inputUpdateCallbacks.splice(inputUpdateCallbacks.indexOf(cb), 1);
         };
 
         GuiAPI.addGuiUpdateCallback = function(cb) {
@@ -189,7 +189,7 @@ define([
         };
 
         GuiAPI.removeGuiUpdateCallback = function(cb) {
-            guiUpdateCallbacks.splice(guiUpdateCallbacks.indexOf(cb, 1));
+            guiUpdateCallbacks.splice(guiUpdateCallbacks.indexOf(cb), 1);
         };
 
         var cbs;
@@ -222,16 +222,11 @@ define([
             return txtSysKey;
         };
 
-        GuiAPI.updateGui = function(INPUT_BUFFER) {
+        GuiAPI.updateGui = function(INPUT_BUFFER, tpf, time) {
 
             GuiDebug.updateDebugElements();
             updateBufferIndices();
             updateInput(INPUT_BUFFER);
-
-
-            for (var i = 0; i < guiSystems.length; i++) {
-                guiSystems[i].updateGuiSystem();
-            }
 
 
             if (registeredTextElements['main_text_box']) {
@@ -240,7 +235,7 @@ define([
 
 
             for (i = 0; i < guiUpdateCallbacks.length; i++) {
-                guiUpdateCallbacks[i]();
+                guiUpdateCallbacks[i](tpf, time);
             }
 
         };

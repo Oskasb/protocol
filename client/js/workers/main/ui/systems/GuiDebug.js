@@ -14,7 +14,7 @@ define([
 
         var sprite = {x:8, y:0, z:0.025, w:0.025};
         var scale  = {x:0.2, y:0.2, z:1.0};
-        var pos  = {x:0, y:0, z:-0.999};
+        var pos  = {x:0, y:0, z:0.0};
         var rgba = {r:1, g:1, b:1, a:1};
 
 

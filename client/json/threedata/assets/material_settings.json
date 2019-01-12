@@ -70,7 +70,8 @@
               "settings": {
                 "depthTest": false,
                 "alphaTest": 0.05,
-                "transparent": true
+                "transparent": true,
+                "depthWrite": false
               }
             }
           }
@@ -87,7 +88,8 @@
               "settings": {
                 "depthTest": false,
                 "alphaTest": 0.05,
-                "transparent": true
+                "transparent": true,
+                "depthWrite": false
               }
             }
           }

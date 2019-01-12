@@ -112,7 +112,7 @@ define([
 
                     tempVec1.x =  inputBuffer[startIndex+ ENUMS.InputState.MOUSE_X] //+ inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_X] ;
                     tempVec1.y =  inputBuffer[startIndex+ ENUMS.InputState.MOUSE_Y] //+ inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_Y] ;
-                    tempVec1.z = -1 // (Math.random()-0.5 ) * 5 //;
+                    tempVec1.z = 0 // (Math.random()-0.5 ) * 5 //;
 
                     if (!pointers[inputIndex]) {
 

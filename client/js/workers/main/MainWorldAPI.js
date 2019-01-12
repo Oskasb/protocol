@@ -74,7 +74,7 @@ define([
         //    console.log("FRAME ->->-> MainWorldCom");
             evt.initEventFrame(frame);
 
-            GuiAPI.updateGui(sharedBuffers[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)][0], tpf);
+            GuiAPI.updateGui(sharedBuffers[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)][0], tpf, time);
 
             worldSimulation.tickWorldSimulation(tpf, time);
 

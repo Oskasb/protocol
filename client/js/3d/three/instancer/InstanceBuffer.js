@@ -172,7 +172,12 @@ define([
 
         InstanceBuffer.prototype.addToScene = function(screenSpace) {
             if (screenSpace) {
-                ThreeAPI.attachObjectToCamera(this.mesh);
+
+                var offset = new THREE.Object3D();
+                offset.position.z = -1;
+                offset.add(this.mesh);
+                ThreeAPI.attachObjectToCamera(offset);
+
             } else {
                 ThreeAPI.showModel(this.mesh);
             }

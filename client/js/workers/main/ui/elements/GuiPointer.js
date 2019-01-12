@@ -10,7 +10,7 @@ define([
     var intersects;
 
         var GuiPointer = function(element) {
-            this.pos = new THREE.Vector3(0, 0, -1);
+            this.pos = new THREE.Vector3(0, 0, 0);
             this.bufferElement = element;
             this.pointerState = null;
             this.interactiveElement = null;

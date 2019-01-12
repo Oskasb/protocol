@@ -63,12 +63,10 @@ define([
         };
 
 
-
-        TextSystem.prototype.buildTextElement = function(cb, dataId, elementPos) {
+        TextSystem.prototype.buildTextElement = function(cb, dataId) {
 
             var getElement = function(elem) {
 
-                elem.setElementAnchorPos(elementPos);
                 elem.setElementDataKeys('SPRITE_FONT', this.spriteKey, dataId);
 
                 cb(elem);
@@ -78,15 +76,6 @@ define([
 
         };
 
-
-
-        TextSystem.prototype.updateAllTextPositions = function() {
-
-            for (var i = 0; i < this.elements.length; i++) {
-                this.elements[i].updateTextMinMaxPositions()
-            }
-
-        };
 
 
         return TextSystem;

@@ -16,7 +16,7 @@ define([
         var GuiWidget = function(configId) {
 
             this.configId = configId;
-            this.pos = new THREE.Vector3();
+            this.pos = new THREE.Vector3(0, 0, 0);
             this.quat = new THREE.Quaternion();
 
 
@@ -31,8 +31,14 @@ define([
                 this.notifyStringReady();
             }.bind(this)
 
+            var onElementActivate = function(bool) {
+                this.notifyElementActivate(bool);
+            }.bind(this)
+
             this.callbacks = {
-                onStringReady:onStringReady
+                onStringReady:onStringReady,
+                onElementActivate:onElementActivate,
+                onActivate:[]
             }
 
         };
@@ -55,10 +61,10 @@ define([
                 rd++;
                 if (rq===rd) {
 
-
                     this.guiSurface.registerStateUpdateCallback(onWidgetStateUpdate);
-                //    this.guiSurface.applyStateFeedback();
+                    //    this.guiSurface.applyStateFeedback();
                     GuiAPI.registerInteractiveGuiElement(this.guiSurface);
+                    this.guiSurface.addOnActivateCallback(this.callbacks.onElementActivate);
                     cb(this);
                 }
 
@@ -91,6 +97,8 @@ define([
 
         };
 
+
+
         GuiWidget.prototype.initWidgetSurface = function(surfaceConf, surfaceReady) {
 
             var setupSurface = function() {
@@ -99,7 +107,7 @@ define([
 
             this.guiSurface.setFeedbackConfigId(surfaceConf.feedback);
             this.guiSurface.setupSurfaceElement( surfaceConf['nineslice'] , setupSurface);
-            
+
 
         };
 
@@ -111,13 +119,12 @@ define([
                 cb()
             }.bind(this);
 
-            GuiAPI.getTextSystem().buildTextElement(textCB, txtConf.sprite_font, this.pos);
+            GuiAPI.getTextSystem().buildTextElement(textCB, txtConf.sprite_font);
 
         };
 
 
         GuiWidget.prototype.initWidgetIcon = function(iconConf, cb) {
-
 
         };
 
@@ -133,16 +140,20 @@ define([
             }
         };
 
-        GuiWidget.prototype.notifyStringReady = function() {
-        //    var state = this.guiSurface.getInteractiveState();
-        //    ElementStateProcessor.applyStateToTextElement(this.text, state);
+        GuiWidget.prototype.updateSurfacePositions = function() {
             this.guiSurface.setSurfaceMinXY(this.text.minXY);
             this.guiSurface.setSurfaceMaxXY(this.text.maxXY);
             this.guiSurface.positionOnCenter();
             this.guiSurface.fitToExtents();
+        };
+
+        GuiWidget.prototype.notifyStringReady = function() {
+            //    var state = this.guiSurface.getInteractiveState();
+            //    ElementStateProcessor.applyStateToTextElement(this.text, state);
+            this.text.updateTextMinMaxPositions(this.pos);
+            this.updateSurfacePositions();
 
             this.updateWidgetStateFeedback();
-
         };
 
         GuiWidget.prototype.printWidgetText = function(string, size) {
@@ -155,6 +166,35 @@ define([
             this.text.drawTextString(GuiAPI.getTextSysKey(), string, size, this.callbacks.onStringReady);
 
         };
+
+        GuiWidget.prototype.notifyElementActivate = function(bool) {
+
+            for (var i = 0; i < this.callbacks.onActivate.length; i++) {
+                this.callbacks.onActivate[i](bool)
+            }
+
+        };
+
+
+        GuiWidget.prototype.addOnActiaveCallback = function(cb) {
+            this.callbacks.onActivate.push(cb)
+        };
+
+        GuiWidget.prototype.removeOnActiaveCallback = function(cb) {
+            this.callbacks.onActivate.splice(this.callbacks.onActivate.indexOf(cb), 1);
+        };
+
+        GuiWidget.prototype.setPosition = function(pos) {
+            this.pos.copy(pos);
+            if (this.text) {
+                this.text.updateTextMinMaxPositions(this.pos);
+            }
+
+            this.updateSurfacePositions()
+
+        };
+
+
 
         GuiWidget.prototype.addChild = function(guiWidget) {
             this.children.push(guiWidget);

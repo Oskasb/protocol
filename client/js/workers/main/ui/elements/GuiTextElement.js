@@ -9,12 +9,14 @@ define([
         GuiString
     ) {
 
+    var tempVec1 = new THREE.Vector3();
+
         var GuiTextElement = function() {
 
             this.guiStrings = [];
 
-            this.anchorPosVec = new THREE.Vector3();
-
+            this.anchorPosVec = new THREE.Vector3(0, 0, 0);
+            this.parentPos = new THREE.Vector3();
             this.minXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
 
@@ -39,7 +41,6 @@ define([
 
                 guiString.setString(string, uiSysKey, fontSize);
                 this.guiStrings.push(guiString);
-                this.updateTextMinMaxPositions()
                 cb();
             }.bind(this);
 
@@ -81,22 +82,25 @@ define([
             this.anchorPosVec.copy(posV);
         };
 
-        GuiTextElement.prototype.updateTextMinMaxPositions = function() {
+
+        GuiTextElement.prototype.updateTextMinMaxPositions = function(parentPos) {
+
+            tempVec1.addVectors(this.anchorPosVec, parentPos);
 
             this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);
 
-            this.minXY.copy(this.anchorPosVec);
-            this.maxXY.copy(this.anchorPosVec);
+            this.minXY.copy(tempVec1);
+            this.maxXY.copy(tempVec1);
 
                 var letterW = this.config['letter_width'];
                 var letterH = this.config['letter_height'];
 
-                var maxW = 0;
-                var maxH = 0;
+                var maxW = -1;
+                var maxH = -1;
 
             for (var i = 0; i < this.guiStrings.length; i++) {
 
-                this.guiStrings[i].setStringPosition(this.anchorPosVec, letterW, letterH, this.config['row_spacing'], i);
+                this.guiStrings[i].setStringPosition(tempVec1, letterW, letterH, this.config['row_spacing'], i);
 
                 if (this.guiStrings[i].maxXY.x > maxW) {
                     maxW = this.guiStrings[i].maxXY.x;

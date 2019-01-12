@@ -19,6 +19,7 @@ define([
             this.active = false;
 
             this.onUpdateCallbacks = [];
+            this.onActivateCallbacks = [];
 
             this.interactiveElement = new InteractiveElement(this);
         };
@@ -26,7 +27,18 @@ define([
 
         GuiSurface.prototype.toggleActive = function() {
             this.active = !this.active;
+
+
+            for (var i = 0; i < this.onActivateCallbacks.length; i++) {
+                this.onActivateCallbacks[i](this.active);
+            }
+
         };
+
+        GuiSurface.prototype.addOnActivateCallback = function(cb) {
+            this.onActivateCallbacks.push(cb);
+        };
+
 
         GuiSurface.prototype.getActive = function() {
             return this.active;
@@ -56,6 +68,10 @@ define([
 
             while (this.onUpdateCallbacks.length) {
                 this.onUpdateCallbacks.pop();
+            }
+
+            while (this.onActivateCallbacks.length) {
+                this.onActivateCallbacks.pop();
             }
 
         };
@@ -91,6 +107,7 @@ define([
         GuiSurface.prototype.positionOnCenter = function() {
             this.centerXY.addVectors(this.minXY, this.maxXY);
             this.centerXY.multiplyScalar(0.5);
+            this.centerXY.z -=0.00001;
             this.setElementPosition(this.centerXY)
         };
 
@@ -161,7 +178,6 @@ define([
             for (var i = 0; i < this.onUpdateCallbacks.length; i++) {
                 this.onUpdateCallbacks[i]();
             }
-
         };
 
 

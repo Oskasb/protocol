@@ -8,6 +8,7 @@
           "data": [
             {
               "id":"button_big_red",
+              "layout":"layout_major_button",
               "text": {
                 "sprite_font": "sprite_font_button_big",
                 "feedback": "feedback_text_red"
@@ -19,6 +20,7 @@
             },
             {
               "id":"button_big_blue",
+              "layout":"layout_major_button",
               "text": {
                 "sprite_font": "sprite_font_button_big",
                 "feedback": "feedback_text_blue"
@@ -30,17 +32,19 @@
             },
             {
               "id":"main_text_box",
+              "layout":"layout_main_text_box",
               "text": {
                 "sprite_font": "sprite_font_main_text",
                 "feedback": "feedback_text_blue"
               },
               "surface": {
                 "nineslice": "nineslice_surface_main_text",
-                "feedback": "feedback_surface_blue"
+                "feedback":  "feedback_surface_blue"
               }
             },
             {
               "id":"debug_text_box",
+              "layout":"layout_debug_text_box",
               "text": {
                 "sprite_font": "sprite_font_debug",
                 "feedback": "feedback_debug_text"

@@ -77,6 +77,9 @@ define([
             guiSettings.initGuiSprite("SPRITES", "ATLAS_6x6");
             guiSettings.initGuiSprite("SPRITES", "GUI_16x16");
 
+            loadUiConfig("SURFACE_LAYOUT", "SURFACES");
+            loadUiConfig("TEXT_LAYOUT", "TEXTS");
+
             loadUiConfig("WIDGET", "STANDARD_WIDGETS");
             loadUiConfig("FEEDBACK", "SURFACE");
             loadUiConfig("FEEDBACK", "TEXT");

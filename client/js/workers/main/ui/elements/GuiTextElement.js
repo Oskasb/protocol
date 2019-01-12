@@ -16,7 +16,7 @@ define([
             this.guiStrings = [];
 
             this.anchorPosVec = new THREE.Vector3(0, 0, 0);
-            this.parentPos = new THREE.Vector3();
+
             this.minXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
 

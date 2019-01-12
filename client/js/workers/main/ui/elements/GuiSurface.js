@@ -16,6 +16,9 @@ define([
             this.minXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
 
+            this.anchor = new THREE.Vector3();
+            this.offset = new THREE.Vector3();
+
             this.active = false;
 
             this.onUpdateCallbacks = [];
@@ -23,6 +26,31 @@ define([
 
             this.interactiveElement = new InteractiveElement(this);
         };
+
+        GuiSurface.prototype.setupSurfaceElement = function(configId, callback) {
+
+            this.configId = configId;
+
+            this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_NINESLICE", "GUI_16x16", this.configId);
+
+            var addSurfaceCb = function(bufferElem) {
+                this.setBufferElement(bufferElem);
+                this.applySurfaceConfig(this.config);
+                callback(this)
+            }.bind(this);
+
+            GuiAPI.buildBufferElement(this.config.image.atlas_key, addSurfaceCb);
+        };
+
+        GuiSurface.prototype.setFeedbackConfigId = function(feedbackConfigId) {
+            this.feedbackConfigId = feedbackConfigId;
+        };
+
+        GuiSurface.prototype.getFeedbackConfigId = function() {
+            return this.feedbackConfigId;
+        };
+
+
 
 
         GuiSurface.prototype.toggleActive = function() {
@@ -80,20 +108,7 @@ define([
             return this.bufferElement;
         };
 
-        GuiSurface.prototype.setupSurfaceElement = function(configId, callback) {
 
-            this.configId = configId;
-
-            this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_NINESLICE", "GUI_16x16", this.configId);
-
-            var addSurfaceCb = function(bufferElem) {
-                this.setBufferElement(bufferElem);
-                this.applySurfaceConfig(this.config);
-                callback(this)
-            }.bind(this);
-
-            GuiAPI.buildBufferElement(this.config.image.atlas_key, addSurfaceCb);
-        };
 
 
         GuiSurface.prototype.setSurfaceMinXY = function(vec3) {
@@ -103,6 +118,12 @@ define([
         GuiSurface.prototype.setSurfaceMaxXY = function(vec3) {
             this.maxXY.copy(vec3);;
         };
+
+        GuiSurface.prototype.getSurfaceExtents = function(storeVec) {
+            storeVec.subVectors(this.maxXY, this.minXY)
+        };
+
+
 
         GuiSurface.prototype.positionOnCenter = function() {
             this.centerXY.addVectors(this.minXY, this.maxXY);
@@ -158,13 +179,6 @@ define([
             this.bufferElement.setPositionVec3(vec3);
         };
 
-        GuiSurface.prototype.setFeedbackConfigId = function(feedbackConfigId) {
-            this.feedbackConfigId = feedbackConfigId;
-        };
-
-        GuiSurface.prototype.getFeedbackConfigId = function() {
-            return this.feedbackConfigId;
-        };
 
         GuiSurface.prototype.getInteractiveState = function() {
             return this.getInteractiveElement().getInteractiveElementState();

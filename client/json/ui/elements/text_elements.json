@@ -2,9 +2,9 @@
 [
   {
     "UI": {
-      "TEXT_LAYOUT":[
+      "SPRITE_FONT":[
         {
-          "id": "TEXTS",
+          "id": "FONT_16x16",
           "data": [
             {
               "id":"sprite_font_button_big",

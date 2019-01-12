@@ -54,12 +54,12 @@ define([
                 GuiAPI.getGuiDebug().setDebugTextPanel(widget);
             };
 
-            var debugTextPos = new THREE.Vector3(0.3, 0.3, 0);
+            var debugTextPos = new THREE.Vector3(0.1, 0.1, 0);
 
             var debugWidget = new GuiWidget('debug_text_box');
             debugWidget.initGuiWidget(debugTextPos, debugElementReady);
 
-
+            mainTextWidget.addChild(debugWidget);
 
             var guiUpdatez = function(tpf, time) {
 

@@ -15,6 +15,10 @@ define([
         var sprite;
         var spriteName;
 
+        var lutColor;
+        var bufferElem;
+        var feedbackId;
+
         var ElementStateProcessor = function() {
 
         };
@@ -40,9 +44,6 @@ define([
             }
         };
 
-var lutColor;
-var bufferElem;
-var feedbackId;
         ElementStateProcessor.applyElementStateFeedback = function(element, elementState) {
             imgConf = element.config['image'];
             feedbackId = element.getFeedbackConfigId();
@@ -83,13 +84,42 @@ var feedbackId;
                             element.getBufferElement().setSprite(element.sprite);
 
                         }
-
                     }
                 }
             }
         };
 
+        var layoutId;
+        var layout;
 
+        var parentExtents = new THREE.Vector3();
+        var offset = new THREE.Vector3();
+        var anchor = new THREE.Vector3();
+        var widgetOrigin = new THREE.Vector3();
+        var widgetExtents = new THREE.Vector3();
+
+        ElementStateProcessor.applyElementLayout = function(widget) {
+            layoutId = widget.getLayoutConfigId();
+            layout =  GuiAPI.getGuiSettingConfig('SURFACE_LAYOUT', 'SURFACES', layoutId);
+
+            widget.getWidgetSurface().getSurfaceExtents(widgetExtents);
+
+            if (widget.parent) {
+                widget.parent.getWidgetSurface().getSurfaceExtents(parentExtents);
+                widgetOrigin.copy(widget.parent.pos);
+            } else {
+                parentExtents.set(1, 1, 1);
+                widgetOrigin.copy(widget.pos);
+            }
+
+            offset.set(layout.offset.x * widgetExtents.x, layout.offset.y * widgetExtents.y, layout.offset.z * widgetExtents.z);
+            anchor.set(layout.anchor.x * parentExtents.x, layout.anchor.y * parentExtents.y, layout.anchor.z * parentExtents.z);
+
+            widgetOrigin.add(offset);
+            widgetOrigin.add(anchor);
+            widget.pos.copy(widgetOrigin);
+
+        };
 
         return ElementStateProcessor;
 

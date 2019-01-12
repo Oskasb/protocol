@@ -16,24 +16,25 @@ define([
         var GuiWidget = function(configId) {
 
             this.configId = configId;
-            this.pos = new THREE.Vector3(0, 0, 0);
-            this.quat = new THREE.Quaternion();
 
+            this.pos    = new THREE.Vector3();
+            this.quat = new THREE.Quaternion();
 
             this.guiSurface = new GuiSurface();
             this.text       = null;
             this.icon       = null;
 
+            this.parent = null;
             this.children = [];
 
 
             var onStringReady = function() {
                 this.notifyStringReady();
-            }.bind(this)
+            }.bind(this);
 
             var onElementActivate = function(bool) {
                 this.notifyElementActivate(bool);
-            }.bind(this)
+            }.bind(this);
 
             this.callbacks = {
                 onStringReady:onStringReady,
@@ -48,6 +49,8 @@ define([
             this.pos.copy(pos);
 
             var config = GuiAPI.getGuiSettings().getSettingConfig(uiKey, settingKey)[this.configId];
+
+            this.setLayoutConfigId(config['layout']);
 
             var rq = 0;
             var rd = 0;
@@ -97,7 +100,13 @@ define([
 
         };
 
+        GuiWidget.prototype.setLayoutConfigId = function(layoutConfigId) {
+            this.layoutConfigId = layoutConfigId;
+        };
 
+        GuiWidget.prototype.getLayoutConfigId = function() {
+            return this.layoutConfigId;
+        };
 
         GuiWidget.prototype.initWidgetSurface = function(surfaceConf, surfaceReady) {
 
@@ -107,7 +116,6 @@ define([
 
             this.guiSurface.setFeedbackConfigId(surfaceConf.feedback);
             this.guiSurface.setupSurfaceElement( surfaceConf['nineslice'] , setupSurface);
-
 
         };
 
@@ -184,19 +192,37 @@ define([
             this.callbacks.onActivate.splice(this.callbacks.onActivate.indexOf(cb), 1);
         };
 
+        GuiWidget.prototype.getWidgetSurface = function() {
+            return this.guiSurface;
+        };
+
         GuiWidget.prototype.setPosition = function(pos) {
             this.pos.copy(pos);
+
+
+            ElementStateProcessor.applyElementLayout(this);
+
             if (this.text) {
                 this.text.updateTextMinMaxPositions(this.pos);
             }
 
-            this.updateSurfacePositions()
+            this.updateSurfacePositions();
+
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i].setPosition(this.pos);
+            }
 
         };
 
-
+        GuiWidget.prototype.removeChild = function(guiWidget) {
+            this.children.splice(this.children.indexOf(guiWidget), 1);
+        };
 
         GuiWidget.prototype.addChild = function(guiWidget) {
+            if (guiWidget.parent) {
+                guiWidget.parent.removeChild(guiWidget)
+            }
+            guiWidget.parent = this;
             this.children.push(guiWidget);
         };
 

@@ -4,11 +4,17 @@
       "threedata/assets/load_assets.json"                   ,
 
 
-      "ui/widgets/standard_widgets.json"                    ,
-      "ui/feedback/text_feedback.json"                          ,
-      "ui/feedback/surface_feedback.json"                       ,
+      "ui/elements/surface_elements.json"                   ,
+      "ui/elements/text_elements.json"                      ,
+
+      "ui/feedback/text_feedback.json"                      ,
+      "ui/feedback/surface_feedback.json"                   ,
+
       "ui/layout/text_layout.json"                          ,
       "ui/layout/surface_layout.json"                       ,
+
+      "ui/widgets/standard_widgets.json"                    ,
+
       "ui/gui_systems.json"                                 ,
 
       "threedata/assets/sprites/gui_sprites_16x16.json"     ,

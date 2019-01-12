@@ -2,38 +2,29 @@
 [
   {
     "UI": {
-      "SURFACE_NINESLICE":[
+      "SURFACE_LAYOUT":[
         {
-          "id": "GUI_16x16",
+          "id": "SURFACES",
           "data": [
             {
-              "id":"nineslice_surface_debug",
+              "id":"layout_major_button",
               "config": {
-                "padding": { "x":0.015, "y":0.015},
-                "image": {
-                  "atlas_key": "GUI_16x16",
-                  "border_thickness": {"x": 0.95, "y": 0.95}
-                }
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0}
               }
             },
             {
-              "id":"nineslice_surface_main_text",
+              "id":"layout_main_text_box",
               "config": {
-                "padding": { "x":0.02, "y":0.015},
-                "image": {
-                  "atlas_key": "GUI_16x16",
-                  "border_thickness": {"x": 0.85, "y": 0.85}
-                }
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0}
               }
             },
             {
-              "id":"nineslice_surface_button_big",
+              "id":"layout_debug_text_box",
               "config": {
-                "padding": { "x":0.02, "y":0.003},
-                "image": {
-                  "atlas_key": "GUI_16x16",
-                  "border_thickness": {"x": 0.75, "y": 0.75}
-                }
+                "anchor": {"x":1.0, "y":1.0, "z":  0.0},
+                "offset": {"x":-1.1, "y":0.05, "z":  0.0}
               }
             }
           ]

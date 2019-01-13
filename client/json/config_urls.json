@@ -3,10 +3,11 @@
     "files":[
       "threedata/assets/load_assets.json"                   ,
 
-
+      "ui/elements/icon_elements.json"                      ,
       "ui/elements/surface_elements.json"                   ,
       "ui/elements/text_elements.json"                      ,
 
+      "ui/feedback/icon_feedback.json"                      ,
       "ui/feedback/text_feedback.json"                      ,
       "ui/feedback/surface_feedback.json"                   ,
 

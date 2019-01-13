@@ -8,14 +8,34 @@
           "data": [
             {
               "id":"button_big_red",
-              "layout":"layout_major_button",
+              "layout":"layout_big_icon_button",
               "text": {
                 "sprite_font": "sprite_font_button_big",
                 "feedback": "feedback_text_red"
               },
+              "icon": {
+                "icon_config": "gui_icon",
+                "feedback": "feedback_icon_button"
+              },
               "surface": {
                 "nineslice": "nineslice_surface_button_big",
-                "feedback": "feedback_surface_red"
+                "feedback": "feedback_button_rounded_red"
+              }
+            },
+            {
+              "id":"progress_indicator_big_red",
+              "layout":"layout_progress_button_fat",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_red"
+              },
+              "icon": {
+                "icon_config": "progress_horizontal_slim",
+                "feedback": "feedback_icon_progress"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_progress_button_big",
+                "feedback": "feedback_progress_button_red"
               }
             },
             {

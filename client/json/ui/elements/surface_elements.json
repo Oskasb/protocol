@@ -29,6 +29,16 @@
             {
               "id":"nineslice_surface_button_big",
               "config": {
+                "padding": { "x":0.012, "y":0.0023},
+                "image": {
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.55, "y": 0.55}
+                }
+              }
+            },
+            {
+              "id":"nineslice_surface_progress_button_big",
+              "config": {
                 "padding": { "x":0.02, "y":0.003},
                 "image": {
                   "atlas_key": "GUI_16x16",

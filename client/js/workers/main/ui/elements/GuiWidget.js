@@ -2,11 +2,13 @@
 
 define([
         'client/js/workers/main/ui/states/ElementStateProcessor',
-        'client/js/workers/main/ui/elements/GuiSurface'
+        'client/js/workers/main/ui/elements/GuiSurface',
+        'client/js/workers/main/ui/elements/GuiIcon'
     ],
     function(
         ElementStateProcessor,
-        GuiSurface
+        GuiSurface,
+        GuiIcon
     ) {
 
         var uiKey = 'WIDGET';
@@ -19,6 +21,7 @@ define([
 
             this.pos  = new THREE.Vector3();
             this.size = new THREE.Vector3();
+            this.extents = new THREE.Vector3();
             this.quat = new THREE.Quaternion();
 
             this.guiSurface = new GuiSurface();
@@ -42,12 +45,15 @@ define([
                 onElementActivate:onElementActivate,
                 onActivate:[]
             }
-
         };
+
+
 
         GuiWidget.prototype.initGuiWidget = function(pos, cb) {
 
-            this.pos.copy(pos);
+            if (pos) {
+                this.pos.copy(pos);
+            }
 
             var config = GuiAPI.getGuiSettings().getSettingConfig(uiKey, settingKey)[this.configId];
 
@@ -70,7 +76,9 @@ define([
                     GuiAPI.registerInteractiveGuiElement(this.guiSurface);
                     this.guiSurface.addOnActivateCallback(this.callbacks.onElementActivate);
                     this.setPosition(this.pos);
-                    cb(this);
+                    if (typeof (cb) === 'function') {
+                        cb(this);
+                    }
                 }
 
             }.bind(this);
@@ -133,7 +141,21 @@ define([
 
         };
 
+
+
         GuiWidget.prototype.initWidgetIcon = function(iconConf, cb) {
+
+            var addLetterCb = function(bufferElem) {
+
+                var guiIcon = new GuiIcon();
+                guiIcon.initIconBuffers(bufferElem);
+                guiIcon.setFeedbackConfigId(iconConf.feedback);
+                guiIcon.setConfigParams(iconConf.icon_config, "GUI_16x16");
+                this.icon = guiIcon;
+                cb()
+            }.bind(this);
+
+            GuiAPI.buildBufferElement("GUI_16x16", addLetterCb)
 
         };
 
@@ -147,6 +169,16 @@ define([
                     ElementStateProcessor.applyStateToTextElement(this.text, state);
                 }
             }
+
+            if (this.icon) {
+                ElementStateProcessor.applyStateToIconElement(this.icon, state);
+            }
+
+        };
+
+        GuiWidget.prototype.updateIconPosition = function() {
+            this.guiSurface.getSurfaceExtents(this.extents);
+            this.icon.updateGuiIconPosition(this.guiSurface.minXY, this.extents);
         };
 
         GuiWidget.prototype.updateTextPositions = function() {
@@ -177,13 +209,12 @@ define([
             }
 
             this.text.drawTextString(GuiAPI.getTextSysKey(), string, this.callbacks.onStringReady);
-
         };
 
         GuiWidget.prototype.notifyElementActivate = function(bool) {
 
             for (var i = 0; i < this.callbacks.onActivate.length; i++) {
-                this.callbacks.onActivate[i](bool)
+                this.callbacks.onActivate[i](bool, this)
             }
 
         };
@@ -212,6 +243,10 @@ define([
 
             this.updateSurfacePositions();
 
+            if (this.icon) {
+                this.updateIconPosition();
+            }
+
             for (var i = 0; i < this.children.length; i++) {
                 this.children[i].setPosition(this.pos);
             }
@@ -236,6 +271,46 @@ define([
             if (this.parent) {
                 this.parent.removeChild(this)
             }
+        };
+
+
+        GuiWidget.prototype.setWidgetIconKey = function(iconKey) {
+
+            if (!this.icon) {
+                console.log("Widget requires icon configureation", iconKey, this);
+                return;
+            }
+
+            this.icon.setIconKey(iconKey);
+
+        };
+
+
+        var progString = '';
+
+        GuiWidget.prototype.indicateProgress = function(min, max, current, digits) {
+
+
+            if (this.text) {
+
+                progString = parseFloat((current%max).toFixed(digits)).toLocaleString().replace(/\.([0-9])$/, ".$10")
+
+
+                if (this.text.guiStrings.length) {
+                    this.text.guiStrings[0].setString(progString, this.text.uiSysKey);
+                    this.updateTextPositions();
+                } else {
+                    this.printWidgetText(progString);
+                }
+
+            }
+
+            if (this.icon) {
+                this.icon.setIconProgressState(min, max, current%max);
+                this.updateIconPosition();
+            }
+
+
         };
 
         GuiWidget.prototype.recoverGuiWidget = function() {

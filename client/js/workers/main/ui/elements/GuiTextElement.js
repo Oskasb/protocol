@@ -38,6 +38,8 @@ define([
 
         GuiTextElement.prototype.drawTextString = function(uiSysKey, string, cb) {
 
+            this.uiSysKey = uiSysKey;
+
             var initString = function(guiString) {
 
                 guiString.setString(string, uiSysKey);

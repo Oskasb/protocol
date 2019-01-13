@@ -1,0 +1,33 @@
+
+[
+  {
+    "UI": {
+      "ICON_ELEMENTS":[
+        {
+          "id": "GUI_16x16",
+          "data": [
+            {
+              "id":"gui_icon",
+              "config": {
+                "innersize": { "x":0.7,  "y":0.7, "z": 0},
+                "offset":    { "x":0.05, "y":0.6, "z": 0},
+                "atlas_key": "GUI_16x16",
+                "stretch": false
+              }
+            },
+            {
+              "id":"progress_horizontal_slim",
+              "config": {
+                "innersize": { "x":0.915,  "y":0.1, "z": 0},
+                "offset":    { "x":0.5, "y":0.183, "z": 0},
+                "atlas_key": "GUI_16x16",
+                "stretch": true,
+                "progress": {"axis": "left", "alts": ["up", "down", "left", "right"]}
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

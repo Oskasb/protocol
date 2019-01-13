@@ -36,13 +36,20 @@ define([
 
 
         var GuiString = function() {
-
+            this.string = '';
+            this.letters = [];
             this.minXY = new THREE.Vector3();
             this.maxXY = new THREE.Vector3();
             this.centerXY = new THREE.Vector3();
         };
 
         GuiString.prototype.setString = function(string, guiSysId) {
+
+            if (this.string === string) {
+                return;
+            }
+
+            this.recoverGuiString();
 
             if (!letterPools[guiSysId]) {
                 letterPools[guiSysId] = new ExpandingPool(guiSysId, fetch)
@@ -60,7 +67,7 @@ define([
 
         GuiString.prototype.setupLetters = function(string, guiSysId) {
 
-            this.letters = [];
+
 
             var addLetter = function(guiLetter, letter, index) {
                 this.hideLetter(guiLetter);
@@ -126,6 +133,8 @@ define([
             this.minXY.copy(vec3);
             this.minXY.y += row*rowSpacing + row*letterHeight;
             this.maxXY.copy(this.minXY);
+
+
             for (var i = 0; i < this.letters.length; i++) {
 
                 var guiLetter = this.letters[i];

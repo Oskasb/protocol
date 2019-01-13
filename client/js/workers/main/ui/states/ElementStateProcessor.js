@@ -44,6 +44,24 @@ define([
             }
         };
 
+        ElementStateProcessor.applyStateToIconElement = function(element, elementState) {
+            feedbackId = element.getFeedbackConfigId();
+            state_feedback =  GuiAPI.getGuiSettingConfig('FEEDBACK', 'ICON', feedbackId);
+
+            if (state_feedback) {
+
+                stateKey = ENUMS.getKey('ElementState', elementState);
+
+                if (state_feedback[stateKey]) {
+
+                    color = state_feedback[stateKey]['color_rgba'];
+                    if (color) {
+                        element.setGuiIconColorRGBA(color);
+                    }
+                }
+            }
+        };
+
         ElementStateProcessor.applyElementStateFeedback = function(element, elementState) {
             imgConf = element.config['image'];
             feedbackId = element.getFeedbackConfigId();

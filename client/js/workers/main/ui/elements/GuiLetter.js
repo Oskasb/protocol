@@ -9,25 +9,28 @@ define([
 
         var GuiLetter = function() {
             this.pos = new THREE.Vector3();
+            this.scale = {x:0, y:0, z:0};
+            this.sprite = {x:0, y:0, z:0, w:0};
         };
 
         GuiLetter.prototype.initLetterBuffers = function(bufferElement) {
 
             this.bufferElement = bufferElement;
+            this.scale.x = 0;
+            this.scale.y = 0;
+            this.scale.z = 0;
+            this.bufferElement.pos.x = 0;
+            this.bufferElement.pos.y = 0;
+            this.bufferElement.pos.z = 1;
 
-            this.bufferElement.lifecycle = {x:0.1, y:0.1, z:0.1, w:0.0};
-            this.bufferElement.pos = {x:0, y:0, z:1};
-            this.scale = {x:1, y:1, z:1};
-            this.sprite = {x:0, y:0, z:0, w:0};
-            this.pos.x = 0;
-            this.pos.y = 0;
-            this.pos.z = 0;
-
-        //    this.bufferElement.setDefaultBuffers();
-
-            // this.bufferElement.startLifecycleNow();
+            this.bufferElement.lifecycle.x = 0;
+            this.bufferElement.lifecycle.y = 0;
+            this.bufferElement.lifecycle.z = 0;
+            this.bufferElement.lifecycle.w = 0;
 
         };
+
+
 
         GuiLetter.prototype.setLetter = function(letter) {
             this.letter = letter;

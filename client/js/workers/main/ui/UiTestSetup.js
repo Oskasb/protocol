@@ -2,50 +2,93 @@
 
 define([
 
-        'client/js/workers/main/ui/systems/InputSystem',
-        'client/js/workers/main/ui/systems/TextSystem',
         'client/js/workers/main/ui/widgets/GuiSimpleButton',
-        'client/js/workers/main/ui/elements/GuiWidget',
-        'client/js/workers/main/ui/UiTestSetup'
+        'client/js/workers/main/ui/widgets/GuiProgressBar'
     ],
     function(
-
-        InputSystem,
-        TextSystem,
         GuiSimpleButton,
-        GuiWidget,
-        UiTestSetup
+        GuiProgressBar
     ) {
 
-    var tempVec1 = new THREE.Vector3();
-    var tempObj1 = new THREE.Object3D();
+        var tempVec1 = new THREE.Vector3();
+        var tempObj1 = new THREE.Object3D();
         var tempObj2 = new THREE.Object3D();
 
-        var UiSetup = function() {
-            this.uiTestSetup = new UiTestSetup();
+        var progressBars = [];
+
+        var UiTestSetup = function() {
+            this.setupUiTestCallbacks();
         };
 
-        UiSetup.prototype.initUiSetup = function(callback) {
+        UiTestSetup.prototype.setupUiTestCallbacks = function() {
 
-            GuiAPI.setInputSystem( new InputSystem());
-            GuiAPI.setTextSystem( new TextSystem());
+            var toggleTestUi = function(bool) {
+                console.log("Button: ", bool);
+                if (bool) {
+                    this.openTestUi();
+                } else {
+                    this.closeTestUi();
+                }
 
-            var textSysCb = function() {
-                callback();
+            }.bind(this);
+
+            this.callbacks = {
+                toggleTestUi:toggleTestUi
+            }
+
+        };
+
+        UiTestSetup.prototype.initUiTestSetup = function() {
+
+            tempVec1.set(0.5, 0.35, 0);
+
+            var widgetReady = function(widget) {
+                widget.printWidgetText('TEST UI')
             };
 
-            var inputReady = function() {
-                GuiAPI.getTextSystem().initTextSystem(textSysCb);
-            };
+            this.mainButton = new GuiSimpleButton();
+            this.mainButton.initSimpleButton('button_big_blue', this.callbacks.toggleTestUi, widgetReady, tempVec1 )
 
-            GuiAPI.getInputSystem().initInputSystem(inputReady);
         };
 
 
+        UiTestSetup.prototype.addProgressBar = function() {
 
-        UiSetup.prototype.setupDefaultUi = function() {
+            tempVec1.set(0.1, -0.2, 0);
+            tempVec1.y += progressBars.length * 0.1;
 
-            this.uiTestSetup.initUiTestSetup();
+            var progressBar = new GuiProgressBar();
+
+            var onActivate = function(bool, widget) {
+
+                if (bool) {
+                    progressBar.activateProgressBar()
+                } else {
+                    progressBar.deactivateProgressBar()
+                }
+
+            };
+
+            progressBar.initProgressBar('progress_indicator_big_red', onActivate, null, tempVec1)
+            progressBars.push(progressBar);
+        };
+
+
+        UiTestSetup.prototype.openTestUi = function() {
+
+            console.log("Open test Ui");
+
+            for (var i = 0; i < 5; i++) {
+                this.addProgressBar();
+            }
+
+        };
+
+        UiTestSetup.prototype.closeTestUi = function() {
+
+        };
+
+        UiTestSetup.prototype.setupDefaultUi = function() {
 
             var debugElementReady = function(widget) {
                 GuiAPI.getGuiDebug().setDebugTextPanel(widget);
@@ -82,7 +125,7 @@ define([
 
                 if (bool) {
                     console.log("Activate Button");
-                    GuiAPI.addGuiUpdateCallback(guiUpdatez);
+                    GuiAPI.addGuiUpdateCallback(guiUpdatez)
                     mainTextWidget.addChild(debugWidget);
                 } else {
                     console.log("Deactivate Button");
@@ -106,7 +149,7 @@ define([
 
         };
 
-        UiSetup.prototype.buildButtons = function(debugWidget) {
+        UiTestSetup.prototype.buildButtons = function(debugWidget) {
 
             var elementReady = function(widget) {
                 widget.printWidgetText(widget.configId)
@@ -180,15 +223,15 @@ define([
 
             };
 
-var progActivate = function(bool) {
-    if (bool) {
-        prog = 0;
-        GuiAPI.addGuiUpdateCallback(updateProg)
-    } else {
+            var progActivate = function(bool) {
+                if (bool) {
+                    prog = 0;
+                    GuiAPI.addGuiUpdateCallback(updateProg)
+                } else {
 
-        GuiAPI.removeGuiUpdateCallback(updateProg)
-    }
-};
+                    GuiAPI.removeGuiUpdateCallback(updateProg)
+                }
+            };
 
             progressWidget.addOnActiaveCallback(progActivate);
 
@@ -196,6 +239,6 @@ var progActivate = function(bool) {
 
 
 
-        return UiSetup;
+        return UiTestSetup;
 
     });

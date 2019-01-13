@@ -61,6 +61,15 @@
           },
 
           {
+            "id":"button_fat_progress",
+            "tiles":[[12, 1]]
+          },
+          {
+            "id":"button_fat_progress_pressed",
+            "tiles":[[13, 1]]
+          },
+
+          {
             "id":"horizontal",
             "tiles":[[0, 2]]
           },

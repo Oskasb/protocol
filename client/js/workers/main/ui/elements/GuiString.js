@@ -45,6 +45,14 @@ define([
 
         GuiString.prototype.setString = function(string, guiSysId) {
 
+
+
+            if (typeof(string) === 'number') {
+                string = ''+string;
+            } else {
+
+            }
+
             if (this.string === string) {
                 return;
             }

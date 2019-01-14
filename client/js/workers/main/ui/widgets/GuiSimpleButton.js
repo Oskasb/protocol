@@ -20,6 +20,11 @@ define([
         };
 
 
+        GuiSimpleButton.prototype.removeGuiWidget = function() {
+            this.guiWidget.recoverGuiWidget();
+        };
+
+
         return GuiSimpleButton;
 
     });

@@ -94,8 +94,13 @@ define([
             return this.maxRows;
         };
 
-        GuiTextElement.prototype.updateTextMinMaxPositions = function(parentPos, parentSize) {
+        GuiTextElement.prototype.getMaxCharCount = function() {
+            var txtLayout = this.getTextLayout();
+            var letterW = this.config['letter_width']  * txtLayout.fontsize;
+            return Math.floor((this.maxXY.x - this.minXY.x) / letterW)
+        };
 
+        GuiTextElement.prototype.updateTextMinMaxPositions = function(parentPos, parentSize) {
 
 
             this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);

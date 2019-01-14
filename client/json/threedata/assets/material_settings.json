@@ -121,7 +121,7 @@
               "data_texture": "data_texture",
               "side": "DoubleSide",
               "settings": {
-                "depthTest": true,
+                "depthTest": false,
                 "alphaTest": 0.05,
                 "transparent": false,
                 "depthWrite": false,

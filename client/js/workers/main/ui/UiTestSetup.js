@@ -3,24 +3,43 @@
 define([
 
         'client/js/workers/main/ui/widgets/GuiSimpleButton',
+        'client/js/workers/main/ui/widgets/GuiTextBox',
+        'client/js/workers/main/ui/widgets/GuiScreenSpaceText',
         'client/js/workers/main/ui/widgets/GuiProgressBar'
     ],
     function(
         GuiSimpleButton,
+        GuiTextBox,
+        GuiScreenSpaceText,
         GuiProgressBar
     ) {
 
         var tempVec1 = new THREE.Vector3();
-        var tempObj1 = new THREE.Object3D();
-        var tempObj2 = new THREE.Object3D();
+        var tempVec2 = new THREE.Vector3();
 
+        var testButtons = [];
         var progressBars = [];
+        var textBoxes = [];
+        var matrixText;
 
         var UiTestSetup = function() {
             this.setupUiTestCallbacks();
         };
 
         UiTestSetup.prototype.setupUiTestCallbacks = function() {
+
+            var addTextBox = function() {
+                this.addTextBox();
+            }.bind(this)
+
+            var addProgressBar = function() {
+                this.addProgressBar();
+            }.bind(this)
+
+            var addMatrixText = function(bool) {
+                this.addMatrixText(bool);
+            }.bind(this)
+
 
             var toggleTestUi = function(bool) {
                 console.log("Button: ", bool);
@@ -33,7 +52,10 @@ define([
             }.bind(this);
 
             this.callbacks = {
-                toggleTestUi:toggleTestUi
+                toggleTestUi:toggleTestUi,
+                addProgressBar:addProgressBar,
+                addTextBox:addTextBox,
+                addMatrixText:addMatrixText
             }
 
         };
@@ -51,6 +73,42 @@ define([
 
         };
 
+        UiTestSetup.prototype.addTestButtons = function() {
+
+
+            tempVec1.set(0.55, 0.29, 0);
+
+            var b1Ready = function(widget) {
+                widget.printWidgetText('Prg Bar')
+            };
+
+            var button =  new GuiSimpleButton();
+            button.initSimpleButton('button_big_blue', this.callbacks.addProgressBar, b1Ready, tempVec1 )
+
+            testButtons.push(button);
+
+            var b2Ready = function(widget) {
+                widget.printWidgetText('Txt Box')
+            };
+
+            tempVec1.x -= 0.15;
+            button =  new GuiSimpleButton();
+            button.initSimpleButton('button_big_blue', this.callbacks.addTextBox, b2Ready, tempVec1 )
+
+            testButtons.push(button);
+
+            var b3Ready = function(widget) {
+                widget.printWidgetText('MATRIX')
+            };
+
+            tempVec1.x -= 0.15;
+            button =  new GuiSimpleButton();
+            button.initSimpleButton('button_big_blue', this.callbacks.addMatrixText, b3Ready, tempVec1 )
+
+            testButtons.push(button);
+
+        };
+
         UiTestSetup.prototype.addProgressBar = function() {
 
             tempVec1.set(0.1, -0.2, 0);
@@ -59,13 +117,11 @@ define([
             var progressBar = new GuiProgressBar();
 
             var onActivate = function(bool, widget) {
-
                 if (bool) {
                     progressBar.activateProgressBar()
                 } else {
                     progressBar.deactivateProgressBar()
                 }
-
             };
 
             progressBar.initProgressBar('progress_indicator_big_red', onActivate, null, tempVec1)
@@ -73,23 +129,79 @@ define([
         };
 
 
+        UiTestSetup.prototype.addTextBox = function() {
+
+            tempVec1.set(0.35, -0.38, 0);
+            tempVec1.y += textBoxes.length * 0.14;
+
+            var textBox = new GuiTextBox();
+
+            var onActivate = function(bool, widget) {
+                if (bool) {
+                    textBox.activateTextBox()
+                } else {
+                    textBox.deactivateTextBox()
+                }
+            };
+
+            textBox.initTextBox('main_text_box', onActivate, null, tempVec1)
+            textBoxes.push(textBox);
+        };
+
+        UiTestSetup.prototype.addMatrixText = function(bool) {
+
+            if (bool) {
+
+                var onReady = function(ssTxt) {
+                    tempVec1.set(-0.5, -0.5, 0);
+                    tempVec2.set(1.0, 1.0, 0);
+
+                    ssTxt.setTextDimensions(tempVec1, tempVec2);
+                    ssTxt.activateScreenSpaceText()
+                };
+
+                matrixText = new GuiScreenSpaceText();
+
+                matrixText.initScreenSpaceText(onReady);
+
+            } else {
+                if (matrixText) {
+                    matrixText.removeGuiWidget();
+                    matrixText = null
+                }
+            }
+
+        };
+
 
         UiTestSetup.prototype.openTestUi = function() {
 
-            console.log("Open test Ui");
 
-            for (var i = 0; i < 5; i++) {
-                this.addProgressBar();
-            }
+            this.addTestButtons();
+
+            console.log("Open test Ui");
 
         };
 
         UiTestSetup.prototype.closeTestUi = function() {
 
+            while (testButtons.length) {
+                testButtons.pop().removeGuiWidget();
+            }
+
             while (progressBars.length) {
                 progressBars.pop().removeGuiWidget();
             }
 
+            while (textBoxes.length) {
+                textBoxes.pop().removeGuiWidget();
+            }
+
+            if (matrixText) {
+                matrixText.removeGuiWidget();
+                matrixText = null
+            }
+            
         };
 
         UiTestSetup.prototype.setupDefaultUi = function() {

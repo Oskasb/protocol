@@ -126,7 +126,6 @@ define([
                 button2Widget.setPosition(tempVec1);
             };
 
-
             var onActiave = function(bool) {
 
                 if (bool) {
@@ -159,38 +158,6 @@ define([
 
             button2Widget.addOnActiaveCallback(onActiaved);
 
-
-            var progressReady = function(widget) {
-                widget.printWidgetText('progress');
-                widget.setWidgetIconKey("plate")
-            };
-
-
-            var progressPos = new THREE.Vector3(0.5, 0.2, 0);
-            var progressWidget = new GuiWidget('progress_indicator_big_red');
-            progressWidget.initGuiWidget(progressPos, progressReady);
-
-
-            var prog = 0;
-
-            var updateProg = function(tpf, time) {
-                prog += tpf;
-
-                progressWidget.indicateProgress(0, 2, prog, 2)
-
-            };
-
-var progActivate = function(bool) {
-    if (bool) {
-        prog = 0;
-        GuiAPI.addGuiUpdateCallback(updateProg)
-    } else {
-
-        GuiAPI.removeGuiUpdateCallback(updateProg)
-    }
-};
-
-            progressWidget.addOnActiaveCallback(progActivate);
 
         };
 

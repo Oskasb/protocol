@@ -16,6 +16,7 @@ define([
             this.digits = 2;
 
             this.time = 0;
+
             var updateProgress = function(tpf, time) {
                 this.time += tpf;
                 this.updateCurrentProgress(this.time);
@@ -31,7 +32,7 @@ define([
             this.guiWidget = new GuiWidget(widgetConfig);
 
             var widgetReady = function(widget) {
-                widget.setWidgetIconKey("plate")
+                widget.setWidgetIconKey("plate");
                 widget.setPosition(pos);
             };
 

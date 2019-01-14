@@ -38,7 +38,12 @@ define([
                 callback();
             };
 
-            GuiAPI.getGuiSettings().initGuiSettings(["UI_ELEMENTS_MAIN"], onInputSetting);
+            var backplates = function(src, data) {
+                GuiAPI.addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
+                GuiAPI.getGuiSettings().initGuiSettings(["UI_ELEMENTS_MAIN"], onInputSetting);
+            };
+
+            GuiAPI.getGuiSettings().initGuiSettings(["UI_ELEMENTS_BACK"], backplates);
 
         };
 

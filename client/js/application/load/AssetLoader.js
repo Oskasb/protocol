@@ -84,7 +84,7 @@ define([
 
                 var callback = function(asset) {
                     PipelineAPI.setCategoryKeyValue('ASSET', assetKey, asset);
-                    PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, callback)
+                //    PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, callback)
                 };
 
                 if (assets[assetKey]) {
@@ -112,7 +112,7 @@ define([
                 PipelineAPI.subscribeToCategoryKey('ASSET', assetKey, callback);
                 setupAsset(assetType, assetId);
             } else {
-                PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, callback)
+            //    PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, callback)
                 callback(assetKey, cachedAsset);
             }
         };

@@ -59,19 +59,49 @@
           }
         },
         {
-          "id": "instancing_ui_settings"  ,
+          "id": "instancing_ui_back_settings"  ,
           "config": {
             "shader": "RawShaderMaterial",
             "properties": {
               "program": "GUI_INSTANCING_STANDARD",
-              "blending": "NormalBlending",
+              "blending": "CustomBlending",
+              "customBlending": {
+                "blendEquation": "AddEquation",
+                "blendSrc": "SrcAlphaFactor",
+                "blendDst": "OneMinusSrcAlphaFactor"
+              },
               "data_texture": "data_texture",
               "side": "DoubleSide",
               "settings": {
                 "depthTest": false,
                 "alphaTest": 0.05,
-                "transparent": true,
-                "depthWrite": false
+                "transparent": false,
+                "depthWrite": false,
+                "premultipliedAlpha": true
+              }
+            }
+          }
+        },
+        {
+          "id": "instancing_ui_settings"  ,
+          "config": {
+            "shader": "RawShaderMaterial",
+            "properties": {
+              "program": "GUI_INSTANCING_STANDARD",
+              "blending": "CustomBlending",
+              "customBlending": {
+                "blendEquation": "AddEquation",
+                "blendSrc": "SrcAlphaFactor",
+                "blendDst": "OneMinusSrcAlphaFactor"
+              },
+              "data_texture": "data_texture",
+              "side": "DoubleSide",
+              "settings": {
+                "depthTest": false,
+                "alphaTest": 0.05,
+                "transparent": false,
+                "depthWrite": false,
+                "premultipliedAlpha": true
               }
             }
           }
@@ -82,14 +112,20 @@
             "shader": "RawShaderMaterial",
             "properties": {
               "program": "GUI_INSTANCING_STANDARD",
-              "blending": "NormalBlending",
+              "blending": "CustomBlending",
+              "customBlending": {
+                "blendEquation": "AddEquation",
+                "blendSrc": "SrcAlphaFactor",
+                "blendDst": "OneMinusSrcAlphaFactor"
+              },
               "data_texture": "data_texture",
               "side": "DoubleSide",
               "settings": {
                 "depthTest": false,
                 "alphaTest": 0.05,
-                "transparent": true,
-                "depthWrite": false
+                "transparent": false,
+                "depthWrite": false,
+                "premultipliedAlpha": true
               }
             }
           }

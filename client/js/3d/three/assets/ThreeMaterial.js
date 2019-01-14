@@ -68,8 +68,46 @@ define([        'application/PipelineObject'],
             loadCheck();
         };
 
+        ThreeMaterial.prototype.updateMaterialSettings = function(props) {
+
+            var mat = this.mat;
+
+            for (var key in props.settings) {
+                mat[key] = props.settings[key]
+            };
+
+            if (props.blending) {
+                mat.blending = THREE[props.blending];
+            }
+
+
+            if (props.customBlending) {
+                for (var key in props.customBlending) {
+                    mat[key] =  THREE[props.customBlending[key]]
+                }
+            }
+
+
+            if (props.side) mat.side = THREE[props.side];
+
+
+            if (props.color) {
+                mat.color.r = props.color.r;
+                mat.color.g = props.color.g;
+                mat.color.b = props.color.b;
+            }
+
+            mat.needsUpdate = true;
+
+        };
+
 
         ThreeMaterial.prototype.applyMaterialSettings = function(shader, props, cb) {
+
+            if (this.mat) {
+                this.updateMaterialSettings(props);
+                return;
+            }
 
             if (props.program) {
                 this.setupCustomShaderMaterial(shader, props, cb);
@@ -146,9 +184,19 @@ define([        'application/PipelineObject'],
                     opts[key] = props.settings[key]
                 };
 
+
+
                 if (props.blending) {
                     opts.blending = THREE[props.blending];
                 }
+
+
+                if (props.customBlending) {
+                    for (var key in props.customBlending) {
+                        opts[key] =  THREE[props.customBlending[key]]
+                    }
+                }
+
 
                 if (props.side) opts.side = THREE[props.side];
 

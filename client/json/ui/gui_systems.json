@@ -2,6 +2,21 @@
   "UI":{
     "UI_SYSTEMS":[
       {
+
+        "id":"UI_ELEMENTS_BACK",
+        "data": [
+          {
+            "id":"gui_buffer",
+            "config": {
+              "sprite_atlas": "GUI_16x16",
+              "mesh_asset":  "asset_nineQuad",
+              "pool_size": 2500,
+              "render_order": 20
+            }
+          }
+        ]
+      },
+      {
         "id":"UI_ELEMENTS_MAIN",
         "data": [
           {
@@ -10,7 +25,7 @@
               "sprite_atlas": "GUI_16x16",
               "mesh_asset":  "asset_nineQuad",
               "pool_size": 2500,
-              "render_order": 19
+              "render_order": 20
             }
           }
         ]

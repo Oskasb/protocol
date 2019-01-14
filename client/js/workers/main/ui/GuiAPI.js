@@ -197,6 +197,11 @@ define([
             guiUpdateCallbacks.splice(guiUpdateCallbacks.indexOf(cb), 1);
         };
 
+
+        GuiAPI.readInputBufferValue = function(inputIndex, buffer, enumKey) {
+            return buffer[inputIndex*ENUMS.InputState.BUFFER_SIZE + enumKey]
+        };
+
         var cbs;
 
         var callInputUpdateCallbacks = function(input, buffer) {
@@ -210,8 +215,7 @@ define([
         var updateInput = function(INPUT_BUFFER) {
             inputs = ENUMS.Numbers.POINTER_TOUCH0 + ENUMS.Numbers.TOUCHES_COUNT;
             for (ib = 0; ib < inputs; ib++) {
-                idx = ib*ENUMS.InputState.BUFFER_SIZE + ENUMS.InputState.HAS_UPDATE;
-                if (INPUT_BUFFER[idx]) {
+                if (GuiAPI.readInputBufferValue(ib, INPUT_BUFFER, ENUMS.InputState.HAS_UPDATE )) {
                     callInputUpdateCallbacks(ib, INPUT_BUFFER)
                 }
             }

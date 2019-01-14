@@ -22,6 +22,7 @@ define([
 
             this.onUpdateCallbacks = [];
             this.onActivateCallbacks = [];
+            this.onPressStartCallbacks = [];
 
             this.interactiveElement = new InteractiveElement(this);
         };
@@ -53,7 +54,6 @@ define([
         GuiSurface.prototype.toggleActive = function() {
             this.active = !this.active;
 
-
             for (var i = 0; i < this.onActivateCallbacks.length; i++) {
                 this.onActivateCallbacks[i](this.active);
             }
@@ -64,6 +64,17 @@ define([
             this.onActivateCallbacks.push(cb);
         };
 
+        GuiSurface.prototype.triggerPressStart = function(inputIndex) {
+
+            for (var i = 0; i < this.onPressStartCallbacks.length; i++) {
+                this.onPressStartCallbacks[i](inputIndex);
+            }
+
+        };
+
+        GuiSurface.prototype.addOnPressStartCallback = function(cb) {
+            this.onPressStartCallbacks.push(cb);
+        };
 
         GuiSurface.prototype.getActive = function() {
             return this.active;
@@ -97,6 +108,10 @@ define([
 
             while (this.onActivateCallbacks.length) {
                 this.onActivateCallbacks.pop();
+            }
+
+            while (this.onPressStartCallbacks.length) {
+                this.onPressStartCallbacks.pop();
             }
 
         };

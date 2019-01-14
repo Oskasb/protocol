@@ -49,7 +49,7 @@ define([
             if (this.pressIndices.indexOf(inputIndex) === -1) {
                 this.pressIndices.push(inputIndex);
                 if (this.pressIndices.length === 1) {
-                    this.onPressStart()
+                    this.onPressStart(inputIndex)
                 }
             }
         };
@@ -94,6 +94,7 @@ define([
         };
 
         InteractiveElement.prototype.onPressStart = function(inputIndex) {
+            this.getSurfaceElement().triggerPressStart(inputIndex);
             this.applyPressState();
         };
 

@@ -243,6 +243,11 @@ define([
                 matrixText = null
             }
 
+            if (thumbstick) {
+                thumbstick.removeGuiWidget();
+                thumbstick = null
+            }
+
         };
 
         UiTestSetup.prototype.setupDefaultUi = function() {

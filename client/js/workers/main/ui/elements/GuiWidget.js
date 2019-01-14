@@ -40,10 +40,16 @@ define([
                 this.notifyElementActivate(bool);
             }.bind(this);
 
+            var onElementPressStart = function(inputIndex) {
+                this.notifyElementPressStart(inputIndex);
+            }.bind(this);
+
             this.callbacks = {
                 onStringReady:onStringReady,
                 onElementActivate:onElementActivate,
-                onActivate:[]
+                onElementPressStart:onElementPressStart,
+                onActivate:[],
+                onPressStart:[]
             }
         };
 
@@ -75,6 +81,7 @@ define([
                     //    this.guiSurface.applyStateFeedback();
                     GuiAPI.registerInteractiveGuiElement(this.guiSurface);
                     this.guiSurface.addOnActivateCallback(this.callbacks.onElementActivate);
+                    this.guiSurface.addOnPressStartCallback(this.callbacks.onElementPressStart);
                     this.updateWidgetStateFeedback();
                     this.setPosition(this.pos);
                     if (typeof (cb) === 'function') {
@@ -228,6 +235,26 @@ define([
             this.callbacks.onActivate.splice(this.callbacks.onActivate.indexOf(cb), 1);
         };
 
+
+        GuiWidget.prototype.notifyElementPressStart = function(inputIndex) {
+
+            for (var i = 0; i < this.callbacks.onPressStart.length; i++) {
+                this.callbacks.onPressStart[i](inputIndex, this)
+            }
+
+        };
+
+
+        GuiWidget.prototype.addOnPressStartCallback = function(cb) {
+            this.callbacks.onPressStart.push(cb)
+        };
+
+        GuiWidget.prototype.removePressStartCallback = function(cb) {
+            this.callbacks.onPressStart.splice(this.callbacks.onPressStart.indexOf(cb), 1);
+        };
+
+
+
         GuiWidget.prototype.getWidgetSurface = function() {
             return this.guiSurface;
         };
@@ -326,6 +353,14 @@ define([
 
             if (this.icon) {
                 this.icon.releaseGuiIcon();
+            }
+
+            while (this.callbacks.onActivate.length) {
+                this.callbacks.onActivate.pop()
+            }
+
+            while (this.callbacks.onPressStart.length) {
+                this.callbacks.onPressStart.pop()
             }
 
         };

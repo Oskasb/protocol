@@ -55,7 +55,7 @@
               "layout":"layout_thumbstick",
               "icon": {
                 "icon_config": "stick_center_icon",
-                "feedback": "feedback_icon_button"
+                "feedback": "feedback_stick_icon"
               },
               "surface": {
                 "nineslice": "nineslice_surface_thumbstick",

@@ -82,7 +82,7 @@ define([
             }
 
             if (samples === 1) {
-                speedPoll = setInterval(sampleInput, 5)
+                speedPoll = setInterval(sampleInput, 10)
             }
 
             samples++;

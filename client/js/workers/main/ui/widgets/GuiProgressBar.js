@@ -65,6 +65,11 @@ define([
         };
 
 
+        GuiProgressBar.prototype.removeGuiWidget = function() {
+            this.deactivateProgressBar();
+            this.guiWidget.recoverGuiWidget();
+        };
+
         return GuiProgressBar;
 
     });

@@ -24,7 +24,7 @@ define([
             this.iconKey = 'debug_nine';
 
             this.uiKey = 'ICON_ELEMENTS';
-            this.sysKey = 'GUI_16x16';
+            this.sysKey = 'UI_ELEMENTS_MAIN';
             this.atlasKey = 'GUI_16x16';
             this.configId = '';
         };
@@ -41,8 +41,7 @@ define([
 
         };
 
-        GuiIcon.prototype.setConfigParams = function(configId, sysKey) {
-            this.sysKey = sysKey;
+        GuiIcon.prototype.setConfigParams = function(configId) {
             this.configId = configId;
             this.iconSprites = GuiAPI.getUiSprites(this.atlasKey);
         };
@@ -84,7 +83,7 @@ define([
             this.pos.multiplyScalar(0.5);
             this.pos.add(parentPos);
 
-            this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.sysKey, this.configId);
+            this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.atlasKey, this.configId);
 
 
             if (this.config.innersize) {

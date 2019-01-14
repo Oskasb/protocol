@@ -46,6 +46,7 @@
 
         {"id": "asset_letterQuad",  "config": { "model": "file_nineQuad", "material": "material_instancing_font",   "settings": "ui_instancing_settings"  }},
         {"id": "asset_nineQuad",    "config": { "model": "file_nineQuad", "material": "material_instancing_ui",     "settings": "ui_instancing_settings"  }},
+        {"id": "asset_nine_back",   "config": { "model": "file_nineQuad", "material": "material_instancing_ui_back","settings": "ui_instancing_settings"  }},
         {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_nature",      "settings": "instancing_settings"     }},
         {"id": "asset_cross3d",     "config": { "model": "file_cross3d",  "material": "material_instancing_ui",     "settings": "ui_instancing_settings"  }},
         {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,  "material": "mat_instancing_nature",      "settings": "instancing_settings"     }},

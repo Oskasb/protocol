@@ -33,7 +33,7 @@ define([
 
             var onInputSetting = function(src, data) {
 
-                uiSysId = data.config["sprite_atlas"];
+                uiSysId = src;
                 GuiAPI.addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
                 callback();
             };

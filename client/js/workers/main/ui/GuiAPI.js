@@ -32,7 +32,7 @@ define([
 
 
         var basicText;
-        var txtSysKey = 'FONT_16x16';
+        var txtSysKey = 'UI_TEXT_MAIN';
 
         var guiUpdateCallbacks = [];
         var inputUpdateCallbacks = [];
@@ -46,13 +46,13 @@ define([
 
         var addUiSystem = function(sysKey, spriteKey, assetName, poolSize, renderOrder) {
 
-            guiBuffers[spriteKey] = new GuiBuffers(spriteKey, assetName, poolSize, renderOrder);
+            guiBuffers[sysKey] = new GuiBuffers(spriteKey, assetName, poolSize, renderOrder);
 
-            var addElement = function(sysKey, callback) {
+            var addElement = function(poolKey, callback) {
                 var element = new GuiBufferElement();
-                callback(sysKey, element)
+                callback(poolKey, element)
             };
-            elementPools[spriteKey] = new ExpandingPool(spriteKey, addElement);
+            elementPools[sysKey] = new ExpandingPool(sysKey, addElement);
         };
 
 
@@ -139,13 +139,13 @@ define([
             }
         };
 
-        GuiAPI.buildBufferElement = function(spriteKey, cb) {
+        GuiAPI.buildBufferElement = function(uiSysKey, cb) {
 
             var getElement = function(key, elem) {
                 elem.initGuiBufferElement(guiBuffers[key]);
                 cb(elem);
             };
-            elementPools[spriteKey].getFromExpandingPool(getElement)
+            elementPools[uiSysKey].getFromExpandingPool(getElement)
         };
 
         GuiAPI.debugDrawGuiPosition = function(x, y) {

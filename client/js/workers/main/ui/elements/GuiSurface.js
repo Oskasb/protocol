@@ -34,11 +34,11 @@ define([
 
             var addSurfaceCb = function(bufferElem) {
                 this.setBufferElement(bufferElem);
-                this.applySurfaceConfig(this.config);
+                this.applySurfaceConfig();
                 callback(this)
             }.bind(this);
 
-            GuiAPI.buildBufferElement(this.config.image.atlas_key, addSurfaceCb);
+            GuiAPI.buildBufferElement(this.config.image.layer, addSurfaceCb);
         };
 
         GuiSurface.prototype.setFeedbackConfigId = function(feedbackConfigId) {

@@ -94,6 +94,17 @@ define([
         };
 
         GuiSettings.prototype.getSettingDataConfig = function(setting, configId, dataId) {
+
+            if (!settings[setting]) {
+                console.log("Bad setting: ", setting);
+                return;
+            }
+
+            if (!settings[setting][configId]) {
+                console.log("Bad settings configId: ", setting, configId);
+                return;
+            }
+
             if (!settings[setting][configId][dataId]) {
                 console.log("Bad settings lookup: ", setting, configId, dataId);
                 return;

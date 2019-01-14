@@ -47,7 +47,8 @@ define([
 
         ThreeModelFile.prototype.cloneSkinnedModelOriginal = function(callback) {
             var clone = cloneGltf(this.scene, this.cloneMeshModelOriginal());
-            var spatial = new InstanceSpatial(clone)
+            clone.frustumCulled = false;
+            var spatial = new InstanceSpatial(clone);
             callback(spatial)
         };
 

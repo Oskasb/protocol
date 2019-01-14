@@ -54,6 +54,16 @@
           }
         },
         {
+          "id":"material_instancing_ui_back",
+          "config":{
+            "settings": "instancing_ui_back_settings",
+            "textures":[
+              {"key":"map"           , "id":"gui_atlas_16x16"  },
+              {"key":"data_texture"  , "id":"data_texture"   }
+            ]
+          }
+        },
+        {
           "id":"material_instancing_font",
           "config":{
             "settings": "instancing_font_settings",

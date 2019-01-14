@@ -51,11 +51,10 @@ define([
 
         };
 
-
         UiTestSetup.prototype.addProgressBar = function() {
 
             tempVec1.set(0.1, -0.2, 0);
-            tempVec1.y += progressBars.length * 0.1;
+            tempVec1.y += progressBars.length * 0.06;
 
             var progressBar = new GuiProgressBar();
 
@@ -74,6 +73,7 @@ define([
         };
 
 
+
         UiTestSetup.prototype.openTestUi = function() {
 
             console.log("Open test Ui");
@@ -85,6 +85,10 @@ define([
         };
 
         UiTestSetup.prototype.closeTestUi = function() {
+
+            while (progressBars.length) {
+                progressBars.pop().removeGuiWidget();
+            }
 
         };
 

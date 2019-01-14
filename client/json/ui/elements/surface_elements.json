@@ -11,6 +11,7 @@
               "config": {
                 "padding": { "x":0.015, "y":0.015},
                 "image": {
+                  "layer": "UI_ELEMENTS_BACK",
                   "atlas_key": "GUI_16x16",
                   "border_thickness": {"x": 0.95, "y": 0.95}
                 }
@@ -21,6 +22,7 @@
               "config": {
                 "padding": { "x":0.02, "y":0.015},
                 "image": {
+                  "layer": "UI_ELEMENTS_BACK",
                   "atlas_key": "GUI_16x16",
                   "border_thickness": {"x": 0.85, "y": 0.85}
                 }
@@ -31,6 +33,7 @@
               "config": {
                 "padding": { "x":0.012, "y":0.0023},
                 "image": {
+                  "layer": "UI_ELEMENTS_BACK",
                   "atlas_key": "GUI_16x16",
                   "border_thickness": {"x": 0.55, "y": 0.55}
                 }
@@ -41,6 +44,7 @@
               "config": {
                 "padding": { "x":0.02, "y":0.003},
                 "image": {
+                  "layer": "UI_ELEMENTS_BACK",
                   "atlas_key": "GUI_16x16",
                   "border_thickness": {"x": 0.75, "y": 0.75}
                 }

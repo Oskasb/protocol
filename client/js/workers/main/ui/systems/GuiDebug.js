@@ -57,7 +57,7 @@ define([
                 applyElem(e, xx, yy);
             };
 
-            GuiAPI.buildBufferElement("GUI_16x16", elemcb)
+            GuiAPI.buildBufferElement("UI_ELEMENTS_MAIN", elemcb)
         };
 
 

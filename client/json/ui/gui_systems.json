@@ -9,9 +9,9 @@
             "id":"gui_buffer",
             "config": {
               "sprite_atlas": "GUI_16x16",
-              "mesh_asset":  "asset_nineQuad",
+              "mesh_asset":  "asset_nine_back",
               "pool_size": 2500,
-              "render_order": 20
+              "render_order": 19
             }
           }
         ]

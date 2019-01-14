@@ -90,7 +90,7 @@ define(['../../ui/GameScreen',
             camera.position.x = 10;
        //     console.log("Three Camera:", camera);
 
-            renderer = new THREE.WebGLRenderer( { antialias:antialias, devicePixelRatio: pxRatio, logarithmicDepthBuffer: false });
+            renderer = new THREE.WebGLRenderer( { antialias:antialias, devicePixelRatio: pxRatio, logarithmicDepthBuffer: false, sortObjects: false });
             renderer.setPixelRatio( pxRatio );
 
             renderer.toneMapping = THREE.LinearToneMapping;

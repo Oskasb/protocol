@@ -75,6 +75,7 @@ define([
                     //    this.guiSurface.applyStateFeedback();
                     GuiAPI.registerInteractiveGuiElement(this.guiSurface);
                     this.guiSurface.addOnActivateCallback(this.callbacks.onElementActivate);
+                    this.updateWidgetStateFeedback();
                     this.setPosition(this.pos);
                     if (typeof (cb) === 'function') {
                         cb(this);
@@ -146,16 +147,15 @@ define([
         GuiWidget.prototype.initWidgetIcon = function(iconConf, cb) {
 
             var addLetterCb = function(bufferElem) {
-
-                var guiIcon = new GuiIcon();
-                guiIcon.initIconBuffers(bufferElem);
-                guiIcon.setFeedbackConfigId(iconConf.feedback);
-                guiIcon.setConfigParams(iconConf.icon_config, "GUI_16x16");
-                this.icon = guiIcon;
+                this.icon.initIconBuffers(bufferElem);
                 cb()
             }.bind(this);
 
-            GuiAPI.buildBufferElement("GUI_16x16", addLetterCb)
+            this.icon = new GuiIcon();
+            this.icon.setFeedbackConfigId(iconConf.feedback);
+            this.icon.setConfigParams(iconConf.icon_config);
+
+            GuiAPI.buildBufferElement(this.icon.sysKey, addLetterCb)
 
         };
 
@@ -315,7 +315,17 @@ define([
 
         GuiWidget.prototype.recoverGuiWidget = function() {
 
+            GuiAPI.unregisterInteractiveGuiElement(this.guiSurface);
+
             this.guiSurface.recoverGuiSurface();
+
+            if (this.text) {
+                this.text.recoverTextElement();
+            }
+
+            if (this.icon) {
+                this.icon.releaseGuiIcon();
+            }
 
         };
 

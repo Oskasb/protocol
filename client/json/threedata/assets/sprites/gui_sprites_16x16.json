@@ -52,6 +52,18 @@
           },
 
           {
+            "id":"pad_rounded",
+            "tiles":[[9, 0]]
+          },
+          {
+            "id":"pad_rounded_pressed",
+            "tiles":[[10, 0]]
+          },
+          {
+            "id":"directional_arrows",
+            "tiles":[[11, 0]]
+          },
+          {
             "id":"button_rounded",
             "tiles":[[11, 1]]
           },

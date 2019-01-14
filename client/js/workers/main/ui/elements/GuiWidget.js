@@ -253,6 +253,7 @@ define([
 
         };
 
+
         GuiWidget.prototype.removeChild = function(guiWidget) {
             this.children.splice(this.children.indexOf(guiWidget), 1);
         };

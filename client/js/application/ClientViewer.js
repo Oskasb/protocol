@@ -93,16 +93,16 @@ define([
             lastTpf = tpf;
             frame++;
             ThreeAPI.updateCamera();
-            frameMessage[1][0] = frame;
-            frameMessage[1][1] = tpf;
-            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER, frameMessage)
+
 
 		};
 
         var notifyFrameMessage = [];
 
         ClientViewer.prototype.tickPostrender = function(tpf) {
-
+            frameMessage[1][0] = frame;
+            frameMessage[1][1] = lastTpf;
+            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER, frameMessage)
         //    console.log("tick", frame)
         //    sampleCamera(ThreeAPI.getCamera());
 

@@ -3,12 +3,14 @@
 define([
 
         'client/js/workers/main/ui/widgets/GuiSimpleButton',
+        'client/js/workers/main/ui/widgets/GuiThumbstick',
         'client/js/workers/main/ui/widgets/GuiTextBox',
         'client/js/workers/main/ui/widgets/GuiScreenSpaceText',
         'client/js/workers/main/ui/widgets/GuiProgressBar'
     ],
     function(
         GuiSimpleButton,
+        GuiThumbstick,
         GuiTextBox,
         GuiScreenSpaceText,
         GuiProgressBar
@@ -20,6 +22,7 @@ define([
         var testButtons = [];
         var progressBars = [];
         var textBoxes = [];
+        var thumbstick;
         var matrixText;
 
         var UiTestSetup = function() {
@@ -30,16 +33,20 @@ define([
 
             var addTextBox = function() {
                 this.addTextBox();
-            }.bind(this)
+            }.bind(this);
 
             var addProgressBar = function() {
                 this.addProgressBar();
-            }.bind(this)
+            }.bind(this);
 
             var addMatrixText = function(bool) {
                 this.addMatrixText(bool);
-            }.bind(this)
+            }.bind(this);
 
+
+            var addThumbstick = function(bool) {
+                this.addThumbstick(bool);
+            }.bind(this);
 
             var toggleTestUi = function(bool) {
                 console.log("Button: ", bool);
@@ -55,7 +62,8 @@ define([
                 toggleTestUi:toggleTestUi,
                 addProgressBar:addProgressBar,
                 addTextBox:addTextBox,
-                addMatrixText:addMatrixText
+                addMatrixText:addMatrixText,
+                addThumbstick:addThumbstick
             }
 
         };
@@ -106,6 +114,18 @@ define([
             button.initSimpleButton('button_big_blue', this.callbacks.addMatrixText, b3Ready, tempVec1 )
 
             testButtons.push(button);
+
+
+            var b4Ready = function(widget) {
+                widget.printWidgetText('STICK')
+            };
+
+            tempVec1.x -= 0.15;
+            button =  new GuiSimpleButton();
+            button.initSimpleButton('button_big_blue', this.callbacks.addThumbstick, b4Ready, tempVec1 )
+
+            testButtons.push(button);
+
 
         };
 
@@ -173,6 +193,27 @@ define([
 
         };
 
+        UiTestSetup.prototype.addThumbstick = function(bool) {
+
+            if (bool) {
+
+                var onReady = function(tmbstick) {
+                    tempVec1.set(-0.3, -0.3, 0);
+
+                    tmbstick.setOriginPosition(tempVec1)
+                };
+
+                thumbstick = new GuiThumbstick();
+                thumbstick.initThumbstick('widget_thumbstick', onReady);
+
+            } else {
+                if (thumbstick) {
+                    thumbstick.removeGuiWidget();
+                    thumbstick = null
+                }
+            }
+
+        };
 
         UiTestSetup.prototype.openTestUi = function() {
 
@@ -201,7 +242,7 @@ define([
                 matrixText.removeGuiWidget();
                 matrixText = null
             }
-            
+
         };
 
         UiTestSetup.prototype.setupDefaultUi = function() {

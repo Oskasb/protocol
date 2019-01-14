@@ -7,6 +7,15 @@
           "id": "SURFACES",
           "data": [
             {
+              "id":"layout_thumbstick",
+              "config": {
+                "text":   {"x":0.5, "y": 0.5, "fontsize": 12},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":0.14, "y":0.14,"z":  0.0}
+              }
+            },
+            {
               "id":"layout_major_button",
               "config": {
                 "text":   {"x":0.5, "y": 0.5, "fontsize": 12},

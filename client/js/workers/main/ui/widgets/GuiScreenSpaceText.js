@@ -17,6 +17,9 @@ define([
             var updateProgress = function(tpf, time) {
                 this.time += tpf;
 
+                this.text.minXY.copy(this.pos);
+                this.text.maxXY.addVectors(this.pos, this.size);
+
                 var string = '';
                 var maxSize = this.text.getMaxCharCount();
 
@@ -30,9 +33,9 @@ define([
             this.callbacks = {
                 updateProgress:updateProgress,
                 stringReady:stringReady
-            }
+            };
 
-            this.pos = new THREE.Vector3()
+            this.pos = new THREE.Vector3();
             this.size= new THREE.Vector3()
 
         };

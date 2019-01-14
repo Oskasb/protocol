@@ -227,22 +227,24 @@ define([
             return txtSysKey;
         };
 
-        GuiAPI.updateGui = function(INPUT_BUFFER, tpf, time) {
-
+        GuiAPI.sampleInputState = function(INPUT_BUFFER) {
             GuiDebug.updateDebugElements();
             updateBufferIndices();
             updateInput(INPUT_BUFFER);
+
+        };
+
+        GuiAPI.updateGui = function(tpf, time) {
+
 
 
             if (registeredTextElements['main_text_box']) {
                 dymmy1(registeredTextElements['main_text_box']);
             }
 
-
             for (i = 0; i < guiUpdateCallbacks.length; i++) {
                 guiUpdateCallbacks[i](tpf, time);
             }
-
         };
 
         return GuiAPI;

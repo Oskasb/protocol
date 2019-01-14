@@ -107,16 +107,16 @@ define([
 
                 inputBuffer = buffer;
 
-                if (inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] === 3) {
-                    inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] = 0;
-                }
+            //    if (inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] === 200) {
+                    inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] = 1;
+            //    }
 
                 pointer = null;
 
                 if (inputBuffer[startIndex + ENUMS.InputState.ACTION_0]) {
 
-                    tempVec1.x =  inputBuffer[startIndex+ ENUMS.InputState.MOUSE_X] //+ inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_X] ;
-                    tempVec1.y =  inputBuffer[startIndex+ ENUMS.InputState.MOUSE_Y] //+ inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_Y] ;
+                    tempVec1.x = inputBuffer[startIndex+ ENUMS.InputState.MOUSE_X] //+ inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_X] ;
+                    tempVec1.y = inputBuffer[startIndex+ ENUMS.InputState.MOUSE_Y] //+ inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_Y] ;
                     tempVec1.z = 0 // (Math.random()-0.5 ) * 5 //;
 
                     if (!pointers[inputIndex]) {

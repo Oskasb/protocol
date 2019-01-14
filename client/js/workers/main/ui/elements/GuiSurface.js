@@ -50,8 +50,6 @@ define([
         };
 
 
-
-
         GuiSurface.prototype.toggleActive = function() {
             this.active = !this.active;
 
@@ -125,7 +123,6 @@ define([
         GuiSurface.prototype.getSurfaceExtents = function(storeVec) {
             storeVec.subVectors(this.maxXY, this.minXY)
         };
-
 
 
         GuiSurface.prototype.positionOnCenter = function() {

@@ -68,18 +68,45 @@ define([
         var tpf;
         var time = 0;
 
+        var samples = 0;
+
+        var speedPoll;
+
+        var sampleInput = function() {
+            GuiAPI.sampleInputState(sharedBuffers[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)][0]);
+
+            if (samples > 10) {
+                clearInterval(speedPoll);
+                samples = 0;
+                return;
+            }
+
+            if (samples === 1) {
+                speedPoll = setInterval(sampleInput, 5)
+            }
+
+            samples++;
+        };
+
         MainWorldAPI.initMainWorldFrame = function(frame, frameTpf) {
             tpf = frameTpf;
+
+            frameEndMsg[1] = frame;
+
             time += tpf;
         //    console.log("FRAME ->->-> MainWorldCom");
-            evt.initEventFrame(frame);
 
-            GuiAPI.updateGui(sharedBuffers[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)][0], tpf, time);
+            evt.initEventFrame(frame);
+            postMessage(frameEndMsg);
+
+            samples++;
+            sampleInput();
+
+            GuiAPI.updateGui(tpf, time);
 
             worldSimulation.tickWorldSimulation(tpf, time);
 
-            frameEndMsg[1] = frame;
-            postMessage(frameEndMsg)
+
 
         };
 

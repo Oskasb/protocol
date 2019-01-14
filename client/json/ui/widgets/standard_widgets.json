@@ -51,6 +51,18 @@
               }
             },
             {
+              "id":"widget_thumbstick",
+              "layout":"layout_thumbstick",
+              "icon": {
+                "icon_config": "stick_center_icon",
+                "feedback": "feedback_icon_button"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_thumbstick",
+                "feedback": "feedback_surface_thumbstick"
+              }
+            },
+            {
               "id":"main_text_box",
               "layout":"layout_main_text_box",
               "text": {

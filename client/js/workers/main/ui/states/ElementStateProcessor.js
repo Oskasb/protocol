@@ -117,6 +117,7 @@ define([
         var widgetExtents = new THREE.Vector3();
         var parentExtents = new THREE.Vector3();
 
+        var screenPos = new THREE.Vector3();
 
         ElementStateProcessor.applyElementLayout = function(widget) {
             layoutId = widget.getLayoutConfigId();
@@ -126,10 +127,12 @@ define([
 
             if (widget.parent) {
                 widget.parent.getWidgetSurface().getSurfaceExtents(parentExtents);
-                widgetOrigin.copy(widget.parent.pos);
+                widgetOrigin.copy(widget.parent.originalPosition);
             } else {
                 parentExtents.set(1, 1, 1);
-                widgetOrigin.copy(widget.pos);
+                  GuiAPI.applyAspectToScreenPosition(widget.originalPosition, widgetOrigin);
+                //  widgetOrigin.copy(widget.originalPosition);
+
             }
 
             offset.set(layout.offset.x * widgetExtents.x, layout.offset.y * widgetExtents.y, layout.offset.z * widgetExtents.z);
@@ -137,8 +140,14 @@ define([
 
             widgetOrigin.add(offset);
             widgetOrigin.add(anchor);
+
             widget.pos.copy(widgetOrigin);
+
+            widget.pos.add(widget.offsetPosition);
+
             widget.size.copy(layout.size);
+
+
             if (widget.text) {
                 widget.text.setTextLayout(layout.text)
             }

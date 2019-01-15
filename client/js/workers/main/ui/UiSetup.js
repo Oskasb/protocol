@@ -123,19 +123,22 @@ define([
 
             var guiUpdate = function(tpf, time) {
 
-                tempVec1.copy(button2Widget.pos);
-                tempVec1.x += Math.sin(time*2)*tpf*0.1;
-                button2Widget.setPosition(tempVec1);
+                tempVec1.set(0, 0, 0);
+                tempVec1.x = Math.sin(time*2)*0.1;
+                button2Widget.offsetWidgetPosition(tempVec1);
             };
 
             var onActiave = function(bool) {
 
-                if (bool) {
+                if (!button1Widget.active) {
                     console.log("Activate Button");
                     GuiAPI.addGuiUpdateCallback(guiUpdate)
-
+                    button1Widget.active = true;
                 } else {
+                    button1Widget.active = false;
                     console.log("Deactivate Button");
+                    tempVec1.set(0, 0, 0);
+                    button2Widget.offsetWidgetPosition(tempVec1);
                     GuiAPI.removeGuiUpdateCallback(guiUpdate)
                 }
             };

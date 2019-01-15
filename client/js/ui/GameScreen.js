@@ -56,7 +56,7 @@ define([
             setTimeout(function() {
                 handleResize();
             }, 100);
-
+            handleResize();
         };
 
         var getResolution = function(width, height) {

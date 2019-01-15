@@ -68,8 +68,8 @@ define([
 
             handlers[ENUMS.Message.RENDERER_READY] = function(msg) {
                 console.log("RENDERER_READY", "->->-> MainWorldCom", msg);
-                MainWorldAPI.getWorldSimulation().startWorldSystem();
-                MainWorldAPI.postMessage([ENUMS.Message.INIT_RENDERER, [msg]])
+                MainWorldAPI.getWorldSimulation().startWorldSystem(msg[1]);
+                MainWorldAPI.postMessage([ENUMS.Message.INIT_RENDERER, [msg[0]]])
             };
 
             handlers[ENUMS.Message.RELAY_CONFIG_DATA] = function(msg) {

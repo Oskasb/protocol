@@ -128,8 +128,14 @@ define([
             return this.bufferElement;
         };
 
+        GuiSurface.prototype.setSurfaceCenterAndSize = function(centerPos, sizeVec3) {
 
+            this.centerXY.copy(centerPos);
+            this.maxXY.copy(sizeVec3).multiplyScalar(0.5);
+            this.maxXY.add(this.centerXY);
+            this.minXY.subVectors(this.maxXY, sizeVec3);
 
+        };
 
         GuiSurface.prototype.setSurfaceMinXY = function(vec3) {
             this.minXY.copy(vec3);;
@@ -155,13 +161,13 @@ define([
             this.setElementPosition(this.centerXY)
         };
 
-        GuiSurface.prototype.applyPadding = function() {
+        GuiSurface.prototype.applyPadding = function(deduct, add) {
 
             if (this.config.padding) {
-                this.maxXY.x += this.config.padding.x;
-                this.minXY.x -= this.config.padding.x;
-                this.maxXY.y += this.config.padding.y;
-                this.minXY.y -= this.config.padding.y;
+                deduct.x += this.config.padding.x;
+                deduct.y += this.config.padding.y;
+                add.x -= this.config.padding.x;
+                add.y -= this.config.padding.y;
             }
 
         };
@@ -189,7 +195,7 @@ define([
 
         GuiSurface.prototype.fitToExtents = function() {
 
-            this.applyPadding();
+            this.applyPadding(this.maxXY, this.minXY);
 
             this.configureNineslice();
 

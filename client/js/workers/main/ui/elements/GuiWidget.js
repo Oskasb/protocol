@@ -20,6 +20,8 @@ define([
             this.configId = configId;
 
             this.pos  = new THREE.Vector3();
+            this.originalPosition = new THREE.Vector3();
+            this.offsetPosition = new THREE.Vector3();
             this.size = new THREE.Vector3();
             this.extents = new THREE.Vector3();
             this.quat = new THREE.Quaternion();
@@ -31,6 +33,10 @@ define([
             this.parent = null;
             this.children = [];
 
+
+            var onAspectChange = function() {
+                this.notifyAspectChange();
+            }.bind(this);
 
             var onStringReady = function() {
                 this.notifyStringReady();
@@ -51,6 +57,7 @@ define([
 
 
             this.callbacks = {
+                onAspectChange:onAspectChange,
                 onStringReady:onStringReady,
                 onElementActivate:onElementActivate,
                 onElementPressStart:onElementPressStart,
@@ -66,8 +73,12 @@ define([
         GuiWidget.prototype.initGuiWidget = function(pos, cb) {
 
             if (pos) {
-                this.pos.copy(pos);
+                this.originalPosition.copy(pos);
+            } else {
+                this.originalPosition.set(0, 0, 0);
             }
+
+            this.offsetPosition.set(0, 0, 0);
 
             var config = GuiAPI.getGuiSettings().getSettingConfig(uiKey, settingKey)[this.configId];
 
@@ -88,11 +99,12 @@ define([
                     this.guiSurface.registerStateUpdateCallback(onWidgetStateUpdate);
                     //    this.guiSurface.applyStateFeedback();
                     GuiAPI.registerInteractiveGuiElement(this.guiSurface);
+                    GuiAPI.addAspectUpdateCallback(this.callbacks.onAspectChange);
                     this.guiSurface.addOnActivateCallback(this.callbacks.onElementActivate);
                     this.guiSurface.addOnPressStartCallback(this.callbacks.onElementPressStart);
                     this.guiSurface.setTestActiveCallback(this.callbacks.testWidgetIsActive);
                     this.updateWidgetStateFeedback();
-                    this.setPosition(this.pos);
+                    this.setPosition(this.originalPosition);
                     if (typeof (cb) === 'function') {
                         cb(this);
                     }
@@ -198,14 +210,21 @@ define([
         };
 
         GuiWidget.prototype.updateTextPositions = function() {
-            this.text.updateTextMinMaxPositions(this.pos, this.size);
+            this.text.updateTextMinMaxPositions(this.guiSurface);
         };
 
         GuiWidget.prototype.updateSurfacePositions = function() {
-            this.guiSurface.setSurfaceMinXY(this.pos);
-            this.guiSurface.applySurfaceSize(this.size);
+
+            this.guiSurface.setSurfaceCenterAndSize(this.pos, this.size);
             this.guiSurface.positionOnCenter();
             this.guiSurface.fitToExtents();
+        };
+
+
+        GuiWidget.prototype.notifyAspectChange = function() {
+            //    var state = this.guiSurface.getInteractiveState();
+            //    ElementStateProcessor.applyStateToTextElement(this.text, state);
+            this.setPosition(this.originalPosition);
         };
 
         GuiWidget.prototype.notifyStringReady = function() {
@@ -291,15 +310,26 @@ define([
         };
 
         GuiWidget.prototype.setPosition = function(pos) {
-            this.pos.copy(pos);
+            this.originalPosition.copy(pos);
+            this.applyWidgetPosition();
+        };
+
+
+        GuiWidget.prototype.offsetWidgetPosition = function(offset) {
+            this.offsetPosition.copy(offset);
+            this.applyWidgetPosition();
+        };
+
+        GuiWidget.prototype.applyWidgetPosition = function() {
+
 
             ElementStateProcessor.applyElementLayout(this);
+
+            this.updateSurfacePositions();
 
             if (this.text) {
                 this.updateTextPositions();
             }
-
-            this.updateSurfacePositions();
 
             if (this.icon) {
                 this.updateIconPosition();
@@ -308,8 +338,8 @@ define([
             for (var i = 0; i < this.children.length; i++) {
                 this.children[i].setPosition(this.pos);
             }
-        };
 
+        };
 
         GuiWidget.prototype.removeChild = function(guiWidget) {
             MATH.quickSplice(this.children, guiWidget);
@@ -345,7 +375,6 @@ define([
 
         };
 
-
         var progString = '';
 
         GuiWidget.prototype.indicateProgress = function(min, max, current, digits) {
@@ -375,6 +404,7 @@ define([
         GuiWidget.prototype.recoverGuiWidget = function() {
 
             GuiAPI.unregisterInteractiveGuiElement(this.guiSurface);
+            GuiAPI.removeAspectUpdateCallback(this.callbacks.onAspectChange);
 
             this.guiSurface.recoverGuiSurface();
 

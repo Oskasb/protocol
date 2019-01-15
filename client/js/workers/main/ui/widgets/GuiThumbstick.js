@@ -65,8 +65,7 @@ define([
         };
 
         GuiThumbstick.prototype.applyPositionOffset = function() {
-            this.pos.addVectors(this.origin, this.offset);
-            this.guiWidget.setPosition(this.pos);
+            this.guiWidget.offsetWidgetPosition(this.offset);
         };
 
         GuiThumbstick.prototype.handleThumbstickPressStart = function(inputIndex, guiWidget) {
@@ -108,10 +107,8 @@ define([
 
             this.releaseProgress = MATH.curveSqrt(1 - MATH.calcFraction(-this.releaseDuration, this.releaseDuration, this.releaseTime-this.releaseDuration));
 
+            this.offset.multiplyScalar(this.releaseProgress);
 
-            this.offset.x = (this.pos.x - this.origin.x) * this.releaseProgress;
-            this.offset.y = (this.pos.y - this.origin.y) * this.releaseProgress;
-            this.offset.z = (this.pos.z - this.origin.z) * this.releaseProgress;
         //    this.offset.multiplyScalar(this.releaseProgress);
 
             if (this.offset.lengthSq() < 0.0000001) {

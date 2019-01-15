@@ -100,13 +100,23 @@ define([
             return Math.floor((this.maxXY.x - this.minXY.x) / letterW)
         };
 
-        GuiTextElement.prototype.updateTextMinMaxPositions = function(parentPos, parentSize) {
+        var parentPos = new THREE.Vector3();
+        var parentSize= new THREE.Vector3();
+
+        GuiTextElement.prototype.updateTextMinMaxPositions = function(guiSurface) {
 
 
             this.config = GuiAPI.getGuiSettingConfig(this.uiKey, this.dataKey, this.dataId);
 
-            this.minXY.copy(parentPos);
-            this.maxXY.addVectors(parentPos, parentSize);
+            this.minXY.copy(guiSurface.minXY);
+            this.maxXY.copy(guiSurface.maxXY);
+
+            if (guiSurface.config) {
+                guiSurface.applyPadding(this.minXY, this.maxXY);
+            }
+
+            parentPos.copy(this.minXY);
+            parentSize.subVectors(this.maxXY, this.minXY);
 
             var txtLayout = this.getTextLayout();
 
@@ -116,7 +126,7 @@ define([
                 var maxW = -1;
                 var maxH = -1;
 
-                var rowSpacing = this.config['row_spacing']
+                var rowSpacing = this.config['row_spacing'];
 
             var maxRows = Math.max(Math.floor((parentSize.y + rowSpacing) / (letterH + rowSpacing)), 1);
 

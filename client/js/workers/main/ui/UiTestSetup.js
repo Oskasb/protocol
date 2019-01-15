@@ -86,6 +86,8 @@ define([
             this.mainButton.initSimpleButton('button_big_blue', this.callbacks.toggleTestUi, widgetReady, tempVec1 )
             this.mainButton.setTestActiveCallback(testActive);
 
+
+
         };
 
         UiTestSetup.prototype.addTestButtons = function() {

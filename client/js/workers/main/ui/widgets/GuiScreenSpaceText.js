@@ -10,8 +10,14 @@ define([
 
         var GuiScreenSpaceText = function() {
 
+            this.surface = {
+                minXY:{x:-0.5, y:-0.5, z:0},
+                maxXY:{x:0.5, y:0.5, z:0}
+            };
+
+
             var stringReady = function(tpf, time) {
-                this.text.updateTextMinMaxPositions(this.pos, this.size);
+                this.text.updateTextMinMaxPositions(this.surface);
             }.bind(this);
 
             var updateProgress = function(tpf, time) {
@@ -62,7 +68,7 @@ define([
         GuiScreenSpaceText.prototype.setTextDimensions = function(pos, size) {
             this.pos.copy(pos);
             this.size.copy(size);
-            this.text.updateTextMinMaxPositions(pos, size);
+            this.text.updateTextMinMaxPositions(this.surface);
         };
 
 

@@ -44,8 +44,9 @@ define([
             }
         };
 
-        WorldSimulation.prototype.startWorldSystem = function() {
-
+        WorldSimulation.prototype.startWorldSystem = function(cameraAspect) {
+            this.worldCamera.getCamera().aspect = cameraAspect;
+            GuiAPI.setCameraAspect(cameraAspect);
             this.initAssetsList(possibleModelAssets);
         };
 

@@ -39,6 +39,8 @@ define([
 
             this.inputState.setupUpdateCallback(onInputUpdate);
 
+
+
 		};
 
         var screenFitXY = function(buffer, x, y, vec) {

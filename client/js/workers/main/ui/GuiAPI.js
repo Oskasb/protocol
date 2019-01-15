@@ -22,6 +22,8 @@ define([
         var ib;
         var guiSystems = [];
 
+        var aspect = 1;
+
         var elementPools = {};
 
         var inputSystem;
@@ -36,6 +38,7 @@ define([
 
         var guiUpdateCallbacks = [];
         var inputUpdateCallbacks = [];
+        var aspectUpdateCallbacks = [];
 
         var guiBuffers = {};
 
@@ -199,9 +202,29 @@ define([
             MATH.quickSplice(guiUpdateCallbacks, cb);
         };
 
+        GuiAPI.addAspectUpdateCallback = function(cb) {
+            aspectUpdateCallbacks.push(cb);
+        };
+
+        GuiAPI.removeAspectUpdateCallback = function(cb) {
+            MATH.quickSplice(aspectUpdateCallbacks, cb);
+        };
+
+
+        GuiAPI.applyAspectToScreenPosition = function(sourcePos, store) {
+            store.copy(sourcePos);
+            store.x = sourcePos.x * aspect * 0.5;
+        };
 
         GuiAPI.readInputBufferValue = function(inputIndex, buffer, enumKey) {
             return buffer[inputIndex*ENUMS.InputState.BUFFER_SIZE + enumKey]
+        };
+
+        GuiAPI.setCameraAspect = function(camAspect) {
+            if (aspect !== camAspect) {
+                aspect = camAspect;
+                callAspectUpdateCallbacks(aspect);
+            }
         };
 
         var cbs;
@@ -212,7 +235,13 @@ define([
             }
         };
 
-        var idx;
+        var callAspectUpdateCallbacks = function(aspect) {
+            console.log("Aspect:", aspect);
+            for (cbs = 0; cbs < aspectUpdateCallbacks.length; cbs++) {
+                aspectUpdateCallbacks[cbs](aspect);
+            }
+        };
+
 
         var updateInput = function(INPUT_BUFFER) {
             inputs = ENUMS.Numbers.POINTER_TOUCH0 + ENUMS.Numbers.TOUCHES_COUNT;
@@ -234,15 +263,12 @@ define([
         };
 
         GuiAPI.sampleInputState = function(INPUT_BUFFER) {
-            GuiDebug.updateDebugElements();
-            updateBufferIndices();
             updateInput(INPUT_BUFFER);
-
         };
 
         GuiAPI.updateGui = function(tpf, time) {
-
-
+            GuiDebug.updateDebugElements();
+            updateBufferIndices();
 
             if (registeredTextElements['main_text_box']) {
                 dymmy1(registeredTextElements['main_text_box']);

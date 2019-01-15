@@ -41,7 +41,7 @@ require([
 
             clientViewer.initScene(sceneReady)
 
-            worker.port.postMessage([ENUMS.Message.RENDERER_READY, 1]);
+            worker.port.postMessage([ENUMS.Message.RENDERER_READY, [1, GameScreen.getAspect()]]);
         };
 
         WorkerAPI.initWorkers(clientViewer);

@@ -285,6 +285,8 @@ define([
 
     WorldCamera.prototype.fireCameraUpdate = function() {
 
+
+
         evt.setArgVec3(camEvt, 0, camera.position);
         evt.setArgQuat(camEvt, 6, camera.quaternion);
 
@@ -300,9 +302,8 @@ define([
     var t = 0;
 
 
-
-
     WorldCamera.prototype.tickWorldCamera = function() {
+        GuiAPI.setCameraAspect(camera.aspect);
         t+=tpf;
         tempVec1.x = 0;
         tempVec1.y = 0;

@@ -7,6 +7,38 @@
           "id": "STANDARD_WIDGETS",
           "data": [
             {
+              "id":"widget_action_button",
+              "layout":"layout_action_button",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "action_icon_config",
+                "feedback": "feedback_icon_action"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_action_button",
+                "feedback": "feedback_button_action"
+              }
+            },
+            {
+              "id":"widget_action_button_progress",
+              "layout":"layout_progress_action_button",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "progress_vertical_actionbutton",
+                "feedback": "feedback_icon_action"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_action_button",
+                "feedback": "feedback_surface_container"
+              }
+            },
+            {
               "id":"button_big_red",
               "layout":"layout_big_icon_button",
               "text": {
@@ -48,6 +80,18 @@
               "surface": {
                 "nineslice": "nineslice_surface_button_big",
                 "feedback": "feedback_surface_blue"
+              }
+            },
+            {
+              "id":"button_sharp_blue",
+              "layout":"layout_button_sharp",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_blue"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_button_sharp",
+                "feedback": "feedback_button_sharp_blue"
               }
             },
             {

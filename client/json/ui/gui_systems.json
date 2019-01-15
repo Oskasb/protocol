@@ -39,7 +39,7 @@
               "sprite_atlas": "FONT_16x16",
               "mesh_asset":  "asset_letterQuad",
               "pool_size": 5000,
-              "render_order": 20
+              "render_order": 21
             }
           }
         ]

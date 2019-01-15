@@ -131,17 +131,23 @@ define([
             } else {
                 parentExtents.set(1, 1, 1);
                   GuiAPI.applyAspectToScreenPosition(widget.originalPosition, widgetOrigin);
-                //  widgetOrigin.copy(widget.originalPosition);
+            };
 
+
+            if (layout.offset.center) {
+
+                if (widget.parent) {
+                    widget.pos.copy(widget.parent.pos);
+                }
+
+            } else {
+                offset.set(layout.offset.x * widgetExtents.x, layout.offset.y * widgetExtents.y, layout.offset.z * widgetExtents.z);
+                anchor.set(layout.anchor.x * parentExtents.x, layout.anchor.y * parentExtents.y, layout.anchor.z * parentExtents.z);
+                widgetOrigin.add(offset);
+                widgetOrigin.add(anchor);
+                widget.pos.copy(widgetOrigin);
             }
 
-            offset.set(layout.offset.x * widgetExtents.x, layout.offset.y * widgetExtents.y, layout.offset.z * widgetExtents.z);
-            anchor.set(layout.anchor.x * parentExtents.x, layout.anchor.y * parentExtents.y, layout.anchor.z * parentExtents.z);
-
-            widgetOrigin.add(offset);
-            widgetOrigin.add(anchor);
-
-            widget.pos.copy(widgetOrigin);
 
             widget.pos.add(widget.offsetPosition);
 
@@ -187,6 +193,11 @@ define([
         var columns;
         var col;
         var row;
+        var gridX;
+        var gridY;
+
+        var osx;
+        var osy;
 
         var layoutGridX = function(widget, layout) {
 
@@ -196,9 +207,12 @@ define([
             gridMinXY.set(9, 9, 0);
             gridMaxXY.set( -9,  -9, 0);
 
-            padx = layout.size.padx || 0;
-            pady = layout.size.pady || 0;
-            columns = layout.size.colums || 1;
+            gridX = layout.size.gridx || 1;
+            gridY = layout.size.gridy || 1;
+
+            padx = layout.size.pad || 0;
+            pady = layout.size.pad || 0;
+            columns = layout.size.cols || 1;
 
             col = 0;
             row = 0;
@@ -207,12 +221,14 @@ define([
                 child = children[i];
                 child.getWidgetOuterSize(tempVec2);
 
-
                 col = i % columns;
                 row = Math.floor(i / columns) +1;
 
-                tempVec1.x = (tempVec2.x+padx)*col;
-                tempVec1.y = (tempVec2.y+pady)*row;
+                osx = (tempVec2.x+padx)*col;
+                osy = (tempVec2.y+pady)*row;
+
+                tempVec1.x = osx*gridX;
+                tempVec1.y = osy*gridY;
 
                 child.offsetWidgetPosition(tempVec1);
                 child.getWidgetMinMax(tempMin, tempMax);

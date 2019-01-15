@@ -84,7 +84,22 @@
             "id":"button_fat_progress_pressed",
             "tiles":[[13, 1]]
           },
-
+          {
+            "id":"button_sharp",
+            "tiles":[[12, 2]]
+          },
+          {
+            "id":"button_sharp_pressed",
+            "tiles":[[13, 2]]
+          },
+          {
+            "id":"button_action",
+            "tiles":[[12, 3]]
+          },
+          {
+            "id":"button_action_pressed",
+            "tiles":[[13, 3]]
+          },
           {
             "id":"horizontal",
             "tiles":[[0, 2]]

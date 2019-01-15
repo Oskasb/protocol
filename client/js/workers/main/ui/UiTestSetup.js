@@ -2,6 +2,7 @@
 
 define([
 
+        'client/js/workers/main/ui/widgets/GuiActionButton',
         'client/js/workers/main/ui/widgets/GuiSimpleButton',
         'client/js/workers/main/ui/widgets/GuiExpandingContainer',
         'client/js/workers/main/ui/widgets/GuiThumbstick',
@@ -10,6 +11,7 @@ define([
         'client/js/workers/main/ui/widgets/GuiProgressBar'
     ],
     function(
+        GuiActionButton,
         GuiSimpleButton,
         GuiExpandingContainer,
         GuiThumbstick,
@@ -56,6 +58,10 @@ define([
                 this.addContainer(inputIndex);
             }.bind(this);
 
+            var addActionButton = function(inputIndex) {
+                this.addActionButton(inputIndex)
+            }.bind(this);
+
             var toggleTestUi = function(inputIndex) {
                 console.log("Button: ", inputIndex);
                 if (testUiActive) {
@@ -72,7 +78,8 @@ define([
                 addTextBox:addTextBox,
                 addMatrixText:addMatrixText,
                 addThumbstick:addThumbstick,
-                addContainer:addContainer
+                addContainer:addContainer,
+                addActionButton:addActionButton
             }
 
         };
@@ -172,6 +179,24 @@ define([
             button =  new GuiSimpleButton();
             button.initSimpleButton('button_big_blue', this.callbacks.addContainer, b5Ready, tempVec1 )
             button.setTestActiveCallback(contActive);
+            testButtons.push(button);
+
+
+
+            var b6Ready = function(widget) {
+                widget.printWidgetText('ACTION')
+            };
+
+            var abPresent = function() {
+                if (actionButton) {
+                    return true;
+                }
+            };
+
+            tempVec1.x -= distance;
+            button =  new GuiSimpleButton();
+            button.initSimpleButton('button_big_blue', this.callbacks.addActionButton, b6Ready, tempVec1 )
+            button.setTestActiveCallback(abPresent);
             testButtons.push(button);
 
         };
@@ -278,7 +303,7 @@ define([
                 };
 
                 var button =  new GuiSimpleButton();
-                button.initSimpleButton('button_big_blue', includeButton, bxReady);
+                button.initSimpleButton('button_sharp_blue', includeButton, bxReady);
 
             };
 
@@ -286,7 +311,7 @@ define([
             if (!container) {
 
                 var onReady = function(widget) {
-                    tempVec1.set(0.02, 0.02, 0);
+                    tempVec1.set(0.0, 0.0, 0);
                     widget.setPosition(tempVec1)
                     includeButton();
                 };
@@ -298,6 +323,47 @@ define([
                 if (container) {
                     container.removeGuiWidget();
                     container = null
+                }
+            }
+
+        };
+
+
+    var actionButton;
+
+        UiTestSetup.prototype.addActionButton = function(inputIndex) {
+
+
+            console.log("Add Action Button", inputIndex);
+
+            var action = {
+                name:"Test it",
+                icon:"fire"
+            };
+
+
+            var attachAction = function() {
+
+                console.log("Attach Action Button action...", inputIndex);
+                actionButton.attachActionToButton(action);
+            };
+
+
+            if (!actionButton) {
+
+                var onReady = function(widget) {
+                    tempVec1.set(0.25, -0.12, 0);
+                    widget.setPosition(tempVec1)
+                    attachAction();
+                };
+
+                actionButton = new GuiActionButton();
+                actionButton.initActionButton('widget_action_button', onReady);
+
+            } else {
+                if (actionButton) {
+                    actionButton.removeGuiWidget();
+                    actionButton = null
                 }
             }
 

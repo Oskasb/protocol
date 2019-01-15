@@ -16,12 +16,39 @@
               }
             },
             {
+              "id":"layout_action_button",
+              "config": {
+                "text":   {"x":0.5, "y": 0.15, "fontsize": 8},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":0.12, "y":0.12,"z":  0.0}
+              }
+            },
+            {
+              "id":"layout_progress_action_button",
+              "config": {
+                "text":   {"x":0.5, "y":0.55, "fontsize": 8},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"center":true},
+                "size":   {"x":0.099, "y":0.099,"z":  0.01}
+              }
+            },
+            {
+              "id":"layout_button_sharp",
+              "config": {
+                "text":   {"x":0.5, "y": 0.5, "fontsize": 10},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":0.10, "y":0.06,"z":  0.0}
+              }
+            },
+            {
               "id":"layout_major_button",
               "config": {
                 "text":   {"x":0.5, "y": 0.5, "fontsize": 12},
                 "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.0, "z":  0.0},
-                "size":   {"x":0.12, "y":0.04,"z":  0.0}
+                "size":   {"x":0.13, "y":0.04,"z":  0.0}
               }
             },
             {
@@ -64,9 +91,9 @@
               "id":"layout_expanding_container",
               "config": {
                 "text":   {"x":1.0, "y":0.0, "fontsize": 8},
-                "anchor": {"x":1.0, "y":0.0, "z":  0.0},
-                "offset": {"x":0.5, "y":0.0, "z":  0.0},
-                "size":   {"x":"auto", "y":"auto", "z":  0.0, "colums": 3, "padx": 0.005, "pady": 0.005}
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 3, "pad": 0.005, "gridx": 1, "gridy":-1}
               }
             }
           ]

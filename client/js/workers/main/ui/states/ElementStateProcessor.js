@@ -145,14 +145,98 @@ define([
 
             widget.pos.add(widget.offsetPosition);
 
-            widget.size.copy(layout.size);
-
+            layoutSize(widget, layout);
 
             if (widget.text) {
                 widget.text.setTextLayout(layout.text)
             }
 
         };
+
+        var layoutSize = function(widget, layout) {
+
+            if (layout.size.x === 'auto') {
+                layoutGridX(widget, layout)
+            } else {
+                widget.size.x = layout.size.x;
+            }
+
+            if (layout.size.y === 'auto') {
+
+            } else {
+                widget.size.y = layout.size.y;
+            }
+
+            widget.size.z = layout.size.z;
+
+        };
+
+        var child;
+        var children;
+        var tempVec1 = new THREE.Vector3();
+        var tempVec2 = new THREE.Vector3();
+        var tempMin = new THREE.Vector3();
+        var tempMax = new THREE.Vector3();
+
+        var gridMinXY = new THREE.Vector3();
+        var gridMaxXY = new THREE.Vector3();
+        var gridSize = new THREE.Vector3();
+
+        var padx = 0;
+        var pady = 0;
+
+        var layoutGridX = function(widget, layout) {
+
+            children = widget.children;
+
+            tempVec1.set(0, 0, 0);
+            gridMinXY.set(9, 9, 0);
+            gridMaxXY.set( -9,  -9, 0);
+
+            padx = layout.size.padx || 0;
+            pady = layout.size.pady || 0;
+
+            for (var i = 0; i < children.length; i++) {
+                child = children[i];
+                child.getWidgetOuterSize(tempVec2);
+                tempVec1.x += tempVec2.x+padx;
+                tempVec1.y = tempVec2.y+pady;
+
+                child.offsetWidgetPosition(tempVec1);
+                child.getWidgetMinMax(tempMin, tempMax);
+
+                if (gridMinXY.x > tempMin.x-padx) {
+                    gridMinXY.x = tempMin.x-padx
+                }
+
+                if (gridMinXY.y > tempMin.y-pady) {
+                    gridMinXY.y = tempMin.y-pady
+                }
+
+                if (gridMaxXY.x < tempMax.x+padx) {
+                    gridMaxXY.x = tempMax.x+padx
+                }
+
+                if (gridMaxXY.y < tempMax.y+pady) {
+                    gridMaxXY.y = tempMax.y+pady
+                }
+
+            }
+
+            gridSize.subVectors(gridMaxXY, gridMinXY);
+
+            widget.size.copy(gridSize);
+
+            gridSize.multiplyScalar(0.5);
+
+            widget.pos.copy(gridMinXY);
+            widget.pos.add(gridSize);
+
+        };
+
+        var layoutGridY = function(widget, layout) {
+
+        }
 
         return ElementStateProcessor;
 

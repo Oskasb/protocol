@@ -53,7 +53,10 @@ if(typeof(MATH) === "undefined") {
 		}
 
 		if (!remove) {
-			console.log("Entry not found", array, removeEntry)
+			return false;
+	//		console.log("Entry not found", array, removeEntry)
+		} else {
+	//		console.log("Entry found", removeEntry)
 		}
 
 		return removeEntry;

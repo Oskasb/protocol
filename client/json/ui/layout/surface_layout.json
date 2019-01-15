@@ -55,9 +55,18 @@
               "id":"layout_debug_text_box",
               "config": {
                 "text":   {"x":1.0, "y":0.0, "fontsize": 8},
-                "anchor": {"x":1.0, "y":1.0,   "z":  0.0},
-                "offset": {"x":-1.1, "y":0.05, "z":  0.0},
+                "anchor": {"x":0.8, "y":0.5,   "z":  0.0},
+                "offset": {"x":-0.1, "y":0.05, "z":  0.0},
                 "size":   {"x":0.13, "y":0.1,  "z":  0.0}
+              }
+            },
+            {
+              "id":"layout_expanding_container",
+              "config": {
+                "text":   {"x":1.0, "y":0.0, "fontsize": 8},
+                "anchor": {"x":1.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.5, "y":0.0, "z":  0.0},
+                "size":   {"x":"auto", "y":"auto", "z":  0.0, "colums": 3, "padx": 0.005, "pady": 0.005}
               }
             }
           ]

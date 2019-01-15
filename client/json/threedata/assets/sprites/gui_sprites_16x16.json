@@ -35,6 +35,10 @@
             "tiles":[[6, 2]]
           },
           {
+            "id":"container_box_framed",
+            "tiles":[[7, 2]]
+          },
+          {
             "id":"button_sub_frame",
             "tiles":[[8, 1]]
           },

@@ -75,6 +75,14 @@
               }
             },
             {
+              "id":"widget_expanding_container",
+              "layout":"layout_expanding_container",
+              "surface": {
+                "nineslice": "nineslice_surface_debug",
+                "feedback": "feedback_surface_container"
+              }
+            },
+            {
               "id":"debug_text_box",
               "layout":"layout_debug_text_box",
               "text": {

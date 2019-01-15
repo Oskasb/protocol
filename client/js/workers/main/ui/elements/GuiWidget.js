@@ -97,8 +97,6 @@ define([
                 if (rq===rd) {
 
                     this.guiSurface.registerStateUpdateCallback(onWidgetStateUpdate);
-                    //    this.guiSurface.applyStateFeedback();
-                    GuiAPI.registerInteractiveGuiElement(this.guiSurface);
                     GuiAPI.addAspectUpdateCallback(this.callbacks.onAspectChange);
                     this.guiSurface.addOnActivateCallback(this.callbacks.onElementActivate);
                     this.guiSurface.addOnPressStartCallback(this.callbacks.onElementPressStart);
@@ -146,6 +144,8 @@ define([
         GuiWidget.prototype.getLayoutConfigId = function() {
             return this.layoutConfigId;
         };
+
+
 
         GuiWidget.prototype.initWidgetSurface = function(surfaceConf, surfaceReady) {
 
@@ -309,6 +309,15 @@ define([
             return this.guiSurface;
         };
 
+        GuiWidget.prototype.getWidgetOuterSize = function(store) {
+            this.guiSurface.getSurfaceExtents(store)
+        };
+
+        GuiWidget.prototype.getWidgetMinMax = function(minXY, maxXY) {
+            minXY.copy(this.guiSurface.minXY);
+            maxXY.copy(this.guiSurface.maxXY);
+        };
+
         GuiWidget.prototype.setPosition = function(pos) {
             this.originalPosition.copy(pos);
             this.applyWidgetPosition();
@@ -321,9 +330,11 @@ define([
         };
 
         GuiWidget.prototype.applyWidgetPosition = function() {
-
+            GuiAPI.debugDrawGuiPosition(this.originalPosition.x, this.originalPosition.y);
 
             ElementStateProcessor.applyElementLayout(this);
+
+            GuiAPI.debugDrawGuiPosition(this.pos.x, this.pos.y);
 
             this.updateSurfacePositions();
 
@@ -401,9 +412,21 @@ define([
 
         };
 
-        GuiWidget.prototype.recoverGuiWidget = function() {
+        GuiWidget.prototype.enableWidgetInteraction = function() {
+            this.interactive = true;
+            GuiAPI.registerInteractiveGuiElement(this.guiSurface);
+        };
 
-            GuiAPI.unregisterInteractiveGuiElement(this.guiSurface);
+        GuiWidget.prototype.disableWidgetInteraction = function() {
+            if (this.interactive) {
+                GuiAPI.unregisterInteractiveGuiElement(this.guiSurface);
+                this.interactive = false;
+            }
+
+        };
+
+        GuiWidget.prototype.recoverGuiWidget = function() {
+            this.disableWidgetInteraction();
             GuiAPI.removeAspectUpdateCallback(this.callbacks.onAspectChange);
 
             this.guiSurface.recoverGuiSurface();

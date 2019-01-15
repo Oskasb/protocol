@@ -213,7 +213,7 @@ define([
 
         GuiAPI.applyAspectToScreenPosition = function(sourcePos, store) {
             store.copy(sourcePos);
-            store.x = sourcePos.x * aspect * 0.5;
+            store.x = sourcePos.x * aspect;
         };
 
         GuiAPI.readInputBufferValue = function(inputIndex, buffer, enumKey) {

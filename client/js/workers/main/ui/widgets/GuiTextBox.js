@@ -34,7 +34,7 @@ define([
             var widgetReady = function(widget) {
                 widget.printWidgetText("TRY ME");
                 widget.setPosition(pos);
-
+                widget.enableWidgetInteraction();
             };
 
             this.guiWidget.initGuiWidget(null, widgetReady);

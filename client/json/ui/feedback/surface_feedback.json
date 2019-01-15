@@ -7,38 +7,58 @@
           "id": "SURFACE",
           "data": [
             {
+              "id":"feedback_surface_container",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.35, "g": 0.45, "b": 0.75, "a": 0.85},
+                  "sprite": "container_box_framed"
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.2, "g": 0.6, "b": 0.75, "a": 0.85}
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.8, "a": 0.75}
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.01, "g": 0.99, "b": 0.01, "a": 1.0}
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.15, "g": 0.99, "b": 0.25, "a": 1.0}
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.1, "g": 0.65, "b": 0.15, "a": 1.0}
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0}
+                }
+              }
+            },
+            {
               "id":"feedback_surface_debug",
               "config": {
                 "NONE": {
                   "color_rgba": {"r": 0.35, "g": 0.45, "b": 0.75, "a": 0.85},
-                  "lut_color": "lut_dk",
                   "sprite": "text_box_framed"
                 },
                 "HOVER": {
-                  "color_rgba": {"r": 0.2, "g": 0.6, "b": 0.75, "a": 0.85},
-                  "lut_color": "lut_brt"
+                  "color_rgba": {"r": 0.2, "g": 0.6, "b": 0.75, "a": 0.85}
                 },
                 "PRESS": {
-                  "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.8, "a": 0.75},
-                  "lut_color": "lut_dk"
+                  "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.8, "a": 0.75}
                 },
 
                 "ACTIVE": {
-                  "color_rgba": {"r": 0.01, "g": 0.99, "b": 0.01, "a": 1.0},
-                  "lut_color": "lut_base"
+                  "color_rgba": {"r": 0.01, "g": 0.99, "b": 0.01, "a": 1.0}
                 },
 
                 "ACTIVE_HOVER": {
-                  "color_rgba": {"r": 0.15, "g": 0.99, "b": 0.25, "a": 1.0},
-                  "lut_color": "lut_brt"
+                  "color_rgba": {"r": 0.15, "g": 0.99, "b": 0.25, "a": 1.0}
                 },
                 "ACTIVE_PRESS": {
-                  "color_rgba": {"r": 0.1, "g": 0.65, "b": 0.15, "a": 1.0},
-                  "lut_color": "lut_dk"
+                  "color_rgba": {"r": 0.1, "g": 0.65, "b": 0.15, "a": 1.0}
                 },
                 "DISABLED": {
-                  "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-                  "lut_color": "lut_base"
+                  "color_rgba": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0}
                 }
               }
             },
@@ -117,32 +137,26 @@
               "config": {
                 "NONE": {
                   "color_rgba": {"r": 0.1, "g": 0.4, "b": 0.65, "a": 1.0},
-                  "lut_color": "lut_base",
                   "sprite": "button_rounded"
                 },
                 "HOVER": {
                   "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.75, "a": 1.0},
-                  "lut_color": "lut_brt",
                   "sprite": "button_rounded"
                 },
                 "PRESS": {
                   "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.75, "a": 1.0},
-                  "lut_color": "lut_brt",
                   "sprite": "button_rounded_pressed"
                 },
                 "ACTIVE": {
                   "color_rgba": {"r": 0.21, "g": 0.71, "b": 0.91, "a": 1.0},
-                  "lut_color": "lut_brt",
                   "sprite": "button_rounded"
                 },
                 "ACTIVE_HOVER": {
                   "color_rgba": {"r": 0.41, "g": 0.81, "b": 0.97, "a": 1.0},
-                  "lut_color": "lut_brt",
                   "sprite": "button_rounded"
                 },
                 "ACTIVE_PRESS": {
                   "color_rgba": {"r": 0.41, "g": 0.81, "b": 0.97, "a": 1.0},
-                  "lut_color": "lut_brt",
                   "sprite": "button_rounded_pressed"
                 },
                 "DISABLED": {

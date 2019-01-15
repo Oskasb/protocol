@@ -15,7 +15,13 @@ define([
 
         GuiSimpleButton.prototype.initSimpleButton = function(widgetConfig, onActivate, onReady, pos) {
             this.guiWidget = new GuiWidget(widgetConfig);
-            this.guiWidget.initGuiWidget(pos, onReady);
+
+            var buttonReady = function(widget) {
+                widget.enableWidgetInteraction();
+                onReady(widget)
+            };
+
+            this.guiWidget.initGuiWidget(pos, buttonReady);
             this.guiWidget.addOnActiaveCallback(onActivate);
         };
 

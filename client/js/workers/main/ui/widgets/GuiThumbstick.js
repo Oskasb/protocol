@@ -49,6 +49,7 @@ define([
             var widgetRdy = function(widget) {
                 widget.setWidgetIconKey('directional_arrows');
                 widget.addOnPressStartCallback(this.callbacks.onPressStart);
+                widget.enableWidgetInteraction();
                 onReady(this)
             }.bind(this);
 

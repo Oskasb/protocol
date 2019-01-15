@@ -34,6 +34,7 @@ define([
             var widgetReady = function(widget) {
                 widget.setWidgetIconKey("plate");
                 widget.setPosition(pos);
+                widget.enableWidgetInteraction();
             };
 
             this.guiWidget.initGuiWidget(null, widgetReady);

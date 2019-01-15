@@ -3,6 +3,7 @@
 define([
 
         'client/js/workers/main/ui/widgets/GuiSimpleButton',
+        'client/js/workers/main/ui/widgets/GuiExpandingContainer',
         'client/js/workers/main/ui/widgets/GuiThumbstick',
         'client/js/workers/main/ui/widgets/GuiTextBox',
         'client/js/workers/main/ui/widgets/GuiScreenSpaceText',
@@ -10,6 +11,7 @@ define([
     ],
     function(
         GuiSimpleButton,
+        GuiExpandingContainer,
         GuiThumbstick,
         GuiTextBox,
         GuiScreenSpaceText,
@@ -24,6 +26,7 @@ define([
         var textBoxes = [];
         var thumbstick;
         var matrixText;
+        var container;
 
         var testUiActive = false;
 
@@ -45,9 +48,12 @@ define([
                 this.addMatrixText(inputIndex);
             }.bind(this);
 
-
             var addThumbstick = function(inputIndex) {
                 this.addThumbstick(inputIndex);
+            }.bind(this);
+
+            var addContainer = function(inputIndex) {
+                this.addContainer(inputIndex);
             }.bind(this);
 
             var toggleTestUi = function(inputIndex) {
@@ -65,14 +71,15 @@ define([
                 addProgressBar:addProgressBar,
                 addTextBox:addTextBox,
                 addMatrixText:addMatrixText,
-                addThumbstick:addThumbstick
+                addThumbstick:addThumbstick,
+                addContainer:addContainer
             }
 
         };
 
         UiTestSetup.prototype.initUiTestSetup = function() {
 
-            tempVec1.set(0.5, 0.35, 0);
+            tempVec1.set(0.3, 0.35, 0);
 
             var widgetReady = function(widget) {
                 widget.printWidgetText('TEST UI')
@@ -93,7 +100,9 @@ define([
         UiTestSetup.prototype.addTestButtons = function() {
 
 
-            tempVec1.set(0.55, 0.29, 0);
+            tempVec1.set(0.35, 0.29, 0);
+
+            var distance = 0.09;
 
             var b1Ready = function(widget) {
                 widget.printWidgetText('Prg Bar')
@@ -108,7 +117,7 @@ define([
                 widget.printWidgetText('Txt Box')
             };
 
-            tempVec1.x -= 0.15;
+            tempVec1.x -= distance;
             button =  new GuiSimpleButton();
             button.initSimpleButton('button_big_blue', this.callbacks.addTextBox, b2Ready, tempVec1 )
 
@@ -125,7 +134,7 @@ define([
                 }
             };
 
-            tempVec1.x -= 0.15;
+            tempVec1.x -= distance;
             button =  new GuiSimpleButton();
             button.initSimpleButton('button_big_blue', this.callbacks.addMatrixText, b3Ready, tempVec1 )
             button.setTestActiveCallback(matrixActive);
@@ -142,12 +151,28 @@ define([
                 }
             };
 
-            tempVec1.x -= 0.15;
+            tempVec1.x -= distance;
             button =  new GuiSimpleButton();
             button.initSimpleButton('button_big_blue', this.callbacks.addThumbstick, b4Ready, tempVec1 )
             button.setTestActiveCallback(stickActive);
             testButtons.push(button);
 
+
+            var b5Ready = function(widget) {
+                widget.printWidgetText('CONT')
+            };
+
+            var contActive = function() {
+                if (container) {
+                    return true;
+                }
+            };
+
+            tempVec1.x -= distance;
+            button =  new GuiSimpleButton();
+            button.initSimpleButton('button_big_blue', this.callbacks.addContainer, b5Ready, tempVec1 )
+            button.setTestActiveCallback(contActive);
+            testButtons.push(button);
 
         };
 
@@ -173,7 +198,7 @@ define([
 
         UiTestSetup.prototype.addTextBox = function() {
 
-            tempVec1.set(0.35, -0.38, 0);
+            tempVec1.set(0.25, -0.3, 0);
             tempVec1.y += textBoxes.length * 0.14;
 
             var textBox = new GuiTextBox();
@@ -220,7 +245,7 @@ define([
             if (!thumbstick) {
 
                 var onReady = function(tmbstick) {
-                    tempVec1.set(-0.3, -0.3, 0);
+                    tempVec1.set(-0.22, -0.22, 0);
 
                     tmbstick.setOriginPosition(tempVec1)
                 };
@@ -232,6 +257,44 @@ define([
                 if (thumbstick) {
                     thumbstick.removeGuiWidget();
                     thumbstick = null
+                }
+            }
+
+        };
+
+        UiTestSetup.prototype.addContainer = function(inputIndex) {
+
+
+            console.log("Add Container", inputIndex);
+
+            var includeButton = function() {
+
+                var bxReady = function(widget) {
+                    widget.printWidgetText('child')
+                    container.addChildWidgetToContainer(widget);
+                };
+
+                var button =  new GuiSimpleButton();
+                button.initSimpleButton('button_big_blue', includeButton, bxReady);
+
+            };
+
+
+            if (!container) {
+
+                var onReady = function(widget) {
+                    tempVec1.set(0.02, 0.02, 0);
+                    widget.setPosition(tempVec1)
+                    includeButton();
+                };
+
+                container = new GuiExpandingContainer();
+                container.initExpandingContainer('widget_expanding_container', onReady);
+
+            } else {
+                if (container) {
+                    container.removeGuiWidget();
+                    container = null
                 }
             }
 
@@ -272,156 +335,15 @@ define([
                 thumbstick = null
             }
 
-        };
-
-        UiTestSetup.prototype.setupDefaultUi = function() {
-
-            var debugElementReady = function(widget) {
-                GuiAPI.getGuiDebug().setDebugTextPanel(widget);
-            };
-
-            var debugTextPos = new THREE.Vector3(0.1, 0.1, 0);
-
-            var debugWidget = new GuiWidget('debug_text_box');
-            debugWidget.initGuiWidget(debugTextPos, debugElementReady);
-
-
-            var elementReady = function(widget) {
-                GuiAPI.registerTextSurfaceElement(widget.configId, widget );
-                this.buildButtons(debugWidget);
-            }.bind(this);
-
-            var dtxtPos = new THREE.Vector3(-0.5, -0.3, 0);
-
-            var mainTextWidget = new GuiWidget('main_text_box');
-            mainTextWidget.initGuiWidget(dtxtPos, elementReady);
-
-
-
-
-            var guiUpdatez = function(tpf, time) {
-
-                tempVec1.copy(mainTextWidget.pos);
-                tempVec1.x += Math.sin(time*2)*tpf*0.3;
-                mainTextWidget.setPosition(tempVec1);
-            };
-
-
-            var onActiave = function(bool) {
-
-                if (bool) {
-                    console.log("Activate Button");
-                    GuiAPI.addGuiUpdateCallback(guiUpdatez)
-                    mainTextWidget.addChild(debugWidget);
-                } else {
-                    console.log("Deactivate Button");
-                    GuiAPI.removeGuiUpdateCallback(guiUpdatez)
-                }
-            };
-
-            mainTextWidget.addOnActiaveCallback(onActiave);
-
-
-            var onActiaved = function(bool) {
-
-                if (bool) {
-                    debugWidget.detatchFromParent();
-                } else {
-
-                }
-            };
-
-            debugWidget.addOnActiaveCallback(onActiaved);
+            if (container) {
+                container.removeGuiWidget();
+                container = null
+            }
 
         };
 
-        UiTestSetup.prototype.buildButtons = function(debugWidget) {
-
-            var elementReady = function(widget) {
-                widget.printWidgetText(widget.configId)
-                widget.setWidgetIconKey("shield")
-            };
-
-            var button1Pos = new THREE.Vector3(-0.5, 0.3, 0);
-
-            var button1Widget = new GuiWidget('button_big_blue');
-            button1Widget.initGuiWidget(button1Pos, elementReady);
 
 
-            var guiUpdate = function(tpf, time) {
-
-                tempVec1.copy(button2Widget.pos);
-                tempVec1.x += Math.sin(time*2)*tpf*0.1;
-                button2Widget.setPosition(tempVec1);
-            };
-
-
-            var onActiave = function(bool) {
-
-                if (bool) {
-                    console.log("Activate Button");
-                    GuiAPI.addGuiUpdateCallback(guiUpdate)
-
-                } else {
-                    console.log("Deactivate Button");
-                    GuiAPI.removeGuiUpdateCallback(guiUpdate)
-                }
-            };
-
-            button1Widget.addOnActiaveCallback(onActiave);
-
-
-
-            var button2Pos = new THREE.Vector3(-0.5, 0.2, 0);
-            var button2Widget = new GuiWidget('button_big_red');
-            button2Widget.initGuiWidget(button2Pos, elementReady);
-
-
-            var onActiaved = function(bool) {
-
-                if (bool) {
-                    button2Widget.addChild(debugWidget);
-                } else {
-
-                }
-            };
-
-            button2Widget.addOnActiaveCallback(onActiaved);
-
-
-            var progressReady = function(widget) {
-                widget.printWidgetText('progress');
-                widget.setWidgetIconKey("plate")
-            };
-
-
-            var progressPos = new THREE.Vector3(0.5, 0.2, 0);
-            var progressWidget = new GuiWidget('progress_indicator_big_red');
-            progressWidget.initGuiWidget(progressPos, progressReady);
-
-
-            var prog = 0;
-
-            var updateProg = function(tpf, time) {
-                prog += tpf;
-
-                progressWidget.indicateProgress(0, 2, prog, 2)
-
-            };
-
-            var progActivate = function(bool) {
-                if (bool) {
-                    prog = 0;
-                    GuiAPI.addGuiUpdateCallback(updateProg)
-                } else {
-
-                    GuiAPI.removeGuiUpdateCallback(updateProg)
-                }
-            };
-
-            progressWidget.addOnActiaveCallback(progActivate);
-
-        };
 
 
 

@@ -264,6 +264,7 @@ define([
 
         GuiAPI.sampleInputState = function(INPUT_BUFFER) {
             updateInput(INPUT_BUFFER);
+            GuiDebug.updateDebugElements();
         };
 
         GuiAPI.updateGui = function(tpf, time) {

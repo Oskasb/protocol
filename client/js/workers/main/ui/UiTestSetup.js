@@ -267,10 +267,13 @@ define([
 
             console.log("Add Container", inputIndex);
 
+            var nr = 0;
+
             var includeButton = function() {
 
                 var bxReady = function(widget) {
-                    widget.printWidgetText('child')
+                    nr++
+                    widget.printWidgetText('ch '+nr)
                     container.addChildWidgetToContainer(widget);
                 };
 

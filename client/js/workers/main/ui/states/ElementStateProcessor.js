@@ -184,6 +184,9 @@ define([
 
         var padx = 0;
         var pady = 0;
+        var columns;
+        var col;
+        var row;
 
         var layoutGridX = function(widget, layout) {
 
@@ -195,12 +198,21 @@ define([
 
             padx = layout.size.padx || 0;
             pady = layout.size.pady || 0;
+            columns = layout.size.colums || 1;
+
+            col = 0;
+            row = 0;
 
             for (var i = 0; i < children.length; i++) {
                 child = children[i];
                 child.getWidgetOuterSize(tempVec2);
-                tempVec1.x += tempVec2.x+padx;
-                tempVec1.y = tempVec2.y+pady;
+
+
+                col = i % columns;
+                row = Math.floor(i / columns) +1;
+
+                tempVec1.x = (tempVec2.x+padx)*col;
+                tempVec1.y = (tempVec2.y+pady)*row;
 
                 child.offsetWidgetPosition(tempVec1);
                 child.getWidgetMinMax(tempMin, tempMax);

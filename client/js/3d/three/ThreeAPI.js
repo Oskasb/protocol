@@ -354,7 +354,7 @@ define([
         };
 
         ThreeAPI.deActivateMixer = function(mixer) {
-            animationMixers.splice(animationMixers.indexOf(mixer), 1);
+            MATH.quickSplice(animationMixers, mixer);
         };
 
         ThreeAPI.updateAnimationMixers = function(tpf) {

@@ -80,7 +80,7 @@ define([
     };
 
     DynamicMain.prototype.removeFromIsntanceIndex = function(instancedModel) {
-        instances.splice(instances.indexOf(instancedModel), 1);
+        MATH.quickSplice(instances, instancedModel);
     };
 
     DynamicMain.prototype.requestAssetInstance = function(event) {

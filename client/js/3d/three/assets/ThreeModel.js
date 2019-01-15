@@ -132,9 +132,16 @@ define([
             if (this.geometryInstancingSettings()) {
                 spatial.setPosXYZ(20+this.modelNr*5, 5+this.expandingPool.poolEntryCount()*0.3, 30);
                 spatial.setScaleXYZ(0.2, 0.2, 0.2);
-                this.expandingPool.returnToExpandingPool(spatial);
+
+                if (this.expandingPool.pool.indexOf(spatial) !== -1) {
+                    console.log("Bad pool recovery", this.id, spatial, this);
+                    return;
+                }
+
+            //    this.expandingPool.returnToExpandingPool(spatial);
             } else {
-                this.model.returnCloneToPool(spatial);
+            //    this.model.returnCloneToPool(spatial);
+                ThreeAPI.hideModel(spatial.obj3d);
             }
 
         };

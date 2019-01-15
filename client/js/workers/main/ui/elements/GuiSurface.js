@@ -33,6 +33,10 @@ define([
 
             this.config =  GuiAPI.getGuiSettingConfig( "SURFACE_NINESLICE", "GUI_16x16", this.configId);
 
+            this.testActiveCallback = function() {
+                return this.active;
+            };
+
             var addSurfaceCb = function(bufferElem) {
                 this.setBufferElement(bufferElem);
                 this.applySurfaceConfig();
@@ -51,11 +55,10 @@ define([
         };
 
 
-        GuiSurface.prototype.toggleActive = function() {
-            this.active = !this.active;
+        GuiSurface.prototype.triggerActiveate = function(inputIndex) {
 
             for (var i = 0; i < this.onActivateCallbacks.length; i++) {
-                this.onActivateCallbacks[i](this.active);
+                this.onActivateCallbacks[i](inputIndex);
             }
 
         };
@@ -77,8 +80,13 @@ define([
         };
 
         GuiSurface.prototype.getActive = function() {
-            return this.active;
+            return this.testActiveCallback();
         };
+
+        GuiSurface.prototype.setTestActiveCallback = function(callback) {
+            this.testActiveCallback = callback
+        };
+
 
         GuiSurface.prototype.getInteractiveElement = function() {
             return this.interactiveElement;

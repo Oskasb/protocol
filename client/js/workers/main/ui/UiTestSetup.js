@@ -25,6 +25,8 @@ define([
         var thumbstick;
         var matrixText;
 
+        var testUiActive = false;
+
         var UiTestSetup = function() {
             this.setupUiTestCallbacks();
         };
@@ -39,21 +41,21 @@ define([
                 this.addProgressBar();
             }.bind(this);
 
-            var addMatrixText = function(bool) {
-                this.addMatrixText(bool);
+            var addMatrixText = function(inputIndex) {
+                this.addMatrixText(inputIndex);
             }.bind(this);
 
 
-            var addThumbstick = function(bool) {
-                this.addThumbstick(bool);
+            var addThumbstick = function(inputIndex) {
+                this.addThumbstick(inputIndex);
             }.bind(this);
 
-            var toggleTestUi = function(bool) {
-                console.log("Button: ", bool);
-                if (bool) {
-                    this.openTestUi();
-                } else {
+            var toggleTestUi = function(inputIndex) {
+                console.log("Button: ", inputIndex);
+                if (testUiActive) {
                     this.closeTestUi();
+                } else {
+                    this.openTestUi();
                 }
 
             }.bind(this);
@@ -76,8 +78,13 @@ define([
                 widget.printWidgetText('TEST UI')
             };
 
+            var testActive = function(widget) {
+                return testUiActive;
+            };
+
             this.mainButton = new GuiSimpleButton();
             this.mainButton.initSimpleButton('button_big_blue', this.callbacks.toggleTestUi, widgetReady, tempVec1 )
+            this.mainButton.setTestActiveCallback(testActive);
 
         };
 
@@ -105,14 +112,21 @@ define([
 
             testButtons.push(button);
 
+
             var b3Ready = function(widget) {
                 widget.printWidgetText('MATRIX')
+            };
+
+            var matrixActive = function() {
+                if (matrixText) {
+                    return true;
+                }
             };
 
             tempVec1.x -= 0.15;
             button =  new GuiSimpleButton();
             button.initSimpleButton('button_big_blue', this.callbacks.addMatrixText, b3Ready, tempVec1 )
-
+            button.setTestActiveCallback(matrixActive);
             testButtons.push(button);
 
 
@@ -120,10 +134,16 @@ define([
                 widget.printWidgetText('STICK')
             };
 
+            var stickActive = function() {
+                if (thumbstick) {
+                    return true;
+                }
+            };
+
             tempVec1.x -= 0.15;
             button =  new GuiSimpleButton();
             button.initSimpleButton('button_big_blue', this.callbacks.addThumbstick, b4Ready, tempVec1 )
-
+            button.setTestActiveCallback(stickActive);
             testButtons.push(button);
 
 
@@ -138,9 +158,9 @@ define([
 
             var onActivate = function(bool, widget) {
                 if (bool) {
-                    progressBar.activateProgressBar()
-                } else {
                     progressBar.deactivateProgressBar()
+                } else {
+                    progressBar.activateProgressBar()
                 }
             };
 
@@ -156,11 +176,11 @@ define([
 
             var textBox = new GuiTextBox();
 
-            var onActivate = function(bool, widget) {
-                if (bool) {
-                    textBox.activateTextBox()
-                } else {
+            var onActivate = function(inputIndex, widget) {
+                if (textBox.activated) {
                     textBox.deactivateTextBox()
+                } else {
+                    textBox.activateTextBox()
                 }
             };
 
@@ -168,9 +188,9 @@ define([
             textBoxes.push(textBox);
         };
 
-        UiTestSetup.prototype.addMatrixText = function(bool) {
+        UiTestSetup.prototype.addMatrixText = function(inputIndex) {
 
-            if (bool) {
+            if (!matrixText) {
 
                 var onReady = function(ssTxt) {
                     tempVec1.set(-0.5, -0.5, 0);
@@ -193,9 +213,9 @@ define([
 
         };
 
-        UiTestSetup.prototype.addThumbstick = function(bool) {
+        UiTestSetup.prototype.addThumbstick = function(inputIndex) {
 
-            if (bool) {
+            if (!thumbstick) {
 
                 var onReady = function(tmbstick) {
                     tempVec1.set(-0.3, -0.3, 0);
@@ -216,7 +236,7 @@ define([
         };
 
         UiTestSetup.prototype.openTestUi = function() {
-
+            testUiActive = true;
 
             this.addTestButtons();
 
@@ -225,6 +245,8 @@ define([
         };
 
         UiTestSetup.prototype.closeTestUi = function() {
+
+            testUiActive = false;
 
             while (testButtons.length) {
                 testButtons.pop().removeGuiWidget();

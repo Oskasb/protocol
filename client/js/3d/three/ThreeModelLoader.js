@@ -154,7 +154,7 @@ define([
                     PipelineAPI.setCategoryKeyValue("MESH_LIST", id, mesh);
                 }
 
-                isLoading.splice(isLoading.indexOf(id), 1);
+                MATH.quickSplice(isLoading, id);
 
             }
 

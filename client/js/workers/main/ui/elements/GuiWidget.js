@@ -36,18 +36,26 @@ define([
                 this.notifyStringReady();
             }.bind(this);
 
-            var onElementActivate = function(bool) {
-                this.notifyElementActivate(bool);
+            var onElementActivate = function(inputIndex) {
+                this.notifyElementActivate(inputIndex);
             }.bind(this);
 
             var onElementPressStart = function(inputIndex) {
                 this.notifyElementPressStart(inputIndex);
             }.bind(this);
 
+            var testWidgetIsActive = function() {
+                return this.testElementIsActive();
+            }.bind(this);
+
+
+
             this.callbacks = {
                 onStringReady:onStringReady,
                 onElementActivate:onElementActivate,
                 onElementPressStart:onElementPressStart,
+                testWidgetIsActive:testWidgetIsActive,
+                testActive:[],
                 onActivate:[],
                 onPressStart:[]
             }
@@ -82,6 +90,7 @@ define([
                     GuiAPI.registerInteractiveGuiElement(this.guiSurface);
                     this.guiSurface.addOnActivateCallback(this.callbacks.onElementActivate);
                     this.guiSurface.addOnPressStartCallback(this.callbacks.onElementPressStart);
+                    this.guiSurface.setTestActiveCallback(this.callbacks.testWidgetIsActive);
                     this.updateWidgetStateFeedback();
                     this.setPosition(this.pos);
                     if (typeof (cb) === 'function') {
@@ -218,10 +227,10 @@ define([
             this.text.drawTextString(GuiAPI.getTextSysKey(), string, this.callbacks.onStringReady);
         };
 
-        GuiWidget.prototype.notifyElementActivate = function(bool) {
+        GuiWidget.prototype.notifyElementActivate = function(inputIndex) {
 
             for (var i = 0; i < this.callbacks.onActivate.length; i++) {
-                this.callbacks.onActivate[i](bool, this)
+                this.callbacks.onActivate[i](inputIndex, this)
             }
 
         };
@@ -232,7 +241,7 @@ define([
         };
 
         GuiWidget.prototype.removeOnActiaveCallback = function(cb) {
-            this.callbacks.onActivate.splice(this.callbacks.onActivate.indexOf(cb), 1);
+            MATH.quickSplice(this.callbacks.onActivate, cb);
         };
 
 
@@ -250,7 +259,29 @@ define([
         };
 
         GuiWidget.prototype.removePressStartCallback = function(cb) {
-            this.callbacks.onPressStart.splice(this.callbacks.onPressStart.indexOf(cb), 1);
+            MATH.quickSplice(this.callbacks.onPressStart, cb);
+        };
+
+
+        GuiWidget.prototype.testElementIsActive = function() {
+
+            var active = false;
+
+            for (var i = 0; i < this.callbacks.testActive.length; i++) {
+                if (this.callbacks.testActive[i](this)) {
+                    active = true;
+                }
+            }
+
+            return active;
+        };
+
+        GuiWidget.prototype.addTestActiveCallback = function(cb) {
+            this.callbacks.testActive.push(cb)
+        };
+
+        GuiWidget.prototype.removeTestActiveCallback = function(cb) {
+            MATH.quickSplice(this.callbacks.testActive, cb);
         };
 
 
@@ -277,13 +308,13 @@ define([
             for (var i = 0; i < this.children.length; i++) {
                 this.children[i].setPosition(this.pos);
             }
-
         };
 
 
         GuiWidget.prototype.removeChild = function(guiWidget) {
-            this.children.splice(this.children.indexOf(guiWidget), 1);
+            MATH.quickSplice(this.children, guiWidget);
         };
+
 
         GuiWidget.prototype.addChild = function(guiWidget) {
             if (guiWidget.parent) {
@@ -293,6 +324,7 @@ define([
             guiWidget.setPosition(this.pos);
             this.children.push(guiWidget);
         };
+
 
         GuiWidget.prototype.detatchFromParent = function() {
 
@@ -338,7 +370,6 @@ define([
                 this.updateIconPosition();
             }
 
-
         };
 
         GuiWidget.prototype.recoverGuiWidget = function() {
@@ -361,6 +392,10 @@ define([
 
             while (this.callbacks.onPressStart.length) {
                 this.callbacks.onPressStart.pop()
+            }
+
+            while (this.callbacks.testActive.length) {
+                this.callbacks.testActive.pop()
             }
 
         };

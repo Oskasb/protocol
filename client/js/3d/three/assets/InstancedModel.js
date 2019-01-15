@@ -108,7 +108,14 @@ define([
             if (this.active !== ENUMS.InstanceState.DECOMISSION ) {
                 this.activateInstancedModel();
 
+                this.decomissioned = false;
+
             } else {
+                if (this.decomissioned) {
+                    console.log("Already decomissioned", this);
+                    return;
+                }
+                this.decomissioned = true;
                 this.decommissionInstancedModel();
             }
 

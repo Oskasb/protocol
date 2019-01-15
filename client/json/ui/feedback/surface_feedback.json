@@ -155,15 +155,15 @@
               "id":"feedback_surface_thumbstick",
               "config": {
                 "NONE": {
-                  "color_rgba": {"r": 0.1, "g": 0.4, "b": 0.65, "a": 1.0},
+                  "color_rgba": {"r": 0.1, "g": 0.3, "b": 0.55, "a": 0.6},
                   "sprite": "pad_rounded"
                 },
                 "HOVER": {
-                  "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.75, "a": 1.0},
+                  "color_rgba": {"r": 0.1, "g": 0.5, "b": 0.85, "a":0.6},
                   "sprite": "pad_rounded"
                 },
                 "PRESS": {
-                  "color_rgba": {"r": 0.2, "g": 0.5, "b": 0.75, "a": 1.0},
+                  "color_rgba": {"r": 0.2, "g": 0.6, "b": 0.95, "a": 1.0},
                   "sprite": "pad_rounded_pressed"
                 },
                 "ACTIVE": {

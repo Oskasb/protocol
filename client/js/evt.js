@@ -131,7 +131,8 @@ define([
     };
 
     var spliceListener = function(listeners, cb) {
-        listeners.splice(listeners.indexOf(cb), 1);
+         MATH.quickSplice(listeners, cb);
+        //    listeners.splice(listeners.indexOf(cb), 1);
     };
 
     var getEventSystemStatus = function() {

@@ -78,13 +78,15 @@ define([
             };
 
 
-            var onActiave = function(bool) {
+            var onActiave = function(inputIndex) {
 
-                if (bool) {
+                if (!mainTextWidget.isActive) {
                     console.log("Activate Button");
                     GuiAPI.addGuiUpdateCallback(guiUpdatez);
                     mainTextWidget.addChild(debugWidget);
+                    mainTextWidget.isActive = true;
                 } else {
+                    mainTextWidget.isActive = false;
                     console.log("Deactivate Button");
                     GuiAPI.removeGuiUpdateCallback(guiUpdatez)
                 }

@@ -181,12 +181,14 @@ define([
 
         };
 
+
+
         GuiAPI.addInputUpdateCallback = function(cb) {
             inputUpdateCallbacks.push(cb);
         };
 
         GuiAPI.removeInputUpdateCallback = function(cb) {
-            inputUpdateCallbacks.splice(inputUpdateCallbacks.indexOf(cb), 1);
+            MATH.quickSplice(inputUpdateCallbacks, cb);
         };
 
         GuiAPI.addGuiUpdateCallback = function(cb) {
@@ -194,7 +196,7 @@ define([
         };
 
         GuiAPI.removeGuiUpdateCallback = function(cb) {
-            guiUpdateCallbacks.splice(guiUpdateCallbacks.indexOf(cb), 1);
+            MATH.quickSplice(guiUpdateCallbacks, cb);
         };
 
 

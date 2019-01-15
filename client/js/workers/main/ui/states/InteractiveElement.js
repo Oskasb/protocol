@@ -37,11 +37,11 @@ define([
         };
 
         InteractiveElement.prototype.releasePressIndex = function(inputIndex) {
-            this.pressIndices.splice(this.pressIndices.indexOf(inputIndex), 1);
+            MATH.quickSplice(this.pressIndices, inputIndex);
         };
 
         InteractiveElement.prototype.releaseHoverIndex = function(inputIndex) {
-            this.hoverIndices.splice(this.hoverIndices.indexOf(inputIndex), 1);
+            MATH.quickSplice(this.hoverIndices, inputIndex);
         };
 
         InteractiveElement.prototype.notifyPointerPress = function(inputIndex) {
@@ -65,7 +65,7 @@ define([
 
                 if (this.pressActive) {
                     this.releasePressIndex(inputIndex);
-                    this.onPressActivate();
+                    this.onPressActivate(inputIndex);
                     this.pressActive = false;
                 }
             }
@@ -98,8 +98,8 @@ define([
             this.applyPressState();
         };
 
-        InteractiveElement.prototype.onPressActivate = function() {
-            this.getSurfaceElement().toggleActive();
+        InteractiveElement.prototype.onPressActivate = function(inputIndex) {
+            this.getSurfaceElement().triggerActiveate(inputIndex);
             this.applyActiveState();
         };
 

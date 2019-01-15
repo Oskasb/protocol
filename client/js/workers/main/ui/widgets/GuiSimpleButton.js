@@ -24,6 +24,10 @@ define([
             this.guiWidget.recoverGuiWidget();
         };
 
+        GuiSimpleButton.prototype.setTestActiveCallback = function(cb) {
+            this.guiWidget.addTestActiveCallback(cb);
+        };
+
 
         return GuiSimpleButton;
 

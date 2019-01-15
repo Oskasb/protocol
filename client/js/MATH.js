@@ -24,12 +24,46 @@ if(typeof(MATH) === "undefined") {
 
 	var blend = 0;
 	var i = 0;
+	var arrayShifter = [];
+	var entry;
+    var remove;
 
 	MATH.TWO_PI = 2.0 * Math.PI;
 
     MATH.G = -9.81;
 
 	MATH.sign = Math.sign;
+
+
+	MATH.quickSplice = function(array, removeEntry) {
+
+		remove = null;
+
+		while (array.length) {
+			entry = array.pop();
+			if (entry === removeEntry) {
+				remove = entry;
+			} else {
+				arrayShifter.push(entry);
+			}
+		}
+
+		while (arrayShifter.length) {
+			array.push(arrayShifter.pop());
+		}
+
+		if (!remove) {
+			console.log("Entry not found", array, removeEntry)
+		}
+
+		return removeEntry;
+	};
+
+	MATH.emptyArray = function(array) {
+		while (array.length) {
+			array.pop();
+		}
+	};
 
 	function sinWave(time, speed, amplitude) {
 		return Math.sin(time * speed) * amplitude;

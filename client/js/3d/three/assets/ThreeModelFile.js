@@ -33,6 +33,12 @@ define([
 
         ThreeModelFile.prototype.returnCloneToPool = function(spatial) {
             ThreeAPI.hideModel(spatial.obj3d);
+
+            if (this.expandingPool.pool.indexOf(spatial) !== -1) {
+                console.log("Bad Model recovery", this.id, spatial, this);
+                return;
+            }
+
             this.expandingPool.returnToExpandingPool(spatial);
         };
 

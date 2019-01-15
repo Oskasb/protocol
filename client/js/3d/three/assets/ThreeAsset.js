@@ -16,6 +16,7 @@ define([
 
             var instantiateAsset = function(assetId, callback) {
                 var modelInstance = new InstancedModel(this);
+                modelInstance.assetId = assetId;
                 modelInstance.initModelInstance(callback);
             }.bind(this);
 
@@ -40,14 +41,20 @@ define([
         };
 
         ThreeAsset.prototype.instantiateAsset = function(callback) {
-        //    this.expandingPool.getFromExpandingPool(assetInstanceCallback);
-            var modelInstance = new InstancedModel(this);
-            modelInstance.initModelInstance(callback);
+            this.expandingPool.getFromExpandingPool(callback);
+            //    var modelInstance = new InstancedModel(this);
+            //      modelInstance.initModelInstance(callback);
         };
 
         ThreeAsset.prototype.disableAssetInstance = function(modelInstance) {
             modelInstance.detatchAllAttachmnets();
-        //    this.expandingPool.returnToExpandingPool(modelInstance);
+
+            if (modelInstance.assetId !== this.id) {
+                console.log("wrong ID returned", modelInstance, this);
+                return;
+            }
+
+            this.expandingPool.returnToExpandingPool(modelInstance);
 
         };
 

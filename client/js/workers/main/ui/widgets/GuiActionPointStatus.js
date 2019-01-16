@@ -122,7 +122,7 @@ define([
             var guiAP = this.getGuiActionPointForActionPoint(actionPoint, this.guiActionPoints);
 
             if (!guiAP) {
-                console.log("No AP")
+            //    console.log("No AP")
                 return;
             }
 
@@ -156,7 +156,7 @@ define([
                 var release = releases.pop();
 
                 tempVec1.copy(release.offsetPos);
-                tempVec1.y += 0.05;
+                tempVec1.y += 0.06;
                 release.setActionPointTargetOffset(tempVec1);
 
                 this.releasedActionPoints.push(release);
@@ -181,7 +181,7 @@ define([
             this.guiWidget.indicateProgress(0, aps.getTimePerPoint(), aps.getCurrentProgress(), 1);
 
 
-            if (Math.random() < 0.03) {
+            if (Math.random() < 0.02) {
                 aps.consumeActionPoints( Math.floor(Math.random() * (aps.countReadyActionPoints() ) ) );
             }
 

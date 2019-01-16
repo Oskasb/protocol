@@ -330,11 +330,11 @@ define([
         };
 
         GuiWidget.prototype.applyWidgetPosition = function() {
-            GuiAPI.debugDrawGuiPosition(this.originalPosition.x, this.originalPosition.y);
+        //    GuiAPI.debugDrawGuiPosition(this.originalPosition.x, this.originalPosition.y);
 
             ElementStateProcessor.applyElementLayout(this);
 
-            GuiAPI.debugDrawGuiPosition(this.pos.x, this.pos.y);
+        //    GuiAPI.debugDrawGuiPosition(this.pos.x, this.pos.y);
 
             this.updateSurfacePositions();
 

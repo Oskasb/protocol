@@ -109,8 +109,7 @@ define([
             } else {
 
             }
-
-
+            
             var progress = actionPoint.getActionPointProgress();
 
             if (progress !== this.lastProgress) {

@@ -22,7 +22,7 @@ define([
                 currentTime:0,
                 currentProgress:0,
                 refillRate:1,
-                timePerPoint:0.7
+                timePerPoint:1.5
             };
 
             this.actionPoints = [];

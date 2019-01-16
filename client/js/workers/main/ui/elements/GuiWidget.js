@@ -406,6 +406,12 @@ define([
             if (this.text) {
 
                 progString = parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$1")
+                if (progString.length < digits + 1) {
+                    progString += '.';
+                    for (var i = 0; i < digits; i++) {
+                        progString+= '0';
+                    }
+                }
                 this.setFirstSTringText(progString)
 
             }

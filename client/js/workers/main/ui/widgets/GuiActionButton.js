@@ -8,7 +8,7 @@ define([
     ) {
 
     var progWidgetId = 'widget_action_button_progress';
-    var progressIcon = 'debug_nine';
+    var progressIcon = 'plate';
 
 
 
@@ -28,7 +28,7 @@ define([
 
             if (action.state === ENUMS.ActionState.ACTIVE) {
                 action.text = "active";
-                action.progressTime = action.targetTime
+                action.progressTime = action.currentTime
             }
 
             if (action.state === ENUMS.ActionState.ON_COOLDOWN) {
@@ -166,7 +166,7 @@ define([
 
 
 
-            this.progressWidget.indicateProgress(0, action.targetTime, action.progressTime, 2)
+            this.progressWidget.indicateProgress(0, action.targetTime, action.progressTime, 1)
 
             if (!action.active) {
                 this.progressWidget.setFirstSTringText(' ');

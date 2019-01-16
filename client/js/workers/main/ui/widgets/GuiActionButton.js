@@ -1,15 +1,25 @@
 "use strict";
 
 define([
-        'client/js/workers/main/ui/elements/GuiWidget'
+        'client/js/workers/main/ui/elements/GuiWidget',
+        'client/js/workers/main/control/Action'
     ],
     function(
-        GuiWidget
+        GuiWidget,
+        Action
     ) {
 
     var progWidgetId = 'widget_action_button_progress';
-    var progressIcon = 'plate';
+    var progressIcon = 'progress_vertical';
 
+
+        var stateFeedbackMap = {};
+        stateFeedbackMap[ENUMS.ActionState.UNAVAILABLE   ] = ENUMS.ElementState.DISABLED    ;
+        stateFeedbackMap[ENUMS.ActionState.AVAILABLE     ] = ENUMS.ElementState.NONE        ;
+        stateFeedbackMap[ENUMS.ActionState.ACTIVATING    ] = ENUMS.ElementState.ACTIVE      ;
+        stateFeedbackMap[ENUMS.ActionState.ACTIVE        ] = ENUMS.ElementState.ACTIVE_PRESS;
+        stateFeedbackMap[ENUMS.ActionState.ON_COOLDOWN   ] = ENUMS.ElementState.DISABLED    ;
+        stateFeedbackMap[ENUMS.ActionState.ENABLED       ] = ENUMS.ElementState.NONE        ;
 
 
         var updateActionProgress = function(tpf, time) {
@@ -45,14 +55,13 @@ define([
 
         };
 
-
         var activateAction = function() {
             if (!action.active) {
                 GuiAPI.addGuiUpdateCallback(action.updateActionProgress);
                 action.active = true;
                 action.state = stateChainMap[action.state];
                 action.targetTime = action[timersMap[action.state]];
-                action.text = "__";
+                action.text = " ";
             }
         };
 
@@ -74,39 +83,20 @@ define([
 
 
 
-        var stateChainMap = {};
-        stateChainMap[ENUMS.ActionState.AVAILABLE]      = ENUMS.ActionState.ACTIVATING;
-        stateChainMap[ENUMS.ActionState.ACTIVATING]     = ENUMS.ActionState.ACTIVE;
-        stateChainMap[ENUMS.ActionState.ACTIVE]         = ENUMS.ActionState.ON_COOLDOWN;
-        stateChainMap[ENUMS.ActionState.ON_COOLDOWN]    = ENUMS.ActionState.AVAILABLE;
-
-
-        var isActiveMap = {};
-        isActiveMap[ENUMS.ActionState.AVAILABLE] = false;
-        isActiveMap[ENUMS.ActionState.ACTIVATING] = true;
-        isActiveMap[ENUMS.ActionState.ACTIVE] = true;
-        isActiveMap[ENUMS.ActionState.ON_COOLDOWN] = false;
-        isActiveMap[ENUMS.ActionState.ENABLED] = true;
-        isActiveMap[ENUMS.ActionState.DISABLED] = false;
-
-        var timersMap = {};
-        timersMap[ENUMS.ActionState.ACTIVATING] = 'activationTime';
-        timersMap[ENUMS.ActionState.ACTIVE] = 'activeTime';
-        timersMap[ENUMS.ActionState.ON_COOLDOWN] = 'cooldownTime';
-        timersMap[ENUMS.ActionState.AVAILABLE]   = 'activationTime';
-
         var GuiActionButton = function() {
 
             var testActive = function() {
-                return isActiveMap[action.state];
-            };
+                if (this.action) {
+                    return this.action.testActivatable()
+                }
+            }.bind(this);
 
             var activateAction = function(inputIndex, widget) {
                 this.actionButtonActivated(inputIndex, widget);
             }.bind(this);
 
             var updateProgress = function(tpf, time) {
-                this.updateCurrentProgress(action);
+                this.updateCurrentProgress(this.getAction());
             }.bind(this);
 
             this.callbacks = {
@@ -120,14 +110,11 @@ define([
         GuiActionButton.prototype.initActionButton = function(widgetConfig, onReady) {
             this.guiWidget = new GuiWidget(widgetConfig);
 
-
-
-
             var progressReady = function(widget) {
 
                 this.guiWidget.addChild(widget);
 
-            }.bind(this)
+            }.bind(this);
 
             var buttonReady = function(widget) {
                 widget.enableWidgetInteraction();
@@ -145,47 +132,60 @@ define([
         };
 
 
-
-        GuiActionButton.prototype.attachActionToButton = function(action) {
-
-            this.guiWidget.printWidgetText(action.name);
-            this.guiWidget.setWidgetIconKey(action.icon);
-            this.guiWidget.addOnActiaveCallback(this.callbacks.activateAction);
-
+        GuiActionButton.prototype.setAction = function(action) {
+            this.action = action;
         };
 
+
+        GuiActionButton.prototype.getAction = function() {
+            return this.action;
+        };
+
+
+        GuiActionButton.prototype.attachActionToButton = function(action) {
+            this.setAction(action);
+            this.guiWidget.printWidgetText(action.getActionName());
+            this.guiWidget.setWidgetIconKey(action.getActionIcon());
+            this.guiWidget.addOnActiaveCallback(this.callbacks.activateAction);
+        };
 
 
         GuiActionButton.prototype.updateCurrentProgress = function(action) {
 
-            if (!action.text) {
+
+            if (!action.getActionText()) {
                 console.log("TextMissing", action)
             } else {
-                this.guiWidget.setFirstSTringText(action.text);
+                this.guiWidget.setFirstSTringText(action.getActionText());
             }
 
 
+            this.progressWidget.indicateProgress(0, action.getActionTargetTime(), action.getActionProgressTime(), 1);
 
-            this.progressWidget.indicateProgress(0, action.targetTime, action.progressTime, 1)
+            this.guiWidget.setWidgetInteractiveState(stateFeedbackMap[action.getActionState()]);
+            this.progressWidget.setWidgetInteractiveState(stateFeedbackMap[action.getActionState()]);
 
-            if (!action.active) {
-                this.progressWidget.setFirstSTringText(' ');
+            if (!action.getActionIsActive()) {
+                this.progressWidget.setFirstSTringText(null);
+                this.guiWidget.enableWidgetInteraction();
+                GuiAPI.removeGuiUpdateCallback(this.callbacks.updateProgress);
             }
 
         };
 
         GuiActionButton.prototype.actionButtonInitiateAction = function() {
-            action.currentTime = 0;
-            action.activateAction();
+            this.getAction().activateActionNow();
             GuiAPI.addGuiUpdateCallback(this.callbacks.updateProgress);
+            this.guiWidget.disableWidgetInteraction();
         };
 
 
         GuiActionButton.prototype.actionButtonActivated = function(inputIndex, widget) {
 
-            if (action.state !== ENUMS.ActionState.AVAILABLE) return;
+            if (this.getAction().testAvailable()) {
+                this.actionButtonInitiateAction()
+            }
 
-            this.actionButtonInitiateAction()
         };
 
         GuiActionButton.prototype.setTestActiveCallback = function(cb) {
@@ -200,7 +200,7 @@ define([
         };
 
         GuiActionButton.prototype.getDummyAction = function() {
-            return action;
+            return new Action();
         };
 
         return GuiActionButton;

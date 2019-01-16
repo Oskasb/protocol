@@ -169,6 +169,14 @@
             "tiles":[[3, 2]]
           },
           {
+            "id":"progress_vertical",
+            "tiles":[[2, 2]]
+          },
+          {
+            "id":"progress_horizontal",
+            "tiles":[[1, 2]]
+          },
+          {
             "id":"split_block",
             "tiles":[[3, 3]]
           },

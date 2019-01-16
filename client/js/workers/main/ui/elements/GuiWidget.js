@@ -400,6 +400,24 @@ define([
             }
         };
 
+
+        GuiWidget.prototype.setWidgetInteractiveState = function(state) {
+
+            this.guiSurface.setSurfaceInteractiveState(state);
+
+            if (this.text) {
+                if (this.text.guiStrings.length) {
+                    ElementStateProcessor.applyStateToTextElement(this.text, state);
+                }
+            }
+
+            if (this.icon) {
+                ElementStateProcessor.applyStateToIconElement(this.icon, state);
+            }
+
+        };
+
+
         GuiWidget.prototype.indicateProgress = function(min, max, current, digits) {
 
 
@@ -417,15 +435,17 @@ define([
             }
 
             if (this.icon) {
-                this.icon.setIconProgressState(min, max, current%max);
+                this.icon.setIconProgressState(min, max, current);
                 this.updateIconPosition();
             }
 
         };
 
         GuiWidget.prototype.enableWidgetInteraction = function() {
-            this.interactive = true;
-            GuiAPI.registerInteractiveGuiElement(this.guiSurface);
+            if (!this.interactive) {
+                this.interactive = true;
+                GuiAPI.registerInteractiveGuiElement(this.guiSurface);
+            }
         };
 
         GuiWidget.prototype.disableWidgetInteraction = function() {

@@ -125,6 +125,14 @@ define([
 
         };
 
+        MainWorldAPI.addWorldUpdateCallback = function(callback) {
+            worldSimulation.addWorldStepCallback(callback);
+        };
+
+        MainWorldAPI.removeWorldUpdateCallback = function(callback) {
+            worldSimulation.removeWorldStepCallback(callback);
+        };
+
         MainWorldAPI.getWorldSimulation = function() {
             return worldSimulation;
         };

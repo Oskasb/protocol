@@ -32,6 +32,7 @@ define([
         var addEntities = [];
 
         var worldSimulation;
+        var worldUdateCallbacks = [];
 
         var WorldSimulation = function() {
             this.worldCamera = new WorldCamera();
@@ -128,6 +129,27 @@ define([
 
         };
 
+        WorldSimulation.prototype.addWorldStepCallback = function(callback) {
+            if (worldUdateCallbacks.indexOf(callback) === -1) {
+                worldUdateCallbacks.push(callback);
+            } else {
+                console.log("worldUdateCallbacks already contains", [callback])
+            }
+        };
+
+        WorldSimulation.prototype.removeWorldStepCallback = function(callback) {
+            MATH.quickSplice(worldUdateCallbacks, callback);
+        };
+
+        var cbs;
+        WorldSimulation.prototype.triggerWorldCallbacks = function(tpf, time) {
+
+            for (cbs = 0; cbs < worldUdateCallbacks.length; cbs++) {
+                worldUdateCallbacks[cbs](tpf, time);
+            }
+
+        };
+
         WorldSimulation.prototype.tickWorldSimulation = function(tpf, time) {
 
             this.worldCamera.tickWorldCamera(tpf);
@@ -146,7 +168,7 @@ define([
 
             }
 
-
+            this.triggerWorldCallbacks(tpf, time);
 
         };
 

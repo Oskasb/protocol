@@ -60,6 +60,10 @@ define([
 
         GuiString.prototype.setString = function(string, guiSysId) {
 
+            if (!string) {
+                this.recoverGuiString();
+                return;
+            }
 
 
             if (typeof(string) === 'number') {

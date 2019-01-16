@@ -21,16 +21,16 @@
                 "text":   {"x":0.5, "y": 0.15, "fontsize": 8},
                 "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.0, "z":  0.0},
-                "size":   {"x":0.12, "y":0.12,"z":  0.0}
+                "size":   {"x":0.095, "y":0.095,"z":  0.0}
               }
             },
             {
               "id":"layout_progress_action_button",
               "config": {
-                "text":   {"x":0.5, "y":0.55, "fontsize": 8},
+                "text":   {"x":0.5, "y":0.55, "fontsize": 14},
                 "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"center":true},
-                "size":   {"x":0.099, "y":0.099,"z":  0.0}
+                "size":   {"x":0.074, "y":0.074,"z":  0.0}
               }
             },
             {
@@ -94,6 +94,33 @@
                 "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.0, "z":  0.0},
                 "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 3, "pad": 0.005, "gridx": 1, "gridy":-1}
+              }
+            },
+            {
+              "id":"layout_progress_action_points",
+              "config": {
+                "text":   {"x":0.5, "y":0.15, "fontsize": 4},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":0.08, "y":0.05,"z":  0.0}
+              }
+            },
+            {
+              "id":"layout_action_point_container",
+              "config": {
+                "text":   {"x":1.0, "y":0.0, "fontsize": 8},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.75,"z":  0.0},
+                "size":   {"x":0.3, "y":0.02,"z":  0.0}
+              }
+            },
+            {
+              "id":"layout_action_point",
+              "config": {
+                "text":   {"x":1.0, "y":0.0, "fontsize": 8},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.75,"z":  0.0},
+                "size":   {"x":0.03, "y":0.03,"z":  0.0}
               }
             }
           ]

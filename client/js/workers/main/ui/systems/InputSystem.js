@@ -160,11 +160,15 @@ define([
         };
 
         InputSystem.prototype.registerInteractiveSurfaceElement = function(surfaceElement) {
-            this.surfaceElements.push(surfaceElement);
+            if (this.surfaceElements.indexOf(surfaceElement) === -1) {
+                this.surfaceElements.push(surfaceElement);
+            } else {
+                console.log("Element already registered")
+            }
         };
 
         InputSystem.prototype.unregisterInteractiveSurfaceElement = function(surfaceElement) {
-            this.surfaceElements.splice(this.surfaceElements.indexOf(surfaceElement), 1);
+            MATH.quickSplice(this.surfaceElements, surfaceElement);
         };
 
         InputSystem.prototype.setAttribXYZ = function(name, index, x, y, z) {

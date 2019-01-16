@@ -7,6 +7,29 @@
           "id": "STANDARD_WIDGETS",
           "data": [
             {
+              "id":"widget_action_point_container",
+              "layout":"layout_action_point_container",
+              "icon": {
+                "icon_config": "progress_horizontal_action_point_status",
+                "feedback": "feedback_icon_action_status_progress"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_action_status_container",
+                "feedback": "feedback_button_action"
+              }
+            },            {
+              "id":"widget_action_point",
+              "layout":"layout_action_point",
+              "icon": {
+                "icon_config": "progress_vertical_action_point",
+                "feedback": "feedback_icon_action_status_progress"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_action_status_container",
+                "feedback": "feedback_button_action"
+              }
+            },
+            {
               "id":"widget_action_button",
               "layout":"layout_action_button",
               "text": {

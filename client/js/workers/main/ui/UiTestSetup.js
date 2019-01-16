@@ -336,16 +336,10 @@ define([
 
             console.log("Add Action Button", inputIndex);
 
-            var action = {
-                name:"Test it",
-                icon:"fire"
-            };
-
-
             var attachAction = function() {
 
                 console.log("Attach Action Button action...", inputIndex);
-                actionButton.attachActionToButton(action);
+                actionButton.attachActionToButton(actionButton.getDummyAction());
             };
 
 

@@ -388,20 +388,25 @@ define([
 
         var progString = '';
 
+        GuiWidget.prototype.setFirstSTringText = function(string) {
+
+            if (this.text.guiStrings.length) {
+                if (this.text.guiStrings[0].string !== string) {
+                    this.text.guiStrings[0].setString(string, this.text.uiSysKey);
+                    this.updateTextPositions();
+                }
+            } else {
+                this.printWidgetText(string);
+            }
+        };
+
         GuiWidget.prototype.indicateProgress = function(min, max, current, digits) {
 
 
             if (this.text) {
 
-                progString = parseFloat((current%max).toFixed(digits)).toLocaleString().replace(/\.([0-9])$/, ".$10")
-
-
-                if (this.text.guiStrings.length) {
-                    this.text.guiStrings[0].setString(progString, this.text.uiSysKey);
-                    this.updateTextPositions();
-                } else {
-                    this.printWidgetText(progString);
-                }
+                progString = parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$1")
+                this.setFirstSTringText(progString)
 
             }
 

@@ -47,8 +47,8 @@
             {
               "id":"progress_vertical_actionbutton",
               "config": {
-                "innersize": { "x":0.95,  "y":0.9, "z": 0},
-                "offset":    { "x":0.5, "y":0.05,  "z": 0},
+                "innersize": { "x":0.9, "y":1.0, "z": 0},
+                "offset":    { "x":0.5, "y":0.0, "z": 0},
                 "atlas_key": "GUI_16x16",
                 "stretch": true,
                 "progress": {"axis": "up", "alts": ["up", "down", "left", "right"]}

@@ -31,7 +31,7 @@
               },
               "icon": {
                 "icon_config": "progress_vertical_actionbutton",
-                "feedback": "feedback_icon_action"
+                "feedback": "feedback_icon_action_progress"
               },
               "surface": {
                 "nineslice": "nineslice_surface_action_button",

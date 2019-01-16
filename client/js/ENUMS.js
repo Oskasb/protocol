@@ -249,6 +249,16 @@ if(typeof(ENUMS) === "undefined"){
 
     };
 
+    ENUMS.ActionState = {
+        UNAVAILABLE:      0,
+        AVAILABLE:        1,
+        ACTIVATING:       2,
+        ACTIVE:           3,
+        ON_COOLDOWN:      4,
+        ENABLED:          5,
+        DISABLED:         6
+    };
+
     ENUMS.ElementState = {
         NONE:             0,
         HOVER:            1,

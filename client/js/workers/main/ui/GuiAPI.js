@@ -81,7 +81,6 @@ define([
 
             loadUiConfig("ICON_ELEMENTS", "GUI_16x16");
             loadUiConfig("SURFACE_LAYOUT", "SURFACES");
-            loadUiConfig("TEXT_LAYOUT", "TEXTS");
 
             loadUiConfig("WIDGET", "STANDARD_WIDGETS");
 
@@ -140,6 +139,7 @@ define([
             for (var key in guiBuffers) {
                 guiBuffers[key].updateGuiBuffer()
             }
+            GuiBuffers.monitorBufferStats();
         };
 
         GuiAPI.buildBufferElement = function(uiSysKey, cb) {

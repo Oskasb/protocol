@@ -13,13 +13,17 @@ define([
         };
 
 
-        GuiSimpleButton.prototype.initSimpleButton = function(widgetConfig, onActivate, onReady, pos) {
+        GuiSimpleButton.prototype.initSimpleButton = function(widgetConfig, onActivate, onReady, pos, testActive) {
             this.guiWidget = new GuiWidget(widgetConfig);
 
             var buttonReady = function(widget) {
                 widget.enableWidgetInteraction();
                 onReady(widget)
             };
+
+            if (typeof(testActive) === 'function') {
+                this.guiWidget.addTestActiveCallback(testActive);
+            }
 
             this.guiWidget.initGuiWidget(pos, buttonReady);
             this.guiWidget.addOnActiaveCallback(onActivate);

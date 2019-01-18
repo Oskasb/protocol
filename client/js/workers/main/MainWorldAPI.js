@@ -23,6 +23,8 @@ define([
 
         var uiSetup = new UiSetup();
 
+        var stats = {};
+
         MainWorldAPI = function() {};
 
 
@@ -70,19 +72,26 @@ define([
 
         var samples = 0;
 
+        var pollingOn = false;
         var speedPoll;
 
         var sampleInput = function() {
             GuiAPI.sampleInputState(sharedBuffers[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)][0]);
 
             if (samples > 10) {
+                console.log("--> clear ui sample loop");
                 clearInterval(speedPoll);
                 samples = 0;
+                pollingOn = false;
                 return;
             }
 
-            if (samples === 1) {
-                speedPoll = setInterval(sampleInput, 10)
+            if (samples === 0) {
+                if (!pollingOn) {
+                    console.log("++> start ui sample loop");
+                    pollingOn = true;
+                    speedPoll = setInterval(sampleInput, 10)
+                }
             }
 
             samples++;
@@ -99,14 +108,12 @@ define([
             evt.initEventFrame(frame);
             postMessage(frameEndMsg);
 
-            samples++;
+            samples = 0;
             sampleInput();
 
             GuiAPI.updateGui(tpf, time);
 
             worldSimulation.tickWorldSimulation(tpf, time);
-
-
 
         };
 
@@ -151,6 +158,14 @@ define([
 
         MainWorldAPI.postToRender = function(message) {
             postMessage(message)
+        };
+
+        MainWorldAPI.trackStat = function(key, value) {
+                stats[key] = value;
+        };
+
+        MainWorldAPI.sampleStat = function(key) {
+            return stats[key];
         };
 
         return MainWorldAPI;

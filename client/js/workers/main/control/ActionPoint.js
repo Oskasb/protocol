@@ -19,7 +19,7 @@ define([
                 currentTime:0,
                 currentProgress:0,
                 refillRate:1,
-                timeToFill:2.5,
+                timeToFill:1.5,
                 timeToFade:0.8,
                 actionReady:false,
                 consumed:false

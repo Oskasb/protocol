@@ -22,7 +22,7 @@
               "layout":"layout_action_point",
               "icon": {
                 "icon_config": "progress_vertical_action_point",
-                "feedback": "feedback_icon_action_status_progress"
+                "feedback": "feedback_icon_action_point_progress"
               },
               "surface": {
                 "nineslice": "nineslice_surface_action_status_container",
@@ -142,11 +142,43 @@
               }
             },
             {
+              "id":"widget_stats_container",
+              "layout":"layout_stats_container",
+              "surface": {
+                "nineslice": "nineslice_surface_debug",
+                "feedback": "feedback_surface_container"
+              }
+            },
+            {
               "id":"widget_expanding_container",
               "layout":"layout_expanding_container",
               "surface": {
                 "nineslice": "nineslice_surface_debug",
                 "feedback": "feedback_surface_container"
+              }
+            },
+            {
+              "id":"widget_stats_key_box",
+              "layout":"layout_stats_key_box",
+              "text": {
+                "sprite_font": "sprite_font_debug",
+                "feedback": "feedback_debug_text"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_small_text",
+                "feedback": "feedback_surface_stat_label"
+              }
+            },
+            {
+              "id":"widget_stats_value_box",
+              "layout":"layout_stats_value_box",
+              "text": {
+                "sprite_font": "sprite_font_debug",
+                "feedback": "feedback_debug_text"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_small_text",
+                "feedback": "feedback_surface_stat_label"
               }
             },
             {

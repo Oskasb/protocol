@@ -26,10 +26,7 @@ define([
 
         GuiExpandingContainer.prototype.removeGuiWidget = function() {
 
-            while (this.guiWidget.children.length) {
-                this.guiWidget.children.pop().recoverGuiWidget();
-            }
-
+            this.guiWidget.removeChildren();
             this.guiWidget.recoverGuiWidget();
         };
 

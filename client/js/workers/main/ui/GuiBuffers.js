@@ -35,6 +35,7 @@ define([
             "texelRowSelect"
         ];
 
+
         var GuiBuffers = function(uiSysKey, assetId, elementCount, renderOrder) {
             this.highestRenderingIndex = 0;
             this.activeCount = 0;
@@ -165,13 +166,20 @@ define([
             }
         };
 
+
+
         GuiBuffers.prototype.updateGuiBuffer = function() {
 
             var releasedIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
+
+            relCount+=releasedIndices.length;
+
             this.updateReleaseIndices(releasedIndices);
             var cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
             this.updateCleanupIndices(cleanupIndices);
             this.updateActiveCount();
+
+            actCount+=  this.activeCount;
 
         };
 
@@ -219,6 +227,8 @@ define([
 
         var availableIndex;
 
+
+
         GuiBuffers.prototype.getAvailableIndex = function() {
 
             availableIndex = this.drawFromAvailableIndex();
@@ -246,9 +256,24 @@ define([
             return this.elementBook[state];
         };
 
+
         GuiBuffers.prototype.registerElement = function(guiElement) {
+            adds++;
             this.activeCount++;
             this.activeElements[guiElement.index] = guiElement;
+        };
+
+        var adds = 0;
+        var relCount = 0;
+        var actCount = 0;
+
+        GuiBuffers.monitorBufferStats = function() {
+            MainWorldAPI.trackStat('gui_releases', relCount);
+            MainWorldAPI.trackStat('gui_active', actCount);
+            MainWorldAPI.trackStat('gui_adds', adds);
+            relCount = 0;
+            actCount = 0;
+            adds = 0;
         };
 
         return GuiBuffers;

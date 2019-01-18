@@ -15,6 +15,16 @@ define([
         var progWidgetId = 'widget_action_button_progress';
         var progressIcon = 'progress_horizontal';
 
+
+        var stateFeedbackMap = {};
+        stateFeedbackMap[ENUMS.ActionState.DISABLED      ] = ENUMS.ElementState.DISABLED     ;
+        stateFeedbackMap[ENUMS.ActionState.UNAVAILABLE   ] = ENUMS.ElementState.DISABLED     ;
+        stateFeedbackMap[ENUMS.ActionState.AVAILABLE     ] = ENUMS.ElementState.ACTIVE       ;
+        stateFeedbackMap[ENUMS.ActionState.ACTIVATING    ] = ENUMS.ElementState.NONE         ;
+        stateFeedbackMap[ENUMS.ActionState.ACTIVE        ] = ENUMS.ElementState.ACTIVE_PRESS ;
+        stateFeedbackMap[ENUMS.ActionState.ON_COOLDOWN   ] = ENUMS.ElementState.DISABLED     ;
+        stateFeedbackMap[ENUMS.ActionState.ENABLED       ] = ENUMS.ElementState.ACTIVE       ;
+
         var tempVec1 = new THREE.Vector3();
 
         var GuiActionPointStatus = function() {
@@ -103,9 +113,11 @@ define([
 
             var guiAP = this.getGuiActionPointForActionPoint(actionPoint, this.guiActionPoints);
 
+            var size = this.guiWidget.size;
+
             if (guiAP) {
                 var posFrac = MATH.calcFraction(0, count, actionPoint.index +0.5) - 0.5;
-                tempVec1.set(0.4 * posFrac, 0.03 * Math.cos(posFrac*3.145) + 0.01, 0);
+                tempVec1.set( posFrac * size.x - size.x*0.5, size.y * Math.cos(posFrac*3.145) + size.y, 0);
                 this.updateActionPointGui(guiAP, actionPoint, tpf, tempVec1);
 
             } else {
@@ -179,7 +191,7 @@ define([
         GuiActionPointStatus.prototype.updateActionPointStatus = function(aps, tpf) {
             this.updateActionPoints(aps, tpf);
             this.guiWidget.indicateProgress(0, aps.getTimePerPoint(), aps.getCurrentProgress(), 1);
-
+            this.guiWidget.setWidgetInteractiveState(stateFeedbackMap[aps.getApsState()]);
 
             if (Math.random() < 0.02) {
                 aps.consumeActionPoints( Math.floor(Math.random() * (aps.countReadyActionPoints() ) ) );

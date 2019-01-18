@@ -7,10 +7,10 @@
           "id": "ICON",
           "data": [
             {
-              "id":"feedback_icon_action_status_progress",
+              "id":"feedback_icon_action_point_progress",
               "config": {
                 "NONE": {
-                  "color_rgba": {"r": 0.85, "g": 0.74, "b": 0.15, "a": 1.0}
+                  "color_rgba": {"r": 0.2, "g": 0.64, "b": 0.99, "a": 1.0}
                 },
                 "HOVER": {
                   "color_rgba": {"r": 0.05, "g": 0.74, "b": 0.85, "a": 0.6}
@@ -19,13 +19,39 @@
                   "color_rgba": {"r": 0.99, "g": 0.80, "b": 0.55, "a": 0.6}
                 },
                 "ACTIVE": {
-                  "color_rgba": {"r": 0.01, "g": 0.54, "b": 0.65, "a": 0.6}
+                  "color_rgba": {"r": 0.61, "g": 0.94, "b": 1.0, "a": 1.0}
                 },
                 "ACTIVE_HOVER": {
                   "color_rgba": {"r": 0.99, "g": 0.95, "b": 0.81, "a": 0.6}
                 },
                 "ACTIVE_PRESS": {
                   "color_rgba": {"r": 0.35, "g": 0.74, "b": 0.99, "a": 0.6}
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 0.45, "g": 0.25, "b": 0.25, "a": 0.6}
+                }
+              }
+            },
+            {
+              "id":"feedback_icon_action_status_progress",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.01, "g": 0.6,  "b": 0.9,  "a": 1.0}
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.05, "g": 0.74, "b": 0.85, "a": 0.6}
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.99, "g": 0.80, "b": 0.55, "a": 0.6}
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.01, "g": 0.6,  "b": 0.9, "a": 1.0}
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.95, "b": 0.81, "a": 0.6}
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.05, "g": 0.74, "b": 0.99, "a": 0.6}
                 },
                 "DISABLED": {
                   "color_rgba": {"r": 0.45, "g": 0.25, "b": 0.25, "a": 0.6}

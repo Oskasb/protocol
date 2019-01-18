@@ -23,6 +23,10 @@ define([
             "asset_tree_4"
         ];
 
+        var worldStatus = {
+            randomSpawn:false
+        };
+
 
         var registeredAssets = {};
         var assetIndex = [];
@@ -39,16 +43,27 @@ define([
             worldSimulation = this;
         };
 
+        WorldSimulation.prototype.getWorldStatus = function() {
+            return worldStatus;
+        };
+
+        WorldSimulation.prototype.readWorldStatusValue = function(key) {
+            return worldStatus[key];
+        };
+
         WorldSimulation.prototype.initAssetsList = function(list) {
             for (var i = 0; i < list.length; i++) {
                 this.requestRenderableAsset(list[i])
             }
         };
 
+        WorldSimulation.prototype.loadPossibleAssets = function() {
+            this.initAssetsList(possibleModelAssets);
+        };
+
         WorldSimulation.prototype.startWorldSystem = function(cameraAspect) {
             this.worldCamera.getCamera().aspect = cameraAspect;
             GuiAPI.setCameraAspect(cameraAspect);
-            this.initAssetsList(possibleModelAssets);
         };
 
 
@@ -93,11 +108,11 @@ define([
         };
 
         var e;
+
         WorldSimulation.prototype.addNewEntities = function(time) {
             while (addEntities.length) {
                 e = addEntities.pop();
                 e.initWorldEntity(time);
-
 
                 worldEntities.push(e);
 
@@ -115,7 +130,6 @@ define([
                         }
                     }
                 }
-
             }
         };
 
@@ -142,17 +156,23 @@ define([
         };
 
         var cbs;
+
         WorldSimulation.prototype.triggerWorldCallbacks = function(tpf, time) {
 
             for (cbs = 0; cbs < worldUdateCallbacks.length; cbs++) {
                 worldUdateCallbacks[cbs](tpf, time);
             }
-
         };
 
-        WorldSimulation.prototype.tickWorldSimulation = function(tpf, time) {
+        var assetsInitiated = false;
 
-            this.worldCamera.tickWorldCamera(tpf);
+        WorldSimulation.prototype.randomSpawnSpam = function(time) {
+
+            if (!assetsInitiated) {
+                this.loadPossibleAssets();
+                assetsInitiated = true;
+                return;
+            }
 
             this.addNewEntities(time);
 
@@ -166,6 +186,15 @@ define([
                 this.spamRandomAssets();
             } else {
 
+            }
+        };
+
+        WorldSimulation.prototype.tickWorldSimulation = function(tpf, time) {
+
+            this.worldCamera.tickWorldCamera(tpf);
+
+            if (this.readWorldStatusValue('randomSpawn')) {
+                this.randomSpawnSpam(time);
             }
 
             this.triggerWorldCallbacks(tpf, time);

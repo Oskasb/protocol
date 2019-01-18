@@ -1,6 +1,7 @@
 "use strict";
 
 define([
+        'client/js/workers/main/ui/widgets/GuiStatsPanel',
         'client/js/workers/main/ui/widgets/GuiActionPointStatus',
         'client/js/workers/main/ui/widgets/GuiActionButton',
         'client/js/workers/main/ui/widgets/GuiSimpleButton',
@@ -11,6 +12,7 @@ define([
         'client/js/workers/main/ui/widgets/GuiProgressBar'
     ],
     function(
+        GuiStatsPanel,
         GuiActionPointStatus,
         GuiActionButton,
         GuiSimpleButton,
@@ -93,12 +95,51 @@ define([
 
         };
 
+        var statsPanel;
+        var addStatsPanel = function() {
+            if (statsPanel) {
+                statsPanel.removeGuiWidget();
+                statsPanel = null;
+            } else {
+                statsPanel = new GuiStatsPanel();
+
+                var sampleTpf = function(key, cb) {
+                    cb(key, MainWorldAPI.getTpf())
+                };
+
+                var sampleAdds = function(key, cb) {
+                    cb(key, MainWorldAPI.sampleStat('gui_adds'))
+                };
+
+                var sampleReleases = function(key, cb) {
+                    cb(key, MainWorldAPI.sampleStat('gui_releases'))
+                };
+
+                var sampleActives = function(key, cb) {
+                    cb(key, MainWorldAPI.sampleStat('gui_active'))
+                };
+
+                var statsOnReady = function(widget) {
+
+                    widget.setPosition(tempVec1);
+                    statsPanel.addTrackStatFunction({key:'TPF', callback:sampleTpf, unit:'s', digits:3});
+                    statsPanel.addTrackStatFunction({key:'G_ADD', callback:sampleReleases, unit:'', digits:0});
+                    statsPanel.addTrackStatFunction({key:'G_REL', callback:sampleReleases, unit:'', digits:0});
+                    statsPanel.addTrackStatFunction({key:'G_ACT', callback:sampleActives, unit:'', digits:0});
+                };
+
+                tempVec1.set(0.47, 0.30, 0);
+                statsPanel.initStatsPanel('widget_stats_container',statsOnReady, tempVec1)
+            }
+
+        };
+
         UiTestSetup.prototype.initUiTestSetup = function() {
 
-            tempVec1.set(0.3, 0.35, 0);
+            tempVec1.set(0.2, 0.35, 0);
 
             var widgetReady = function(widget) {
-                widget.printWidgetText('TEST UI')
+                widget.printWidgetText('TESTS')
             };
 
             var testActive = function(widget) {
@@ -106,8 +147,21 @@ define([
             };
 
             this.mainButton = new GuiSimpleButton();
-            this.mainButton.initSimpleButton('button_big_blue', this.callbacks.toggleTestUi, widgetReady, tempVec1 )
-            this.mainButton.setTestActiveCallback(testActive);
+            this.mainButton.initSimpleButton('button_big_blue', this.callbacks.toggleTestUi, widgetReady, tempVec1, testActive )
+
+
+            var statsReady = function(widget) {
+                widget.printWidgetText('STATS')
+            };
+
+            var statsActive = function(widget) {
+                return statsPanel;
+            };
+
+            tempVec1.x += 0.11;
+
+            this.statsButton = new GuiSimpleButton();
+            this.statsButton.initSimpleButton('button_big_blue', addStatsPanel, statsReady, tempVec1, statsActive )
 
         };
 
@@ -117,13 +171,15 @@ define([
 
             var onReady = function(widget) {
                 widget.printWidgetText(lbl)
+                container.addChildWidgetToContainer(widget);
             };
 
             var button =  new GuiSimpleButton();
-            button.initSimpleButton('button_big_blue', onActivate, onReady, tempVec1 );
-            if (testActive) {
-                button.setTestActiveCallback(testActive);
-            }
+
+            button.initSimpleButton('button_big_blue', onActivate, onReady, null, testActive);
+       //     if (testActive) {
+       //         button.setTestActiveCallback(testActive);
+       //     }
 
             testButtons.push(button);
 
@@ -134,10 +190,28 @@ define([
 
         UiTestSetup.prototype.addTestButtons = function() {
 
+            this.addContainer();
+
+
+
             tempVec1.set(0.35, 0.29, 0);
+
+
+            var spamActive = function() {
+                return MainWorldAPI.getWorldSimulation().readWorldStatusValue('randomSpawn');
+            };
+
+            var spawnSpam = function() {
+                var wstatus = MainWorldAPI.getWorldSimulation().getWorldStatus();
+                wstatus.randomSpawn = !wstatus.randomSpawn
+            };
+
+            addTopButton('SPAWN', spawnSpam, spamActive);
+
 
             addTopButton('Prg Bar', this.callbacks.addProgressBar, null);
             addTopButton('txtbox', this.callbacks.addTextBox, null);
+
 
 
             var matrixActive = function() {
@@ -146,7 +220,7 @@ define([
                 }
             };
 
-            addTopButton('MATRIX', this.callbacks.addTextBox, matrixActive);
+            addTopButton('MATRIX', this.callbacks.addMatrixText, matrixActive);
 
 
             var stickActive = function() {
@@ -155,16 +229,10 @@ define([
                 }
             };
 
-            addTopButton('STICK', this.callbacks.addThumbstick, matrixActive);
+            addTopButton('STICK', this.callbacks.addThumbstick, stickActive);
 
 
-            var contActive = function() {
-                if (container) {
-                    return true;
-                }
-            };
 
-            addTopButton('CONT', this.callbacks.addThumbstick, contActive);
 
 
             var abPresent = function() {
@@ -277,42 +345,18 @@ define([
 
             console.log("Add Container", inputIndex);
 
-            var nr = 0;
-
-            var includeButton = function() {
-
-                var bxReady = function(widget) {
-                    nr++
-                    widget.printWidgetText('ch '+nr)
-                    container.addChildWidgetToContainer(widget);
-                };
-
-                var button =  new GuiSimpleButton();
-                button.initSimpleButton('button_sharp_blue', includeButton, bxReady);
-
-            };
-
-
             if (!container) {
 
                 var onReady = function(widget) {
-                    tempVec1.set(0.0, 0.0, 0);
+                    tempVec1.set(0.3, 0.33, 0);
                     widget.setPosition(tempVec1)
-                    includeButton();
+                //    includeButton();
                 };
 
                 container = new GuiExpandingContainer();
                 container.initExpandingContainer('widget_expanding_container', onReady);
-
-            } else {
-                if (container) {
-                    container.removeGuiWidget();
-                    container = null
-                }
             }
-
         };
-
 
 
 
@@ -399,16 +443,16 @@ define([
             this.addTestButtons();
 
             console.log("Open test Ui");
-
         };
 
         UiTestSetup.prototype.closeTestUi = function() {
 
-            testUiActive = false;
-
-            while (testButtons.length) {
-                testButtons.pop().removeGuiWidget();
+            if (!testUiActive) {
+                console.log("Not active");
+                return;
             }
+
+            testUiActive = false;
 
             while (progressBars.length) {
                 progressBars.pop().removeGuiWidget();
@@ -423,20 +467,12 @@ define([
                 matrixText = null
             }
 
-        //    if (thumbstick) {
-        //        thumbstick.removeGuiWidget();
-        //        thumbstick = null
-        //    }
-
             if (container) {
                 container.removeGuiWidget();
                 container = null
             }
 
         };
-
-
-
 
 
 

@@ -29,9 +29,20 @@
               }
             },
             {
+              "id":"nineslice_surface_small_text",
+              "config": {
+                "padding": { "x":0.0015, "y":0.0005},
+                "image": {
+                  "layer": "UI_ELEMENTS_BACK",
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.45, "y": 0.08}
+                }
+              }
+            },
+            {
               "id":"nineslice_surface_debug",
               "config": {
-                "padding": { "x":0.0, "y":0.0},
+                "padding": { "x":0.004, "y":0.004},
                 "image": {
                   "layer": "UI_ELEMENTS_BACK",
                   "atlas_key": "GUI_16x16",

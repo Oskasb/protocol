@@ -22,7 +22,8 @@ define([
                 currentTime:0,
                 currentProgress:0,
                 refillRate:1,
-                timePerPoint:1.5
+                timePerPoint:0.25,
+                state:ENUMS.ActionState.DISABLED
             };
 
             this.actionPoints = [];
@@ -79,6 +80,7 @@ define([
                 if (this.actionPoints.length >= this.status.maxActionPoints) {
                     this.status.currentProgress = this.status.timePerPoint;
                     this.status.currentTime = this.status.timePerPoint;
+                    this.setApsState(ENUMS.ActionState.ENABLED);
                     return;
                 }
 
@@ -86,7 +88,11 @@ define([
 
                 if (this.actionPoints.length <= this.status.maxActionPoints) {
                     this.addActionPoint(this.actionPoints);
+                } else {
+                    this.setApsState(ENUMS.ActionState.ACTIVE);
                 }
+            } else {
+                this.setApsState(ENUMS.ActionState.ACTIVATING);
             }
 
             this.status.currentProgress = this.status.currentTime;
@@ -136,6 +142,14 @@ define([
 
         ActionPointStatus.prototype.getMaxActionPoints = function() {
             return this.status.maxActionPoints;
+        };
+
+        ActionPointStatus.prototype.setApsState = function(state) {
+            this.status.state = state;
+        };
+
+        ActionPointStatus.prototype.getApsState = function() {
+            return this.status.state;
         };
 
         ActionPointStatus.prototype.countReadyActionPoints = function() {

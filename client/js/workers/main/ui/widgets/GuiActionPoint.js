@@ -8,6 +8,7 @@ define([
     ) {
 
         var progressIcon = 'progress_horizontal';
+        var readyIconKey = 'center_lit_square';
 
         var tempVec1 = new THREE.Vector3();
 
@@ -44,6 +45,9 @@ define([
             var containerReady = function(widget) {
                 widget.setWidgetIconKey(progressIcon);
                 onReady(widget);
+
+                widget.setWidgetInteractiveState(ENUMS.ElementState.NONE);
+
             }.bind(this);
 
             this.guiWidget.initGuiWidget(null, containerReady);
@@ -101,6 +105,7 @@ define([
                 this.movePprogress = this.currentTime / this.moveTime;
 
                 if (this.currentTime > this.moveTime) {
+
                     this.moving = false;
                     this.movePprogress = 1;
                 }
@@ -109,7 +114,18 @@ define([
             } else {
 
             }
-            
+
+            if (this.actionPoint.getActionPointIsConsumed()) {
+                this.guiWidget.setWidgetInteractiveState(ENUMS.ElementState.DISABLED);
+            } else if (this.actionPoint.getActionPointReady()) {
+                this.guiWidget.setWidgetInteractiveState(ENUMS.ElementState.ACTIVE);
+                this.guiWidget.setWidgetIconKey(readyIconKey);
+            } else {
+                this.guiWidget.setWidgetInteractiveState(ENUMS.ElementState.NONE);
+            }
+
+
+
             var progress = actionPoint.getActionPointProgress();
 
             if (progress !== this.lastProgress) {

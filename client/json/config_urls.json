@@ -11,7 +11,6 @@
       "ui/feedback/text_feedback.json"                      ,
       "ui/feedback/surface_feedback.json"                   ,
 
-      "ui/layout/text_layout.json"                          ,
       "ui/layout/surface_layout.json"                       ,
 
       "ui/widgets/standard_widgets.json"                    ,

@@ -40,10 +40,15 @@ define([
             var addSurfaceCb = function(bufferElem) {
                 this.setBufferElement(bufferElem);
                 this.applySurfaceConfig();
+
                 callback(this)
             }.bind(this);
 
             GuiAPI.buildBufferElement(this.config.image.layer, addSurfaceCb);
+        };
+
+        GuiSurface.prototype.updateInterativeState = function() {
+            this.interactiveElement.applyActiveState();
         };
 
         GuiSurface.prototype.setFeedbackConfigId = function(feedbackConfigId) {

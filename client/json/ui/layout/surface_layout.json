@@ -36,10 +36,28 @@
             {
               "id":"layout_button_sharp",
               "config": {
-                "text":   {"x":0.5, "y": 0.5, "fontsize": 10},
+                "text":   {"x":1.0, "y": 0.5, "fontsize": 10},
                 "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.0, "z":  0.0},
                 "size":   {"x":0.10, "y":0.06,"z":  0.0}
+              }
+            },
+            {
+              "id":"layout_stats_key_box",
+              "config": {
+                "text":   {"x":0.0, "y":0.5, "fontsize": 7},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":0.06, "y":0.016,"z":  0.0}
+              }
+            },
+            {
+              "id":"layout_stats_value_box",
+              "config": {
+                "text":   {"x":1.0, "y":0.5, "fontsize": 7},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":0.06,"y":0.016,"z":  0.0}
               }
             },
             {
@@ -88,12 +106,21 @@
               }
             },
             {
+              "id":"layout_stats_container",
+              "config": {
+                "text":   {"x":1.0, "y":0.0, "fontsize": 8},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 2, "pad": 0.0, "gridx": 1, "gridy":-1}
+              }
+            },
+            {
               "id":"layout_expanding_container",
               "config": {
                 "text":   {"x":1.0, "y":0.0, "fontsize": 8},
                 "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.0, "z":  0.0},
-                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 3, "pad": 0.005, "gridx": 1, "gridy":-1}
+                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 4, "pad": 0.005, "gridx": -1, "gridy":-1}
               }
             },
             {
@@ -118,9 +145,9 @@
               "id":"layout_action_point",
               "config": {
                 "text":   {"x":1.0, "y":0.0, "fontsize": 8},
-                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "anchor": {"x":0.5, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.75,"z":  0.0},
-                "size":   {"x":0.03, "y":0.03,"z":  0.0}
+                "size":   {"x":0.02, "y":0.02,"z":  0.0}
               }
             }
           ]

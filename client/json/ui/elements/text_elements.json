@@ -25,9 +25,9 @@
             {
               "id":"sprite_font_debug",
               "config": {
-                "letter_width": 0.0012,
-                "letter_height": 0.0020,
-                "row_spacing": 0.000001
+                "letter_width": 0.0011,
+                "letter_height": 0.0025,
+                "row_spacing": 0.00000001
               }
             }
           ]

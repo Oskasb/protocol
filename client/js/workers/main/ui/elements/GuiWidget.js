@@ -103,6 +103,7 @@ define([
                     this.guiSurface.setTestActiveCallback(this.callbacks.testWidgetIsActive);
                     this.updateWidgetStateFeedback();
                     this.setPosition(this.originalPosition);
+                    this.guiSurface.updateInterativeState();
                     if (typeof (cb) === 'function') {
                         cb(this);
                     }
@@ -353,9 +354,16 @@ define([
         };
 
         GuiWidget.prototype.removeChild = function(guiWidget) {
+            guiWidget.parent = null;
             MATH.quickSplice(this.children, guiWidget);
         };
 
+
+        GuiWidget.prototype.removeChildren = function() {
+            while (this.children.length) {
+               this.children.pop().recoverGuiWidget();
+            }
+        };
 
         GuiWidget.prototype.addChild = function(guiWidget) {
             if (guiWidget.parent) {

@@ -29,12 +29,13 @@ define([
             var textSysCb = function() {
                 callback();
             };
-
             var inputReady = function() {
+
                 GuiAPI.getTextSystem().initTextSystem(textSysCb);
             };
 
             GuiAPI.getInputSystem().initInputSystem(inputReady);
+
         };
 
 

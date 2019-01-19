@@ -1,15 +1,15 @@
 "use strict";
 
 define([
-        'client/js/workers/main/ui/widgets/GuiStatsPanel',
-        'client/js/workers/main/ui/widgets/GuiActionPointStatus',
-        'client/js/workers/main/ui/widgets/GuiActionButton',
-        'client/js/workers/main/ui/widgets/GuiSimpleButton',
-        'client/js/workers/main/ui/widgets/GuiExpandingContainer',
-        'client/js/workers/main/ui/widgets/GuiThumbstick',
-        'client/js/workers/main/ui/widgets/GuiTextBox',
-        'client/js/workers/main/ui/widgets/GuiScreenSpaceText',
-        'client/js/workers/main/ui/widgets/GuiProgressBar'
+        'ui/widgets/GuiStatsPanel',
+        'ui/widgets/GuiActionPointStatus',
+        'ui/widgets/GuiActionButton',
+        'ui/widgets/GuiSimpleButton',
+        'ui/widgets/GuiExpandingContainer',
+        'ui/widgets/GuiThumbstick',
+        'ui/widgets/GuiTextBox',
+        'ui/widgets/GuiScreenSpaceText',
+        'ui/widgets/GuiProgressBar'
     ],
     function(
         GuiStatsPanel,
@@ -75,7 +75,7 @@ define([
             }.bind(this);
 
             var toggleTestUi = function(inputIndex) {
-                console.log("Button: ", inputIndex);
+            //    console.log("Button: ", inputIndex);
                 if (testUiActive) {
                     this.closeTestUi();
                 } else {
@@ -145,74 +145,73 @@ define([
 
         UiTestSetup.prototype.initUiTestSetup = function() {
 
+            GuiAPI.printDebugText("INIT TEST UI");
 
+            var buttonReady = function(button) {
+                mainButton = button;
 
-            var widgetReady = function(widget) {
-
-                tempVec1.set(-0.30, -0.05, 0);
-                widget.attachToAnchor('top_right');
-                widget.offsetWidgetPosition(tempVec1);
-                widget.printWidgetText('TESTS');
-
+                setTimeout(function() {
+                    mainButton.pressButtonFromCode()
+                }, 0)
             };
 
             var testActive = function(widget) {
                 return testUiActive;
             };
 
-            this.mainButton = new GuiSimpleButton();
-            this.mainButton.initSimpleButton('button_big_blue', this.callbacks.toggleTestUi, widgetReady, null, testActive )
-            mainButton = this.mainButton;
+            var opts = GuiAPI.buildWidgetOptions(
+                'button_big_blue',
+                this.callbacks.toggleTestUi,
+                testActive,
+                true,
+                'TESTS',
+                -0.3,
+                -0.05,
+                'top_right'
+            );
 
-            var statsReady = function(widget) {
-                tempVec1.set(-0.12, -0.05, 0);
-                widget.attachToAnchor('top_right');
-                widget.offsetWidgetPosition(tempVec1);
+            GuiAPI.buildGuiWidget('GuiSimpleButton', opts, buttonReady);
 
-                widget.printWidgetText('STATS')
+            var statsReady = function(button) {
+                statsButton = button;
             };
 
             var statsActive = function(widget) {
                 return statsPanel;
             };
 
-            tempVec1.x += 0.11;
+            opts = GuiAPI.buildWidgetOptions(
+                'button_big_blue',
+                addStatsPanel,
+                statsActive,
+                true,
+                'STATS',
+                -0.12,
+                -0.05,
+                'top_right'
+            );
 
-            this.statsButton = new GuiSimpleButton();
-            this.statsButton.initSimpleButton('button_big_blue', addStatsPanel, statsReady, tempVec1, statsActive )
-            statsButton = this.statsButton;
+
+            GuiAPI.buildGuiWidget('GuiSimpleButton', opts, statsReady);
+
         };
 
-        var addTopButton = function(label, onActivate, testActive) {
-
-            var lbl = label;
+        var addTopButton = function(text, onActivate, testActive) {
 
             var onReady = function(widget) {
-                widget.printWidgetText(lbl)
-                container.addChildWidgetToContainer(widget);
+                container.addChildWidgetToContainer(widget.guiWidget);
             };
 
-            var button =  new GuiSimpleButton();
+            var opts = GuiAPI.buildWidgetOptions('button_big_blue', onActivate, testActive, true, text);
 
-            button.initSimpleButton('button_big_blue', onActivate, onReady, null, testActive);
-       //     if (testActive) {
-       //         button.setTestActiveCallback(testActive);
-       //     }
+            GuiAPI.buildGuiWidget('GuiSimpleButton', opts, onReady);
 
-            testButtons.push(button);
-
-            var distance = 0.09;
-            tempVec1.x -= distance;
         };
 
 
         UiTestSetup.prototype.addTestButtons = function() {
 
             this.addContainer();
-
-
-
-            tempVec1.set(0.35, 0.29, 0);
 
 
             var spamActive = function() {
@@ -226,11 +225,8 @@ define([
 
             addTopButton('SPAWN', spawnSpam, spamActive);
 
-
             addTopButton('Prg Bar', this.callbacks.addProgressBar, null);
             addTopButton('txtbox', this.callbacks.addTextBox, null);
-
-
 
             var matrixActive = function() {
                 if (matrixText) {
@@ -240,7 +236,6 @@ define([
 
             addTopButton('MATRIX', this.callbacks.addMatrixText, matrixActive);
 
-
             var stickActive = function() {
                 if (thumbstick) {
                     return true;
@@ -248,10 +243,6 @@ define([
             };
 
             addTopButton('STICK', this.callbacks.addThumbstick, stickActive);
-
-
-
-
 
             var abPresent = function() {
                 if (actionButtons.length) {
@@ -261,7 +252,6 @@ define([
 
             addTopButton('ACTION', this.callbacks.addActionButton, abPresent);
 
-
             var apsPresent = function() {
                 if (actionPointStatus) {
                     return true;
@@ -269,6 +259,9 @@ define([
             };
 
             addTopButton('APS', this.callbacks.addActionPointStatus, apsPresent);
+
+
+            addTopButton('PIECE', GameAPI.loadTestPiece, GameAPI.testPieceLoaded);
 
         };
 
@@ -297,19 +290,21 @@ define([
             tempVec1.set(0.25, -0.3, 0);
             tempVec1.y += textBoxes.length * 0.14;
 
-            var textBox = new GuiTextBox();
-
-            var onActivate = function(inputIndex, widget) {
-                if (textBox.activated) {
-                    textBox.deactivateTextBox()
-                } else {
-                    textBox.activateTextBox()
-                }
+            var onReady = function(textBox) {
+                textBox.updateTextContent("Text ready...")
+                textBoxes.push(textBox);
             };
 
-            textBox.initTextBox('main_text_box', onActivate, null, tempVec1)
-            textBoxes.push(textBox);
+            var onActivate = function(inputIndex, widget) {
+                widget.printWidgetText('pressed')
+            };
+
+            var opts = GuiAPI.buildWidgetOptions('main_text_box', onActivate, false, true, "TRY ME", tempVec1.x, tempVec1.y, false);
+
+            GuiAPI.buildGuiWidget('GuiTextBox', opts, onReady);
+
         };
+
 
         UiTestSetup.prototype.addMatrixText = function(inputIndex) {
 
@@ -335,6 +330,7 @@ define([
             }
 
         };
+
 
         UiTestSetup.prototype.addThumbstick = function(inputIndex) {
 
@@ -364,7 +360,7 @@ define([
         UiTestSetup.prototype.addContainer = function(inputIndex) {
 
 
-            console.log("Add Container", inputIndex);
+        //    console.log("Add Container", inputIndex);
 
             if (!container) {
 
@@ -387,20 +383,20 @@ define([
 
 
 
-            console.log("Add Action Button", inputIndex);
+        //    console.log("Add Action Button", inputIndex);
 
             var attachAction = function(ab) {
 
-                console.log("Attach Action Button action...", ab);
+            //    console.log("Attach Action Button action...", ab);
                 ab.attachActionToButton(ab.getDummyAction());
             };
 
             var sticks = [
-                new THREE.Vector3(-0.37, 0.08, 0),
-                new THREE.Vector3(-0.36, 0.19, 0),
-                new THREE.Vector3(-0.30, 0.30, 0),
-                new THREE.Vector3(-0.19, 0.33, 0),
-                new THREE.Vector3(-0.08, 0.34, 0)
+                new THREE.Vector3(-0.40, 0.08, 0),
+                new THREE.Vector3(-0.39, 0.19, 0),
+                new THREE.Vector3(-0.30, 0.28, 0),
+                new THREE.Vector3(-0.19, 0.30, 0),
+                new THREE.Vector3(-0.08, 0.31, 0)
 
             ];
 
@@ -467,7 +463,7 @@ define([
 
             this.addTestButtons();
 
-            console.log("Open test Ui");
+        //    console.log("Open test Ui");
         };
 
         UiTestSetup.prototype.closeTestUi = function() {

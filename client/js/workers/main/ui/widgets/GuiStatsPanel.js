@@ -9,7 +9,13 @@ define([
 
 
 
-        var GuiStatsPanel = function() {
+        var GuiStatsPanel = function(options) {
+
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
+
 
             this.samplers = [];
 

@@ -9,10 +9,12 @@ define([
 
 
 
-        var GuiExpandingContainer = function() {
+        var GuiExpandingContainer = function(options) {
 
-            this.sizeX = 0;
-            this.sizeY = 0;
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
 
         };
 

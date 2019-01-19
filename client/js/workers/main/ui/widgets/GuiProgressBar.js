@@ -8,7 +8,13 @@ define([
     ) {
 
 
-        var GuiProgressBar = function() {
+        var GuiProgressBar = function(options) {
+
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
+
             this.min = 0;
             this.max = 0;
             this.current = 0;

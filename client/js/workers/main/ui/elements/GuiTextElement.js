@@ -168,16 +168,17 @@ define([
 
         };
 
-
-        GuiTextElement.prototype.recoverTextElement = function() {
+        GuiTextElement.prototype.clearTextContent = function() {
 
             while (this.guiStrings.length) {
-
                 var guiString = this.guiStrings.shift();
                 guiString.recoverGuiString();
                 this.guiStringPool.returnToExpandingPool(guiString);
             }
+        };
 
+        GuiTextElement.prototype.recoverTextElement = function() {
+            this.clearTextContent();
         };
 
         return GuiTextElement;

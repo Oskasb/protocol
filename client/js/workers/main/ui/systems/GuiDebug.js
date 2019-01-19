@@ -12,6 +12,8 @@ define([
         var releaseElems = [];
         var frameDraws = 0;
 
+        var debugText;
+
         var sprite = {x:8, y:0, z:0.025, w:0.025};
         var scale  = {x:0.2, y:0.2, z:1.0};
         var pos  = {x:0, y:0, z:0.0};
@@ -66,6 +68,24 @@ define([
             reqElem(x, y);
         };
 
+        var holdIt = false
+        var setupDebugText = function() {
+            if (!GuiAPI.getAnchorWidget('bottom_left')) return;
+            if (holdIt) return;
+            holdIt = true;
+            var onReady = function(textBox) {
+                debugText = textBox;
+                textBox.updateTextContent("Text ready...")
+            };
+
+            var onActivate = function(inputIndex, widget) {
+                widget.text.clearTextContent()
+            };
+
+            var opts = GuiAPI.buildWidgetOptions('debug_text_box', onActivate, false, true, "DEBUG TEXT", 0, 0, 'bottom_left');
+
+            GuiAPI.buildGuiWidget('GuiTextBox', opts, onReady);
+        };
 
         GuiDebug.debugDrawPoint = function(x, y) {
             drawPointXY(x, y);
@@ -79,15 +99,17 @@ define([
         };
 
 
-
         GuiDebug.addDebugTextString = function(string) {
-            if (!debugText) return;
-            debugText.printWidgetText(string, 7 )
+            if (!debugText) {
+                setupDebugText();
+                return;
+            }
+            debugText.updateTextContent(string)
         };
-        var debugText;
+
 
         GuiDebug.setDebugTextPanel = function(element) {
-            debugText = element;
+
         };
 
 

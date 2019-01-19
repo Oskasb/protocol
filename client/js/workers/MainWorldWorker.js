@@ -29,31 +29,35 @@ require.config({
         worker:'client/js/worker',
         workers:'client/js/workers',
         three:'client/js/3d/three',
-        GuiAPI:'client/js/workers/main/ui/GuiAPI',
+
         ui:'client/js/workers/main/ui',
         "3d":'client/js/3d',
-        game:'client/js/game',
+        game:'client/js/workers/main/game',
         application:'client/js/application'
     }
 });
 
 require([
         'evt',
-        'GuiAPI',
-        'client/js/workers/main/MainWorldAPI'
+        'client/js/workers/main/ui/GuiAPI',
+        'client/js/workers/main/MainWorldAPI',
+        'game/GameAPI'
     ],
     function(
     evt,
-    GAPI,
-    mwAPI
+    guiAPI,
+    mwAPI,
+    gameAPI
     ) {
 
         var count = 0;
 
-        GuiAPI = GAPI;
+        GameAPI = gameAPI;
+        GuiAPI = guiAPI;
         MainWorldAPI = mwAPI;
 
         MainWorldAPI.initMainWorld(ENUMS.Worker.MAIN_WORKER);
+        GameAPI.initGameAPI();
 
         var handleMessage = function(e) {
             count++;

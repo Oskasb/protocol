@@ -8,7 +8,13 @@ define([
     ) {
 
 
-        var GuiScreenSpaceText = function() {
+        var GuiScreenSpaceText = function(options) {
+
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
+
 
             this.surface = {
                 minXY:{x:-0.5, y:-0.5, z:0},

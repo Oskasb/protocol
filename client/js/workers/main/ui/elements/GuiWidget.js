@@ -138,6 +138,42 @@ define([
 
         };
 
+        GuiWidget.prototype.applyWidgetOptions = function(options) {
+
+            if (typeof(options.testActive) === 'function') {
+                this.addTestActiveCallback(options.testActive);
+            }
+
+            if (typeof(options.onActivate) === 'function') {
+                this.addOnActiaveCallback(options.onActivate);
+            }
+
+            if (options.anchor) {
+                this.attachToAnchor(options.anchor);
+            }
+
+            if (options.offset_x) {
+                this.offsetPosition.x = options.offset_x;
+            }
+
+            if (options.offset_y) {
+                this.offsetPosition.y = options.offset_y;
+            }
+
+            if (options.text) {
+                this.printWidgetText(options.text);
+            }
+
+            if (options.interactive) {
+                this.enableWidgetInteraction();
+            }
+
+            this.applyWidgetPosition();
+
+        };
+
+
+
         GuiWidget.prototype.setLayoutConfigId = function(layoutConfigId) {
             this.layoutConfigId = layoutConfigId;
         };

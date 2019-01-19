@@ -12,7 +12,12 @@ define([
 
         var tempVec1 = new THREE.Vector3();
 
-        var GuiActionPoint = function() {
+        var GuiActionPoint = function(options) {
+
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
 
             this.offsetPos = new THREE.Vector3();
             this.offsetTargetPos = new THREE.Vector3();

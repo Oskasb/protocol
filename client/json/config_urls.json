@@ -3,6 +3,7 @@
     "files":[
       "threedata/assets/load_assets.json"                   ,
 
+
       "ui/elements/icon_elements.json"                      ,
       "ui/elements/surface_elements.json"                   ,
       "ui/elements/text_elements.json"                      ,
@@ -16,6 +17,9 @@
       "ui/widgets/standard_widgets.json"                    ,
 
       "ui/gui_systems.json"                                 ,
+
+
+      "game/pieces/characters/barbarian.json"               ,
 
       "threedata/assets/sprites/gui_sprites_16x16.json"     ,
       "threedata/assets/sprites/font_sprites_16x16.json"    ,

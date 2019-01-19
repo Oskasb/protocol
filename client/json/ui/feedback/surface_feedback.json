@@ -130,7 +130,7 @@
               "id":"feedback_surface_debug",
               "config": {
                 "NONE": {
-                  "color_rgba": {"r": 0.35, "g": 0.45, "b": 0.75, "a": 0.85},
+                  "color_rgba": {"r": 0.05, "g": 0.25, "b": 0.35, "a": 0.45},
                   "sprite": "text_box_framed"
                 },
                 "HOVER": {

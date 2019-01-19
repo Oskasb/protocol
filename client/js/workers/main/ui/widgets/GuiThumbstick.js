@@ -8,7 +8,13 @@ define([
     ) {
 
 
-        var GuiThumbstick = function() {
+        var GuiThumbstick = function(options) {
+
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
+
             this.pos = new THREE.Vector3();
             this.origin = new THREE.Vector3();
             this.offset = new THREE.Vector3();

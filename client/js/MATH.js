@@ -68,6 +68,16 @@ if(typeof(MATH) === "undefined") {
 		}
 	};
 
+	var idx;
+
+	MATH.getFromArrayByKeyValue = function(array, key, value) {
+		for (idx = 0; idx < array.length; idx++) {
+			if (array[idx][key] === value) {
+				return array[idx];
+			}
+		}
+	};
+
 	function sinWave(time, speed, amplitude) {
 		return Math.sin(time * speed) * amplitude;
 	}

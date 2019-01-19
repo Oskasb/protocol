@@ -4,13 +4,15 @@ var GuiAPI;
 
 define([
         'application/ExpandingPool',
-        'client/js/workers/main/ui/GuiSettings',
-        'client/js/workers/main/ui/GuiBuffers',
-        'client/js/workers/main/ui/systems/GuiDebug',
-        'client/js/workers/main/ui/elements/GuiBufferElement'
+        'ui/widgets/WidgetBuilder',
+        'ui/GuiSettings',
+        'ui/GuiBuffers',
+        'ui/systems/GuiDebug',
+        'ui/elements/GuiBufferElement'
     ],
     function(
         ExpandingPool,
+        WidgetBuilder,
         GuiSettings,
         GuiBuffers,
         GuiDebug,
@@ -31,9 +33,10 @@ define([
 
 
         var guiSettings = new GuiSettings();
-
+        var widgetBuilder = new WidgetBuilder();
 
         var basicText;
+
         var txtSysKey = 'UI_TEXT_MAIN';
 
         var guiUpdateCallbacks = [];
@@ -96,6 +99,16 @@ define([
 
         GuiAPI.addUiSystem = addUiSystem;
 
+
+        GuiAPI.buildBufferElement = function(uiSysKey, cb) {
+
+            var getElement = function(key, elem) {
+                elem.initGuiBufferElement(guiBuffers[key]);
+                cb(elem);
+            };
+            elementPools[uiSysKey].getFromExpandingPool(getElement)
+        };
+
         var registeredTextElements = {};
 
         GuiAPI.registerTextSurfaceElement = function(elemKey, txtElem) {
@@ -103,11 +116,29 @@ define([
             textSystem.addTextElement(txtElem);
         };
 
+        GuiAPI.buildGuiWidget = function(widgetClassName, options, onReady) {
+            widgetBuilder.buildWidget(widgetClassName, options, onReady);
+        };
+
+        GuiAPI.buildWidgetOptions = function(configId, onActivate, testActive, interactive, text, offset_x, offset_y, anchor) {
+
+            var opts = {};
+
+            opts.configId = configId || 'button_big_blue';
+            opts.onActivate = onActivate || null;
+            opts.testActive = testActive || null;
+            opts.interactive = interactive || false;
+            opts.text = text || false;
+            opts.offset_x = offset_x || null;
+            opts.offset_y = offset_y || null;
+            opts.anchor = anchor || false;
+
+            return opts
+        };
+
         GuiAPI.setInputSystem = function(inputSys) {
             inputSystem = inputSys;
         };
-
-
 
         GuiAPI.getInputSystem = function() {
             return inputSystem;
@@ -137,21 +168,7 @@ define([
             return guiSettings.getSettingDataConfig(uiKey, dataKey, dataId);
         };
 
-        var updateBufferIndices = function() {
-            for (var key in guiBuffers) {
-                guiBuffers[key].updateGuiBuffer()
-            }
-            GuiBuffers.monitorBufferStats();
-        };
 
-        GuiAPI.buildBufferElement = function(uiSysKey, cb) {
-
-            var getElement = function(key, elem) {
-                elem.initGuiBufferElement(guiBuffers[key]);
-                cb(elem);
-            };
-            elementPools[uiSysKey].getFromExpandingPool(getElement)
-        };
 
         GuiAPI.debugDrawGuiPosition = function(x, y) {
             GuiDebug.debugDrawPoint(x, y)
@@ -174,17 +191,6 @@ define([
             inputSystem.unregisterInteractiveSurfaceElement(surfaceElement)
         };
 
-        GuiAPI.activateGuiElement = function() {
-
-        };
-
-        GuiAPI.activateDefaultGui = function() {
-
-        };
-
-        GuiAPI.registerCallback = function() {
-
-        };
 
         GuiAPI.setAnchorWidget = function(key, widget) {
             anchorWidgets[key] = widget;
@@ -273,6 +279,13 @@ define([
         GuiAPI.sampleInputState = function(INPUT_BUFFER) {
             updateInput(INPUT_BUFFER);
             GuiDebug.updateDebugElements();
+        };
+
+        var updateBufferIndices = function() {
+            for (var key in guiBuffers) {
+                guiBuffers[key].updateGuiBuffer()
+            }
+            GuiBuffers.monitorBufferStats();
         };
 
         GuiAPI.updateGui = function(tpf, time) {

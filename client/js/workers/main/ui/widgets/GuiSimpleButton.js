@@ -1,37 +1,36 @@
 "use strict";
 
 define([
-        'client/js/workers/main/ui/elements/GuiWidget'
+
     ],
     function(
-        GuiWidget
+
     ) {
 
+        var GuiSimpleButton = function(options) {
 
-        var GuiSimpleButton = function() {
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
 
         };
 
 
-        GuiSimpleButton.prototype.initSimpleButton = function(widgetConfig, onActivate, onReady, pos, testActive) {
-            this.guiWidget = new GuiWidget(widgetConfig);
-
-            var buttonReady = function(widget) {
-                widget.enableWidgetInteraction();
-                onReady(widget)
-            };
-
-            if (typeof(testActive) === 'function') {
-                this.guiWidget.addTestActiveCallback(testActive);
-            }
-
-            this.guiWidget.initGuiWidget(pos, buttonReady);
-            this.guiWidget.addOnActiaveCallback(onActivate);
+        GuiSimpleButton.prototype.setGuiWidget = function(guiWidget) {
+            guiWidget.applyWidgetOptions(this.options);
+            this.guiWidget = guiWidget;
         };
 
 
         GuiSimpleButton.prototype.removeGuiWidget = function() {
             this.guiWidget.recoverGuiWidget();
+        };
+
+        GuiSimpleButton.prototype.pressButtonFromCode = function() {
+            this.guiWidget.notifyElementActivate(0);
+            this.guiWidget.getWidgetSurface().updateInterativeState();
+
         };
 
         GuiSimpleButton.prototype.setTestActiveCallback = function(cb) {

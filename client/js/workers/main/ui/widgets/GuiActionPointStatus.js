@@ -3,7 +3,7 @@
 define([
         'client/js/workers/main/ui/elements/GuiWidget',
         'client/js/workers/main/ui/widgets/GuiActionPoint',
-        'client/js/workers/main/control/ActionPointStatus'
+        'client/js/workers/main/game/actions/ActionPointStatus'
     ],
     function(
         GuiWidget,
@@ -27,7 +27,13 @@ define([
 
         var tempVec1 = new THREE.Vector3();
 
-        var GuiActionPointStatus = function() {
+        var GuiActionPointStatus = function(options) {
+
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
+
 
             this.guiActionPoints = [];
             this.releasedActionPoints = [];

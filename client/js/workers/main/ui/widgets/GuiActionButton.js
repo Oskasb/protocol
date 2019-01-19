@@ -2,7 +2,7 @@
 
 define([
         'client/js/workers/main/ui/elements/GuiWidget',
-        'client/js/workers/main/control/Action'
+        'client/js/workers/main/game/actions/Action'
     ],
     function(
         GuiWidget,
@@ -22,68 +22,13 @@ define([
         stateFeedbackMap[ENUMS.ActionState.ENABLED       ] = ENUMS.ElementState.NONE        ;
 
 
-        var updateActionProgress = function(tpf, time) {
-            action.currentTime += tpf;
+        var GuiActionButton = function(options) {
 
-            if (action.currentTime > action[timersMap[action.state]]) {
-                action.currentTime -= action[timersMap[action.state]];
-                action.state = stateChainMap[action.state];
-                action.targetTime = action[timersMap[action.state]];
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
             }
 
-            if (action.state === ENUMS.ActionState.ACTIVATING) {
-                action.text = "atk";
-                action.progressTime = action.currentTime
-            }
-
-            if (action.state === ENUMS.ActionState.ACTIVE) {
-                action.text = "active";
-                action.progressTime = action.currentTime
-            }
-
-            if (action.state === ENUMS.ActionState.ON_COOLDOWN) {
-                action.text = "cooling";
-                action.progressTime = action.targetTime - action.currentTime
-            }
-
-            if (action.state === ENUMS.ActionState.AVAILABLE) {
-                GuiAPI.removeGuiUpdateCallback(action.updateActionProgress);
-                action.text = "ready";
-                action.active = false;
-                action.progressTime = 0;
-            }
-
-        };
-
-        var activateAction = function() {
-            if (!action.active) {
-                GuiAPI.addGuiUpdateCallback(action.updateActionProgress);
-                action.active = true;
-                action.state = stateChainMap[action.state];
-                action.targetTime = action[timersMap[action.state]];
-                action.text = " ";
-            }
-        };
-
-        var action = {
-            activationTime:1.3,
-            activeTime: 0.5,
-            cooldownTime:2.5,
-            targetTime:0,
-            progressTime:0,
-            currentTime:0,
-            active:false,
-            state:ENUMS.ActionState.AVAILABLE,
-            name:"Test it",
-            text:"init",
-            icon:"fire",
-            updateActionProgress:updateActionProgress,
-            activateAction:activateAction
-        };
-
-
-
-        var GuiActionButton = function() {
 
             var testActive = function() {
                 if (this.action) {

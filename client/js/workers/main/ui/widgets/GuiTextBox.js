@@ -8,7 +8,13 @@ define([
     ) {
 
 
-        var GuiTextBox = function() {
+        var GuiTextBox = function(options) {
+
+            this.options = {};
+            for (var key in options) {
+                this.options[key] = options[key];
+            }
+
 
             this.activated = false;
 
@@ -39,9 +45,13 @@ define([
 
             this.guiWidget.initGuiWidget(null, widgetReady);
             this.guiWidget.addOnActiaveCallback(onActivate);
-            this.guiWidget.addTestActiveCallback(this.callbacks.testActive);
+
         };
 
+        GuiTextBox.prototype.setGuiWidget = function(guiWidget) {
+            guiWidget.applyWidgetOptions(this.options);
+            this.guiWidget = guiWidget;
+        };
 
         GuiTextBox.prototype.updateTextContent = function(text) {
             this.guiWidget.printWidgetText(text)

@@ -1,7 +1,7 @@
 "use strict";
 
 define([
-        'client/js/workers/main/control/ActionPoint',
+        './ActionPoint',
         'application/ExpandingPool'
     ],
     function(

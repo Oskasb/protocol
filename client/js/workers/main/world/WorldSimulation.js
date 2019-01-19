@@ -58,7 +58,10 @@ define([
         };
 
         WorldSimulation.prototype.loadPossibleAssets = function() {
-            this.initAssetsList(possibleModelAssets);
+
+            GameAPI.getGameAssets().loadPossibleAssets();
+
+            // this.initAssetsList(possibleModelAssets);
         };
 
         WorldSimulation.prototype.startWorldSystem = function(cameraAspect) {
@@ -71,15 +74,19 @@ define([
             this.worldCamera.tickWorldCamera(tpf);
         };
 
+
         WorldSimulation.prototype.registerAssetReady = function(msg) {
+            GameAPI.getGameAssets().registerAssetReady(msg);
+            return;
             registeredAssets[msg[0]] = msg[1];
             assetIndex[msg[1].index] = msg[0];
+            GuiAPI.printDebugText("ASSET READY: "+ msg[0]);
     //        console.log("Asset Prepped: ", registeredAssets);
         };
 
-        WorldSimulation.prototype.registerAssetInstance = function(event) {
-        //    console.log("Asset Instance Ready: ", event);
-            var worldEntity = new WorldEntity(assetIndex[event[1]], registeredAssets[assetIndex[event[1]]], event[3])
+
+
+        WorldSimulation.prototype.addWorldEntity = function(worldEntity) {
             addEntities.push( worldEntity)
         };
 
@@ -107,7 +114,9 @@ define([
             evt.fire(ENUMS.Event.REQUEST_ASSET_INSTANCE, reqEvt);
         };
 
+
         var e;
+
 
         WorldSimulation.prototype.addNewEntities = function(time) {
             while (addEntities.length) {
@@ -204,8 +213,7 @@ define([
         WorldSimulation.regAssetInstance = function(event) {
             worldSimulation.registerAssetInstance(event);
         };
-
-        evt.on(ENUMS.Event.REGISTER_INSTANCE, WorldSimulation.regAssetInstance);
+        
 
         return WorldSimulation;
     });

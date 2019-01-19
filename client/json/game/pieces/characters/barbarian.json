@@ -1,0 +1,12 @@
+[{
+  "GAME":{
+    "PIECES":[
+      {
+        "id":"BARBARIAN",
+        "data":{
+          "model_asset":"animated_barbarian"
+        }
+      }
+    ]
+  }
+}]

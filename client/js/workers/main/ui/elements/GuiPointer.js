@@ -36,7 +36,7 @@ define([
         GuiPointer.prototype.setIsSeeking = function(bool) {
 
             if (this.isSeeking !== bool){
-                GuiAPI.printDebugText("SEEK: "+bool);
+        //        GuiAPI.printDebugText("SEEK: "+bool);
             }
 
             this.isSeeking = bool;

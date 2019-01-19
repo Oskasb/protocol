@@ -79,7 +79,8 @@ define([
             GuiAPI.sampleInputState(sharedBuffers[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)][0]);
 
             if (samples > 10) {
-                console.log("--> clear ui sample loop");
+                GuiAPI.printDebugText("--> STOP ui loop "+Math.round(time));
+            //    console.log("--> clear ui sample loop");
                 clearInterval(speedPoll);
                 samples = 0;
                 pollingOn = false;
@@ -88,7 +89,7 @@ define([
 
             if (samples === 0) {
                 if (!pollingOn) {
-                    console.log("++> start ui sample loop");
+                    GuiAPI.printDebugText("++> START ui loop "+Math.round(time));
                     pollingOn = true;
                     speedPoll = setInterval(sampleInput, 10)
                 }
@@ -111,6 +112,7 @@ define([
             samples = 0;
             sampleInput();
 
+            GameAPI.updateGame(tpf, time);
             worldSimulation.tickWorldSimulation(tpf, time);
             GuiAPI.updateGui(tpf, time);
 

@@ -32,7 +32,16 @@ define([
 
             GuiAPI.printDebugText("SETUP GAME PIECE "+this.workerData.readDataKey("model_asset"));
 
-            onReady(this);
+            var modelAssetId = this.workerData.readDataKey('model_asset');
+
+            var worldEntityReady = function(worldEntity) {
+                this.worldEntity = worldEntity;
+                onReady(this);
+
+            }.bind(this);
+
+            GameAPI.requestAssetWorldEntity(modelAssetId, worldEntityReady)
+
         };
 
 

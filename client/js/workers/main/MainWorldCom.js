@@ -59,7 +59,7 @@ define([
         MainWorldCom.prototype.setupMessageHandlers = function() {
 
             handlers[ENUMS.Message.REGISTER_ASSET] = function(msg) {
-                MainWorldAPI.getWorldSimulation().registerAssetReady(msg);
+                GameAPI.getGameAssets().registerAssetReady(msg);
             };
 
             handlers[ENUMS.Message.NOTIFY_FRAME] = function(msg) {

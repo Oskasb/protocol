@@ -44,7 +44,7 @@ define([
             return testPiece;
         };
 
-        GameAPI.requestModelAsset = function(modelAssetId, cb) {
+        GameAPI.requestAssetWorldEntity = function(modelAssetId, cb) {
             gameAssets.requestGameAsset(modelAssetId, cb)
         };
 

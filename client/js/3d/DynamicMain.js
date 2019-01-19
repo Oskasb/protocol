@@ -34,11 +34,13 @@ define([
 
         var onAssetReady = function(asset) {
         //    console.log("AssetReady:", asset);
-            assets.push(asset);
             assetIndex[asset.id] = assets.length;
+            assets.push(asset);
+
             var idx = assetIndex[asset.id];
             var anims = asset.model.animationKeys;
             var message = {};
+
 
             message.index = idx;
             message.animKeys = anims;

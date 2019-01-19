@@ -23,14 +23,25 @@ define([
             "asset_tree_4"
         ];
 
+        var requestedAssets = {};
         var registeredAssets = {};
         var assetIndex = [];
 
         var gameAssets;
 
 
+        var SpawnCall = function(assetKey, cb) {
+            this.assetKey = assetKey;
+            this.callback = cb
+        };
+
+
         var GameAssets = function() {
             gameAssets = this;
+
+            this.assetRequests = {};
+            this.spawnCalls = {};
+
         };
 
         GameAssets.prototype.initGameAPI = function() {
@@ -48,20 +59,60 @@ define([
             this.initAssetsList(possibleModelAssets);
         };
 
+        GameAssets.prototype.requestGameAsset = function(modelAssetId, callback) {
+
+            if (!this.spawnCalls[modelAssetId]){
+                this.spawnCalls[modelAssetId] = [];
+            }
+
+            this.spawnCalls[modelAssetId].push(new SpawnCall(modelAssetId, callback));
+
+            console.log("Request game asset:", registeredAssets, assetIndex);
+
+            if (typeof(registeredAssets[modelAssetId]) === 'number') {
+
+            };
+
+            if (!requestedAssets[modelAssetId]) {
+                this.requestRenderableAsset(modelAssetId);
+            }
+
+        };
 
         GameAssets.prototype.registerAssetReady = function(msg) {
             registeredAssets[msg[0]] = msg[1];
             assetIndex[msg[1].index] = msg[0];
             GuiAPI.printDebugText("ASSET READY: "+ msg[0]);
+            this.updateGameAssetRequests(msg[0]);
             //        console.log("Asset Prepped: ", registeredAssets);
         };
 
         GameAssets.prototype.registerAssetInstance = function(event) {
-            //    console.log("Asset Instance Ready: ", event);
-            GuiAPI.printDebugText("PTR:"+event[3]+" - "+assetIndex[event[1]]);
-            var worldEntity = new WorldEntity(assetIndex[event[1]], registeredAssets[assetIndex[event[1]]], event[3])
 
-            MainWorldAPI.getWorldSimulation().addWorldEntity( worldEntity)
+            var assetKey = assetIndex[event[1]];
+            //    console.log("Asset Instance Ready: ", event);
+            GuiAPI.printDebugText("PTR:"+event[3]+" - "+assetKey);
+            var worldEntity = new WorldEntity(assetIndex[event[1]], registeredAssets[assetKey], event[3])
+
+            MainWorldAPI.getWorldSimulation().addWorldEntity( worldEntity);
+
+            this.notifyWorldEntitySpawned(worldEntity);
+        };
+
+        GameAssets.prototype.notifyWorldEntitySpawned = function(worldEntity) {
+
+            if (this.spawnCalls[worldEntity.assetId]) {
+
+                if (this.spawnCalls[worldEntity.assetId].length) {
+
+                    var spawnCall = this.spawnCalls[worldEntity.assetId].pop();
+                    spawnCall.callback(worldEntity);
+
+                }
+
+            }
+
+            this.updateGameAssetRequests();
         };
 
         GameAssets.prototype.releaseAssetInstance = function(msg) {
@@ -71,6 +122,7 @@ define([
         var requestAssetMessage = [ENUMS.Message.REQUEST_ASSET, 'assetId'];
 
         GameAssets.prototype.requestRenderableAsset = function(assetId) {
+            requestedAssets[assetId] = true;
             requestAssetMessage[1] = assetId;
             MainWorldAPI.postToRender(requestAssetMessage)
         };
@@ -79,20 +131,32 @@ define([
             ENUMS.Args.POINTER, 0
         ];
 
+        GameAssets.prototype.requestSpawnableAsset = function(assetIndex) {
+
+            reqEvt[1] = assetIndex;
+            evt.fire(ENUMS.Event.REQUEST_ASSET_INSTANCE, reqEvt);
+        };
+
         GameAssets.prototype.spamRandomAssets = function() {
 
             var count = Object.keys(registeredAssets).length;
             if (!count) return;
             var entry = Math.floor(Math.random()*count);
-            reqEvt[1] = entry;
-            evt.fire(ENUMS.Event.REQUEST_ASSET_INSTANCE, reqEvt);
+            this.requestSpawnableAsset(entry);
         };
 
+        GameAssets.prototype.updateGameAssetRequests = function(assetKey) {
 
-
-        GameAssets.prototype.requestGameAsset = function(modelAssetId, callback) {
+            if (this.spawnCalls[assetKey]) {
+                if (this.spawnCalls[assetKey].length) {
+                    var index = registeredAssets[assetKey].index;
+                    var aIndex = assetIndex.indexOf(assetKey);
+                    this.requestSpawnableAsset(aIndex)
+                }
+            }
 
         };
+
 
         GameAssets.regAssetInstance = function(event) {
             gameAssets.registerAssetInstance(event);

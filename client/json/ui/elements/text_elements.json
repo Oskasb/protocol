@@ -9,7 +9,7 @@
             {
               "id":"sprite_font_button_big",
               "config": {
-                "letter_width": 0.0013,
+                "letter_width": 0.0012,
                 "letter_height": 0.0025,
                 "row_spacing": 0.00001
               }
@@ -17,7 +17,7 @@
             {
               "id":"sprite_font_main_text",
               "config": {
-                "letter_width": 0.0013,
+                "letter_width": 0.0012,
                 "letter_height": 0.0025,
                 "row_spacing": 0.00001
               }

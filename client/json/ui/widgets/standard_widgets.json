@@ -17,7 +17,8 @@
                 "nineslice": "nineslice_surface_action_status_container",
                 "feedback": "feedback_button_action"
               }
-            },            {
+            },
+            {
               "id":"widget_action_point",
               "layout":"layout_action_point",
               "icon": {
@@ -191,6 +192,14 @@
               "surface": {
                 "nineslice": "nineslice_surface_debug",
                 "feedback": "feedback_surface_debug"
+              }
+            },
+            {
+              "id":"widget_gui_anchor",
+              "layout":"layout_gui_anchor_point",
+              "surface": {
+                "nineslice": "nineslice_surface_action_status_container",
+                "feedback": "feedback_button_action"
               }
             }
           ]

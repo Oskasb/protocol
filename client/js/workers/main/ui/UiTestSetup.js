@@ -34,6 +34,8 @@ define([
         var matrixText;
         var container;
 
+        var statsButton;
+
         var actionPointStatus;
 
         var testUiActive = false;
@@ -121,25 +123,37 @@ define([
 
                 var statsOnReady = function(widget) {
 
-                    widget.setPosition(tempVec1);
-                    statsPanel.addTrackStatFunction({key:'TPF', callback:sampleTpf, unit:'s', digits:3});
+                //    tempVec1.set(-0.15, -0.05, 0);
+                //    widget.setPosition(tempVec1);
+
+                    statsPanel.addTrackStatFunction({key:'TPF',   callback:sampleTpf, unit:'s', digits:3});
                     statsPanel.addTrackStatFunction({key:'G_ADD', callback:sampleReleases, unit:'', digits:0});
                     statsPanel.addTrackStatFunction({key:'G_REL', callback:sampleReleases, unit:'', digits:0});
                     statsPanel.addTrackStatFunction({key:'G_ACT', callback:sampleActives, unit:'', digits:0});
+
+                    statsButton.guiWidget.addChild(widget);
+
                 };
 
-                tempVec1.set(0.47, 0.30, 0);
+
                 statsPanel.initStatsPanel('widget_stats_container',statsOnReady, tempVec1)
             }
 
         };
 
+        var mainButton;
+
         UiTestSetup.prototype.initUiTestSetup = function() {
 
-            tempVec1.set(0.2, 0.35, 0);
+
 
             var widgetReady = function(widget) {
-                widget.printWidgetText('TESTS')
+
+                tempVec1.set(-0.30, -0.05, 0);
+                widget.attachToAnchor('top_right');
+                widget.offsetWidgetPosition(tempVec1);
+                widget.printWidgetText('TESTS');
+
             };
 
             var testActive = function(widget) {
@@ -147,10 +161,14 @@ define([
             };
 
             this.mainButton = new GuiSimpleButton();
-            this.mainButton.initSimpleButton('button_big_blue', this.callbacks.toggleTestUi, widgetReady, tempVec1, testActive )
-
+            this.mainButton.initSimpleButton('button_big_blue', this.callbacks.toggleTestUi, widgetReady, null, testActive )
+            mainButton = this.mainButton;
 
             var statsReady = function(widget) {
+                tempVec1.set(-0.12, -0.05, 0);
+                widget.attachToAnchor('top_right');
+                widget.offsetWidgetPosition(tempVec1);
+
                 widget.printWidgetText('STATS')
             };
 
@@ -162,7 +180,7 @@ define([
 
             this.statsButton = new GuiSimpleButton();
             this.statsButton.initSimpleButton('button_big_blue', addStatsPanel, statsReady, tempVec1, statsActive )
-
+            statsButton = this.statsButton;
         };
 
         var addTopButton = function(label, onActivate, testActive) {
@@ -323,9 +341,12 @@ define([
             if (!thumbstick) {
 
                 var onReady = function(tmbstick) {
-                    tempVec1.set(-0.22, -0.22, 0);
+                //    tempVec1.set(-0.22, -0.22, 0);
 
-                    tmbstick.setOriginPosition(tempVec1)
+                //    tmbstick.setOriginPosition(tempVec1);
+                //    tmbstick.guiWidget.attachToAnchor('bottom_left')
+
+
                 };
 
                 thumbstick = new GuiThumbstick();
@@ -350,6 +371,7 @@ define([
                 var onReady = function(widget) {
                     tempVec1.set(0.3, 0.33, 0);
                     widget.setPosition(tempVec1)
+                    mainButton.guiWidget.addChild(widget);
                 //    includeButton();
                 };
 
@@ -363,6 +385,8 @@ define([
         UiTestSetup.prototype.addActionButton = function(inputIndex) {
 
 
+
+
             console.log("Add Action Button", inputIndex);
 
             var attachAction = function(ab) {
@@ -371,19 +395,24 @@ define([
                 ab.attachActionToButton(ab.getDummyAction());
             };
 
+            var sticks = [
+                new THREE.Vector3(-0.37, 0.08, 0),
+                new THREE.Vector3(-0.36, 0.19, 0),
+                new THREE.Vector3(-0.30, 0.30, 0),
+                new THREE.Vector3(-0.19, 0.33, 0),
+                new THREE.Vector3(-0.08, 0.34, 0)
 
-            var count = -0.9;
+            ];
+
+            var count = 0;
 
             var addAB = function() {
 
                 var onReady = function(widget) {
 
-
-                    tempVec1.x +=  Math.sin(count*0.45)*0.08;
-                    tempVec1.y +=  Math.cos(count*0.45)*0.12;
+                    widget.offsetWidgetPosition(sticks[count])
                     count++;
 
-                    widget.setPosition(tempVec1)
                     attachAction(actionButton);
                 };
 
@@ -393,8 +422,6 @@ define([
             };
 
             if (!actionButtons.length) {
-
-                tempVec1.set(0.2, -0.42, 0);
 
                 addAB();
                 addAB();
@@ -419,8 +446,6 @@ define([
 
                 var onReady = function(widget) {
 
-                    tempVec1.set(0.0, -0.41, 0);
-                    widget.setPosition(tempVec1)
                     actionPointStatus.setActionPointStatus(actionPointStatus.createDummyActionPointStatus(10));
                 };
 

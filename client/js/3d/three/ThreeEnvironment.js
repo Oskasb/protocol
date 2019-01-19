@@ -13,8 +13,8 @@ define(['application/PipelineObject',
 ) {
 
     var waterFx;
-    var envStateMap = ENUMS.Map.Environment;
-    var envBuffer = new SharedArrayBuffer(Float32Array.BYTES_PER_ELEMENT * envStateMap.length);
+  //  var envStateMap = ENUMS.Map.Environment;
+ //   var envBuffer = new SharedArrayBuffer(Float32Array.BYTES_PER_ELEMENT * envStateMap.length);
 
     var envs = [
         "flat",

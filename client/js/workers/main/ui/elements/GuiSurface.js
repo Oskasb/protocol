@@ -207,7 +207,9 @@ define([
 
         GuiSurface.prototype.fitToExtents = function() {
 
-            this.applyPadding(this.maxXY, this.minXY);
+            if (this.config) {
+                this.applyPadding(this.maxXY, this.minXY);
+            }
 
             this.configureNineslice();
 

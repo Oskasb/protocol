@@ -111,9 +111,8 @@ define([
             samples = 0;
             sampleInput();
 
-            GuiAPI.updateGui(tpf, time);
-
             worldSimulation.tickWorldSimulation(tpf, time);
+            GuiAPI.updateGui(tpf, time);
 
         };
 

@@ -22,7 +22,7 @@ define([
 
             this.currentValue = 0;
 
-            PipelineAPI.setCategoryData(ENUMS.Category.STATUS, {FULL_SCREEN:false});
+        //    PipelineAPI.setCategoryData(ENUMS.Category.STATUS, {FULL_SCREEN:false});
 
             var _this=this;
 
@@ -32,7 +32,7 @@ define([
                 }, 100);
             };
 
-            PipelineAPI.subscribeToCategoryKey(ENUMS.Category.STATUS, ENUMS.Key.FULL_SCREEN, apply);
+        //    PipelineAPI.subscribeToCategoryKey(ENUMS.Category.STATUS, ENUMS.Key.FULL_SCREEN, apply);
 
         };
 

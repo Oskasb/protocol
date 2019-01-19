@@ -223,9 +223,10 @@ define([
 
 
         GuiWidget.prototype.notifyAspectChange = function() {
-            //    var state = this.guiSurface.getInteractiveState();
-            //    ElementStateProcessor.applyStateToTextElement(this.text, state);
-            this.setPosition(this.originalPosition);
+
+            this.applyWidgetPosition();
+        //    this.applyWidgetPosition();
+        //    this.setPosition(this.originalPosition);
         };
 
         GuiWidget.prototype.notifyStringReady = function() {
@@ -333,6 +334,7 @@ define([
         GuiWidget.prototype.applyWidgetPosition = function() {
         //    GuiAPI.debugDrawGuiPosition(this.originalPosition.x, this.originalPosition.y);
 
+
             ElementStateProcessor.applyElementLayout(this);
 
         //    GuiAPI.debugDrawGuiPosition(this.pos.x, this.pos.y);
@@ -370,8 +372,10 @@ define([
                 guiWidget.parent.removeChild(guiWidget)
             }
             guiWidget.parent = this;
-            guiWidget.setPosition(this.pos);
+            guiWidget.originalPosition.copy(this.pos);
+            guiWidget.pos.copy(this.pos);
             this.children.push(guiWidget);
+            guiWidget.applyWidgetPosition();
         };
 
 
@@ -380,6 +384,14 @@ define([
             if (this.parent) {
                 this.parent.removeChild(this)
             }
+        };
+
+
+        GuiWidget.prototype.attachToAnchor = function(key) {
+            var anchor = GuiAPI.getAnchorWidget(key);
+            anchor.applyWidgetPosition();
+            anchor.addChild(this);
+            anchor.applyWidgetPosition();
         };
 
 
@@ -467,6 +479,8 @@ define([
         GuiWidget.prototype.recoverGuiWidget = function() {
             this.disableWidgetInteraction();
             GuiAPI.removeAspectUpdateCallback(this.callbacks.onAspectChange);
+
+            this.detatchFromParent();
 
             this.guiSurface.recoverGuiSurface();
 

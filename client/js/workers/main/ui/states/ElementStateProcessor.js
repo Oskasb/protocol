@@ -109,7 +109,7 @@ define([
 
         var layoutId;
         var layout;
-
+        var limit;
 
         var offset = new THREE.Vector3();
         var anchor = new THREE.Vector3();
@@ -127,12 +127,26 @@ define([
 
             if (widget.parent) {
                 widget.parent.getWidgetSurface().getSurfaceExtents(parentExtents);
-                widgetOrigin.copy(widget.parent.originalPosition);
+                if (widget.parent.parent) {
+
+                    widgetOrigin.copy(widget.parent.originalPosition);
+                } else {
+
+                    widgetOrigin.copy(widget.parent.pos);
+                }
+
             } else {
                 parentExtents.set(1, 1, 1);
-                  GuiAPI.applyAspectToScreenPosition(widget.originalPosition, widgetOrigin);
-            };
+                GuiAPI.applyAspectToScreenPosition(widget.originalPosition, widgetOrigin);
 
+                limit = layout.anchor['limitAspect'];
+                if (limit) {
+                    widgetOrigin.x = MATH.clamp(widgetOrigin.x, -limit/2, limit/2);
+                }
+            }
+
+            offset.set(layout.offset.x * widgetExtents.x, layout.offset.y * widgetExtents.y, layout.offset.z * widgetExtents.z);
+            anchor.set(layout.anchor.x * parentExtents.x, layout.anchor.y * parentExtents.y, layout.anchor.z * parentExtents.z);
 
             if (layout.offset.center) {
 
@@ -141,8 +155,7 @@ define([
                 }
 
             } else {
-                offset.set(layout.offset.x * widgetExtents.x, layout.offset.y * widgetExtents.y, layout.offset.z * widgetExtents.z);
-                anchor.set(layout.anchor.x * parentExtents.x, layout.anchor.y * parentExtents.y, layout.anchor.z * parentExtents.z);
+
                 widgetOrigin.add(offset);
                 widgetOrigin.add(anchor);
                 widget.pos.copy(widgetOrigin);
@@ -151,7 +164,7 @@ define([
 
             widget.pos.add(widget.offsetPosition);
 
-            layoutSize(widget, layout);
+            layoutSize(widget, layout, anchor);
 
             if (widget.text) {
                 widget.text.setTextLayout(layout.text)
@@ -159,10 +172,10 @@ define([
 
         };
 
-        var layoutSize = function(widget, layout) {
+        var layoutSize = function(widget, layout, offset, parentExtents) {
 
             if (layout.size.x === 'auto') {
-                layoutGridX(widget, layout)
+                layoutGridX(widget, layout, offset, parentExtents)
             } else {
                 widget.size.x = layout.size.x;
             }
@@ -179,6 +192,10 @@ define([
 
         var child;
         var children;
+
+        var sourcePos = new THREE.Vector3();
+        var pExt = new THREE.Vector3();
+
         var tempVec1 = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
         var tempMin = new THREE.Vector3();
@@ -199,7 +216,14 @@ define([
         var osx;
         var osy;
 
-        var layoutGridX = function(widget, layout) {
+        var layoutGridX = function(widget, layout, offset) {
+
+            if (widget.parent) {
+                widget.parent.getWidgetSurface().getSurfaceExtents(pExt);
+            } else {
+                pExt.set(0, 0, 0);
+            }
+
 
             children = widget.children;
 
@@ -227,9 +251,11 @@ define([
                 osx = (tempVec2.x+padx)*col;
                 osy = (tempVec2.y+pady)*row;
 
-                tempVec1.x = osx*gridX;
-                tempVec1.y = osy*gridY;
+                tempVec1.x = osx*gridX + layout.offset.x * pExt.x; //+ offset.x;
+                tempVec1.y = osy*gridY + layout.offset.y * pExt.y; // -0.1 //+ offset.y;
 
+
+            //    tempVec1.add(offset);
                 child.offsetWidgetPosition(tempVec1);
                 child.getWidgetMinMax(tempMin, tempMax);
 
@@ -259,6 +285,8 @@ define([
 
             widget.pos.copy(gridMinXY);
             widget.pos.add(gridSize);
+        //    widget.pos.add(sourcePos);
+
 
         };
 

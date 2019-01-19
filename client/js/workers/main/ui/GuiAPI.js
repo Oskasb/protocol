@@ -43,6 +43,8 @@ define([
         var guiBuffers = {};
 
 
+        var anchorWidgets = {};
+
         var GuiAPI = function() {
 
         };
@@ -184,7 +186,13 @@ define([
 
         };
 
+        GuiAPI.setAnchorWidget = function(key, widget) {
+            anchorWidgets[key] = widget;
+        };
 
+        GuiAPI.getAnchorWidget = function(key) {
+            return anchorWidgets[key];
+        };
 
         GuiAPI.addInputUpdateCallback = function(cb) {
             inputUpdateCallbacks.push(cb);

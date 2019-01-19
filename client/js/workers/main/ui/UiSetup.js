@@ -4,25 +4,21 @@ define([
 
         'client/js/workers/main/ui/systems/InputSystem',
         'client/js/workers/main/ui/systems/TextSystem',
-        'client/js/workers/main/ui/widgets/GuiSimpleButton',
-        'client/js/workers/main/ui/elements/GuiWidget',
+        'client/js/workers/main/ui/widgets/GuiAnchors',
         'client/js/workers/main/ui/UiTestSetup'
     ],
     function(
 
         InputSystem,
         TextSystem,
-        GuiSimpleButton,
-        GuiWidget,
+        GuiAnchors,
         UiTestSetup
     ) {
 
-    var tempVec1 = new THREE.Vector3();
-    var tempObj1 = new THREE.Object3D();
-        var tempObj2 = new THREE.Object3D();
 
         var UiSetup = function() {
             this.uiTestSetup = new UiTestSetup();
+            this.guiAnchors = new GuiAnchors();
         };
 
         UiSetup.prototype.initUiSetup = function(callback) {
@@ -43,6 +39,7 @@ define([
 
 
         UiSetup.prototype.setupDefaultUi = function() {
+            this.guiAnchors.initGuiAnchors();
             this.uiTestSetup.initUiTestSetup();
         };
 

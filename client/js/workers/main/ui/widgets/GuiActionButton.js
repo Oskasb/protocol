@@ -118,12 +118,16 @@ define([
 
             var buttonReady = function(widget) {
                 widget.enableWidgetInteraction();
-                onReady(widget)
 
                 this.progressWidget = new GuiWidget(progWidgetId);
                 this.progressWidget.initGuiWidget(null, progressReady);
                 this.progressWidget.setWidgetIconKey(progressIcon);
                 this.setTestActiveCallback(this.callbacks.testActive);
+
+                widget.attachToAnchor('bottom_right');
+
+                onReady(widget)
+
             }.bind(this);
 
             this.guiWidget.initGuiWidget(null, buttonReady);

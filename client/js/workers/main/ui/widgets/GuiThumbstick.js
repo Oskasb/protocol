@@ -17,7 +17,7 @@ define([
             this.releaseProgress = 0;
             this.releaseDuration = 0.25;
 
-            this.maxRange = 0.12;
+            this.maxRange = 0.08;
 
             this.activeInputIndex = null;
 
@@ -47,6 +47,7 @@ define([
 
 
             var widgetRdy = function(widget) {
+                widget.attachToAnchor('bottom_left');
                 widget.setWidgetIconKey('directional_arrows');
                 widget.addOnPressStartCallback(this.callbacks.onPressStart);
                 widget.enableWidgetInteraction();
@@ -55,15 +56,10 @@ define([
 
             this.guiWidget = new GuiWidget(widgetConfig);
             this.guiWidget.initGuiWidget(null, widgetRdy);
+
         };
 
 
-        GuiThumbstick.prototype.setOriginPosition = function(pos) {
-            this.origin.copy(pos);
-            this.pos.copy(this.origin);
-            this.offset.set(0, 0, 0);
-            this.guiWidget.setPosition(this.pos);
-        };
 
         GuiThumbstick.prototype.applyPositionOffset = function() {
             this.guiWidget.offsetWidgetPosition(this.offset);

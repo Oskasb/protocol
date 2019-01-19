@@ -279,75 +279,6 @@ if(typeof(ENUMS) === "undefined"){
         NIGHT:            7
     };
 
-    ENUMS.Environment = {
-        luminance:          0,
-        turbidity:          1,
-        rayleigh:           2,
-        mieCoefficient:     3,
-        mieDirectionalG:    4,
-        inclination:        5,
-        azimuth:            6,
-        distance:           7,
-        sunR:               8,
-        sunB:               9,
-        sunG:               10,
-        moonR:              11,
-        moon:               12,
-        moonG:              13,
-        ambientR:           14,
-        ambientB:           15,
-        ambientG:           16,
-        fogR:               17,
-        fogB:               18,
-        fogG:               19,
-        fogDensity:         20,
-        sunPosX:            21,
-        sunPosY:            22,
-        sunPosZ:            23,
-        sunQuatX:           24,
-        sunQuatY:           25,
-        sunQuatZ:           26,
-        sunQuat:            27
-    };
-
-    ENUMS.Category = {
-        POINTER_STATE:'POINTER_STATE',
-        STATUS:'STATUS',
-        LOAD_MODEL:'LOAD_MODEL',
-        LOAD_MODULE:'LOAD_MODULE',
-        LOAD_TERRAIN:'LOAD_TERRAIN',
-        LOAD_CAMERA:'LOAD_CAMERA',
-        LOAD_CONTROLS:'LOAD_CONTROLS',
-        LOAD_PIECE:'LOAD_PIECE',
-        LOAD_ACTOR:'LOAD_ACTOR',
-        LOAD_ENVIRONMENT:'LOAD_ENVIRONMENT',
-        LOAD_PARTICLES:'LOAD_PARTICLES',
-        LOAD_LEVEL:'LOAD_LEVEL',
-        LOAD_APP:'LOAD_APP',
-        GUI_ELEMENT:'GUI_ELEMENT',
-        setup:'setup'
-    };
-
-    ENUMS.Key = {
-        WORLD_COM_BUFFER:'WORLD_COM_BUFFER',
-        MON_VEGETATION:'MON_VEGETATION',
-        DEBUG:'DEBUG',
-        FULL_SCREEN:'FULL_SCREEN',
-        MODEL_LOADER:'MODEL_LOADER',
-        TERRAIN_LOADER:'TERRAIN_LOADER',
-        MODULE_LOADER:'MODULE_LOADER',
-        PIECE_LOADER:'PIECE_LOADER',
-        CONTROL_LOADER:'CONTROL_LOADER',
-        CAMERA_LOADER:'CAMERA_LOADER',
-        ACTOR_LOADER:'ACTOR_LOADER',
-        LEVEL_LOADER:'LEVEL_LOADER',
-        APP_LOADER:'APP_LOADER',
-        PARTICLE_LOADER:'PARTICLE_LOADER',
-        ENV_LOADER:'ENV_LOADER',
-        ADD:'ADD',
-        REMOVE:'REMOVE'
-    };
-
     ENUMS.ColorCurve = {
 
         lut_vdk:       108,
@@ -461,40 +392,6 @@ if(typeof(ENUMS) === "undefined"){
         oneToZero:      1
     };
 
-
-    ENUMS.Layout = {
-        x_min:'x_min',
-        x_max:'x_max',
-        y_min:'y_min',
-        y_max:'y_max',
-        anchor:'anchor',
-        top_left:'top_left',
-        top_right:'top_right',
-        bottom_left:'bottom_left',
-        bottom_right:'bottom_right',
-        center:'center',
-        fixed_aspect:'fixed_aspect',
-        width:'width',
-        height:'height',
-        margin_x:'margin_x',
-        margin_y:'margin_y'
-    };
-
-    ENUMS.OptionKeys = {
-        offset_x:'offset_x',
-        offset_y:'offset_y',
-        state_map:'state_map',
-        row_y:'row_y',
-        label_elemet_id:'label_elemet_id',
-        offset_children:'offset_children',
-        screen_pos:'screen_pos',
-        gui_key:'gui_key'
-    };
-
-    ENUMS.ModuleParams = {
-        attachment_points:'attachment_points',
-        channels:'channels'
-    };
 
     ENUMS.Numbers = {
         event_buffer_size_per_worker:100000,

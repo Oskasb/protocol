@@ -44,9 +44,8 @@ define([
 
             var containerReady = function(widget) {
                 widget.setWidgetIconKey(progressIcon);
-                onReady(widget);
-
                 widget.setWidgetInteractiveState(ENUMS.ElementState.NONE);
+                onReady(this);
 
             }.bind(this);
 

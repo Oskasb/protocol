@@ -100,6 +100,9 @@ define([
         };
 
         ActionPointStatus.prototype.updateActionPoints = function(tpf) {
+
+
+
             for (var i = 0; i < this.actionPoints.length; i++) {
                 this.actionPoints[i].updateActionPoint(tpf);
             }

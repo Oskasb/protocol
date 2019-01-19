@@ -36,8 +36,9 @@ define([
                 this.updateActionPointStatus(this.getActionPointStatus(), tpf);
             }.bind(this);
 
-            var gapReady = function(widget) {
-                this.guiWidget.addChild(widget);
+            var gapReady = function(gap) {
+                this.guiActionPoints.push(gap);
+                this.guiWidget.addChild(gap.guiWidget);
             }.bind(this);
 
 
@@ -51,13 +52,8 @@ define([
         GuiActionPointStatus.prototype.initActionPointStatus = function(widgetConfig, onReady) {
             this.guiWidget = new GuiWidget(widgetConfig);
 
-            var progressReady = function(widget) {
-
-                this.guiWidget.addChild(widget);
-
-            }.bind(this);
-
             var containerReady = function(widget) {
+                widget.attachToAnchor('bottom_center');
                 widget.setWidgetIconKey(progressIcon);
                 onReady(widget);
             }.bind(this);
@@ -98,10 +94,12 @@ define([
             var gap = new GuiActionPoint();
             gap.initActionPoint("widget_action_point", this.callbacks.gapReady);
             gap.setActionPoint(actionPoint);
-            this.guiActionPoints.push(gap);
+
+
         };
 
         GuiActionPointStatus.prototype.updateActionPointGui = function(guiActionPoint, actionPoint, tpf, targetPos) {
+
             guiActionPoint.setActionPointTargetOffset(targetPos);
             guiActionPoint.updateGuiActionPointFrame(tpf, actionPoint);
 

@@ -4,7 +4,12 @@
       {
         "id":"BARBARIAN",
         "data":{
-          "model_asset":"animated_barbarian"
+          "model_asset":"animated_barbarian",
+          "animations": {
+            "IDLE": {"time_scale": 1, "weight": 1, "fade": 0.25, "duration": 2},
+            "WALK": {"time_scale": 1, "weight": 1, "fade": 0.25, "duration": 2},
+            "RUN":  {"time_scale": 1, "weight": 1, "fade": 0.45, "duration": 0.6}
+          }
         }
       }
     ]

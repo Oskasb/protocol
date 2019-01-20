@@ -183,8 +183,8 @@ define([
         };
 
 
-        InstancedModel.prototype.updateAnimationState = function(animationKey, weight, timeScale) {
-            this.animator.updateAnimationAction(animationKey, weight, timeScale);
+        InstancedModel.prototype.updateAnimationState = function(animationKey, weight, timeScale, fade) {
+            this.animator.updateAnimationAction(animationKey, weight, timeScale, fade);
         };
 
         InstancedModel.prototype.activateInstancedModel = function() {

@@ -36,12 +36,14 @@ define([
         };
 
         var readAnimation = function(modelInstance, index, animEvent) {
-            modelInstance.updateAnimationState(animEvent[index+1], animEvent[index+2], animEvent[index+3])
+            modelInstance.updateAnimationState(animEvent[index+1], animEvent[index+2], animEvent[index+3], animEvent[index+4])
         };
+
+        var animStride = 4;
 
         parser[ENUMS.Event.UPDATE_ANIMATIONS] = function(modelInstance, event) {
             count = event[1];
-            stride = 3;
+            stride = animStride;
             for (i = 0; i < count; i++) {
                 readAnimation(modelInstance, stride*i+1, event);
             }
@@ -79,18 +81,25 @@ define([
 
         var addAnimation = function(animState, index, animEvent) {
             animEvent[1]++;
-            animEvent[index+1] = animState.getAnimationKey();
+            animEvent[index+1] = ENUMS.Animations[animState.getAnimationKey()];
             animEvent[index+2] = animState.getAnimationWeight();
             animEvent[index+3] = animState.getAnimationTimeScale();
+            animEvent[index+4] = animState.getAnimationFade();
         };
 
+        var idx;
         EventParser.animationEvent = function(worldEntity) {
             animStates = worldEntity.animationStates;
             animationEvent[0] = ENUMS.Event.UPDATE_ANIMATIONS;
             animationEvent[1] = 0;
-            stride = 3;
+            stride = animStride;
+            idx = 0;
             for (i = 0; i < animStates.length; i++) {
-                addAnimation(animStates[i], stride*i+1, animationEvent);
+                if (animStates[i].isDirty) {
+                    addAnimation(animStates[i], stride*idx+1, animationEvent);
+                    animStates[i].isDirty = false;
+                    idx++;
+                }
             }
 
             return animationEvent;

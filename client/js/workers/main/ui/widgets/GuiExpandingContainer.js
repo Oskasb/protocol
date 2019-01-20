@@ -18,11 +18,14 @@ define([
 
         };
 
-
         GuiExpandingContainer.prototype.initExpandingContainer = function(widgetConfig, onReady) {
             this.guiWidget = new GuiWidget(widgetConfig);
             this.guiWidget.initGuiWidget(null, onReady);
+        };
 
+        GuiExpandingContainer.prototype.setGuiWidget = function(guiWidget) {
+            guiWidget.applyWidgetOptions(this.options);
+            this.guiWidget = guiWidget;
         };
 
 

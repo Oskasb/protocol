@@ -39,7 +39,6 @@ define([
         var GameAssets = function() {
             gameAssets = this;
 
-            this.assetRequests = {};
             this.spawnCalls = {};
 
         };
@@ -69,8 +68,10 @@ define([
 
             console.log("Request game asset:", registeredAssets, assetIndex);
 
-            if (typeof(registeredAssets[modelAssetId]) === 'number') {
-
+            if ((registeredAssets[modelAssetId])) {
+                var aIndex = assetIndex.indexOf(modelAssetId);
+                this.requestSpawnableAsset(aIndex)
+                return;
             };
 
             if (!requestedAssets[modelAssetId]) {
@@ -102,14 +103,10 @@ define([
         GameAssets.prototype.notifyWorldEntitySpawned = function(worldEntity) {
 
             if (this.spawnCalls[worldEntity.assetId]) {
-
                 if (this.spawnCalls[worldEntity.assetId].length) {
-
                     var spawnCall = this.spawnCalls[worldEntity.assetId].pop();
                     spawnCall.callback(worldEntity);
-
                 }
-
             }
 
             this.updateGameAssetRequests();
@@ -149,7 +146,6 @@ define([
 
             if (this.spawnCalls[assetKey]) {
                 if (this.spawnCalls[assetKey].length) {
-                    var index = registeredAssets[assetKey].index;
                     var aIndex = assetIndex.indexOf(assetKey);
                     this.requestSpawnableAsset(aIndex)
                 }

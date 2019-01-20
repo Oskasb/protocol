@@ -68,7 +68,7 @@ define([
             reqElem(x, y);
         };
 
-        var holdIt = false
+        var holdIt = false;
         var setupDebugText = function() {
             if (!GuiAPI.getAnchorWidget('bottom_left')) return;
             if (holdIt) return;
@@ -107,9 +107,51 @@ define([
             debugText.updateTextContent(string)
         };
 
+        var debugControlContainer;
 
-        GuiDebug.setDebugTextPanel = function(element) {
+        GuiDebug.setupDebugControlContainer = function() {
+            var onReady = function(expcont) {
+                debugControlContainer = expcont;
+            };
 
+            var opts = GuiAPI.buildWidgetOptions('widget_vertical_container', false, false, false, null, 0, 0, 'top_left');
+
+            GuiAPI.buildGuiWidget('GuiExpandingContainer', opts, onReady);
+        };
+
+
+
+        var addDebugButton = function(text, onActivate, testActive) {
+
+            var onReady = function(widget) {
+                debugControlContainer.addChildWidgetToContainer(widget.guiWidget);
+            };
+
+            var opts = GuiAPI.buildWidgetOptions('button_big_blue', onActivate, testActive, true, text);
+
+            GuiAPI.buildGuiWidget('GuiSimpleButton', opts, onReady);
+
+        };
+
+        var showAnimationState = function(animState, gamePiece) {
+
+            var onActivate = function() {
+                gamePiece.activatePieceAnimation(animState.key, 0.6+Math.random()*0.6, 0.7+Math.random()*0.6)
+            };
+
+            var testActive = function() {
+                return gamePiece.getPlayingAnimation(animState.key)
+            };
+
+            addDebugButton(animState.key, onActivate, testActive)
+        };
+
+
+        GuiDebug.debugPieceAnimations = function(gamePiece) {
+
+            for (var i = 0; i < gamePiece.worldEntity.animationStates.length; i++) {
+                showAnimationState(gamePiece.worldEntity.animationStates[i], gamePiece);
+            }
         };
 
 

@@ -36,7 +36,7 @@ define([
             return this.mixer.clipAction( actionClip );
         };
 
-        InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale) {
+        InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale, fade) {
             animKey = ENUMS.getKey('Animations', animationKey);
             action = this.animationActions[animKey];
 
@@ -45,20 +45,41 @@ define([
                 return;
             }
 
+            action.setEffectiveTimeScale( timeScale );
+
             if (weight) {
-                if (!action.enabled) {
-                    action.enabled = true;
+
+
+            //    action.weight = weight;
+
+                if (!action.on) {
+                    action.setEffectiveWeight( weight );
+                //    action.stop();
+                    action.on = true;
                     action.play();
+                    if (fade) {
+                        action.fadeIn(fade);
+                    }
+                } else {
+
+                    if (fade) {
+                        console.log("_sched fade")
+                        action._scheduleFading(fade, 1, weight / action.getEffectiveWeight())
+                        // action.fadeIn(fade);
+                    }
                 }
+
+
             } else {
-                if (action.enabled) {
-                    action.enabled = false;
+                if (fade) {
+                    action.fadeOut(fade);
+                } else if (action.on) {
+                    action.on = false;
                     action.stop();
                 }
             }
 
-            action.setEffectiveTimeScale( timeScale );
-            action.setEffectiveWeight( weight );
+            //   action.setEffectiveWeight( weight );
         };
 
         InstanceAnimator.prototype.activateAnimator = function() {

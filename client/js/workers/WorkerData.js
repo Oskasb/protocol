@@ -26,8 +26,9 @@ define([
                     this.data[key] = data[key];
                 }
 
+                onDataLoaded(this.dataReady);
                 this.dataReady = true;
-                onDataLoaded();
+
 
             }.bind(this);
 

@@ -41,6 +41,7 @@ define([
 
         UiSetup.prototype.setupDefaultUi = function() {
             this.guiAnchors.initGuiAnchors();
+            GuiAPI.getGuiDebug().setupDebugControlContainer();
             this.uiTestSetup.initUiTestSetup();
         };
 

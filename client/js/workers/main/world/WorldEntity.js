@@ -20,6 +20,15 @@ define([
             this.skin = {};
             this.attachedTo = false;
             this.slots = {};
+
+            var setIsDirty = function() {
+                this.setWorldEntityIsDirty();
+            }.bind(this);
+
+            this.callbacks = {
+                setIsDirty:setIsDirty
+            };
+
             this.setupAnimations();
         };
 
@@ -68,25 +77,65 @@ define([
             }
 
             for (var i = 0; i < this.data.animKeys.length; i ++) {
-                var animState = new AnimationState(this.data.animKeys[i]);
+                var animKey = ENUMS.getKey('Animations',this.data.animKeys[i]);
+                var animState = new AnimationState(animKey, this.callbacks.setIsDirty);
                 this.animationStates.push(animState);
-                animState.setAnimationWeight(1);
-                animState.setAnimationTimeScale(0.6+Math.random()*0.8)
+                this.setAnimationStateWeight(animKey, 1);
+                this.setAnimationStateTimeScale(animKey, 0.6+Math.random()*0.8);
             }
+        };
 
+        WorldEntity.prototype.setAnimationStateWeight = function(key, weight) {
+            this.getAnimationState(key).setAnimationWeight(weight);;
+        };
+
+        WorldEntity.prototype.setAnimationStateTimeScale = function(key, timeScale) {
+            this.getAnimationState(key).setAnimationTimeScale(timeScale);
+        };
+
+        WorldEntity.prototype.getAnimationState = function(key) {
+            return MATH.getFromArrayByKeyValue(this.animationStates, 'key', key)
+        };
+
+        WorldEntity.prototype.getWorldEntityPosition = function(storeVec) {
+            storeVec.copy(this.obj3d.position);
+        };
+
+        WorldEntity.prototype.setWorldEntityPosition = function(posVec) {
+            this.obj3d.position.copy(posVec);
+            this.setWorldEntityIsDirty();
+
+        };
+
+        WorldEntity.prototype.setWorldEntityQuaternion = function(quat) {
+            this.obj3d.quaternion.copy(quat);
+            this.setWorldEntityIsDirty();
+        };
+
+        WorldEntity.prototype.setWorldEntityScale = function(scale) {
+            this.obj3d.scale.copy(scale);
+            this.setWorldEntityIsDirty();
         };
 
         WorldEntity.prototype.initWorldEntity = function(time) {
             this.active = ENUMS.InstanceState.ACTIVE_VISIBLE;
-            this.obj3d.position.x = 5 + Math.random() * 20 + Math.sin(time*1)*40;
-            this.obj3d.position.z = 5 + Math.random() * 20 + Math.cos(time*1)*40;
-            this.obj3d.rotateY(Math.random()*5);
-            this.obj3d.rotateX((Math.random()-0.5)*0.1);
-            this.obj3d.rotateZ((Math.random()-0.5)*0.1);
 
-            this.obj3d.scale.x = 1+Math.random()*2;
-            this.obj3d.scale.y = this.obj3d.scale.x;
-            this.obj3d.scale.z = this.obj3d.scale.y;
+            this.setWorldEntityIsDirty();
+
+        };
+
+        WorldEntity.prototype.updateWorldEntity = function() {
+            if (this.worldEntityIsDirty) {
+                this.relayEntityState();
+                this.worldEntityIsDirty = false;
+            }
+        };
+
+        WorldEntity.prototype.setWorldEntityIsDirty = function() {
+            this.worldEntityIsDirty = true;
+        };
+
+        WorldEntity.prototype.relayEntityState = function() {
 
             eventData = evt.parser.worldEntityEvent(this);
             evt.fire(this.ptr, eventData);

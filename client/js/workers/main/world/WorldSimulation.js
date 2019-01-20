@@ -48,9 +48,11 @@ define([
 
         var e;
 
+
         WorldSimulation.prototype.addNewEntities = function(time) {
             while (addEntities.length) {
                 e = addEntities.pop();
+
                 e.initWorldEntity(time);
 
                 worldEntities.push(e);
@@ -79,6 +81,11 @@ define([
 
             we.decommissionWorldEntity();
 
+        };
+
+        WorldSimulation.prototype.despawnWorldEntity = function(worldEntity) {
+            MATH.quickSplice(worldEntities, worldEntity);
+            worldEntity.decommissionWorldEntity();
         };
 
         WorldSimulation.prototype.addWorldStepCallback = function(callback) {
@@ -112,8 +119,6 @@ define([
                 return;
             }
 
-
-
             if (Math.random()*15+72 < worldEntities.length) {
                 this.despawnRandomEntity();
                 this.despawnRandomEntity();
@@ -127,6 +132,8 @@ define([
             }
         };
 
+        var tempVec1 = new THREE.Vector3();
+
         WorldSimulation.prototype.tickWorldSimulation = function(tpf, time) {
 
             this.worldCamera.tickWorldCamera(tpf);
@@ -134,7 +141,20 @@ define([
             this.addNewEntities(time);
 
             if (this.readWorldStatusValue('randomSpawn')) {
+
+                for (var i = 0; i < worldEntities.length; i++) {
+                    //    if (Math.random() < 0.1) {
+                    worldEntities[i].getWorldEntityPosition(tempVec1);
+                    tempVec1.x += (Math.sin(time ))*0.1+ Math.random()*0.06*tempVec1.x;
+                    tempVec1.z += (Math.cos(time ))*0.1+ Math.random()*0.06*tempVec1.y;
+                    worldEntities[i].setWorldEntityPosition(tempVec1);
+                }
                 this.randomSpawnSpam(time);
+            }
+
+
+            for (var i = 0; i < worldEntities.length; i++) {
+                worldEntities[i].updateWorldEntity();
             }
 
             this.triggerWorldCallbacks(tpf, time);

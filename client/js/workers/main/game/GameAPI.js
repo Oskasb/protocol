@@ -4,16 +4,20 @@ var GameAPI;
 
 define([
         'game/GameMain',
-        'game/GameAssets'
+        'game/GameAssets',
+        'game/pieces/PieceBuilder'
     ],
     function(
         GameMain,
-        GameAssets
+        GameAssets,
+        PieceBuilder
     ) {
 
         var testPiece = false;
         var gameMain = new GameMain();
         var gameAssets = new GameAssets();
+
+        var pieceBuilder = new PieceBuilder();
 
         GameAPI = function() {};
 
@@ -21,19 +25,25 @@ define([
 
         };
 
+        var testPieceId;
 
         GameAPI.loadTestPiece = function() {
             testPiece = !testPiece;
 
             var onReady = function(gamePiece) {
+                testPieceId = gamePiece.pieceId;
                 console.log("PieceReady ", gamePiece);
+                GuiAPI.getGuiDebug().debugPieceAnimations(gamePiece);
+                gameMain.registerGamePiece(gamePiece);
             };
 
             GuiAPI.printDebugText("LOAD TEST PIECE "+testPiece);
             if (testPiece) {
-                gameMain.requestNewGamePiece("test_piece", "BARBARIAN", onReady);
+
+                pieceBuilder.buildGamePiece("BARBARIAN", onReady)
+
             } else {
-                var piece = gameMain.getPieceById("test_piece");
+                var piece = gameMain.getPieceById(testPieceId);
                 gameMain.removeGamePiece(piece);
             }
 
@@ -53,7 +63,7 @@ define([
         };
 
         GameAPI.updateGame = function(tpf, time) {
-
+            gameMain.updateGameMain(tpf, time);
         };
 
         return GameAPI;

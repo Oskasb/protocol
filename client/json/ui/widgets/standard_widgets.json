@@ -195,6 +195,14 @@
               }
             },
             {
+              "id":"widget_vertical_container",
+              "layout":"layout_vertical_container",
+              "surface": {
+                "nineslice": "nineslice_surface_debug",
+                "feedback": "feedback_surface_container"
+              }
+            },
+            {
               "id":"widget_gui_anchor",
               "layout":"layout_gui_anchor_point",
               "surface": {

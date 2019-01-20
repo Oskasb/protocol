@@ -169,7 +169,6 @@ define([
         };
 
 
-
         GuiAPI.debugDrawGuiPosition = function(x, y) {
             GuiDebug.debugDrawPoint(x, y)
         };

@@ -1,59 +1,65 @@
 "use strict";
 
-
-
 define([
-        'workers/WorkerData'
+
     ],
     function(
-        WorkerData
+
     ) {
 
+        var GamePiece = function(pieceId, workerData) {
 
-        var GamePiece = function() {
-            this.pieceId = null;
-            this.workerData = new WorkerData("GAME", "PIECES")
         };
 
-        GamePiece.prototype.initGamePiece = function(pieceId, dataId, onReady) {
-
+        GamePiece.prototype.initGamePiece = function( pieceId, workerData) {
             this.pieceId = pieceId;
-
-            var onDataReady = function() {
-                this.setupGamePiece(onReady);
-            }.bind(this);
-
-            this.workerData.fetchData(dataId, onDataReady);
-
+            this.workerData = workerData;
         };
 
-
-        GamePiece.prototype.setupGamePiece = function(onReady) {
-
-            GuiAPI.printDebugText("SETUP GAME PIECE "+this.workerData.readDataKey("model_asset"));
-
-            var modelAssetId = this.workerData.readDataKey('model_asset');
-
-            var worldEntityReady = function(worldEntity) {
-                this.worldEntity = worldEntity;
-                onReady(this);
-
-            }.bind(this);
-
-            GameAPI.requestAssetWorldEntity(modelAssetId, worldEntityReady)
-
+        GamePiece.prototype.getWorkerData = function() {
+            return this.workerData
         };
 
-
-        GamePiece.prototype.dispatchGamePiece = function() {
-
-            GuiAPI.printDebugText("DISPATCH GAME PIECE "+this.pieceId);
-
+        GamePiece.prototype.readConfigData = function( key) {
+            return this.workerData.readDataKey(key)
         };
 
+        GamePiece.prototype.setWorldEntity = function( worldEntity) {
+            this.worldEntity = worldEntity;
+        };
 
+        GamePiece.prototype.getWorldEntity = function() {
+            return this.worldEntity;
+        };
 
+        GamePiece.prototype.setPieceAnimator = function( pieceAnimator) {
+            this.pieceAnimator = pieceAnimator;
+        };
+
+        GamePiece.prototype.getPieceAnimator = function( ) {
+            return this.pieceAnimator;
+        };
+
+        GamePiece.prototype.activatePieceAnimation = function(key, weight, timeScale) {
+            this.getPieceAnimator().activatePieceAnimation(key, weight, timeScale);
+        };
+
+        GamePiece.prototype.getPlayingAnimation = function(key) {
+            return this.getPieceAnimator().activeAnimationKey(key);
+        };
+
+        GamePiece.prototype.updateGamePiece = function(tpf, time) {
+            this.pieceAnimator.updatePieceAnimations(tpf, time);
+        };
+
+        GamePiece.prototype.disposeGamePiece = function() {
+
+            GuiAPI.printDebugText("DISPOSE GAME PIECE "+this.pieceId);
+            MainWorldAPI.getWorldSimulation().despawnWorldEntity(this.worldEntity);
+
+        };
 
         return GamePiece;
+
     });
 

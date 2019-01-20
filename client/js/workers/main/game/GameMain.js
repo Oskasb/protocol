@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 define([
         'game/GamePiece'
     ],
@@ -12,31 +10,34 @@ define([
 
         var GameMain = function() {
             this.pieces = [];
-
         };
 
 
-        GameMain.prototype.requestNewGamePiece = function(pieceId, dataId, onReady) {
-            var gamePiece = new GamePiece();
+        GameMain.prototype.registerGamePiece = function( gamePiece) {
             this.pieces.push(gamePiece);
-            gamePiece.initGamePiece(pieceId, dataId, onReady)
         };
+
 
         GameMain.prototype.getPieceById = function(pieceId) {
-            return MATH.getFromArrayByKeyValue(this.pieces, 'id', pieceId);
+            return MATH.getFromArrayByKeyValue(this.pieces, 'pieceId', pieceId);
         };
+
 
         GameMain.prototype.removeGamePiece = function(gamePiece) {
             MATH.quickSplice(this.pieces, gamePiece);
-            gamePiece.dispatchGamePiece();
+            gamePiece.disposeGamePiece();
         };
 
 
         GameMain.prototype.updateGameMain = function(tpf, time) {
 
+            for (var i = 0; i < this.pieces.length; i++) {
+                this.pieces[i].updateGamePiece(tpf, time);
+            }
+
         };
 
-
         return GameMain;
+
     });
 

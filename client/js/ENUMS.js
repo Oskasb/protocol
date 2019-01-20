@@ -135,7 +135,9 @@ if(typeof(ENUMS) === "undefined"){
         ATTACK_1:           4,
         ATTACK_2:           5,
         DEAD:               6,
-        FALL:               7
+        FALL:               7,
+        IDL_LO_CB:          8,
+        IDL_HI_CB:          9
 
     };
 

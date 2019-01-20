@@ -59,8 +59,9 @@ define([
         };
 
         InstanceAnimator.prototype.startChannelAction = function(channel, action, weight, fade) {
-            console.log("start chan action", action);
-            action.stop();
+    //        console.log("start chan action", action);
+            action.reset();
+            action.enabled = true;
             action.setEffectiveWeight( weight );
             action.play();
             action.fadeIn(fade);
@@ -74,12 +75,12 @@ define([
 
             if (fromAction === toAction) {
 
-                console.log("_sched fade");
+    //            console.log("_sched fade");
                 toAction._scheduleFading(fade, 1, weight / toAction.getEffectiveWeight())
                 channel.push(toAction);
             } else {
 
-                console.log("X fade");
+    //            console.log("X fade");
             //    toAction.setEffectiveWeight(weight);
                 fromAction.fadeOut(fade)
             //    toAction.crossFadeFrom(fromAction, toAction, fade)
@@ -109,7 +110,7 @@ define([
             }
 
             if (!this.channels[chan]) {
-                console.log("Add anim channel", chan);
+        //        console.log("Add anim channel", chan);
                 this.channels[chan] = [];
                 return;
             }
@@ -136,7 +137,7 @@ define([
         };
 
         InstanceAnimator.prototype.activateAnimator = function() {
-            this.initAnimatior()
+        //    this.initAnimatior()
             ThreeAPI.activateMixer(this.mixer);
         };
 

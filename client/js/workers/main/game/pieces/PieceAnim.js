@@ -21,6 +21,7 @@ define([
             this.ts = 1;
             this.w = 1;
             this.channel = 0;
+
         };
 
         PieceAnim.prototype.getData = function() {
@@ -37,13 +38,13 @@ define([
         };
 
         PieceAnim.prototype.setWeight = function(w) {
-            if (this.w === w) return;
+        //    if (this.w === w) return;
             this.w = w * this.getData()['weight'];
             this.animationState.setAnimationWeight(this.w)
         };
 
         PieceAnim.prototype.setTimeScale = function(ts) {
-            if (this.ts === ts) return;
+        //    if (this.ts === ts) return;
             this.ts = ts* this.getData()['time_scale'];
             this.animationState.setAnimationTimeScale(this.ts)
         };

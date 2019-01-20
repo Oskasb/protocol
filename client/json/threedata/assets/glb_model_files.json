@@ -10,7 +10,10 @@
         {"id": "file_barb_run"  ,         "config": { "url": "./client/assets/models/characters/barb/movement/barb_run"       }},
 
         {"id": "file_barb_idle" ,         "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle"          }},
-        {"id": "file_barb_idle_combat" ,  "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle_combat"      }},
+
+        {"id": "barb_legs_idle_cbt" ,     "config": { "url": "./client/assets/models/characters/barb/idle/barb_legs_idle_cbt"          }},
+
+        {"id": "barb_body_idle_cbt" ,     "config": { "url": "./client/assets/models/characters/barb/idle/barb_body_idle_cbt"      }},
 
         {"id": "file_barb_attack_1" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_1"      }},
         {"id": "file_barb_attack_2" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_2"      }},

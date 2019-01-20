@@ -21,17 +21,18 @@
             "model": "file_barb_bind",
             "animations":[
 
-              {"key":"DEAD"         , "id":"file_barb_dead"           } ,
-              {"key":"IDLE"         , "id":"file_barb_idle"           } ,
+              {"key":"DEAD"           , "id":"file_barb_dead"           } ,
+              {"key":"IDLE"           , "id":"file_barb_idle"           } ,
 
-              {"key":"IDLE_COMBAT"  , "id":"file_barb_idle_combat"    } ,
+              {"key":"IDL_LO_CB"      , "id":"barb_legs_idle_cbt"       } ,
+              {"key":"IDL_HI_CB"      , "id":"barb_body_idle_cbt"       } ,
 
-              {"key":"ATTACK_1"     , "id":"file_barb_attack_1"       } ,
-              {"key":"ATTACK_2"     , "id":"file_barb_attack_2"       } ,
+              {"key":"ATTACK_1"       , "id":"file_barb_attack_1"       } ,
+              {"key":"ATTACK_2"       , "id":"file_barb_attack_2"       } ,
 
-              {"key":"FALL"         , "id":"file_barb_fall"           } ,
+              {"key":"FALL"           , "id":"file_barb_fall"           } ,
 
-              {"key":"RUN"          , "id":"file_barb_run"            }
+              {"key":"RUN"            , "id":"file_barb_run"            }
             ],
             "material": "material_opaque",
             "settings": "barb_settings"

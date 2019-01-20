@@ -6,14 +6,14 @@ define([
 
         var AnimationState = function(key, dirtyCallback) {
             this.key = key;
-            this.weight = 0;
+            this.weight = 0.01;
             this.targetWeight = 0;
             this.timeScale = 1;
-            this.fade = 0.25;
+            this.fade = 0.05;
             this.channel = 0;
             this.playing = false;
 
-            this.isDirty = false;
+            this.isDirty = true;
 
             var notifyUpdated = function() {
                 this.isDirty = true;

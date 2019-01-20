@@ -10,9 +10,10 @@ define([
             this.targetWeight = 0;
             this.timeScale = 1;
             this.fade = 0.25;
-            this.playing = true;
+            this.channel = 0;
+            this.playing = false;
 
-            this.isDirty = true;
+            this.isDirty = false;
 
             var notifyUpdated = function() {
                 this.isDirty = true;
@@ -41,6 +42,15 @@ define([
 
         AnimationState.prototype.getAnimationKey = function() {
             return this.key;
+        };
+
+        AnimationState.prototype.setAnimationChannel = function(channel) {
+            this.channel = channel;
+            this.callbacks.notifyUpdated();
+        };
+
+        AnimationState.prototype.getAnimationChannel = function() {
+            return this.channel;
         };
 
         AnimationState.prototype.setAnimationFade = function(fade) {

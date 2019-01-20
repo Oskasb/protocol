@@ -135,13 +135,17 @@ define([
 
         var showAnimationState = function(animState, gamePiece) {
 
-            var onActivate = function() {
-                gamePiece.activatePieceAnimation(animState.key, 0.6+Math.random()*0.6, 0.7+Math.random()*0.6)
-            };
-
             var testActive = function() {
                 return gamePiece.getPlayingAnimation(animState.key)
             };
+
+            var onActivate = function() {
+            //    if (testActive()) {
+                    gamePiece.activatePieceAnimation(animState.key, 1, 0.9+Math.random()*0.1)
+            //    }
+            };
+
+
 
             addDebugButton(animState.key, onActivate, testActive)
         };

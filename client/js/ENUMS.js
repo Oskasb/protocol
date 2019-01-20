@@ -130,7 +130,13 @@ if(typeof(ENUMS) === "undefined"){
     ENUMS.Animations = {
         IDLE:               0,
         WALK:               1,
-        RUN:                2
+        RUN:                2,
+        IDLE_COMBAT:        3,
+        ATTACK_1:           4,
+        ATTACK_2:           5,
+        DEAD:               6,
+        FALL:               7
+
     };
 
 

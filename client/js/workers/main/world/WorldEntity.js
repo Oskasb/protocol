@@ -80,8 +80,6 @@ define([
                 var animKey = ENUMS.getKey('Animations',this.data.animKeys[i]);
                 var animState = new AnimationState(animKey, this.callbacks.setIsDirty);
                 this.animationStates.push(animState);
-                this.setAnimationStateWeight(animKey, 1);
-                this.setAnimationStateTimeScale(animKey, 0.6+Math.random()*0.8);
             }
         };
 

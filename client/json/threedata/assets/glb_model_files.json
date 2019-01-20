@@ -2,16 +2,24 @@
   {
     "ASSETS": {
       "FILES_GLB": [
-        {"id": "file_pilot_bind", "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"      }},
-        {"id": "file_pilot_run" , "config": { "url": "./client/assets/models/characters/pilot/movement/run"    }},
-        {"id": "file_pilot_idle", "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle" }},
+        {"id": "file_pilot_bind",         "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"      }},
+        {"id": "file_pilot_run" ,         "config": { "url": "./client/assets/models/characters/pilot/movement/run"    }},
+        {"id": "file_pilot_idle",         "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle" }},
 
-        {"id": "file_barb_bind" , "config": { "url": "./client/assets/models/characters/barb/barb_bind"           }},
-        {"id": "file_barb_run"  , "config": { "url": "./client/assets/models/characters/barb/movement/barb_run"   }},
-        {"id": "file_barb_idle" , "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle"  }},
+        {"id": "file_barb_bind" ,         "config": { "url": "./client/assets/models/characters/barb/barb_bind"               }},
+        {"id": "file_barb_run"  ,         "config": { "url": "./client/assets/models/characters/barb/movement/barb_run"       }},
 
-        {"id": "file_barb_item_bp",  "config": { "url": "./client/assets/models/characters/barb/items/item_breastplate"  }},
-        {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"  }},
+        {"id": "file_barb_idle" ,         "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle"          }},
+        {"id": "file_barb_idle_combat" ,  "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle_combat"      }},
+
+        {"id": "file_barb_attack_1" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_1"      }},
+        {"id": "file_barb_attack_2" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_2"      }},
+
+        {"id": "file_barb_fall" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_fall"        }},
+        {"id": "file_barb_dead" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_dead"        }},
+
+        {"id": "file_barb_item_bp",       "config": { "url": "./client/assets/models/characters/barb/items/item_breastplate"  }},
+        {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"      }},
 
 
         {"id": "file_nineQuad",   "config": { "url": "./client/assets/models/shapes/nineQuad"                  }},

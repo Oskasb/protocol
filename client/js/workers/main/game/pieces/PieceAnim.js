@@ -20,6 +20,7 @@ define([
             this.fade = 0.25;
             this.ts = 1;
             this.w = 1;
+            this.channel = 0;
         };
 
         PieceAnim.prototype.getData = function() {
@@ -31,6 +32,7 @@ define([
             this.setWeight(weight || 1);
             this.setTimeScale(timeScale || 1);
             this.setFadeTime(timeScale || 1);
+            this.setChannel(this.getData()['channel'] || 0);
             this.duration = this.getData()['duration'] / this.ts;
         };
 
@@ -49,6 +51,11 @@ define([
         PieceAnim.prototype.setFadeTime = function(timeScale) {
             this.fade = timeScale * this.getData()['fade'];
             this.animationState.setAnimationFade(this.fade)
+        };
+
+        PieceAnim.prototype.setChannel = function(channel) {
+            this.channel = channel;
+            this.animationState.setAnimationChannel(this.channel)
         };
 
         PieceAnim.prototype.updateAnimation = function(tpf, time, removes) {

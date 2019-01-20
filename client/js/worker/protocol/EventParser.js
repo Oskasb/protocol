@@ -36,10 +36,16 @@ define([
         };
 
         var readAnimation = function(modelInstance, index, animEvent) {
-            modelInstance.updateAnimationState(animEvent[index+1], animEvent[index+2], animEvent[index+3], animEvent[index+4])
+            modelInstance.updateAnimationState(
+                animEvent[index+1],
+                animEvent[index+2],
+                animEvent[index+3],
+                animEvent[index+4],
+                animEvent[index+5]
+            )
         };
 
-        var animStride = 4;
+        var animStride = 5;
 
         parser[ENUMS.Event.UPDATE_ANIMATIONS] = function(modelInstance, event) {
             count = event[1];
@@ -85,6 +91,7 @@ define([
             animEvent[index+2] = animState.getAnimationWeight();
             animEvent[index+3] = animState.getAnimationTimeScale();
             animEvent[index+4] = animState.getAnimationFade();
+            animEvent[index+5] = animState.getAnimationChannel();
         };
 
         var idx;

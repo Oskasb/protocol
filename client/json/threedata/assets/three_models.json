@@ -20,8 +20,18 @@
           "config":{
             "model": "file_barb_bind",
             "animations":[
-              {"key":"IDLE"  , "id":"file_barb_idle"   } ,
-              {"key":"RUN"   , "id":"file_barb_run"    }
+
+              {"key":"DEAD"         , "id":"file_barb_dead"           } ,
+              {"key":"IDLE"         , "id":"file_barb_idle"           } ,
+
+              {"key":"IDLE_COMBAT"  , "id":"file_barb_idle_combat"    } ,
+
+              {"key":"ATTACK_1"     , "id":"file_barb_attack_1"       } ,
+              {"key":"ATTACK_2"     , "id":"file_barb_attack_2"       } ,
+
+              {"key":"FALL"         , "id":"file_barb_fall"           } ,
+
+              {"key":"RUN"          , "id":"file_barb_run"            }
             ],
             "material": "material_opaque",
             "settings": "barb_settings"

@@ -11,6 +11,9 @@ define([
         var InstanceAnimator = function(instancedModel) {
             this.animationActions = {};
             this.instancedModel = instancedModel;
+
+            this.channels = [];
+
             this.addMixer(this.instancedModel.getObj3d());
             this.setupAnimations(this.instancedModel.getAnimationMap())
         };
@@ -26,22 +29,88 @@ define([
             for (var key in animMap) {
                 var actionClip = this.instancedModel.originalModel.getAnimationClip(animMap[key]);
                 var action = this.addAnimationAction(actionClip);
-                action.enabled = false;
+                action.setEffectiveWeight( 1 );
+                action.setEffectiveTimeScale( 1 );
+            //    action.play();
                 this.actionKeys.push(animMap[key]);
                 this.animationActions[animMap[key]] = action;
             }
         };
 
+        InstanceAnimator.prototype.initAnimatior = function() {
+
+            for (var key in this.animationActions) {
+                var action = this.animationActions[key];
+                action.stop();
+                action.on = false;
+            //    action.setEffectiveWeight( 0 );
+            //    action.enabled = false;
+            }
+        };
+
+
         InstanceAnimator.prototype.addAnimationAction = function(actionClip) {
+            if (!actionClip) {
+                console.log("No Anim Clip", this)
+                return;
+            }
+
             return this.mixer.clipAction( actionClip );
         };
 
-        InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale, fade) {
+        InstanceAnimator.prototype.startChannelAction = function(channel, action, weight, fade) {
+            console.log("start chan action", action);
+            action.stop();
+            action.setEffectiveWeight( weight );
+            action.play();
+            action.fadeIn(fade);
+            channel.push(action);
+
+        };
+
+        InstanceAnimator.prototype.fadeinChannelAction = function(channel, toAction, weight, fade) {
+
+            var fromAction = channel.pop();
+
+            if (fromAction === toAction) {
+
+                console.log("_sched fade");
+                toAction._scheduleFading(fade, 1, weight / toAction.getEffectiveWeight())
+                channel.push(toAction);
+            } else {
+
+                console.log("X fade");
+            //    toAction.setEffectiveWeight(weight);
+                fromAction.fadeOut(fade)
+            //    toAction.crossFadeFrom(fromAction, toAction, fade)
+                this.startChannelAction(channel, toAction, weight, fade)
+            }
+
+
+
+        };
+
+
+        InstanceAnimator.prototype.stopChannelAction = function(channel, action) {
+
+            MATH.quickSplice(channel, action);
+            action.stop();
+        };
+
+        InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale, fade, chan) {
             animKey = ENUMS.getKey('Animations', animationKey);
             action = this.animationActions[animKey];
 
+            console.log("anim event:", animationKey, weight, timeScale, fade, chan);
+
             if (!action) {
-                console.log("Bad anim event")
+                console.log("Bad anim event");
+                return;
+            }
+
+            if (!this.channels[chan]) {
+                console.log("Add anim channel", chan);
+                this.channels[chan] = [];
                 return;
             }
 
@@ -49,40 +118,25 @@ define([
 
             if (weight) {
 
-
-            //    action.weight = weight;
-
-                if (!action.on) {
-                    action.setEffectiveWeight( weight );
-                //    action.stop();
-                    action.on = true;
-                    action.play();
-                    if (fade) {
-                        action.fadeIn(fade);
-                    }
+                if (this.channels[chan].length) {
+                    this.fadeinChannelAction(this.channels[chan], action, weight, fade)
                 } else {
-
-                    if (fade) {
-                        console.log("_sched fade")
-                        action._scheduleFading(fade, 1, weight / action.getEffectiveWeight())
-                        // action.fadeIn(fade);
-                    }
+                    this.startChannelAction(this.channels[chan], action, weight, fade)
                 }
 
-
             } else {
+
                 if (fade) {
                     action.fadeOut(fade);
-                } else if (action.on) {
-                    action.on = false;
-                    action.stop();
+                } else  {
+                    this.stopChannelAction(this.channels[chan], action)
                 }
             }
 
-            //   action.setEffectiveWeight( weight );
         };
 
         InstanceAnimator.prototype.activateAnimator = function() {
+            this.initAnimatior()
             ThreeAPI.activateMixer(this.mixer);
         };
 

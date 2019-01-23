@@ -28,6 +28,13 @@ define([
 
     var DynamicMain = function() {
         dynamicMain = this;
+
+        var requestInstance = function(event) {
+            this.requestAssetInstance(event)
+        }.bind(this);
+
+        evt.on(ENUMS.Event.REQUEST_ASSET_INSTANCE, requestInstance);
+
     };
 
     DynamicMain.prototype.requestAsset = function(msg) {
@@ -56,6 +63,9 @@ define([
         };
 
         ThreeAPI.buildAsset(msg,   onAssetReady);
+
+
+
     };
 
 
@@ -98,15 +108,13 @@ define([
         ThreeAPI.updateAnimationMixers(tpf);
     };
 
-    DynamicMain.requestAssetInstance = function(event) {
-        dynamicMain.requestAssetInstance(event);
-    };
+
 
     DynamicMain.prototype.initiateUiFromBufferMsg = function(bufferMsg) {
         InstanceAPI.setupUiInstancing(bufferMsg);
     };
 
-    evt.on(ENUMS.Event.REQUEST_ASSET_INSTANCE, DynamicMain.requestAssetInstance);
+
 
     return DynamicMain;
 

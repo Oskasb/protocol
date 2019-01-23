@@ -7,14 +7,16 @@ define([
 
     ) {
 
-        var GamePiece = function(pieceId, workerData) {
-
+        var GamePiece = function(dataId) {
+            this.dataId = dataId;
         };
 
         GamePiece.prototype.initGamePiece = function( pieceId, workerData) {
             this.pieceId = pieceId;
             this.workerData = workerData;
         };
+
+
 
         GamePiece.prototype.getWorkerData = function() {
             return this.workerData

@@ -26,6 +26,7 @@ define([
         };
 
         var testPieceId;
+        var testWeapon;
 
         GameAPI.loadTestPiece = function() {
             testPiece = !testPiece;
@@ -36,12 +37,23 @@ define([
                 GuiAPI.getGuiDebug().debugPieceAnimations(gamePiece);
                 GuiAPI.getGuiDebug().debugPieceAttachmentPoints(gamePiece);
                 gameMain.registerGamePiece(gamePiece);
+
+
+                if (!testWeapon) {
+
+                }
+
             };
+
+            var testWeapRdy = function(piece) {
+                console.log("SwordReady ", piece);
+            }
 
             GuiAPI.printDebugText("LOAD TEST PIECE "+testPiece);
             if (testPiece) {
 
-                pieceBuilder.buildGamePiece("FIGHTER", onReady)
+                pieceBuilder.buildGamePiece("NINJASWORD", testWeapRdy)
+                pieceBuilder.buildGamePiece("FIGHTER", onReady);
 
             } else {
                 var piece = gameMain.getPieceById(testPieceId);

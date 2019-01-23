@@ -23,7 +23,7 @@ define([
     var writeWorkerBaseIndex = 0;
 
     // var eventBuffer = ['eventLength', 'eventType', 'arg0', 'value0', 'arg1', 'value1', 'arg2', 'value2', 'arg3', 'value3']
-
+        var frameActiveResponses = []
         var responseBuffers = [];
         var response;
 
@@ -35,10 +35,16 @@ define([
             nextWriteIndex = writeWorkerBaseIndex;
         };
 
+        var key;
+        var refreshResponseStore = function() {
+
+        };
+
         var getResponseStore = function(eventLength) {
             if (!responseBuffers[eventLength]) {
-                responseBuffers[eventLength] = []
+                responseBuffers[eventLength] = [];
             }
+
             return responseBuffers[eventLength];
         };
 
@@ -72,12 +78,12 @@ define([
         EventBufferProcessor.writeBufferEvent = function(workerIndex, type, event, buffer) {
             workerBaseIndex = workerIndex * ENUMS.Numbers.event_buffer_size_per_worker;
             addEventToBuffer(type, event, buffer)
-
         };
 
         var readBufferEventAtIndex = function(eventIndex, eventLength, buffer) {
 
             type = buffer[eventIndex];
+
             response = getResponseStore(eventLength);
 
             for (bi = 0; bi < eventLength; bi++) {
@@ -89,14 +95,16 @@ define([
 
         };
 
+        var msg;
 
         var processWorkerBufferFrom = function(baseIndex, buffer, messageCount) {
 
             eventIndex = baseIndex+1;
 
-            for (i = 0; i < messageCount; i++) {
+            for (msg = 0; msg < messageCount; msg++) {
                 eventLength = buffer[eventIndex];
                 eventIndex++;
+
                 readBufferEventAtIndex(eventIndex, eventLength, buffer);
                 eventIndex+=eventLength+1
             }
@@ -105,7 +113,7 @@ define([
 
 
         EventBufferProcessor.readBufferEvents = function(buffer) {
-
+            refreshResponseStore();
             for (key in ENUMS.Worker) {
                 workerBaseIndex = ENUMS.Worker[key] * ENUMS.Numbers.event_buffer_size_per_worker;
                 workerMessageCount = buffer[workerBaseIndex];

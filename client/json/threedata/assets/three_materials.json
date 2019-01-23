@@ -38,8 +38,7 @@
           "config":{
             "settings": "instancing_basic_settings",
             "textures":[
-              {"key":"map"           , "id":"atlas_2k_diff"   },
-              {"key":"data_texture"  , "id":"data_texture"   }
+              {"key":"map"           , "id":"atlas_2k_diff"   }
             ]
           }
         },
@@ -48,8 +47,7 @@
           "config":{
             "settings": "instancing_basic_settings",
             "textures":[
-              {"key":"map"           , "id":"atlas_2k_diff"   },
-              {"key":"data_texture"  , "id":"data_texture"   }
+              {"key":"map"           , "id":"atlas_2k_diff"   }
             ]
           }
         },

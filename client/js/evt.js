@@ -25,15 +25,6 @@ define([
         return eventList;
     };
 
-    var TinyEvent = function(type) {
-        this.type = type;
-        this.arguments = [];
-    };
-
-    TinyEvent.prototype.setArgs = function(args) {
-        this.arguments = args;
-    };
-
     var setupEvent = function(event) {
 
         if (typeof (event) !== 'number') {
@@ -41,44 +32,26 @@ define([
             return;
         }
 
-        if (!events[event]) {
+        if (!listeners[event]) {
             listeners[event] = [];
-            events[event] = new TinyEvent(event);
         }
     };
 
-    var generateEvent = function(event, arguments) {
-        setupEvent(event);
-        setEventArgs(event, arguments);
-        return events[event];
-    };
 
-    var setEventArgs = function(event, args) {
-
-        if (typeof (event) !== 'number') {
-            console.log("Old Event: ", event);
-            return;
-        }
-
-        events[event].setArgs(args);
-    };
-
-    var eventArgs = function(event) {
-        return events[event].arguments;
-    };
-
-    var dispatchEvent = function(event) {
+    var dispatchEvent = function(event, args) {
 
         while (spliceListeners.length) {
             spliceListener(spliceListeners.shift(), spliceListeners.shift())
         }
 
         for (var i = 0; i < listeners[event].length; i++) {
+
             if (typeof (listeners[event][i]) !== 'function') {
-                console.log("Bad listener", event, listeners)
+                console.log("Bad listener", event, listeners);
                 return;
             }
-            listeners[event][i](eventArgs(event));
+
+            listeners[event][i](args);
         }
 
         while (spliceListeners.length) {
@@ -87,14 +60,18 @@ define([
 
     };
 
+
+
     var dispatch = function(event, arguments) {
 
+
         if (typeof(listeners[event]) === 'undefined') {
+
             return;
             // listeners[event] = []
         }
 
-        dispatchEvent(event, generateEvent(event, arguments));
+        dispatchEvent(event, arguments);
         evtStatus.firedCount++;
     };
 
@@ -148,7 +125,8 @@ define([
     };
 
     var asynchifySplice = function(listnrs, cb) {
-        spliceListeners.push(listnrs, cb);
+        spliceListeners.push(listnrs);
+        spliceListeners.push(cb);
     //    setTimeout(function() {
     //        spliceListener(listnrs, cb)
     //    }, 0)
@@ -215,7 +193,6 @@ define([
         removeListener:removeListener,
         on:registerListener,
         once:registerOnceListener,
-        args:eventArgs,
         fire:fireEvent,
         list:list,
         setEventBuffers:setEventBuffers,

@@ -23,7 +23,9 @@ define([
 
         PieceAnimator.prototype.setupPieceAnimations = function(onReady) {
 
+            console.log("Animator", this)
             var animations = this.gamePiece.readConfigData('animations');
+
 
             if (animations) {
 

@@ -19,55 +19,66 @@ define([
 
         };
 
-        PieceBuilder.prototype.buildGamePiece = function( dataId, onReady) {
+
+        var loadPiece = function(dataId, onReady) {
 
             var pieceId = 'piece_'+count+'_'+dataId;
 
-            var piece = new GamePiece();
+            var piece = new GamePiece(dataId);
+
             piece.initGamePiece(pieceId, new WorkerData("GAME", "PIECES"));
 
-            count++;
+
+            var setupGamePiece = function(piece, onReady) {
+
+                GuiAPI.printDebugText("SETUP GAME PIECE "+piece.readConfigData("model_asset"));
+
+                var modelAssetId = piece.readConfigData('model_asset');
+
+                var worldEntityReady = function(worldEntity) {
+                    console.log("ENT RDY", worldEntity)
+                    piece.setWorldEntity(worldEntity);
+                    configureEntityPiece(piece, onReady)
+                };
+
+                GameAPI.requestAssetWorldEntity(modelAssetId, worldEntityReady)
+
+            };
+
+            var configureEntityPiece = function(piece, onReady) {
+
+                var pieceAttacher = new PieceAttacher();
+
+                pieceAttacher.initPieceAttacher(piece);
+
+                var pieceAnimator = new PieceAnimator();
+
+                var animatorReady = function(pa) {
+                    GuiAPI.printDebugText("ANIMATOR RDY "+pa.gamePiece.dataId);
+                    onReady(pa.gamePiece);
+                };
+
+                pieceAnimator.initPieceAnimator(piece, animatorReady);
+
+            };
 
             var onDataReady = function(isUpdate) {
                 if (!isUpdate) {
-                    this.setupGamePiece(piece, onReady);
+                    setupGamePiece(piece, onReady);
                 }
-            }.bind(this);
-
-            piece.workerData.fetchData(dataId, onDataReady);
-
-        };
-
-        PieceBuilder.prototype.setupGamePiece = function(piece, onReady) {
-
-            GuiAPI.printDebugText("SETUP GAME PIECE "+piece.readConfigData("model_asset"));
-
-            var modelAssetId = piece.readConfigData('model_asset');
-
-            var worldEntityReady = function(worldEntity) {
-                piece.setWorldEntity(worldEntity);
-                this.configureEntityPiece(piece, onReady)
-            }.bind(this);
-
-            GameAPI.requestAssetWorldEntity(modelAssetId, worldEntityReady)
-
-        };
-
-        PieceBuilder.prototype.configureEntityPiece = function(piece, onReady) {
-
-            var pieceAttacher = new PieceAttacher();
-
-            pieceAttacher.initPieceAttacher(piece);
-
-            var pieceAnimator = new PieceAnimator();
-
-            var animatorReady = function(pa) {
-                onReady(pa.gamePiece);
             };
 
-            pieceAnimator.initPieceAnimator(piece, animatorReady);
-
+            piece.workerData.fetchData(piece.dataId, onDataReady);
         };
+
+
+        PieceBuilder.prototype.buildGamePiece = function( dataId, onReady) {
+
+            count++;
+            new loadPiece(dataId, onReady);
+        };
+
+
 
         return PieceBuilder;
 

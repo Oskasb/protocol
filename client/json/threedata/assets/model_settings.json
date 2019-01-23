@@ -87,11 +87,24 @@
             }
           }
         },
-
+        {"id": "instancing_items_settings" ,
+          "config": {
+            "instancing": {
+              "instances": 50,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
         {"id": "instancing_settings" ,
           "config": {
             "instancing": {
-              "instances": 5000,
+              "instances": 500,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
               "cameraspace": false
             },

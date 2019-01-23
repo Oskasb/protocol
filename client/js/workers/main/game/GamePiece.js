@@ -40,17 +40,40 @@ define([
             return this.pieceAnimator;
         };
 
+
+
         GamePiece.prototype.activatePieceAnimation = function(key, weight, timeScale) {
             this.getPieceAnimator().activatePieceAnimation(key, weight, timeScale);
         };
 
         GamePiece.prototype.getPlayingAnimation = function(key) {
-            return this.getPieceAnimator().activeAnimationKey(key);
+            return this.getPieceAnimator().isActiveAnimationKey(key);
         };
+
+
+        GamePiece.prototype.setPieceAttacher = function( pieceAttacher) {
+            this.pieceAttacher = pieceAttacher;
+        };
+
+        GamePiece.prototype.getPieceAttacher = function( ) {
+            return this.pieceAttacher;
+        };
+
+
+        GamePiece.prototype.attachWorldEntityToJoint = function(worldEntity, jointKey) {
+            return this.getPieceAttacher().attachEntityToJoint(worldEntity, jointKey);
+        };
+
+
+        GamePiece.prototype.getJointActiveAttachment = function(key) {
+           return this.getPieceAttacher().isActiveJointKey(key);
+        };
+
 
         GamePiece.prototype.updateGamePiece = function(tpf, time) {
             this.pieceAnimator.updatePieceAnimations(tpf, time);
         };
+
 
         GamePiece.prototype.disposeGamePiece = function() {
 
@@ -59,7 +82,9 @@ define([
 
         };
 
+
         return GamePiece;
+
 
     });
 

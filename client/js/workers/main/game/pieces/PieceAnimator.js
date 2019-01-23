@@ -50,7 +50,7 @@ define([
 
         };
 
-        PieceAnimator.prototype.activeAnimationKey = function(key) {
+        PieceAnimator.prototype.isActiveAnimationKey = function(key) {
             return MATH.getFromArrayByKeyValue(this.activeAnimations, 'key', key);
         };
 

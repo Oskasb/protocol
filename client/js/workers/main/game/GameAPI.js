@@ -34,6 +34,7 @@ define([
                 testPieceId = gamePiece.pieceId;
                 console.log("PieceReady ", gamePiece);
                 GuiAPI.getGuiDebug().debugPieceAnimations(gamePiece);
+                GuiAPI.getGuiDebug().debugPieceAttachmentPoints(gamePiece);
                 gameMain.registerGamePiece(gamePiece);
             };
 

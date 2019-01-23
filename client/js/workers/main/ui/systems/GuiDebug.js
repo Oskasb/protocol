@@ -108,6 +108,7 @@ define([
         };
 
         var debugControlContainer;
+        var debugControlContainer2;
 
         GuiDebug.setupDebugControlContainer = function() {
             var onReady = function(expcont) {
@@ -119,12 +120,20 @@ define([
             GuiAPI.buildGuiWidget('GuiExpandingContainer', opts, onReady);
         };
 
+        GuiDebug.setupDebugControlContainer2 = function() {
+            var onReady = function(expcont) {
+                debugControlContainer2 = expcont;
+            };
 
+            var opts = GuiAPI.buildWidgetOptions('widget_expanding_container', false, false, false, null, 0, 0, 'top_center');
 
-        var addDebugButton = function(text, onActivate, testActive) {
+            GuiAPI.buildGuiWidget('GuiExpandingContainer', opts, onReady);
+        };
+
+        var addDebugButton = function(text, onActivate, testActive, container) {
 
             var onReady = function(widget) {
-                debugControlContainer.addChildWidgetToContainer(widget.guiWidget);
+                container.addChildWidgetToContainer(widget.guiWidget);
             };
 
             var opts = GuiAPI.buildWidgetOptions('button_big_blue', onActivate, testActive, true, text);
@@ -145,9 +154,7 @@ define([
             //    }
             };
 
-
-
-            addDebugButton(animState.key, onActivate, testActive)
+            addDebugButton(animState.key, onActivate, testActive, debugControlContainer)
         };
 
 
@@ -158,6 +165,28 @@ define([
             }
         };
 
+
+        var showAttachmentButton = function(attachmentJoint, gamePiece) {
+
+            var testActive = function() {
+                return gamePiece.getJointActiveAttachment(attachmentJoint.key)
+            };
+
+            var onActivate = function() {
+                //    if (testActive()) {
+                gamePiece.attachWorldEntityToJoint('dummyEntity', attachmentJoint.key)
+                //    }
+            };
+
+            addDebugButton(attachmentJoint.key, onActivate, testActive, debugControlContainer2)
+        };
+
+        GuiDebug.debugPieceAttachmentPoints = function(gamePiece) {
+
+            for (var i = 0; i < gamePiece.worldEntity.attachmentJoints.length; i++) {
+                showAttachmentButton(gamePiece.worldEntity.attachmentJoints[i], gamePiece);
+            }
+        };
 
         GuiDebug.updateDebugElements = function() {
             frameDraws = 0;

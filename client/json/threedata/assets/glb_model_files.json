@@ -31,20 +31,22 @@
         {"id": "file_barb_attack_1" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_1"      }},
         {"id": "file_barb_attack_2" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_2"      }},
 
-        {"id": "file_barb_fall" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_fall"        }},
-        {"id": "file_barb_dead" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_dead"        }},
+        {"id": "file_barb_fall" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_fall"            }},
+        {"id": "file_barb_dead" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_dead"            }},
 
-        {"id": "file_barb_item_bp",       "config": { "url": "./client/assets/models/characters/barb/items/item_breastplate"  }},
-        {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"      }},
+        {"id": "file_barb_item_bp",       "config": { "url": "./client/assets/models/characters/barb/items/item_breastplate"      }},
+        {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"          }},
 
 
-        {"id": "file_nineQuad",   "config": { "url": "./client/assets/models/shapes/nineQuad"                  }},
-        {"id": "file_cross3d",    "config": { "url": "./client/assets/models/shapes/cross3d"                   }},
-        {"id": "file_bullet",     "config": { "url": "./client/assets/models/shapes/bullet"                    }},
-        {"id": "file_tree_1",     "config": { "url": "./client/assets/models/trees/tree_1"                     }},
-        {"id": "file_tree_2",     "config": { "url": "./client/assets/models/trees/tree_2"                     }},
-        {"id": "file_tree_3",     "config": { "url": "./client/assets/models/trees/tree_3"                     }},
-        {"id": "file_tree_4",     "config": { "url": "./client/assets/models/trees/tree_4"                     }}
+        {"id": "file_ninjablade", "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                               }},
+
+        {"id": "file_nineQuad",   "config": { "url": "./client/assets/models/shapes/nineQuad"                                     }},
+        {"id": "file_cross3d",    "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},
+        {"id": "file_bullet",     "config": { "url": "./client/assets/models/shapes/bullet"                                       }},
+        {"id": "file_tree_1",     "config": { "url": "./client/assets/models/trees/tree_1"                                        }},
+        {"id": "file_tree_2",     "config": { "url": "./client/assets/models/trees/tree_2"                                        }},
+        {"id": "file_tree_3",     "config": { "url": "./client/assets/models/trees/tree_3"                                        }},
+        {"id": "file_tree_4",     "config": { "url": "./client/assets/models/trees/tree_4"                                        }}
       ]
     }
   }

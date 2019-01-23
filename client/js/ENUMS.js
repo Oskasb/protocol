@@ -36,7 +36,8 @@ if(typeof(ENUMS) === "undefined"){
         UPDATE_MODEL:           14,
         UPDATE_ANIMATIONS:      15,
         ATTACH:                 16,
-        DETATCH:                17
+        DETATCH:                17,
+        ATTACH_TO_JOINT:        18
     };
 
     ENUMS.Args = {
@@ -146,6 +147,17 @@ if(typeof(ENUMS) === "undefined"){
 
     };
 
+    ENUMS.Joints = {
+        PROP_1:             0,
+        PROP_2:             1,
+        PROP_3:             2
+    };
+
+    ENUMS.AttachmentPoints = {
+        HANDHELD_RIGHT:      0,
+        HANDHELD_LEFT:       1,
+        AUX_PROP:            2
+    };
 
     ENUMS.BufferType = {
         ENVIRONMENT:        0,

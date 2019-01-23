@@ -3,11 +3,13 @@
 define([
         'workers/WorkerData',
         'game/pieces/PieceAnimator',
+        'game/pieces/PieceAttacher',
         'game/GamePiece'
     ],
     function(
         WorkerData,
         PieceAnimator,
+        PieceAttacher,
         GamePiece
     ) {
 
@@ -36,7 +38,6 @@ define([
 
         };
 
-
         PieceBuilder.prototype.setupGamePiece = function(piece, onReady) {
 
             GuiAPI.printDebugText("SETUP GAME PIECE "+piece.readConfigData("model_asset"));
@@ -53,6 +54,10 @@ define([
         };
 
         PieceBuilder.prototype.configureEntityPiece = function(piece, onReady) {
+
+            var pieceAttacher = new PieceAttacher();
+
+            pieceAttacher.initPieceAttacher(piece);
 
             var pieceAnimator = new PieceAnimator();
 

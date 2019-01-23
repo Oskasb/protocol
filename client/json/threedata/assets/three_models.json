@@ -7,6 +7,11 @@
           "id": "animated_fighter_male",
           "config":{
             "model": "file_fighter_bind",
+            "joints": [
+              {"key": "PROP_1"        , "bone_name": "Bip001 Prop1"      },
+              {"key": "PROP_2"        , "bone_name": "Bip001 Prop2"      },
+              {"key": "PROP_3"        , "bone_name": "Bip001 Prop3"      }
+            ],
             "animations":[
 
               {"key":"IDLE"           , "id":"file_pose_idle"            },
@@ -25,6 +30,7 @@
           "id": "animated_pilot",
           "config":{
             "model": "file_pilot_bind",
+            "joints": [            ],
             "animations":[
               {"key":"IDLE"  , "id":"file_pilot_idle"   } ,
               {"key":"RUN"   , "id":"file_pilot_run"    }
@@ -37,6 +43,7 @@
           "id": "animated_barbarian",
           "config":{
             "model": "file_barb_bind",
+            "joints": [            ],
             "animations":[
 
               {"key":"DEAD"           , "id":"file_barb_dead"           } ,
@@ -76,12 +83,15 @@
         {"id": "asset_letterQuad",  "config": { "model": "file_nineQuad", "material": "material_instancing_font",   "settings": "ui_instancing_settings"  }},
         {"id": "asset_nineQuad",    "config": { "model": "file_nineQuad", "material": "material_instancing_ui",     "settings": "ui_instancing_settings"  }},
         {"id": "asset_nine_back",   "config": { "model": "file_nineQuad", "material": "material_instancing_ui_back","settings": "ui_instancing_settings"  }},
-        {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_nature",      "settings": "instancing_settings"     }},
+        {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_basic",      "settings": "instancing_settings"     }},
         {"id": "asset_cross3d",     "config": { "model": "file_cross3d",  "material": "material_instancing_ui",     "settings": "ui_instancing_settings"  }},
-        {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,  "material": "mat_instancing_nature",      "settings": "instancing_settings"     }},
-        {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,  "material": "mat_instancing_nature",      "settings": "instancing_settings"     }},
-        {"id": "asset_tree_3",      "config": { "model": "file_tree_3" ,  "material": "mat_instancing_nature",      "settings": "instancing_settings"     }},
-        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,  "material": "mat_instancing_nature",      "settings": "instancing_settings"     }}
+
+
+        {"id": "asset_ninjablade",  "config": { "model": "file_ninjablade", "material": "mat_instancing_basic",       "settings": "instancing_items_settings"     }},
+        {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,    "material": "mat_instancing_basic",      "settings": "instancing_settings"     }},
+        {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,    "material": "mat_instancing_basic",      "settings": "instancing_settings"     }},
+        {"id": "asset_tree_3",      "config": { "model": "file_tree_3" ,    "material": "mat_instancing_basic",      "settings": "instancing_settings"     }},
+        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,    "material": "mat_instancing_basic",      "settings": "instancing_settings"     }}
       ]
     }
   }

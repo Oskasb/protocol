@@ -2,10 +2,12 @@
 
 define([
         'workers/main/world/AnimationState',
+        'workers/main/world/AttachmentJoint',
         'evt'
     ],
     function(
         AnimationState,
+        AttachmentJoint,
         evt
     ) {
 
@@ -17,6 +19,7 @@ define([
             this.ptr = ptr;
             this.obj3d = new THREE.Object3D();
             this.animationStates = [];
+            this.attachmentJoints = [];
             this.skin = {};
             this.attachedTo = false;
             this.slots = {};
@@ -25,8 +28,13 @@ define([
                 this.setWorldEntityIsDirty();
             }.bind(this);
 
+            var setAttachmentUpdated = function() {
+                this.setAttachmentUpdated();
+            }.bind(this);
+
             this.callbacks = {
-                setIsDirty:setIsDirty
+                setIsDirty:setIsDirty,
+                setAttachmentUpdated:setAttachmentUpdated
             };
 
             this.setupAnimations();
@@ -56,7 +64,7 @@ define([
             return this.skin;
         };
 
-        WorldEntity.prototype.attachItem = function(worldEntity) {
+        WorldEntity.prototype.attachSkinItem = function(worldEntity) {
             worldEntity.attachTo(this);
             this.slots[worldEntity.getSkin().slot] = worldEntity;
 
@@ -76,6 +84,13 @@ define([
                 }
             }
 
+
+            for (var i = 0; i < this.data.jointKeys.length; i ++) {
+                var key = ENUMS.getKey('Joints',this.data.jointKeys[i]);
+                var joint = new AttachmentJoint(key, this.callbacks.setAttachmentUpdated);
+                this.attachmentJoints.push(joint);
+            }
+
             for (var i = 0; i < this.data.animKeys.length; i ++) {
                 var animKey = ENUMS.getKey('Animations',this.data.animKeys[i]);
                 var animState = new AnimationState(animKey, this.callbacks.setIsDirty);
@@ -93,6 +108,10 @@ define([
 
         WorldEntity.prototype.getAnimationState = function(key) {
             return MATH.getFromArrayByKeyValue(this.animationStates, 'key', key)
+        };
+
+        WorldEntity.prototype.getAttachmentJoint = function(key) {
+            return MATH.getFromArrayByKeyValue(this.attachmentJoints, 'key', key)
         };
 
         WorldEntity.prototype.getWorldEntityPosition = function(storeVec) {
@@ -133,6 +152,11 @@ define([
             this.worldEntityIsDirty = true;
         };
 
+        WorldEntity.prototype.setAttachmentUpdated = function() {
+            this.attachmentUpdated = true;
+        };
+
+
         WorldEntity.prototype.relayEntityState = function() {
 
             eventData = evt.parser.worldEntityEvent(this);
@@ -141,6 +165,14 @@ define([
                 eventData = evt.parser.animationEvent(this);
                 evt.fire(this.ptr, eventData);
             }
+
+            if (this.attachmentUpdated) {
+                eventData = evt.parser.attachmentPointEvent(this);
+                evt.fire(this.ptr, eventData);
+                console.log("Attachment Updated");
+                this.attachmentUpdated = false;
+            }
+
         };
 
         WorldEntity.prototype.decommissionWorldEntity = function() {

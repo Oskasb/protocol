@@ -16,7 +16,7 @@ define([
             "animated_barbarian",
             "skinned_barb_bp",
             "skinned_barb_greaves",
-            //    "asset_bullet",
+            "asset_ninjablade",
             "asset_tree_1",
             "asset_tree_2",
             "asset_tree_3",

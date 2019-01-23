@@ -63,7 +63,7 @@ define([
                             if (!worldEntities[i].attachedTo) {
                                 if (worldEntities[i].getSkin().skeleton_key === e.getSkin().skeleton_key) {
                                     if (e.checkSlotFree(worldEntities[i].getSkin().slot)) {
-                                        e.attachItem(worldEntities[i]);
+                                        e.attachSkinItem(worldEntities[i]);
                                     //    return;
                                     }
                                 }

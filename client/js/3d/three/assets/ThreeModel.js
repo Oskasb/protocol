@@ -22,6 +22,10 @@ define([
 
             this.id = id;
 
+            this.jointMap = {};
+            this.joints = {};
+            this.jointKeys = [];
+
             this.animMap = {};
             this.animations = {};
             this.animationKeys = [];
@@ -104,6 +108,20 @@ define([
                 this.model = asset;
                 loadCheck()
             }.bind(this);
+
+
+            if (config.joints) {
+                for (var i = 0; i < config.joints.length; i++) {
+                    var bone_name = config.joints[i]['bone_name'];
+                    var key = config.joints[i].key;
+                    this.jointMap[bone_name] = key;
+                    if (typeof(ENUMS.Joints[key]) !== 'number') {
+                        console.log("No joint ENUM mapped for key: ", key)
+                    }
+                    this.jointKeys.push(ENUMS.Joints[key]);
+                }
+            }
+
 
             if (config.animations) {
                 this.hasAnimations = true;

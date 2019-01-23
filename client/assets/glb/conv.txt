@@ -40,6 +40,11 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\shapes\nin
 
 
 
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\weapons\ninjablade            D:\projects\protocol\client\assets\models\items_rigid\weapons\ninjablade.FBX   -b
+
+
+
+
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\SKIN_fighter_male           D:\projects\protocol\client\assets\models\characters\fighter\SKIN_fighter_male.FBX   -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\idle\pose_idle         D:\projects\protocol\client\assets\models\characters\fighter\idle\pose_idle.FBX   -b
 

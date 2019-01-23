@@ -39,11 +39,13 @@ define([
 
             var idx = assetIndex[asset.id];
             var anims = asset.model.animationKeys;
+            var joints = asset.model.jointKeys;
             var message = {};
 
 
             message.index = idx;
             message.animKeys = anims;
+            message.jointKeys = joints;
 
             var modelSettings = asset.model.settings;
             if (modelSettings.skin) {

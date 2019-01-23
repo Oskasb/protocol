@@ -4,6 +4,24 @@
     "ASSETS": {
       "MODELS": [
         {
+          "id": "animated_fighter_male",
+          "config":{
+            "model": "file_fighter_bind",
+            "animations":[
+
+              {"key":"IDLE"           , "id":"file_pose_idle"            },
+              {"key":"GD_LFT_FF"      , "id":"file_gd_left_ff"           },
+              {"key":"SET_LFT_FF"     , "id":"file_set_left_ff"          },
+
+              {"key":"GD_RT_FF"       , "id":"file_gd_right_ff"          },
+              {"key":"SET_RT_FF"      , "id":"file_set_right_ff"         }
+
+            ],
+            "material": "material_opaque",
+            "settings": "barb_settings"
+          }
+        },
+        {
           "id": "animated_pilot",
           "config":{
             "model": "file_pilot_bind",

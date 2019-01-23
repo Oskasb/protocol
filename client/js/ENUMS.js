@@ -137,7 +137,12 @@ if(typeof(ENUMS) === "undefined"){
         DEAD:               6,
         FALL:               7,
         IDL_LO_CB:          8,
-        IDL_HI_CB:          9
+        IDL_HI_CB:          9,
+        SET_LFT_FF:         10,
+        GD_LFT_FF:          11,
+
+        SET_RT_FF:         12,
+        GD_RT_FF:          13
 
     };
 

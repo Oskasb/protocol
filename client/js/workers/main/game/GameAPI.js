@@ -40,7 +40,7 @@ define([
             GuiAPI.printDebugText("LOAD TEST PIECE "+testPiece);
             if (testPiece) {
 
-                pieceBuilder.buildGamePiece("BARBARIAN", onReady)
+                pieceBuilder.buildGamePiece("FIGHTER", onReady)
 
             } else {
                 var piece = gameMain.getPieceById(testPieceId);

@@ -16,8 +16,8 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\idle\barb_idle_combat     D:\projects\protocol\client\assets\models\characters\barb\idle\barb_idle_combat.FBX        -b
 
-FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\idle\barb_legs_idle_cbt     D:\projects\protocol\client\assets\models\characters\barb\idle\barb_legs_idle_cbt.FBX        -b
-FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\idle\barb_body_idle_cbt     D:\projects\protocol\client\assets\models\characters\barb\idle\barb_body_idle_cbt.FBX        -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\idle\barb_legs_idle_cbt   D:\projects\protocol\client\assets\models\characters\barb\idle\barb_legs_idle_cbt.FBX        -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\idle\barb_body_idle_cbt   D:\projects\protocol\client\assets\models\characters\barb\idle\barb_body_idle_cbt.FBX        -b
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\actions\barb_attack_1     D:\projects\protocol\client\assets\models\characters\barb\actions\barb_attack_1.FBX        -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\actions\barb_attack_2     D:\projects\protocol\client\assets\models\characters\barb\actions\barb_attack_2.FBX        -b
@@ -26,8 +26,6 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\status\barb_dead          D:\projects\protocol\client\assets\models\characters\barb\status\barb_dead.FBX        -b
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\movement\barb_run         D:\projects\protocol\client\assets\models\characters\barb\movement\barb_run.FBX     -b
-
-
 
 
 
@@ -40,3 +38,14 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\shapes\cro
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\shapes\nineQuad                           D:\projects\protocol\client\assets\models\shapes\nineQuad.FBX   -b
 
 
+
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\SKIN_fighter_male           D:\projects\protocol\client\assets\models\characters\fighter\SKIN_fighter_male.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\idle\pose_idle         D:\projects\protocol\client\assets\models\characters\fighter\idle\pose_idle.FBX   -b
+
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\LEFT_gd_lt_ff      D:\projects\protocol\client\assets\models\characters\fighter\legs\LEFT_gd_lt_ff.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\LEFT_set_lt_ff     D:\projects\protocol\client\assets\models\characters\fighter\legs\LEFT_set_lt_ff.FBX     -b
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_gd_rt_ff      D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_gd_rt_ff.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_set_rt_ff     D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_set_rt_ff.FBX     -b

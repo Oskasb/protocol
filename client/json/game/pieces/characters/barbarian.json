@@ -2,6 +2,32 @@
   "GAME":{
     "PIECES":[
       {
+        "id":"FIGHTER",
+        "data":{
+          "model_asset":"animated_fighter_male",
+          "animations": {
+            "IDLE":           {"time_scale": 0.05, "weight": 1, "fade": 0.25, "duration": 0.1  , "channel": 0 },
+
+            "SET_LFT_FF":     {"time_scale": 1.0, "weight": 1, "fade": 0.25, "duration": 0.8  , "channel": 0 },
+            "GD_LFT_FF":      {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.1  , "channel": 0 },
+
+            "SET_RT_FF":     {"time_scale": 1.0, "weight": 1, "fade": 0.25, "duration": 0.8  , "channel": 0 },
+            "GD_RT_FF":      {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.1  , "channel": 0 },
+
+
+            "WALK":           {"time_scale": 0.1, "weight": 1, "fade": 0.25, "duration": 2  , "channel": 0 },
+            "RUN":            {"time_scale": 1,   "weight": 1, "fade": 0.75, "duration": 6.6, "channel": 0 },
+            "IDL_LO_CB":      {"time_scale": 1,   "weight": 1, "fade": 0.25, "duration": 4.6, "channel": 0 },
+            "IDL_HI_CB":      {"time_scale": 1,   "weight": 1, "fade": 0.25, "duration": 4.6, "channel": 1 },
+            "ATTACK_1":       {"time_scale": 1,   "weight": 1, "fade": 0.35, "duration": 0.8, "channel": 1 },
+            "ATTACK_2":       {"time_scale": 1,   "weight": 1, "fade": 0.45, "duration": 1.4, "channel": 1 },
+            "DEAD":           {"time_scale": 0.1, "weight": 1, "fade": 0.25, "duration": 1.6, "channel": 0 },
+            "FALL":           {"time_scale": 1,   "weight": 1, "fade": 0.45, "duration": 1.6, "channel": 0 }
+
+          }
+        }
+      },
+      {
         "id":"BARBARIAN",
         "data":{
           "model_asset":"animated_barbarian",

@@ -32,7 +32,8 @@
               {"key":"GD_SHT_R"       , "id":"file_guard_short_rff"      },
               {"key":"GD_BCK_R"       , "id":"file_guard_back_rff"       },
               {"key":"GD_HNG_R"       , "id":"file_guard_hanging_rff"    },
-              {"key":"GD_INS_R"       , "id":"file_guard_inside_rff"    }
+              {"key":"GD_INS_R"       , "id":"file_guard_inside_rff"     },
+              {"key":"GD_SID_R"       , "id":"file_guard_side_rff"       }
 
             ],
             "material": "material_opaque",

@@ -64,3 +64,4 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_back_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_back_rff.FBX       -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_hanging_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_hanging_rff.FBX       -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_inside_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_inside_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_side_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_side_rff.FBX       -b

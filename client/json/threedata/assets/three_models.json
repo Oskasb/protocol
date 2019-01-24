@@ -14,19 +14,18 @@
               {"key": "PROP_2"        , "bone_name": "Bip001_Prop2"      },
               {"key": "PROP_3"        , "bone_name": "Bip001_Prop3"      },
               {"key": "HEAD"          , "bone_name": "Bip001_Head"       },
-              {"key": "PELVIS"        , "bone_name": "Bip001_Pelvis"      },
-              {"key": "HAND_L"        , "bone_name": "Bip001_L_Hand"      },
-              {"key": "HAND_R"        , "bone_name": "Bip001_R_Hand"      }
+              {"key": "PELVIS"        , "bone_name": "Bip001_Pelvis"     },
+              {"key": "HAND_L"        , "bone_name": "Bip001_L_Hand"     },
+              {"key": "HAND_R"        , "bone_name": "Bip001_R_Hand"     }
             ],
             "animations":[
 
               {"key":"IDLE"           , "id":"file_pose_idle"            },
               {"key":"GD_LFT_FF"      , "id":"file_gd_left_ff"           },
               {"key":"SET_LFT_FF"     , "id":"file_set_left_ff"          },
-
               {"key":"GD_RT_FF"       , "id":"file_gd_right_ff"          },
               {"key":"SET_RT_FF"      , "id":"file_set_right_ff"         },
-
+              {"key":"GD_HI_R"        , "id":"file_guard_high_rff"       },
               {"key":"GD_MID_R"       , "id":"file_guard_mid_rff"        }
 
             ],

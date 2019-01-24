@@ -145,7 +145,8 @@ if(typeof(ENUMS) === "undefined"){
         SET_RT_FF:         12,
         GD_RT_FF:          13,
 
-        GD_MID_R:          14
+        GD_HI_R:           14,
+        GD_MID_R:          15
 
     };
 

@@ -8,6 +8,8 @@
           "config":{
             "model": "file_fighter_bind",
             "joints": [
+              {"key": "GRIP_R"        , "bone_name": "grip_r"            },
+              {"key": "GRIP_L"        , "bone_name": "grip_l"            },
               {"key": "PROP_1"        , "bone_name": "Bip001_Prop1"      },
               {"key": "PROP_2"        , "bone_name": "Bip001_Prop2"      },
               {"key": "PROP_3"        , "bone_name": "Bip001_Prop3"      },

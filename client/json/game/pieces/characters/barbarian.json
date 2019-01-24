@@ -12,7 +12,9 @@
             "HEAD":     {"joint":"HEAD"  },
             "PELVIS":   {"joint":"PELVIS"},
             "HAND_L":   {"joint":"HAND_L"},
-            "HAND_R":   {"joint":"HAND_R"}
+            "HAND_R":   {"joint":"HAND_R"},
+            "GRIP_R":   {"joint":"GRIP_R"},
+            "GRIP_L":   {"joint":"GRIP_L"}
           },
           "animations": {
             "IDLE":           {"time_scale": 0.05, "weight": 1, "fade": 0.25, "duration": 0.1  , "channel": 0 },

@@ -156,7 +156,9 @@ if(typeof(ENUMS) === "undefined"){
         HEAD:               3,
         PELVIS:             4,
         HAND_L:             5,
-        HAND_R:             6
+        HAND_R:             6,
+        GRIP_L:             7,
+        GRIP_R:             8
     };
 
     ENUMS.AttachmentPoints = {

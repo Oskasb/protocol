@@ -28,7 +28,7 @@ define([
         var testPieceId;
         var testWeapon;
 
-        var slots = ['PROP_1', 'PROP_2', 'PROP_3'];
+        var slots = ['GRIP_R', 'PROP_2', 'PROP_3'];
 
         GameAPI.loadTestPiece = function() {
             testPiece = !testPiece;

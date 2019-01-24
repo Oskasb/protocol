@@ -16,10 +16,13 @@
 
         {"id": "file_gd_right_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_gd_rt_ff"       }},
         {"id": "file_set_right_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_set_rt_ff"     }},
-        ,
+
         {"id": "file_guard_high_rff" ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_high_rff"      }},
         {"id": "file_guard_mid_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_middle_rff"    }},
+        {"id": "file_guard_low_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_low_rff"       }},
 
+        {"id": "file_guard_long_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_long_rff"     }},
+        {"id": "file_guard_short_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_short_rff"   }},
 
         {"id": "file_barb_bind" ,         "config": { "url": "./client/assets/models/characters/barb/barb_bind"                   }},
         {"id": "file_barb_run"  ,         "config": { "url": "./client/assets/models/characters/barb/movement/barb_run"           }},

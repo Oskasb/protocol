@@ -146,7 +146,10 @@ if(typeof(ENUMS) === "undefined"){
         GD_RT_FF:          13,
 
         GD_HI_R:           14,
-        GD_MID_R:          15
+        GD_MID_R:          15,
+        GD_LOW_R:          16,
+        GD_LNG_R:          17,
+        GD_SHT_R:          18
 
     };
 

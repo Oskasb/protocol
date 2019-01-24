@@ -23,6 +23,11 @@
 
         {"id": "file_guard_long_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_long_rff"     }},
         {"id": "file_guard_short_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_short_rff"   }},
+        {"id": "file_guard_back_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_back_rff"   }},
+        {"id": "file_guard_hanging_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_hanging_rff"   }},
+        {"id": "file_guard_inside_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_inside_rff"   }},
+
+
 
         {"id": "file_barb_bind" ,         "config": { "url": "./client/assets/models/characters/barb/barb_bind"                   }},
         {"id": "file_barb_run"  ,         "config": { "url": "./client/assets/models/characters/barb/movement/barb_run"           }},

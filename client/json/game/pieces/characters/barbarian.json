@@ -30,6 +30,12 @@
             "GD_LOW_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
             "GD_LNG_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
             "GD_SHT_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
+            "GD_BCK_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
+            "GD_HNG_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
+            "GD_INS_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
+
+
+
 
 
 

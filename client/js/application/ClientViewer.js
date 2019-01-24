@@ -44,6 +44,8 @@ define([
             var workerFrameCallback = function(frame) {
                 evt.initEventFrame(frame);
                 dynamicMain.tickDynamicMain(lastTpf);
+                dynamicMain.tickPrerenderDynamics(lastTpf);
+
                 sceneController.tickEnvironment(lastTpf);
             };
 
@@ -90,6 +92,7 @@ define([
 
         ClientViewer.prototype.prerenderTick = function(tpf) {
         //    console.log("tick", tpf)
+
             lastTpf = tpf;
             frame++;
             ThreeAPI.updateCamera();

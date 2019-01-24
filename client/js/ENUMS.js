@@ -143,14 +143,20 @@ if(typeof(ENUMS) === "undefined"){
         GD_LFT_FF:          11,
 
         SET_RT_FF:         12,
-        GD_RT_FF:          13
+        GD_RT_FF:          13,
+
+        GD_MID_R:          14
 
     };
 
     ENUMS.Joints = {
         PROP_1:             0,
         PROP_2:             1,
-        PROP_3:             2
+        PROP_3:             2,
+        HEAD:               3,
+        PELVIS:             4,
+        HAND_L:             5,
+        HAND_R:             6
     };
 
     ENUMS.AttachmentPoints = {

@@ -54,3 +54,5 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_gd_rt_ff      D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_gd_rt_ff.FBX   -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_set_rt_ff     D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_set_rt_ff.FBX     -b
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_middle_rff     D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_middle_rff.FBX     -b

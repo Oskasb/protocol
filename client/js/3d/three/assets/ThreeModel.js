@@ -114,7 +114,7 @@ define([
                 for (var i = 0; i < config.joints.length; i++) {
                     var bone_name = config.joints[i]['bone_name'];
                     var key = config.joints[i].key;
-                    this.jointMap[bone_name] = key;
+                    this.jointMap[key] = bone_name;
                     if (typeof(ENUMS.Joints[key]) !== 'number') {
                         console.log("No joint ENUM mapped for key: ", key)
                     }

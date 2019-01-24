@@ -8,7 +8,11 @@
           "joints": {
             "PROP_1":   {"joint":"PROP_1"},
             "PROP_2":   {"joint":"PROP_2"},
-            "PROP_3":   {"joint":"PROP_3"}
+            "PROP_3":   {"joint":"PROP_3"},
+            "HEAD":     {"joint":"HEAD"  },
+            "PELVIS":   {"joint":"PELVIS"},
+            "HAND_L":   {"joint":"HAND_L"},
+            "HAND_R":   {"joint":"HAND_R"}
           },
           "animations": {
             "IDLE":           {"time_scale": 0.05, "weight": 1, "fade": 0.25, "duration": 0.1  , "channel": 0 },
@@ -17,7 +21,8 @@
             "GD_LFT_FF":      {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.1  , "channel": 0 },
 
             "SET_RT_FF":      {"time_scale": 1.0, "weight": 1, "fade": 0.25, "duration": 0.8  , "channel": 0 },
-            "GD_RT_FF":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.1  , "channel": 0 },
+            "GD_RT_FF":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 0 },
+            "GD_MID_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
 
 
             "WALK":           {"time_scale": 0.1, "weight": 1, "fade": 0.25, "duration": 2  , "channel": 0 },

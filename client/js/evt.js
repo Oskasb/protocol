@@ -109,7 +109,6 @@ define([
 
     var spliceListener = function(listeners, cb) {
          MATH.quickSplice(listeners, cb);
-        //    listeners.splice(listeners.indexOf(cb), 1);
     };
 
     var getEventSystemStatus = function() {
@@ -127,9 +126,6 @@ define([
     var asynchifySplice = function(listnrs, cb) {
         spliceListeners.push(listnrs);
         spliceListeners.push(cb);
-    //    setTimeout(function() {
-    //        spliceListener(listnrs, cb)
-    //    }, 0)
     };
 
     var removeListener = function(event, callback) {

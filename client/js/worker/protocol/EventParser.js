@@ -57,11 +57,42 @@ define([
             }
         };
 
+var joint;
+var itemPtr;
+
+        var readAttachment = function(modelInstance, index, event) {
+            joint = event[index];
+            itemPtr = event[index+11];
+        //    console.log("Parse ATTACH_TO_JOINT", [modelInstance], itemPtr, ENUMS.getKey('Joints', joint));
+            modelInstance.requestAttachToJoint(itemPtr, joint);
+        /*
+            attchEvent[index+1]  = ENUMS.Joints[joint.getJointKey()];
+            attchEvent[index+2]  = obj3d.position.x;
+            attchEvent[index+3]  = obj3d.position.y;
+            attchEvent[index+4]  = obj3d.position.z;
+            attchEvent[index+5]  = obj3d.quaternion.x;
+            attchEvent[index+6]  = obj3d.quaternion.y;
+            attchEvent[index+7]  = obj3d.quaternion.z;
+            attchEvent[index+8]  = obj3d.quaternion.w;
+            attchEvent[index+9]  = obj3d.scale.x;
+            attchEvent[index+10] = obj3d.scale.y;
+            attchEvent[index+11] = obj3d.scale.z;
+        */
+
+        };
 
 
         parser[ENUMS.Event.ATTACH_TO_JOINT] = function(modelInstance, event) {
 
-            console.log("Parse ATTACH_TO_JOINT", modelInstance, event);
+
+
+            count = event[1];
+            stride = attachStride;
+            for (i = 0; i < count; i++) {
+                readAttachment(modelInstance, stride*i+2, event);
+            }
+
+
 
         };
 

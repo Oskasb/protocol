@@ -12,7 +12,6 @@ define([
             this.dataKey = 'joints';
             this.workerData = workerData;
             this.attachmentJoint = attachmentJoint;
-            this.attachedWorldEntity = null;
         };
 
         PieceAttachment.prototype.getData = function() {
@@ -20,18 +19,18 @@ define([
         };
 
         PieceAttachment.prototype.setAttachedWorldEntity = function(worldEntity) {
-            this.attachedWorldEntity = worldEntity;
-            console.log("Attach WE to PieceAttachment", worldEntity)
+            this.attachmentJoint.registerAttachedEntity(worldEntity);
+
         };
 
         PieceAttachment.prototype.releaseAttachedWorldEntity = function() {
 
-            console.log("Release WE PieceAttachment", this.attachedWorldEntity);
-            this.attachedWorldEntity = null;
+            console.log("Release WE PieceAttachment", this.getActiveAttachment());
+            this.attachmentJoint.detatchAttachedEntity();
         };
 
         PieceAttachment.prototype.getActiveAttachment = function() {
-            return this.attachedWorldEntity;
+            this.attachmentJoint.getAttachedEntity();
         };
 
         PieceAttachment.prototype.activateNow = function(weight, timeScale) {

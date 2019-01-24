@@ -6,7 +6,7 @@ define([
 
         var AttachmentJoint = function(key, dirtyCallback) {
             this.key = key;
-            this.isDirty = true;
+            this.isDirty = false;
 
             this.obj3d = new THREE.Object3D();
 
@@ -28,12 +28,17 @@ define([
             return this.key;
         };
 
+        AttachmentJoint.prototype.detatchAttachedEntity = function() {
+            return this.attachedEntity;
+        };
+
         AttachmentJoint.prototype.getAttachedEntity = function() {
             return this.attachedEntity;
         };
 
         AttachmentJoint.prototype.registerAttachedEntity = function(worldEntity) {
             this.attachedEntity = worldEntity;
+            console.log("registerAttachedEntity", worldEntity);
             this.callbacks.notifyUpdated();
         };
 

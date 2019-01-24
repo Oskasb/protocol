@@ -23,6 +23,7 @@ define([
 
             this.active = ENUMS.InstanceState.INITIATING;
 
+            this.boneMap = {};
             this.attachments = [];
         };
 
@@ -55,6 +56,18 @@ define([
             this.attachInstancedModel(attachInstance);
 
         };
+
+        InstancedModel.prototype.requestAttachToJoint = function(ptr, joint) {
+            var attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(ptr);
+            var boneName = this.originalModel.jointMap[ENUMS.getKey('Joints', joint)];
+            var bone = this.boneMap[boneName];
+            console.log("BoneMap", [this], boneName, bone);
+            attachInstance.getSpatial().attachToBone(bone, this.getSpatial());
+        //    modelInstance.requestAttachToJoint(itemPtr, joint);;
+
+        };
+
+
 
         InstancedModel.prototype.setupEventListener = function() {
             evt.on(this.ptr, this.callbacks.onUpdateEvent)
@@ -100,7 +113,8 @@ define([
                     node.material = material;
                     material.skinning = true;
                 }
-            })
+            });
+            this.mapBones();
         };
 
         InstancedModel.prototype.setActive = function(ENUM) {
@@ -118,12 +132,31 @@ define([
                 this.decomissioned = true;
                 this.decommissionInstancedModel();
             }
-
         };
+
 
         InstancedModel.prototype.getObj3d = function() {
             return this.obj3d;
         };
+
+        InstancedModel.prototype.mapBones = function() {
+
+            var mapSkinBones = function(parent) {
+                var parentSkel = parent.skeleton;
+
+                for (var i = 0; i < parentSkel.bones.length; i++) {
+                    var boneName = parentSkel.bones[i].name;
+                    _this.boneMap[boneName] = parentSkel.bones[i];
+                }
+            };
+
+            var _this = this;
+
+            if (this.skinNode) {
+                mapSkinBones(_this.skinNode);
+            }
+        };
+
 
         InstancedModel.prototype.attachInstancedModel = function(instancedModel) {
 
@@ -181,6 +214,13 @@ define([
         InstancedModel.prototype.getAnimationMap = function() {
             return this.originalModel.animMap;
         };
+
+        InstancedModel.prototype.updateSpatialWorldMatrix = function() {
+
+            this.getSpatial().updateSpatialMatrix();
+
+        };
+
 
 
         InstancedModel.prototype.updateAnimationState = function(animationKey, weight, timeScale, fade, channel) {

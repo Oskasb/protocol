@@ -146,6 +146,12 @@ define([
                 this.relayEntityState();
                 this.worldEntityIsDirty = false;
             }
+
+            if (this.attachmentUpdated) {
+                this.relayAttachmentState();
+                this.attachmentUpdated = false;
+            }
+
         };
 
         WorldEntity.prototype.setWorldEntityIsDirty = function() {
@@ -156,23 +162,22 @@ define([
             this.attachmentUpdated = true;
         };
 
-
         WorldEntity.prototype.relayEntityState = function() {
 
             eventData = evt.parser.worldEntityEvent(this);
             evt.fire(this.ptr, eventData);
+
             if (this.animationStates.length) {
                 eventData = evt.parser.animationEvent(this);
                 evt.fire(this.ptr, eventData);
             }
 
-            if (this.attachmentUpdated) {
+        };
+
+        WorldEntity.prototype.relayAttachmentState = function() {
                 eventData = evt.parser.attachmentPointEvent(this);
                 evt.fire(this.ptr, eventData);
                 console.log("Attachment Updated");
-                this.attachmentUpdated = false;
-            }
-
         };
 
         WorldEntity.prototype.decommissionWorldEntity = function() {

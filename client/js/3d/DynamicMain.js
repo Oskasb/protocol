@@ -102,10 +102,26 @@ define([
         asset.instantiateAsset(instanceReady);
     };
 
+    DynamicMain.prototype.updateDynamicInstances = function() {
+        for (var i = 0; i < instances.length; i++) {
+            instances[i].getSpatial().updateSpatialFrame();
+        }
+    };
+
+    DynamicMain.prototype.updateDynamicMatrices = function() {
+        for (var i = 0; i < instances.length; i++) {
+            instances[i].updateSpatialWorldMatrix();
+        }
+    };
+
+    DynamicMain.prototype.tickPrerenderDynamics = function(tpf) {
+        this.updateDynamicMatrices();
+        this.updateDynamicInstances();
+    };
 
     DynamicMain.prototype.tickDynamicMain = function(tpf) {
-        InstanceAPI.updateInstances(tpf);
         ThreeAPI.updateAnimationMixers(tpf);
+        InstanceAPI.updateInstances(tpf);
     };
 
 

@@ -8,9 +8,13 @@
           "config":{
             "model": "file_fighter_bind",
             "joints": [
-              {"key": "PROP_1"        , "bone_name": "Bip001 Prop1"      },
-              {"key": "PROP_2"        , "bone_name": "Bip001 Prop2"      },
-              {"key": "PROP_3"        , "bone_name": "Bip001 Prop3"      }
+              {"key": "PROP_1"        , "bone_name": "Bip001_Prop1"      },
+              {"key": "PROP_2"        , "bone_name": "Bip001_Prop2"      },
+              {"key": "PROP_3"        , "bone_name": "Bip001_Prop3"      },
+              {"key": "HEAD"          , "bone_name": "Bip001_Head"       },
+              {"key": "PELVIS"        , "bone_name": "Bip001_Pelvis"      },
+              {"key": "HAND_L"        , "bone_name": "Bip001_L_Hand"      },
+              {"key": "HAND_R"        , "bone_name": "Bip001_R_Hand"      }
             ],
             "animations":[
 
@@ -19,7 +23,9 @@
               {"key":"SET_LFT_FF"     , "id":"file_set_left_ff"          },
 
               {"key":"GD_RT_FF"       , "id":"file_gd_right_ff"          },
-              {"key":"SET_RT_FF"      , "id":"file_set_right_ff"         }
+              {"key":"SET_RT_FF"      , "id":"file_set_right_ff"         },
+
+              {"key":"GD_MID_R"       , "id":"file_guard_mid_rff"        }
 
             ],
             "material": "material_opaque",

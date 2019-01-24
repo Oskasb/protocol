@@ -102,7 +102,7 @@ define([
             animKey = ENUMS.getKey('Animations', animationKey);
             action = this.animationActions[animKey];
 
-            console.log("anim event:", animationKey, weight, timeScale, fade, chan);
+        //    console.log("anim event:", animationKey, weight, timeScale, fade, chan);
 
             if (!action) {
                 console.log("Bad anim event");

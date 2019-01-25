@@ -76,7 +76,8 @@ define([
 
     var WorldCamera = function() {
         camera = new THREE.PerspectiveCamera( 45, 1, 0.3, 50000 );
-        camera.position.set(0, 4, -10);
+        camera.position.set(0, 3, -4);
+        lookAt.y = 1.6
 
         worldCam = this;
 
@@ -306,7 +307,7 @@ define([
         GuiAPI.setCameraAspect(camera.aspect);
         t+=tpf;
         tempVec1.x = 0;
-        tempVec1.y = 0;
+        tempVec1.y = 1.3;
         tempVec1.z = 0;
         this.setLookAtVec(tempVec1);
 

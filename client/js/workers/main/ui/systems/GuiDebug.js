@@ -123,9 +123,10 @@ define([
         GuiDebug.setupDebugControlContainer2 = function() {
             var onReady = function(expcont) {
                 debugControlContainer2 = expcont;
+                debugControlContainer2.addToOffsetXY(15, 0)
             };
 
-            var opts = GuiAPI.buildWidgetOptions('widget_expanding_container', false, false, false, null, 0, 0, 'top_center');
+            var opts = GuiAPI.buildWidgetOptions('widget_expanding_container', false, false, false, null, 0, 0, 'mid_q_right');
 
             GuiAPI.buildGuiWidget('GuiExpandingContainer', opts, onReady);
         };
@@ -136,7 +137,7 @@ define([
                 container.addChildWidgetToContainer(widget.guiWidget);
             };
 
-            var opts = GuiAPI.buildWidgetOptions('button_big_blue', onActivate, testActive, true, text);
+            var opts = GuiAPI.buildWidgetOptions('button_sharp_blue', onActivate, testActive, true, text);
 
             GuiAPI.buildGuiWidget('GuiSimpleButton', opts, onReady);
 

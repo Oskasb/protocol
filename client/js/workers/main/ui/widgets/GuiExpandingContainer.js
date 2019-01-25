@@ -30,7 +30,6 @@ define([
 
 
         GuiExpandingContainer.prototype.removeGuiWidget = function() {
-
             this.guiWidget.removeChildren();
             this.guiWidget.recoverGuiWidget();
         };
@@ -38,12 +37,17 @@ define([
         GuiExpandingContainer.prototype.addChildWidgetToContainer = function(guiWidget) {
             this.guiWidget.disableWidgetInteraction();
             this.guiWidget.addChild(guiWidget);
-
             this.fitContainerChildren()
         };
 
         GuiExpandingContainer.prototype.fitContainerChildren = function() {
+            this.guiWidget.applyWidgetPosition()
+        };
 
+        GuiExpandingContainer.prototype.addToOffsetXY = function(x, y) {
+            this.guiWidget.pos.x += x;
+            this.guiWidget.pos.y += y;
+        //    this.guiWidget.updateSurfacePositions();
             this.guiWidget.applyWidgetPosition()
         };
 

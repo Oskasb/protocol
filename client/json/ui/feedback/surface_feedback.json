@@ -97,7 +97,7 @@
               "id":"feedback_button_sharp_blue",
               "config": {
                 "NONE": {
-                  "color_rgba": {"r": 0.1, "g": 0.4, "b": 0.65, "a": 1.0},
+                  "color_rgba": {"r": 0.1, "g": 0.4, "b": 0.75, "a": 1.0},
                   "sprite": "button_sharp"
                 },
                 "HOVER": {

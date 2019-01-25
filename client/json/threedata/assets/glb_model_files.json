@@ -2,32 +2,33 @@
   {
     "ASSETS": {
       "FILES_GLB": [
-        {"id": "file_pilot_bind",         "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"      }},
-        {"id": "file_pilot_run" ,         "config": { "url": "./client/assets/models/characters/pilot/movement/run"    }},
-        {"id": "file_pilot_idle",         "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle" }},
+        {"id": "file_pilot_bind",         "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"                     }},
+        {"id": "file_pilot_run" ,         "config": { "url": "./client/assets/models/characters/pilot/movement/run"                   }},
+        {"id": "file_pilot_idle",         "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle"                }},
 
 
-        {"id": "file_fighter_bind",       "config": { "url": "./client/assets/models/characters/fighter/SKIN_fighter_male"               }},
-        {"id": "file_pose_idle"   ,       "config": { "url": "./client/assets/models/characters/fighter/idle/pose_idle"             }},
+        {"id": "file_fighter_bind",       "config": { "url": "./client/assets/models/characters/fighter/SKIN_fighter_male"            }},
+        {"id": "file_pose_idle"   ,       "config": { "url": "./client/assets/models/characters/fighter/idle/pose_idle"               }},
 
-        {"id": "file_gd_left_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/LEFT_gd_lt_ff"        }},
-        {"id": "file_set_left_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/LEFT_set_lt_ff"      }},
+        {"id": "file_gd_left_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/LEFT_gd_lt_ff"           }},
+        {"id": "file_set_left_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/LEFT_set_lt_ff"         }},
 
 
-        {"id": "file_gd_right_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_gd_rt_ff"       }},
-        {"id": "file_set_right_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_set_rt_ff"     }},
+        {"id": "file_gd_right_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_gd_rt_ff"         }},
+        {"id": "file_set_right_ff"  ,      "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_set_rt_ff"        }},
 
-        {"id": "file_guard_high_rff" ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_high_rff"      }},
-        {"id": "file_guard_mid_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_middle_rff"    }},
-        {"id": "file_guard_low_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_low_rff"       }},
+        {"id": "file_guard_high_rff" ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_high_rff"         }},
+        {"id": "file_guard_mid_rff"  ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_middle_rff"       }},
+        {"id": "file_guard_low_rff"  ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_low_rff"          }},
 
-        {"id": "file_guard_long_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_long_rff"     }},
-        {"id": "file_guard_short_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_short_rff"   }},
-        {"id": "file_guard_back_rff"  ,       "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_back_rff"     }},
-        {"id": "file_guard_hanging_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_hanging_rff"  }},
-        {"id": "file_guard_inside_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_inside_rff"    }},
-        {"id": "file_guard_side_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_side_rff"        }},
+        {"id": "file_guard_long_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_long_rff"         }},
+        {"id": "file_guard_short_rff"  ,   "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_short_rff"        }},
+        {"id": "file_guard_back_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_back_rff"         }},
+        {"id": "file_guard_hanging_rff"  , "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_hanging_rff"      }},
+        {"id": "file_guard_inside_rff"  ,  "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_inside_rff"       }},
+        {"id": "file_guard_side_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_side_rff"         }},
 
+        {"id": "file_swing_back_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/SWING_back_rff"         }},
 
 
 
@@ -36,12 +37,12 @@
 
         {"id": "file_barb_idle" ,         "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle"              }},
 
-        {"id": "barb_legs_idle_cbt" ,     "config": { "url": "./client/assets/models/characters/barb/idle/barb_legs_idle_cbt"          }},
+        {"id": "barb_legs_idle_cbt" ,     "config": { "url": "./client/assets/models/characters/barb/idle/barb_legs_idle_cbt"     }},
 
-        {"id": "barb_body_idle_cbt" ,     "config": { "url": "./client/assets/models/characters/barb/idle/barb_body_idle_cbt"      }},
+        {"id": "barb_body_idle_cbt" ,     "config": { "url": "./client/assets/models/characters/barb/idle/barb_body_idle_cbt"     }},
 
-        {"id": "file_barb_attack_1" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_1"      }},
-        {"id": "file_barb_attack_2" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_2"      }},
+        {"id": "file_barb_attack_1" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_1"       }},
+        {"id": "file_barb_attack_2" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_2"       }},
 
         {"id": "file_barb_fall" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_fall"            }},
         {"id": "file_barb_dead" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_dead"            }},
@@ -50,7 +51,7 @@
         {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"          }},
 
 
-        {"id": "file_ninjablade", "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                               }},
+        {"id": "file_ninjablade", "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                      }},
 
         {"id": "file_nineQuad",   "config": { "url": "./client/assets/models/shapes/nineQuad"                                     }},
         {"id": "file_cross3d",    "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},

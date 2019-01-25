@@ -111,7 +111,7 @@
               "layout":"layout_button_sharp",
               "text": {
                 "sprite_font": "sprite_font_button_big",
-                "feedback": "feedback_text_blue"
+                "feedback": "feedback_text_sharp_blue"
               },
               "surface": {
                 "nineslice": "nineslice_surface_button_sharp",

@@ -35,6 +35,7 @@
             "GD_INS_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
             "GD_SID_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3  , "channel": 1 },
 
+            "SW_BCK_R":       {"time_scale": 0.4,"weight": 1, "fade": 0.15, "duration": 0.3  , "channel": 1 },
 
 
 

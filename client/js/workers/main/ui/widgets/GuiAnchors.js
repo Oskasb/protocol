@@ -17,8 +17,10 @@ define([
             top_center:{x:0, y:0.5},
             bottom_center:{x:0, y:-0.5},
 
-            center_right:{x:0.5, y:0},
-            center_left:{x:-0.5, y:0}
+            mid_right:{x:0.5, y:0},
+            mid_left:{x:-0.5, y:0},
+            mid_q_right:{x:0.4, y:0},
+            mid_q_left:{x:-0.4, y:0}
 
         };
 

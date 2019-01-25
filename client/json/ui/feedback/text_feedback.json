@@ -73,34 +73,52 @@
               "id":"feedback_text_blue",
               "config": {
                   "NONE": {
-                    "color_rgba": {"r": -0.01, "g": 0.31, "b": 0.55, "a": 1.0},
-                    "lut_color": "lut_base"
+                    "color_rgba": {"r": -0.01, "g": 0.31, "b": 0.55, "a": 1.0}
                   },
                   "HOVER": {
-                    "color_rgba": {"r": -0.1, "g": 0.4, "b": 0.75, "a": 1.0},
-                    "lut_color": "lut_vdk"
+                    "color_rgba": {"r": -0.1, "g": 0.4, "b": 0.75, "a": 1.0}
                   },
                   "PRESS": {
-                    "color_rgba": {"r": -0.11, "g": 0.35, "b": 0.72, "a": 1.0},
-                    "lut_color": "lut_base"
+                    "color_rgba": {"r": -0.11, "g": 0.35, "b": 0.72, "a": 1.0}
                   },
                   "ACTIVE": {
-                    "color_rgba": {"r": 0.15, "g": 0.65, "b": 0.75, "a": 1.0},
-                    "lut_color": "lut_base"
+                    "color_rgba": {"r": 0.15, "g": 0.65, "b": 0.75, "a": 1.0}
                   },
                   "ACTIVE_HOVER": {
-                    "color_rgba": {"r": 0.4, "g": 0.9, "b": 0.99, "a": 1.0},
-                    "lut_color": "lut_brt"
+                    "color_rgba": {"r": 0.4, "g": 0.9, "b": 0.99, "a": 1.0}
                   },
                   "ACTIVE_PRESS": {
-                    "color_rgba": {"r": 0.7, "g": 0.95, "b": 0.99, "a": 1.0},
-                    "lut_color": "lut_vdk"
+                    "color_rgba": {"r": 0.7, "g": 0.95, "b": 0.99, "a": 1.0}
                   },
                   "DISABLED": {
-                    "color_rgba": {"r": 0.1, "g": 0.6, "b": 0.6, "a": 1.0},
-                    "lut_color": "lut_base"
+                    "color_rgba": {"r": 0.1, "g": 0.6, "b": 0.6, "a": 1.0}
                   }
-
+              }
+            },
+            {
+              "id":"feedback_text_sharp_blue",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": -0.01, "g": 0.21, "b": 0.32, "a": 1.0}
+                },
+                "HOVER": {
+                  "color_rgba": {"r": -0.1, "g": 0.4, "b": 0.75, "a": 1.0}
+                },
+                "PRESS": {
+                  "color_rgba": {"r": -0.11, "g": 0.35, "b": 0.72, "a": 1.0}
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.15, "g": 0.65, "b": 0.75, "a": 1.0}
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.4, "g": 0.9, "b": 0.99, "a": 1.0}
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.7, "g": 0.95, "b": 0.99, "a": 1.0}
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 0.1, "g": 0.6, "b": 0.6, "a": 1.0}
+                }
               }
             },
             {

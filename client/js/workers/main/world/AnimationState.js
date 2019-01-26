@@ -13,6 +13,9 @@ define([
             this.channel = 0;
             this.playing = false;
 
+            this.loop = 1; // [LoopOnce, LoopRepeat, LoopPingPong]
+            this.clamp = 0; // clampWhenFinished (0 false, 1 true)
+
             this.isDirty = true;
 
             var notifyUpdated = function() {
@@ -37,7 +40,7 @@ define([
             } else {
                 this.weight = 0;
             }
-            this.callbacks.notifyUpdated()
+            this.callbacks.notifyUpdated();
         };
 
         AnimationState.prototype.getAnimationKey = function() {
@@ -51,6 +54,22 @@ define([
 
         AnimationState.prototype.getAnimationChannel = function() {
             return this.channel;
+        };
+
+            AnimationState.prototype.setAnimationClamp = function(clamp) {
+                this.clamp = clamp;
+            };
+
+            AnimationState.prototype.getAnimationClamp = function() {
+                return this.clamp;
+            };
+
+        AnimationState.prototype.setAnimationLoop = function(loop) {
+            this.loop = loop;
+        };
+
+        AnimationState.prototype.getAnimationLoop = function() {
+            return this.loop;
         };
 
         AnimationState.prototype.setAnimationFade = function(fade) {

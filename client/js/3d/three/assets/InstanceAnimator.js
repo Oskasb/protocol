@@ -58,25 +58,34 @@ define([
             return this.mixer.clipAction( actionClip );
         };
 
-        InstanceAnimator.prototype.startChannelAction = function(channel, action, weight, fade) {
+
+        var loopModes = [THREE.LoopOnce, THREE.LoopRepeat, THREE.LoopPingPong];
+        var clampModes = [false, true];
+
+        InstanceAnimator.prototype.startChannelAction = function(channel, action, weight, fade, loop, clamp) {
     //        console.log("start chan action", action);
             action.reset();
             action.enabled = true;
+
+            action.loop = loopModes[loop];
+            action.clampWhenFinished = clampModes[clamp];
+
             action.setEffectiveWeight( weight );
+
             action.play();
             action.fadeIn(fade);
             channel.push(action);
 
         };
 
-        InstanceAnimator.prototype.fadeinChannelAction = function(channel, toAction, weight, fade) {
+        InstanceAnimator.prototype.fadeinChannelAction = function(channel, toAction, weight, fade, loop, clamp) {
 
             var fromAction = channel.pop();
 
             if (fromAction === toAction) {
 
     //            console.log("_sched fade");
-                toAction._scheduleFading(fade, 1, weight / toAction.getEffectiveWeight())
+                toAction._scheduleFading(fade, 1, weight / toAction.getEffectiveWeight());
                 channel.push(toAction);
             } else {
 
@@ -84,7 +93,7 @@ define([
             //    toAction.setEffectiveWeight(weight);
                 fromAction.fadeOut(fade)
             //    toAction.crossFadeFrom(fromAction, toAction, fade)
-                this.startChannelAction(channel, toAction, weight, fade)
+                this.startChannelAction(channel, toAction, weight, fade, loop, clamp)
             }
 
 
@@ -98,7 +107,9 @@ define([
             action.stop();
         };
 
-        InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale, fade, chan) {
+
+
+        InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale, fade, chan, loop, clamp) {
             animKey = ENUMS.getKey('Animations', animationKey);
             action = this.animationActions[animKey];
 
@@ -120,9 +131,10 @@ define([
             if (weight) {
 
                 if (this.channels[chan].length) {
-                    this.fadeinChannelAction(this.channels[chan], action, weight, fade)
+                    this.fadeinChannelAction(this.channels[chan], action, weight, fade, loop, clamp)
+
                 } else {
-                    this.startChannelAction(this.channels[chan], action, weight, fade)
+                    this.startChannelAction(this.channels[chan], action, weight, fade, loop, clamp)
                 }
 
             } else {

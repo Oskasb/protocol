@@ -16,7 +16,6 @@ define([
             this.currentTime = 0;
             this.duration = 0;
             this.startTime = 0;
-
             this.fade = 0.25;
             this.ts = 1;
             this.w = 1;
@@ -30,12 +29,15 @@ define([
 
         PieceAnim.prototype.activateNow = function(weight, timeScale) {
             this.currentTime = 0;
+            this.animationState.setAnimationLoop(this.getData()['loop']);
+            this.animationState.setAnimationClamp(this.getData()['clamp']);
             this.setWeight(weight || 1);
             this.setTimeScale(timeScale || 1);
             this.setFadeTime(timeScale || 1);
             this.setChannel(this.getData()['channel'] || 0);
             this.duration = this.getData()['duration'] / this.ts;
         };
+
 
         PieceAnim.prototype.setWeight = function(w) {
         //    if (this.w === w) return;

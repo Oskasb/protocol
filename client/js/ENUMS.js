@@ -157,10 +157,11 @@ if(typeof(ENUMS) === "undefined"){
         SW_BCK_R:          23,
         SW_SID_R:          24,
 
-        CT_TR_R:          25,
-        CT_MR_R:          26,
-        CT_ML_R:          27,
-        CT_BL_R:          28
+        CT_TC_R:          25,
+        CT_TR_R:          26,
+        CT_MR_R:          27,
+        CT_ML_R:          28
+
 
     };
 

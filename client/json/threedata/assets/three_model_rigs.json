@@ -35,8 +35,11 @@
 
               {"key":"SW_BCK_R"       , "id":"file_swing_back_rff"       },
 
+
+
               {"key":"GD_HI_R"        , "id":"file_guard_high_rff"       },
 
+              {"key":"CT_TC_R"       , "id":"file_cut_topcenter_rff"     },
               {"key":"CT_TR_R"       , "id":"file_cut_topright_rff"      },
 
               {"key":"GD_SID_R"       , "id":"file_guard_side_rff"       },

@@ -20,6 +20,7 @@
 
 
       "game/pieces/characters/barbarian.json"               ,
+      "game/skeletons/biped_rigs.json"                      ,
 
       "threedata/assets/sprites/gui_sprites_16x16.json"     ,
       "threedata/assets/sprites/font_sprites_16x16.json"    ,
@@ -44,6 +45,8 @@
 
       "threedata/assets/three_textures.json"                ,
       "threedata/assets/three_materials.json"               ,
+      "threedata/assets/three_model_rigs.json"              ,
+
       "threedata/assets/three_models.json"
 
     ]

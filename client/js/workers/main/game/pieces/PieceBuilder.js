@@ -26,7 +26,7 @@ define([
 
             var piece = new GamePiece(dataId);
 
-            piece.initGamePiece(pieceId, new WorkerData("GAME", "PIECES"));
+            piece.initGamePiece(pieceId, new WorkerData("GAME", "PIECES"), new WorkerData("GAME", "SKELETON_RIGS"));
 
 
             var setupGamePiece = function(piece, onReady) {
@@ -36,12 +36,14 @@ define([
                 var modelAssetId = piece.readConfigData('model_asset');
 
                 var worldEntityReady = function(worldEntity) {
-                    console.log("ENT RDY", worldEntity)
+            //        console.log("ENT RDY", worldEntity)
                     piece.setWorldEntity(worldEntity);
                     configureEntityPiece(piece, onReady)
                 };
 
                 GameAPI.requestAssetWorldEntity(modelAssetId, worldEntityReady)
+
+
 
             };
 

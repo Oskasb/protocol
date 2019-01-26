@@ -249,7 +249,7 @@ define([
         };
 
         var callAspectUpdateCallbacks = function(aspect) {
-            console.log("Aspect:", aspect);
+    //        console.log("Aspect:", aspect);
             for (cbs = 0; cbs < aspectUpdateCallbacks.length; cbs++) {
                 aspectUpdateCallbacks[cbs](aspect);
             }

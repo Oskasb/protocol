@@ -155,7 +155,12 @@ if(typeof(ENUMS) === "undefined"){
         GD_INS_R:          21,
         GD_SID_R:          22,
         SW_BCK_R:          23,
-        SW_SID_R:          24
+        SW_SID_R:          24,
+
+        CT_TR_R:          25,
+        CT_MR_R:          26,
+        CT_ML_R:          27,
+        CT_BL_R:          28
 
     };
 

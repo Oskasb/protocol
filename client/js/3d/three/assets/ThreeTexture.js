@@ -20,7 +20,7 @@ define([
             }.bind(this);
 
             var txSettingsLoaded = function(src, asset) {
-                console.log(src, asset);
+        //        console.log(src, asset);
                 this.config = asset.config;
                 ThreeAPI.loadThreeAsset('FILES_IMAGES_', config.img, imgLoaded);
             }.bind(this);

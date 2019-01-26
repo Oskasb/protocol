@@ -3,6 +3,7 @@
 define([
         'PipelineAPI',
         '3d/three/assets/ThreeModel',
+        '3d/three/assets/ThreeRig',
         '3d/three/assets/ThreeMaterial',
         '3d/three/assets/ThreeTexture',
         '3d/three/assets/ThreeModelSettings',
@@ -14,6 +15,7 @@ define([
     function(
         PipelineAPI,
         ThreeModel,
+        ThreeRig,
         ThreeMaterial,
         ThreeTexture,
         ThreeModelSettings,
@@ -25,6 +27,7 @@ define([
 
         var assetMap = {
             MODELS_:            ThreeModel,
+            RIGS_:              ThreeRig,
             MATERIALS_:         ThreeMaterial,
             TEXTURES_:          ThreeTexture,
             MODEL_SETTINGS_:    ThreeModelSettings,
@@ -68,8 +71,6 @@ define([
         AssetLoader.prototype.setAssetConfig = function(assetType, assetId, data) {
             PipelineAPI.setCategoryKeyValue('CONFIGS', assetType+'_'+assetId, data);
         };
-
-
 
 
         var setupAsset = function(assetType, assetId) {

@@ -1,0 +1,73 @@
+[{
+  "GAME":{
+    "SKELETON_RIGS":[
+      {
+        "id":"FIGHTER_RIG",
+        "data":{
+          "joints": {
+            "PROP_1":   {"joint":"PROP_1"},
+            "PROP_2":   {"joint":"PROP_2"},
+            "PROP_3":   {"joint":"PROP_3"},
+            "HEAD":     {"joint":"HEAD"  },
+            "PELVIS":   {"joint":"PELVIS"},
+            "HAND_L":   {"joint":"HAND_L"},
+            "HAND_R":   {"joint":"HAND_R"},
+            "GRIP_R":   {"joint":"GRIP_R"},
+            "GRIP_L":   {"joint":"GRIP_L"}
+          },
+          "animations": {
+            "IDLE":           {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.1 , "channel": 0, "loop": 1 ,"clamp": 0},
+            "SET_LFT_FF":     {"time_scale": 1.0 ,"weight": 1, "fade": 0.25, "duration": 0.8 , "channel": 0, "loop": 1 ,"clamp": 0},
+            "GD_LFT_FF":      {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.1 , "channel": 0, "loop": 1 ,"clamp": 0},
+            "SET_RT_FF":      {"time_scale": 1.0 ,"weight": 1, "fade": 0.25, "duration": 0.8 , "channel": 0, "loop": 1 ,"clamp": 0},
+            "GD_RT_FF":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.3 , "channel": 0, "loop": 1 ,"clamp": 0},
+            "GD_HI_R":        {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.3 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "GD_MID_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.6 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "GD_LOW_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.6 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "GD_LNG_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.6 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "GD_SHT_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.6 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "GD_BCK_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.6 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "GD_HNG_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.6 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "GD_INS_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.6 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "GD_SID_R":       {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 2.6 , "channel": 1, "loop": 1 ,"clamp": 0},
+            "SW_BCK_R":       {"time_scale": 0.6, "weight": 1, "fade": 0.20, "duration": 0.7 , "channel": 1, "loop": 0 ,"clamp": 1},
+            "SW_SID_R":       {"time_scale": 0.6, "weight": 1, "fade": 0.14, "duration": 0.7 , "channel": 1, "loop": 0 ,"clamp": 1},
+            "CT_TR_R":        {"time_scale": 0.6, "weight": 1, "fade": 0.14, "duration": 0.7 , "channel": 1, "loop": 0 ,"clamp": 1},
+            "CT_MR_R":        {"time_scale": 0.6, "weight": 1, "fade": 0.14, "duration": 0.7 , "channel": 1, "loop": 0 ,"clamp": 1},
+            "CT_ML_R":        {"time_scale": 0.6, "weight": 1, "fade": 0.14, "duration": 0.7 , "channel": 1, "loop": 0 ,"clamp": 1},
+
+
+            "WALK":           {"time_scale": 0.1, "weight": 1, "fade": 0.25, "duration": 2  ,  "channel": 0 , "loop": 1 ,"clamp": 0},
+            "RUN":            {"time_scale": 1,   "weight": 1, "fade": 0.75, "duration": 6.6,  "channel": 0 , "loop": 1 ,"clamp": 0},
+            "IDL_LO_CB":      {"time_scale": 1,   "weight": 1, "fade": 0.25, "duration": 4.6,  "channel": 0 , "loop": 1 ,"clamp": 0},
+            "IDL_HI_CB":      {"time_scale": 1,   "weight": 1, "fade": 0.25, "duration": 4.6,  "channel": 1 , "loop": 1 ,"clamp": 0},
+            "ATTACK_1":       {"time_scale": 1,   "weight": 1, "fade": 0.35, "duration": 0.8,  "channel": 1 , "loop": 1 ,"clamp": 0},
+            "ATTACK_2":       {"time_scale": 1,   "weight": 1, "fade": 0.45, "duration": 1.4,  "channel": 1 , "loop": 1 ,"clamp": 0},
+            "DEAD":           {"time_scale": 0.1, "weight": 1, "fade": 0.25, "duration": 1.6,  "channel": 0 , "loop": 1 ,"clamp": 0},
+            "FALL":           {"time_scale": 1,   "weight": 1, "fade": 0.45, "duration": 1.6,  "channel": 0 , "loop": 1 ,"clamp": 0}
+
+          }
+        }
+      },
+      {
+        "id":"BARBARIAN_RIG",
+        "data":{
+          "joints": {
+          },
+          "animations": {
+            "IDLE":           {"time_scale": 1,   "weight": 1, "fade": 0.25, "duration": 2  , "channel": 0 },
+            "WALK":           {"time_scale": 1,   "weight": 1, "fade": 0.25, "duration": 2  , "channel": 0 },
+            "RUN":            {"time_scale": 1,   "weight": 1, "fade": 0.75, "duration": 6.6, "channel": 0 },
+            "IDL_LO_CB":      {"time_scale": 1,   "weight": 1, "fade": 0.25, "duration": 4.6, "channel": 0 },
+            "IDL_HI_CB":      {"time_scale": 1,   "weight": 1, "fade": 0.25, "duration": 4.6, "channel": 1 },
+            "ATTACK_1":       {"time_scale": 1,   "weight": 1, "fade": 0.35, "duration": 0.8, "channel": 1 },
+            "ATTACK_2":       {"time_scale": 1,   "weight": 1, "fade": 0.45, "duration": 1.4, "channel": 1 },
+            "DEAD":           {"time_scale": 0.1, "weight": 1, "fade": 0.25, "duration": 1.6, "channel": 0 },
+            "FALL":           {"time_scale": 1,   "weight": 1, "fade": 0.45, "duration": 1.6, "channel": 0 }
+
+          }
+        }
+      }
+    ]
+  }
+}]

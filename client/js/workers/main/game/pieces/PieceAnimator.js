@@ -23,15 +23,23 @@ define([
 
         PieceAnimator.prototype.setupPieceAnimations = function(onReady) {
 
-            console.log("Animator", this)
-            var animations = this.gamePiece.readConfigData('animations');
+    //        console.log("Animator", this);
+            var skeleton_rig = this.gamePiece.readConfigData('skeleton_rig');
+            this.gamePiece.setRigKey(skeleton_rig);
 
+            if (skeleton_rig) {
 
-            if (animations) {
+                var onDataReady = function() {
+                var animations = this.gamePiece.getRigData().readDataKey('animations');
 
                 for (var key in animations) {
-                    this.animations[key] = new PieceAnim(key, this.gamePiece.getWorkerData(), this.worldEntity.getAnimationState(key));
+                    this.animations[key] = new PieceAnim(key, this.gamePiece.getRigData(), this.worldEntity.getAnimationState(key));
                 }
+
+            }.bind(this);
+
+                this.gamePiece.rigData.fetchData(skeleton_rig, onDataReady);
+
             }
 
             onReady(this);

@@ -22,13 +22,24 @@ define([
 
         PieceAttacher.prototype.setupPieceAttachments = function() {
 
-            var joints = this.gamePiece.readConfigData('joints');
+            var skeleton_rig = this.gamePiece.readConfigData('skeleton_rig');
+            this.gamePiece.setRigKey(skeleton_rig);
 
-            if (joints) {
 
-                for (var key in joints) {
-                    this.pieceAttachments[key] = new PieceAttachment(key, this.gamePiece.getWorkerData(), this.worldEntity.getAttachmentJoint(key));
-                }
+            if (skeleton_rig) {
+
+                var onDataReady = function() {
+
+                    var joints = this.gamePiece.getRigData().readDataKey('joints');
+
+                    for (var key in joints) {
+                        this.pieceAttachments[key] = new PieceAttachment(key, this.gamePiece.getRigData(), this.worldEntity.getAttachmentJoint(key));
+                    }
+
+                }.bind(this);
+
+                this.gamePiece.rigData.fetchData(skeleton_rig, onDataReady);
+
             }
         };
 

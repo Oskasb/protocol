@@ -31,6 +31,10 @@
         {"id": "file_swing_back_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/SWING_back_rff"         }},
         {"id": "file_swing_side_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/SWING_side_rff"         }},
 
+        {"id": "file_cut_topright_rff"  , "config": { "url": "./client/assets/models/characters/fighter/body/CUT_tr_rff"          }},
+        {"id": "file_cut_midright_rff"  ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_mr_rff"         }},
+        {"id": "file_cut_midleft_rff"   ,    "config": { "url": "./client/assets/models/characters/fighter/body/CUT_ml_rff"       }},
+
 
         {"id": "file_barb_bind" ,         "config": { "url": "./client/assets/models/characters/barb/barb_bind"                   }},
         {"id": "file_barb_run"  ,         "config": { "url": "./client/assets/models/characters/barb/movement/barb_run"           }},

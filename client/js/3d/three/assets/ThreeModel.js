@@ -110,33 +110,41 @@ define([
             }.bind(this);
 
 
-            if (config.joints) {
-                for (var i = 0; i < config.joints.length; i++) {
-                    var bone_name = config.joints[i]['bone_name'];
-                    var key = config.joints[i].key;
-                    this.jointMap[key] = bone_name;
-                    if (typeof(ENUMS.Joints[key]) !== 'number') {
-                        console.log("No joint ENUM mapped for key: ", key)
+            var loadRig = function(src, rig) {
+
+                if (rig.joints) {
+                    for (var i = 0; i < rig.joints.length; i++) {
+                        var bone_name = rig.joints[i]['bone_name'];
+                        var key = rig.joints[i].key;
+                        this.jointMap[key] = bone_name;
+                        if (typeof(ENUMS.Joints[key]) !== 'number') {
+                            console.log("No joint ENUM mapped for key: ", key)
+                        }
+                        this.jointKeys.push(ENUMS.Joints[key]);
                     }
-                    this.jointKeys.push(ENUMS.Joints[key]);
                 }
-            }
 
+                if (rig.animations) {
+                    this.hasAnimations = true;
+                    for (var i = 0; i < rig.animations.length; i++) {
+                        var id = rig.animations[i].id;
+                        var key = rig.animations[i].key;
+                        this.animMap[id] = key;
+                        if (typeof(ENUMS.Animations[key]) !== 'number') {
+                            console.log("No animation ENUM mapped for key: ", key)
+                        }
+                        this.animationKeys.push(ENUMS.Animations[key]);
 
-            if (config.animations) {
-                this.hasAnimations = true;
-                for (var i = 0; i < config.animations.length; i++) {
-                    var id = config.animations[i].id;
-                    var key = config.animations[i].key;
-                    this.animMap[id] = key;
-                    if (typeof(ENUMS.Animations[key]) !== 'number') {
-                        console.log("No animation ENUM mapped for key: ", key)
+                        rqs++;
+                        ThreeAPI.loadThreeAsset('FILES_GLB_', id, animLoaded);
                     }
-                    this.animationKeys.push(ENUMS.Animations[key]);
-
-                    rqs++;
-                    ThreeAPI.loadThreeAsset('FILES_GLB_', id, animLoaded);
                 }
+                rds++;
+            }.bind(this);
+
+            if (config['rig']) {
+                rqs++;
+                ThreeAPI.loadThreeAsset('RIGS_', config['rig'], loadRig);
             }
 
             ThreeAPI.loadThreeAsset('FILES_GLB_', config.model, fileLoaded);

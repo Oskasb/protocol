@@ -66,13 +66,13 @@ define([
 
             this.spawnCalls[modelAssetId].push(new SpawnCall(modelAssetId, callback));
 
-            console.log("Request game asset:", modelAssetId, registeredAssets, assetIndex);
+        //    console.log("Request game asset:", modelAssetId, registeredAssets, assetIndex);
 
             if (registeredAssets[modelAssetId]) {
                 var aIndex = assetIndex.indexOf(modelAssetId);
                 this.requestSpawnableAsset(aIndex);
                 return;
-            };
+            }
 
             if (!requestedAssets[modelAssetId]) {
                 this.requestRenderableAsset(modelAssetId);
@@ -145,7 +145,7 @@ define([
         GameAssets.prototype.updateGameAssetRequests = function(assetKey) {
 
             if (this.spawnCalls[assetKey]) {
-                console.log("Spawn call", assetKey, this.spawnCalls[assetKey])
+    //            console.log("Spawn call", assetKey, this.spawnCalls[assetKey])
                 if (this.spawnCalls[assetKey].length) {
                     var aIndex = assetIndex.indexOf(assetKey);
                     this.requestSpawnableAsset(aIndex)
@@ -156,7 +156,7 @@ define([
 
 
         GameAssets.regAssetInstance = function(event) {
-            console.log("regAssetInstance", event)
+    //        console.log("regAssetInstance", event)
             gameAssets.registerAssetInstance(event);
         };
 

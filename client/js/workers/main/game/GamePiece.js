@@ -11,12 +11,19 @@ define([
             this.dataId = dataId;
         };
 
-        GamePiece.prototype.initGamePiece = function( pieceId, workerData) {
+        GamePiece.prototype.initGamePiece = function( pieceId, workerData, rigData) {
             this.pieceId = pieceId;
             this.workerData = workerData;
+            this.rigData = rigData
         };
 
+        GamePiece.prototype.setRigKey = function(rigKey) {
+            this.rigKey = rigKey;
+        };
 
+        GamePiece.prototype.getRigData = function() {
+            return this.rigData
+        };
 
         GamePiece.prototype.getWorkerData = function() {
             return this.workerData

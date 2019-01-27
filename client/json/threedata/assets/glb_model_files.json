@@ -66,6 +66,9 @@
         {"id": "file_chain_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/chain_legs"        }},
         {"id": "file_scale_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_legs"        }},
 
+        {"id": "file_scale_boots",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_boots"      }},
+        {"id": "file_scale_gloves",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_gloves"     }},
+
         {"id": "file_nineQuad",   "config": { "url": "./client/assets/models/shapes/nineQuad"                                     }},
         {"id": "file_cross3d",    "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},
         {"id": "file_bullet",     "config": { "url": "./client/assets/models/shapes/bullet"                                       }},

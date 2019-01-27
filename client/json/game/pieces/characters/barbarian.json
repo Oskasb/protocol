@@ -56,6 +56,18 @@
         "data":{
           "model_asset":"asset_scale_legs"
         }
+      },
+      {
+        "id":"BOOTS_SCALE",
+        "data":{
+          "model_asset":"asset_scale_boots"
+        }
+      },
+      {
+        "id":"GLOVES_SCALE",
+        "data":{
+          "model_asset":"asset_scale_gloves"
+        }
       }
     ]
   }

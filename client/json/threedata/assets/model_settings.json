@@ -63,6 +63,21 @@
           }
         },
 
+        {"id": "model_item_settings" ,
+          "config": {
+            "skin": {
+              "skeleton_key": 1,
+              "item": 1,
+              "slot": "slot_legs"
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+
         {"id": "default_model_settings" ,
           "config": {
             "transform": {

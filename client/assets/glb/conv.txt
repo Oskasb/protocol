@@ -47,7 +47,11 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigi
 
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\chain_shirt         D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\chain_shirt.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\chain_legs          D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\chain_legs.FBX       -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\scale_shirt         D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\scale_shirt.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\scale_legs          D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\scale_legs.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\scale_boots          D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\scale_boots.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\scale_gloves          D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\scale_gloves.FBX      -b
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\SKIN_fighter_male           D:\projects\protocol\client\assets\models\characters\fighter\SKIN_fighter_male.FBX   -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\idle\pose_idle         D:\projects\protocol\client\assets\models\characters\fighter\idle\pose_idle.FBX   -b

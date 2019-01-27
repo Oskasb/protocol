@@ -50,15 +50,15 @@ define([
         };
 
         InstancedModel.prototype.requestAttachment = function(ptr) {
-
+            console.log("requestAttachment SKIN ATTACH", ptr);
             var attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(ptr);
 
             this.attachInstancedModel(attachInstance);
 
         };
 
-        InstancedModel.prototype.requestAttachToJoint = function(ptr, joint) {
-            var attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(ptr);
+        InstancedModel.prototype.requestAttachToJoint = function(attachInstance, joint) {
+
             var boneName = this.originalModel.jointMap[ENUMS.getKey('Joints', joint)];
             var bone = this.boneMap[boneName];
             console.log("BoneMap", [this], boneName, bone);
@@ -160,6 +160,8 @@ define([
 
         InstancedModel.prototype.attachInstancedModel = function(instancedModel) {
 
+            console.log("attachInstancedModel BONEe:", instancedModel);
+
             var getBoneByName = function(bones, name) {
                 for (var i = 0; i < bones.length; i++) {
                     if (bones[i].name === name) {
@@ -176,6 +178,7 @@ define([
                 for (var i = 0; i < childSkel.bones.length; i++) {
                     var boneName = childSkel.bones[i].name;
                     var useBone = getBoneByName(parentSkel.bones, boneName);
+                    console.log("USE BONEe:", useBone);
                     childSkel.bones[i] = useBone;
                 }
             };

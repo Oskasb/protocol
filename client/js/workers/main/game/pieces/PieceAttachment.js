@@ -19,7 +19,7 @@ define([
         };
 
         PieceAttachment.prototype.setAttachedWorldEntity = function(worldEntity) {
-            this.attachmentJoint.registerAttachedEntity(worldEntity);
+            this.attachmentJoint.registerAttachedEntity(worldEntity, this.getData());
 
         };
 

@@ -11,6 +11,7 @@ define([
 
         var InstanceSpatial = function(obj3d) {
             this.obj3d = obj3d;
+            this.offsetObj3d = new THREE.Object3D();
             this.attachedToBone = null;
             this.parentSpatial = null;
         };
@@ -43,6 +44,10 @@ define([
             }
         };
 
+        InstanceSpatial.prototype.getOffsetObj3D = function() {
+            return this.offsetObj3d;
+        };
+
         InstanceSpatial.prototype.attachToBone = function(bone, parentSpatial) {
             this.attachedToBone = bone;
             this.parentSpatial = parentSpatial;
@@ -53,8 +58,16 @@ define([
 
             bone.matrixWorld.decompose(this.obj3d.position, this.obj3d.quaternion, this.obj3d.scale);
 
+            if (this.offsetObj3d.position.lengthSq()) {
+                tempVec1.copy(this.offsetObj3d.position);
+                tempVec1.applyQuaternion(this.obj3d.quaternion);
+                this.obj3d.position.add(tempVec1);
+            }
+
             tempVec1.setFromMatrixScale(bone.matrixWorld);
             this.obj3d.scale.divide(tempVec1);
+            this.obj3d.scale.multiply(this.offsetObj3d.scale);
+            this.obj3d.quaternion.multiply(this.offsetObj3d.quaternion);
 
             if (this.geometryInstance) {
                 this.geometryInstance.applyObjPos();

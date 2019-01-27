@@ -166,15 +166,16 @@ if(typeof(ENUMS) === "undefined"){
     };
 
     ENUMS.Joints = {
-        PROP_1:             0,
-        PROP_2:             1,
-        PROP_3:             2,
-        HEAD:               3,
-        PELVIS:             4,
-        HAND_L:             5,
-        HAND_R:             6,
-        GRIP_L:             7,
-        GRIP_R:             8
+        SKIN:               0,
+        PROP_1:             1,
+        PROP_2:             2,
+        PROP_3:             3,
+        HEAD:               4,
+        PELVIS:             5,
+        HAND_L:             6,
+        HAND_R:             7,
+        GRIP_L:             8,
+        GRIP_R:             9
     };
 
     ENUMS.AttachmentPoints = {

@@ -20,6 +20,42 @@
         "data":{
           "model_asset":"asset_ninjablade"
         }
+      },
+      {
+        "id":"HELMET_VIKING",
+        "data":{
+          "model_asset":"asset_helmetviking"
+        }
+      },
+      {
+        "id":"BELT_PLATE",
+        "data":{
+          "model_asset":"asset_beltplate"
+        }
+      },
+      {
+        "id":"SHIRT_CHAIN",
+        "data":{
+          "model_asset":"asset_chain_shirt"
+        }
+      },
+      {
+        "id":"SHIRT_SCALE",
+        "data":{
+          "model_asset":"asset_scale_shirt"
+        }
+      },
+      {
+        "id":"LEGS_CHAIN",
+        "data":{
+          "model_asset":"asset_chain_legs"
+        }
+      },
+      {
+        "id":"LEGS_SCALE",
+        "data":{
+          "model_asset":"asset_scale_legs"
+        }
       }
     ]
   }

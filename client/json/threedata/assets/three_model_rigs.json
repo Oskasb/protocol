@@ -7,6 +7,7 @@
           "id": "rig_fighter",
           "config":{
             "joints": [
+              {"key": "SKIN"          , "bone_name": "root_node"         },
               {"key": "GRIP_R"        , "bone_name": "grip_r"            },
               {"key": "GRIP_L"        , "bone_name": "grip_l"            },
               {"key": "PROP_1"        , "bone_name": "Bip001_Prop1"      },
@@ -34,8 +35,6 @@
               {"key":"GD_INS_R"       , "id":"file_guard_inside_rff"     },
 
               {"key":"SW_BCK_R"       , "id":"file_swing_back_rff"       },
-
-
 
               {"key":"GD_HI_R"        , "id":"file_guard_high_rff"       },
 

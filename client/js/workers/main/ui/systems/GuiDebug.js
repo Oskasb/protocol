@@ -167,7 +167,7 @@ define([
         };
 
 
-        var showAttachmentButton = function(attachmentJoint, gamePiece) {
+        var showAttachmentButton = function(attachmentJoint, gamePiece, testWeapon) {
 
             var testActive = function() {
                 return gamePiece.getJointActiveAttachment(attachmentJoint.key)
@@ -175,17 +175,17 @@ define([
 
             var onActivate = function() {
                 //    if (testActive()) {
-                gamePiece.attachWorldEntityToJoint('dummyEntity', attachmentJoint.key)
+                gamePiece.attachWorldEntityToJoint(testWeapon.getWorldEntity(), attachmentJoint.key)
                 //    }
             };
 
             addDebugButton(attachmentJoint.key, onActivate, testActive, debugControlContainer2)
         };
 
-        GuiDebug.debugPieceAttachmentPoints = function(gamePiece) {
+        GuiDebug.debugPieceAttachmentPoints = function(gamePiece, testWeapon) {
 
             for (var i = 0; i < gamePiece.worldEntity.attachmentJoints.length; i++) {
-                showAttachmentButton(gamePiece.worldEntity.attachmentJoints[i], gamePiece);
+                showAttachmentButton(gamePiece.worldEntity.attachmentJoints[i], gamePiece, testWeapon);
             }
         };
 

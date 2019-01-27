@@ -64,29 +64,28 @@ var itemPtr;
 
         var readAttachment = function(modelInstance, index, event) {
             joint = event[index];
-            itemPtr = event[index+11];
-        //    console.log("Parse ATTACH_TO_JOINT", [modelInstance], itemPtr, ENUMS.getKey('Joints', joint));
-            modelInstance.requestAttachToJoint(itemPtr, joint);
-        /*
-            attchEvent[index+1]  = ENUMS.Joints[joint.getJointKey()];
-            attchEvent[index+2]  = obj3d.position.x;
-            attchEvent[index+3]  = obj3d.position.y;
-            attchEvent[index+4]  = obj3d.position.z;
-            attchEvent[index+5]  = obj3d.quaternion.x;
-            attchEvent[index+6]  = obj3d.quaternion.y;
-            attchEvent[index+7]  = obj3d.quaternion.z;
-            attchEvent[index+8]  = obj3d.quaternion.w;
-            attchEvent[index+9]  = obj3d.scale.x;
-            attchEvent[index+10] = obj3d.scale.y;
-            attchEvent[index+11] = obj3d.scale.z;
-        */
 
+            itemPtr = event[index+11];
+
+            var attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(itemPtr);
+
+            if (joint === ENUMS.Joints.SKIN) {
+                modelInstance.requestAttachment(itemPtr)
+                return;
+            }
+
+
+            obj3d = attachInstance.getSpatial().getOffsetObj3D();
+
+            obj3d.position.set( event[index+1], event[index+2], event[index+3]);
+            obj3d.quaternion.set( event[index+4], event[index+5], event[index+6], event[index+7]);
+            obj3d.scale.set( event[index+8], event[index+9], event[index+10]);
+        //    console.log("Parse ATTACH_TO_JOINT", [modelInstance], itemPtr, ENUMS.getKey('Joints', joint));
+            modelInstance.requestAttachToJoint(attachInstance, joint);
         };
 
 
         parser[ENUMS.Event.ATTACH_TO_JOINT] = function(modelInstance, event) {
-
-
 
             count = event[1];
             stride = attachStride;
@@ -94,15 +93,12 @@ var itemPtr;
                 readAttachment(modelInstance, stride*i+2, event);
             }
 
-
-
         };
 
 
 
-
-
         parser[ENUMS.Event.ATTACH] = function(modelInstance, event) {
+            console.log("PARSE SKIN ATTACH event", event);
             modelInstance.requestAttachment(event[1])
         };
 
@@ -214,9 +210,12 @@ var itemPtr;
 
         };
 
+        var skinAddEvent = [];
+
         EventParser.attachmentEvent = function(hostEntity, itemEntity) {
-            animationEvent[0] = ENUMS.Event.ATTACH;
-            animationEvent[1] = itemEntity.ptr;
+            skinAddEvent[0] = ENUMS.Event.ATTACH;
+            skinAddEvent[1] = itemEntity.ptr;
+            console.log("Make Skin Event", skinAddEvent);
             return animationEvent;
         };
 

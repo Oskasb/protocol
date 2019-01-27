@@ -38,6 +38,9 @@
             "settings": "item_chest_settings"
           }
         },
+
+
+
         {
           "id": "skinned_barb_greaves",
           "config":{
@@ -47,18 +50,55 @@
           }
         },
 
+        {
+          "id": "asset_chain_shirt",
+          "config":{
+            "model": "file_chain_shirt",
+            "material": "material_opaque",
+            "settings": "item_chest_settings"
+          }
+        },
+        {
+          "id": "asset_chain_legs",
+          "config":{
+            "model": "file_chain_legs",
+            "material": "material_opaque",
+            "settings": "item_legs_settings"
+          }
+        },
+        {
+          "id": "asset_scale_shirt",
+          "config":{
+            "model": "file_scale_shirt",
+            "material": "material_opaque",
+            "settings": "item_chest_settings"
+          }
+        },
+
+        {
+          "id": "asset_scale_legs",
+          "config":{
+            "model": "file_scale_legs",
+            "material": "material_opaque",
+            "settings": "item_legs_settings"
+          }
+        },
+
         {"id": "asset_letterQuad",  "config": { "model": "file_nineQuad", "material": "material_instancing_font",   "settings": "ui_instancing_settings"  }},
         {"id": "asset_nineQuad",    "config": { "model": "file_nineQuad", "material": "material_instancing_ui",     "settings": "ui_instancing_settings"  }},
         {"id": "asset_nine_back",   "config": { "model": "file_nineQuad", "material": "material_instancing_ui_back","settings": "ui_instancing_settings"  }},
-        {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_basic",      "settings": "instancing_settings"     }},
+        {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_basic",       "settings": "instancing_settings"     }},
         {"id": "asset_cross3d",     "config": { "model": "file_cross3d",  "material": "material_instancing_ui",     "settings": "ui_instancing_settings"  }},
 
 
-        {"id": "asset_ninjablade",  "config": { "model": "file_ninjablade", "material": "mat_instancing_basic",       "settings": "instancing_items_settings"     }},
-        {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,    "material": "mat_instancing_basic",      "settings": "instancing_settings"     }},
-        {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,    "material": "mat_instancing_basic",      "settings": "instancing_settings"     }},
-        {"id": "asset_tree_3",      "config": { "model": "file_tree_3" ,    "material": "mat_instancing_basic",      "settings": "instancing_settings"     }},
-        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,    "material": "mat_instancing_basic",      "settings": "instancing_settings"     }}
+        {"id": "asset_beltplate",   "config": { "model": "file_beltplate",    "material": "mat_instancing_basic",  "settings": "instancing_items_settings" }},
+
+        {"id": "asset_helmetviking","config": { "model": "file_helmetviking", "material": "mat_instancing_basic",  "settings": "instancing_items_settings" }},
+        {"id": "asset_ninjablade",  "config": { "model": "file_ninjablade",   "material": "mat_instancing_basic",  "settings": "instancing_items_settings" }},
+        {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,      "material": "mat_instancing_basic",  "settings": "instancing_settings"     }},
+        {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,      "material": "mat_instancing_basic",  "settings": "instancing_settings"     }},
+        {"id": "asset_tree_3",      "config": { "model": "file_tree_3" ,      "material": "mat_instancing_basic",  "settings": "instancing_settings"     }},
+        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,      "material": "mat_instancing_basic",  "settings": "instancing_settings"     }}
       ]
     }
   }

@@ -5,15 +5,16 @@
         "id":"FIGHTER_RIG",
         "data":{
           "joints": {
-            "PROP_1":   {"joint":"PROP_1"},
-            "PROP_2":   {"joint":"PROP_2"},
-            "PROP_3":   {"joint":"PROP_3"},
-            "HEAD":     {"joint":"HEAD"  },
-            "PELVIS":   {"joint":"PELVIS"},
-            "HAND_L":   {"joint":"HAND_L"},
-            "HAND_R":   {"joint":"HAND_R"},
-            "GRIP_R":   {"joint":"GRIP_R"},
-            "GRIP_L":   {"joint":"GRIP_L"}
+            "SKIN":     { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
+            "PROP_1":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
+            "PROP_2":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
+            "PROP_3":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
+            "HEAD":     { "offset": [0, 0, 0], "rot": [1.57,-0.0,  -1.57], "scale": [1, 1, 1]},
+            "PELVIS":   { "offset": [0, 0, 0], "rot": [1.57,-0.0,  -1.57], "scale": [1, 1, 1]},
+            "HAND_L":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
+            "HAND_R":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
+            "GRIP_R":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
+            "GRIP_L":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]}
           },
           "animations": {
             "IDLE":           {"time_scale": 0.05,"weight": 1, "fade": 0.25, "duration": 0.1 , "channel": 0, "loop": 1 ,"clamp": 0},

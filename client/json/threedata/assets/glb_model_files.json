@@ -57,7 +57,14 @@
         {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"          }},
 
 
-        {"id": "file_ninjablade", "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                      }},
+        {"id": "file_ninjablade",   "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                    }},
+        {"id": "file_helmetviking", "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_viking"              }},
+        {"id": "file_beltplate",    "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_plate"                 }},
+
+        {"id": "file_chain_shirt",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/chain_shirt"       }},
+        {"id": "file_scale_shirt",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_shirt"       }},
+        {"id": "file_chain_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/chain_legs"        }},
+        {"id": "file_scale_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_legs"        }},
 
         {"id": "file_nineQuad",   "config": { "url": "./client/assets/models/shapes/nineQuad"                                     }},
         {"id": "file_cross3d",    "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},

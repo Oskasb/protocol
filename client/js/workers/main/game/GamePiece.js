@@ -68,10 +68,6 @@ define([
             return this.pieceAttacher;
         };
 
-        GamePiece.prototype.attachWorldEntityToSkin = function(worldEntity) {
-            this.getWorldEntity().attachSkinItem(worldEntity);
-        };
-
 
         GamePiece.prototype.attachWorldEntityToJoint = function(worldEntity, jointKey) {
             return this.getPieceAttacher().attachEntityToJoint(worldEntity, jointKey);

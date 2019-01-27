@@ -35,7 +35,7 @@ if(typeof(ENUMS) === "undefined"){
         REGISTER_INSTANCE:      13,
         UPDATE_MODEL:           14,
         UPDATE_ANIMATIONS:      15,
-        ATTACH:                 16,
+        ____:                   16,
         DETATCH:                17,
         ATTACH_TO_JOINT:        18
     };

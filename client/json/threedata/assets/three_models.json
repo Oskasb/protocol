@@ -3,20 +3,20 @@
   {
     "ASSETS": {
       "MODELS": [
-        {"id": "animated_fighter_male", "config":{"model": "file_fighter_bind", "rig": "rig_fighter",   "material": "material_opaque", "settings": "barb_settings" }},
-        {"id": "animated_pilot",        "config":{"model": "file_pilot_bind",   "rig": "rig_pilot",     "material": "material_opaque", "settings": "pilot_settings"}},
-        {"id": "animated_barbarian",    "config":{"model": "file_barb_bind",    "rig": "rig_barbarian", "material": "material_opaque", "settings": "barb_settings" }},
-        {"id": "skinned_barb_bp",       "config":{"model": "file_barb_item_bp", "material": "material_opaque", "settings": "item_chest_settings"}},
+        {"id": "animated_fighter_male", "config":{"model": "file_fighter_bind", "rig": "rig_fighter",   "material": "material_opaque", "settings": "default_model_settings" }},
+        {"id": "animated_pilot",        "config":{"model": "file_pilot_bind",   "rig": "rig_pilot",     "material": "material_opaque", "settings": "default_model_settings"}},
+        {"id": "animated_barbarian",    "config":{"model": "file_barb_bind",    "rig": "rig_barbarian", "material": "material_opaque", "settings": "default_model_settings" }},
 
-        {"id": "skinned_barb_greaves", "config":{"model": "file_barb_item_greaves", "material": "material_opaque", "settings": "item_legs_settings"}},
+        {"id": "skinned_barb_bp",       "config":{"model": "file_barb_item_bp", "material": "material_opaque",      "settings": "default_model_settings"}},
+        {"id": "skinned_barb_greaves", "config":{"model": "file_barb_item_greaves", "material": "material_opaque",  "settings": "default_model_settings"}},
 
-        {"id": "asset_chain_shirt", "config":{"model": "file_chain_shirt", "material": "material_opaque", "settings": "item_chest_settings"}},
-        {"id": "asset_chain_legs", "config":{"model": "file_chain_legs", "material": "material_opaque", "settings": "item_legs_settings"}},
-        {"id": "asset_scale_shirt", "config":{"model": "file_scale_shirt", "material": "material_opaque", "settings": "item_chest_settings"}},
+        {"id": "asset_chain_shirt", "config":{"model": "file_chain_shirt", "material": "material_opaque",           "settings": "default_model_settings"}},
+        {"id": "asset_chain_legs", "config":{"model": "file_chain_legs", "material": "material_opaque",             "settings": "default_model_settings"}},
+        {"id": "asset_scale_shirt", "config":{"model": "file_scale_shirt", "material": "material_opaque",           "settings": "default_model_settings"}},
 
-        {"id": "asset_scale_legs",   "config":{"model": "file_scale_legs",   "material": "material_opaque", "settings": "item_legs_settings"}},
-        {"id": "asset_scale_boots",  "config":{"model": "file_scale_boots",  "material": "material_opaque", "settings": "item_legs_settings"}},
-        {"id": "asset_scale_gloves", "config":{"model": "file_scale_gloves", "material": "material_opaque", "settings": "item_legs_settings"}},
+        {"id": "asset_scale_legs",   "config":{"model": "file_scale_legs",   "material": "material_opaque",         "settings": "default_model_settings"}},
+        {"id": "asset_scale_boots",  "config":{"model": "file_scale_boots",  "material": "material_opaque",         "settings": "default_model_settings"}},
+        {"id": "asset_scale_gloves", "config":{"model": "file_scale_gloves", "material": "material_opaque",         "settings": "default_model_settings"}},
 
         {"id": "asset_letterQuad",  "config": { "model": "file_nineQuad", "material": "material_instancing_font",   "settings": "ui_instancing_settings"  }},
         {"id": "asset_nineQuad",    "config": { "model": "file_nineQuad", "material": "material_instancing_ui",     "settings": "ui_instancing_settings"  }},

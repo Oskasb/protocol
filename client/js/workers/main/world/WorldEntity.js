@@ -21,7 +21,6 @@ define([
             this.animationStates = [];
             this.attachmentJoints = [];
             this.skin = {};
-            this.attachedTo = false;
             this.slots = {};
 
             var setIsDirty = function() {
@@ -40,50 +39,8 @@ define([
             this.setupAnimations();
         };
 
-        WorldEntity.prototype.isCharacter = function() {
-            return this.skin.character;
-        };
-
-        WorldEntity.prototype.isItem = function() {
-            return this.skin.item;
-        };
-
-        WorldEntity.prototype.attachTo = function(worldEntity) {
-            this.attachedTo = worldEntity;
-        };
-
-        WorldEntity.prototype.checkSlotFree = function(slot) {
-            if (this.slots[slot]) {
-                this.slots[slot] === 1;
-                return true;
-            }
-
-        };
-
-        WorldEntity.prototype.getSkin = function() {
-            return this.skin;
-        };
-
-        WorldEntity.prototype.attachSkinItem = function(worldEntity) {
-            worldEntity.attachTo(this);
-            this.slots[worldEntity.getSkin().slot] = worldEntity;
-
-            eventData = evt.parser.attachmentEvent(this, worldEntity);
-            evt.fire(this.ptr, eventData);
-
-        };
 
         WorldEntity.prototype.setupAnimations = function() {
-
-            if (this.data.skin) {
-                this.skin = this.data.skin;
-                if (this.isCharacter()) {
-                    for (var i = 0; i < this.skin.slots.length; i++) {
-                        this.slots[this.skin.slots[i]] = 1
-                    }
-                }
-            }
-
 
             for (var i = 0; i < this.data.jointKeys.length; i ++) {
                 var key = ENUMS.getKey('Joints',this.data.jointKeys[i]);
@@ -98,13 +55,6 @@ define([
             }
         };
 
-        WorldEntity.prototype.setAnimationStateWeight = function(key, weight) {
-            this.getAnimationState(key).setAnimationWeight(weight);;
-        };
-
-        WorldEntity.prototype.setAnimationStateTimeScale = function(key, timeScale) {
-            this.getAnimationState(key).setAnimationTimeScale(timeScale);
-        };
 
         WorldEntity.prototype.getAnimationState = function(key) {
             return MATH.getFromArrayByKeyValue(this.animationStates, 'key', key)

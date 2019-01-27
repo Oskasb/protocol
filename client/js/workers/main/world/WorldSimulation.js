@@ -56,21 +56,6 @@ define([
                 e.initWorldEntity(time);
 
                 worldEntities.push(e);
-
-                if (e.isCharacter()) {
-                    for (var i = 0; i < worldEntities.length; i++) {
-                        if (worldEntities[i].isItem()) {
-                            if (!worldEntities[i].attachedTo) {
-                                if (worldEntities[i].getSkin().skeleton_key === e.getSkin().skeleton_key) {
-                                    if (e.checkSlotFree(worldEntities[i].getSkin().slot)) {
-                                        e.attachSkinItem(worldEntities[i]);
-                                    //    return;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
         };
 

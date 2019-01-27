@@ -28,7 +28,7 @@ define([
         var testPieceId;
         var testWeapon;
 
-        var slots = ['GRIP_R', 'PROP_2', 'PROP_3'];
+        var slots = ['GRIP_R'];
         var skinItems = ["SHIRT_CHAIN", "SHIRT_SCALE", "LEGS_CHAIN","LEGS_SCALE", 'BOOTS_SCALE', 'GLOVES_SCALE'];
 
         GameAPI.loadTestPiece = function() {

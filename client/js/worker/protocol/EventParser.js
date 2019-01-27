@@ -70,7 +70,7 @@ var itemPtr;
             var attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(itemPtr);
 
             if (joint === ENUMS.Joints.SKIN) {
-                modelInstance.requestAttachment(itemPtr)
+                modelInstance.requestAttachment(attachInstance)
                 return;
             }
 
@@ -94,14 +94,6 @@ var itemPtr;
             }
 
         };
-
-
-
-        parser[ENUMS.Event.ATTACH] = function(modelInstance, event) {
-            console.log("PARSE SKIN ATTACH event", event);
-            modelInstance.requestAttachment(event[1])
-        };
-
 
 
 
@@ -208,15 +200,6 @@ var itemPtr;
 
             return attachmentPointEvent;
 
-        };
-
-        var skinAddEvent = [];
-
-        EventParser.attachmentEvent = function(hostEntity, itemEntity) {
-            skinAddEvent[0] = ENUMS.Event.ATTACH;
-            skinAddEvent[1] = itemEntity.ptr;
-            console.log("Make Skin Event", skinAddEvent);
-            return animationEvent;
         };
 
         return EventParser;

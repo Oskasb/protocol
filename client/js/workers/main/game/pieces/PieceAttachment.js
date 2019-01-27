@@ -20,11 +20,9 @@ define([
 
         PieceAttachment.prototype.setAttachedWorldEntity = function(worldEntity) {
             this.attachmentJoint.registerAttachedEntity(worldEntity, this.getData());
-
         };
 
         PieceAttachment.prototype.releaseAttachedWorldEntity = function() {
-
             console.log("Release WE PieceAttachment", this.getActiveAttachment());
             this.attachmentJoint.detatchAttachedEntity();
         };

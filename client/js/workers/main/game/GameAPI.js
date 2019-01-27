@@ -31,9 +31,31 @@ define([
         var slots = ['GRIP_R'];
         var skinItems = ["SHIRT_CHAIN", "SHIRT_SCALE", "LEGS_CHAIN","LEGS_SCALE", 'BOOTS_SCALE', 'GLOVES_SCALE'];
 
+        var equipItems = ["ITEM_KATANA"];
+
+        var character;
+
         GameAPI.loadTestPiece = function() {
             testPiece = !testPiece;
 
+            var itemReady = function(item) {
+                var slot = character.getSlotForItem(item);
+                character.equipItemToSlot(item, slot);
+            };
+
+            var charReady = function(char) {
+                character = char;
+                console.log("Char Ready")
+                gameMain.registerGamePiece(char.getGamePiece());
+                GuiAPI.getGuiDebug().debugPieceAnimations(char.getGamePiece());
+
+                while (equipItems.length) {
+                    GameAPI.createGameItem(equipItems.pop(), itemReady);
+                }
+            };
+
+            GameAPI.createGameCharacter('CHARACTER_FIGHTER', charReady);
+            return;
 
             var hatReady = function(hatPiece) {
                 gameMain.getPieceById(testPieceId).attachWorldEntityToJoint(hatPiece.getWorldEntity(), 'HEAD')
@@ -45,9 +67,9 @@ define([
 
             var skinReady = function(skinPiece) {
                 gameMain.getPieceById(testPieceId).attachWorldEntityToJoint(skinPiece.getWorldEntity(), 'SKIN')
-                if (skinItems.length) {
-                    pieceBuilder.buildGamePiece(skinItems.pop(), skinReady);
-                }
+            //    if (skinItems.length) {
+            //        pieceBuilder.buildGamePiece(skinItems.pop(), skinReady);
+            //    }
             };
 
             var onReady = function(gamePiece) {
@@ -62,7 +84,11 @@ define([
                     pieceBuilder.buildGamePiece("NINJASWORD", testWeapRdy);
                     pieceBuilder.buildGamePiece("HELMET_VIKING", hatReady);
                     pieceBuilder.buildGamePiece("BELT_PLATE", beltReady);
-                    pieceBuilder.buildGamePiece(skinItems.pop(), skinReady);
+                    // pieceBuilder.buildGamePiece(skinItems.pop(), skinReady);
+
+                        while (skinItems.length) {
+                            pieceBuilder.buildGamePiece(skinItems.pop(), skinReady);
+                        }
 
                 }
 
@@ -78,7 +104,7 @@ define([
 
                 testWeapon = piece;
 
-                gameMain.getPieceById(testPieceId).attachWorldEntityToJoint(testWeapon.getWorldEntity(), slots.pop())
+                gameMain.getPieceById(testPieceId).attachWorldEntityToJoint(testWeapon.getWorldEntity(), slots.pop());
 
                 if (slots.length) {
                     pieceBuilder.buildGamePiece("NINJASWORD", testWeapRdy)
@@ -89,7 +115,7 @@ define([
             GuiAPI.printDebugText("LOAD TEST PIECE "+testPiece);
             if (testPiece) {
 
-                pieceBuilder.buildGamePiece("FIGHTER", onReady);
+                pieceBuilder.buildGamePiece("PIECE_FIGHTER", onReady);
 
             } else {
                 var piece = gameMain.getPieceById(testPieceId);
@@ -98,6 +124,17 @@ define([
 
         };
 
+        GameAPI.createGamePiece = function(dataId, onReady) {
+            pieceBuilder.buildGamePiece(dataId, onReady);
+        };
+
+        GameAPI.createGameCharacter = function(dataId, onReady) {
+            pieceBuilder.buildCharacter(dataId, onReady);
+        };
+
+        GameAPI.createGameItem = function(dataId, onReady) {
+            pieceBuilder.buildItem(dataId, onReady);
+        };
 
         GameAPI.testPieceLoaded = function() {
             return testPiece;

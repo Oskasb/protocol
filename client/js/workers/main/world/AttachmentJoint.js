@@ -53,7 +53,7 @@ define([
         AttachmentJoint.prototype.registerAttachedEntity = function(worldEntity, jointData) {
             this.attachedEntity = worldEntity;
             this.applyJointData(jointData);
-    //        console.log("registerAttachedEntity", worldEntity);
+        //    console.log("registerAttachedEntity", worldEntity);
             this.callbacks.notifyUpdated();
         };
 

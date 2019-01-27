@@ -83,14 +83,10 @@ define([
             this.pieceAnimator.updatePieceAnimations(tpf, time);
         };
 
-
         GamePiece.prototype.disposeGamePiece = function() {
-
             GuiAPI.printDebugText("DISPOSE GAME PIECE "+this.pieceId);
             MainWorldAPI.getWorldSimulation().despawnWorldEntity(this.worldEntity);
-
         };
-
 
         return GamePiece;
 

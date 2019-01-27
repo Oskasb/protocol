@@ -4,12 +4,18 @@ define([
         'workers/WorkerData',
         'game/pieces/PieceAnimator',
         'game/pieces/PieceAttacher',
+        'game/actors/Character',
+        'game/actors/Item',
+        'game/equipment/EquipmentSlots',
         'game/GamePiece'
     ],
     function(
         WorkerData,
         PieceAnimator,
         PieceAttacher,
+        Character,
+        Item,
+        EquipmentSlots,
         GamePiece
     ) {
 
@@ -19,7 +25,6 @@ define([
 
         };
 
-
         var loadPiece = function(dataId, onReady) {
 
             var pieceId = 'piece_'+count+'_'+dataId;
@@ -27,7 +32,6 @@ define([
             var piece = new GamePiece(dataId);
 
             piece.initGamePiece(pieceId, new WorkerData("GAME", "PIECES"), new WorkerData("GAME", "SKELETON_RIGS"));
-
 
             var setupGamePiece = function(piece, onReady) {
 
@@ -42,8 +46,6 @@ define([
                 };
 
                 GameAPI.requestAssetWorldEntity(modelAssetId, worldEntityReady)
-
-
 
             };
 
@@ -75,12 +77,62 @@ define([
 
 
         PieceBuilder.prototype.buildGamePiece = function( dataId, onReady) {
-
             count++;
-            new loadPiece(dataId, onReady);
+            loadPiece(dataId, onReady);
         };
 
 
+
+
+
+        PieceBuilder.prototype.buildCharacter = function( dataId, onReady) {
+
+            var onDataReady = function(char) {
+
+                var pieceReady = function(gamePiece) {
+
+                    char.setGamePiece(gamePiece);
+                    onReady(char);
+                };
+
+
+                var eqSlotsReady = function(eqSlots) {
+                    char.setEquipmentSlots(eqSlots);
+                    GameAPI.createGamePiece(char.readConfigData('game_piece'), pieceReady);
+                };
+
+
+                var eqSlots = new EquipmentSlots();
+                var eqDataId = char.readConfigData('equip_slots');
+
+                eqSlots.initEquipmentSlots(eqDataId, new WorkerData("GAME", "EQUIP_SLOTS"), eqSlotsReady)
+
+            };
+
+            var char = new Character();
+            char.initCharacter(dataId, new WorkerData("GAME", "CHARACTERS"), onDataReady)
+
+        };
+
+
+        PieceBuilder.prototype.buildItem = function( dataId, onReady) {
+
+            var onDataReady = function(item) {
+
+                var pieceReady = function(gamePiece) {
+
+                    item.setGamePiece(gamePiece);
+                    onReady(item);
+                };
+
+                GameAPI.createGamePiece(item.readConfigData('game_piece'), pieceReady);
+
+            };
+
+            var item = new Item();
+            item.initItem(dataId, new WorkerData("GAME", "GAME_ITEMS"), onDataReady)
+
+        };
 
         return PieceBuilder;
 

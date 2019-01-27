@@ -1,0 +1,14 @@
+[{
+  "GAME":{
+    "GAME_ITEMS":[
+      {
+        "id":"ITEM_KATANA",
+        "data":{
+          "game_piece"    : "NINJASWORD",
+          "item_type"     : "WEAPON",
+          "item_class"    : "SWORD"
+        }
+      }
+    ]
+  }
+}]

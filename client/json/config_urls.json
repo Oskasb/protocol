@@ -18,9 +18,18 @@
 
       "ui/gui_systems.json"                                 ,
 
+      "game/actors/fighter.json"                            ,
+      "game/actors/game_items.json"                         ,
 
-      "game/pieces/characters/barbarian.json"               ,
+      "game/character/equip_slots.json"                     ,
+
+
+      "game/pieces/animated/humans.json"                    ,
+      "game/pieces/equipable/equip_items.json"              ,
+
       "game/skeletons/biped_rigs.json"                      ,
+
+
 
       "threedata/assets/sprites/gui_sprites_16x16.json"     ,
       "threedata/assets/sprites/font_sprites_16x16.json"    ,

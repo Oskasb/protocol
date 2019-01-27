@@ -50,7 +50,6 @@ define([
         };
 
         InstancedModel.prototype.requestAttachment = function(attachInstance) {
-
             this.attachInstancedModel(attachInstance);
 
         };

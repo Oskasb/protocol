@@ -2,20 +2,6 @@
   "GAME":{
     "PIECES":[
       {
-        "id":"FIGHTER",
-        "data":{
-          "model_asset":"animated_fighter_male",
-          "skeleton_rig":"FIGHTER_RIG"
-        }
-      },
-      {
-        "id":"BARBARIAN",
-        "data":{
-          "model_asset":"animated_barbarian",
-          "skeleton_rig":"BARBARIAN_RIG"
-        }
-      },
-      {
         "id":"NINJASWORD",
         "data":{
           "model_asset":"asset_ninjablade"

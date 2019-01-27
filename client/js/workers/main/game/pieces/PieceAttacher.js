@@ -9,8 +9,6 @@ define([
 
         var PieceAttacher = function() {
             this.pieceAttachments = {};
-            this.activeJoints = [];
-
         };
 
         PieceAttacher.prototype.initPieceAttacher = function(piece) {

@@ -59,8 +59,8 @@ define([
             }
         };
 
-var joint;
-var itemPtr;
+        var joint;
+        var itemPtr;
 
         var readAttachment = function(modelInstance, index, event) {
             joint = event[index];
@@ -70,7 +70,8 @@ var itemPtr;
             var attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(itemPtr);
 
             if (joint === ENUMS.Joints.SKIN) {
-                modelInstance.requestAttachment(attachInstance)
+                console.log("Read SKIN Attachment");
+                modelInstance.requestAttachment(attachInstance);
                 return;
             }
 
@@ -159,6 +160,11 @@ var itemPtr;
             attachedEntity = joint.getAttachedEntity();
             attchEvent[1]++;
             attchEvent[index+1]  = ENUMS.Joints[joint.getJointKey()];
+
+            if (attchEvent[index+1] === ENUMS.Joints.SKIN) {
+                console.log("Make SKIN Att EVT")
+            };
+
             attchEvent[index+2]  = obj3d.position.x;
             attchEvent[index+3]  = obj3d.position.y;
             attchEvent[index+4]  = obj3d.position.z;

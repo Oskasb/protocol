@@ -7,6 +7,22 @@ define([
 
     ) {
 
+    var itemTypeSlotMap = {};
+        itemTypeSlotMap['HELMET']      = "SLOT_HEAD"    ;
+        itemTypeSlotMap['SHIRT']       = "SLOT_BODY"    ;
+        itemTypeSlotMap['CHESTPLATE']  = "SLOT_CHEST"   ;
+        itemTypeSlotMap['MAILARMOR']   = "SLOT_CHEST"   ;
+        itemTypeSlotMap['BRACER']      = "SLOT_WRIST"   ;
+        itemTypeSlotMap['GLOVES']      = "SLOT_HANDS"   ;
+        itemTypeSlotMap['BELT']        = "SLOT_WAIST"   ;
+        itemTypeSlotMap['LEGGINGS']    = "SLOT_LEGS"    ;
+        itemTypeSlotMap['SKIRT']       = "SLOT_SKIRT"   ;
+        itemTypeSlotMap['GREAVES']     = "SLOT_GREAVES" ;
+        itemTypeSlotMap['BOOTS']       = "SLOT_FEET"    ;
+        itemTypeSlotMap['SWORD']       = "SLOT_HAND_R"  ;
+        itemTypeSlotMap['SWORD']       = "SLOT_HAND_L"  ;
+
+
         var EquipmentSlot = function(slotId, joint) {
             this.slotId = slotId;
             this.joint = joint;
@@ -32,12 +48,9 @@ define([
 
         EquipmentSlot.prototype.isSuitableForItem = function(item) {
 
-            console.log("Test suitability", this, item)
-
-            if (this.slotId === 'SLOT_HAND_R') {
+            if (itemTypeSlotMap[item.itemType] === this.slotId) {
                 return true
             }
-
 
         };
 

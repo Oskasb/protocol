@@ -8,7 +8,7 @@ define([
     ) {
 
         var Item = function() {
-
+            this.itemType;
         };
 
         Item.prototype.initItem = function( itemId, workerData, onReady) {
@@ -17,6 +17,7 @@ define([
 
             var onDataReady = function(isUpdate) {
                 if (!isUpdate) {
+                    this.itemType = this.readConfigData('item_type');
                     onReady(this);
                 }
             }.bind(this);

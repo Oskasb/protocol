@@ -34,7 +34,7 @@ define([
 
         };
 
-        EquipmentSlots.prototype.getEquipmentSlotSlotForItem = function(item) {
+        EquipmentSlots.prototype.getEquipmentSlotForItem = function(item) {
 
             for (var i = 0; i < this.slots.length; i++) {
                 if (this.slots[i].isSuitableForItem(item)){

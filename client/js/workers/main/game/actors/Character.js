@@ -46,13 +46,13 @@ define([
 
         Character.prototype.getSlotForItem = function(item) {
 
-            return this.equipmentSlots.getEquipmentSlotSlotForItem(item);
+            return this.equipmentSlots.getEquipmentSlotForItem(item);
 
         };
 
         Character.prototype.equipItemToSlot = function(item, slot) {
 
-            this.getGamePiece().attachWorldEntityToJoint(item.getGamePiece().getWorldEntity(), slot.joint)
+            this.getGamePiece().attachWorldEntityToJoint(item.getGamePiece().getWorldEntity(), slot.joint);
 
             console.log("Equip Item to Character", item, slot);
 

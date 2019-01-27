@@ -31,7 +31,17 @@ define([
         var slots = ['GRIP_R'];
         var skinItems = ["SHIRT_CHAIN", "SHIRT_SCALE", "LEGS_CHAIN","LEGS_SCALE", 'BOOTS_SCALE', 'GLOVES_SCALE'];
 
-        var equipItems = ["ITEM_KATANA"];
+        var equipItems = [
+            "ITEM_KATANA",
+            "ITEM_VIKINGHELMET",
+            "ITEM_PLATEBELT",
+            "ITEM_CHAINSHIRT",
+            "ITEM_SCALEMAIL",
+            "ITEM_CHAINLEGGINGS",
+            "ITEM_SCALESKIRT",
+            "ITEM_SCALEBOOTS",
+            "ITEM_SCALEGLOVES"
+        ];
 
         var character;
 

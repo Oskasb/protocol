@@ -157,9 +157,9 @@ define([
         var attachedEntity;
         var addAttachmentJoint = function(joint, index, attchEvent) {
             obj3d = joint.obj3d;
-            attachedEntity = joint.getAttachedEntity();
+            attachedEntity = joint.attachedEntity;
             attchEvent[1]++;
-            attchEvent[index+1]  = ENUMS.Joints[joint.getJointKey()];
+            attchEvent[index+1]  = ENUMS.Joints[joint.key];
 
             if (attchEvent[index+1] === ENUMS.Joints.SKIN) {
                 console.log("Make SKIN Att EVT")
@@ -184,11 +184,10 @@ define([
 
         };
 
-        var attJoints;
 
-        EventParser.attachmentPointEvent = function(worldEntity) {
+        var attJoint;
 
-            attJoints = worldEntity.attachmentJoints;
+        EventParser.attachmentPointEvent = function(attachmentUpdates) {
 
             attachmentPointEvent[0] = ENUMS.Event.ATTACH_TO_JOINT;
 
@@ -196,12 +195,11 @@ define([
             stride = attachStride;
             idx = 0;
 
-            for (i = 0; i < attJoints.length; i++) {
-                if (attJoints[i].isDirty) {
-                    addAttachmentJoint(attJoints[i], stride*idx+1, attachmentPointEvent);
-                    attJoints[i].isDirty = false;
-                    idx++;
-                }
+            while (attachmentUpdates.length) {
+                attJoint = attachmentUpdates.pop();
+                addAttachmentJoint(attJoint, stride*idx+1, attachmentPointEvent);
+                attJoint.isDirty = false;
+                idx++;
             }
 
             return attachmentPointEvent;

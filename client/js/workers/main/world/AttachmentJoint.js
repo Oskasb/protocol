@@ -12,9 +12,9 @@ define([
 
             this.attachedEntity = null;
 
-            let notifyUpdated = function() {
+            let notifyUpdated = function(msg) {
                 this.isDirty = true;
-                dirtyCallback();
+                dirtyCallback(msg);
             }.bind(this);
 
             this.callbacks = {
@@ -53,8 +53,11 @@ define([
         AttachmentJoint.prototype.registerAttachedEntity = function(worldEntity, jointData) {
             this.attachedEntity = worldEntity;
             this.applyJointData(jointData);
+
         //    console.log("registerAttachedEntity", worldEntity);
-            this.callbacks.notifyUpdated();
+            var msg = {attachedEntity:worldEntity, obj3d:this.obj3d, key:this.key};
+
+            this.callbacks.notifyUpdated(msg);
         };
 
 

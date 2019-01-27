@@ -23,12 +23,14 @@ define([
             this.skin = {};
             this.slots = {};
 
+            this.attachmentUpdates = [];
+
             var setIsDirty = function() {
                 this.setWorldEntityIsDirty();
             }.bind(this);
 
-            var setAttachmentUpdated = function() {
-                this.setAttachmentUpdated();
+            var setAttachmentUpdated = function(joint) {
+                this.addAttachmentUpdate(joint)
             }.bind(this);
 
             this.callbacks = {
@@ -97,9 +99,9 @@ define([
                 this.worldEntityIsDirty = false;
             }
 
-            if (this.attachmentUpdated) {
+            if (this.attachmentUpdates.length) {
                 this.relayAttachmentState();
-                this.attachmentUpdated = false;
+            //    this.attachmentUpdated = false;
             }
 
         };
@@ -110,6 +112,10 @@ define([
 
         WorldEntity.prototype.setAttachmentUpdated = function() {
             this.attachmentUpdated = true;
+        };
+
+        WorldEntity.prototype.addAttachmentUpdate = function(attachmentUpdate) {
+            this.attachmentUpdates.push(attachmentUpdate);
         };
 
         WorldEntity.prototype.relayEntityState = function() {
@@ -125,7 +131,7 @@ define([
         };
 
         WorldEntity.prototype.relayAttachmentState = function() {
-                eventData = evt.parser.attachmentPointEvent(this);
+                eventData = evt.parser.attachmentPointEvent(this.attachmentUpdates);
                 evt.fire(this.ptr, eventData);
                 console.log("Attachment Updated");
         };

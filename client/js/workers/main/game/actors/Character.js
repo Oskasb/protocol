@@ -52,7 +52,9 @@ define([
 
         Character.prototype.equipItemToSlot = function(item, slot) {
 
-            this.getGamePiece().attachWorldEntityToJoint(item.getGamePiece().getWorldEntity(), slot.joint);
+            slot.setEquippedSlotItem(item, this.getGamePiece());
+
+        //    this.getGamePiece().
 
             console.log("Equip Item to Character", item, slot);
 

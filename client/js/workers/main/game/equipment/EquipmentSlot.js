@@ -20,13 +20,14 @@ define([
         itemTypeSlotMap['GREAVES']     = "SLOT_GREAVES" ;
         itemTypeSlotMap['BOOTS']       = "SLOT_FEET"    ;
         itemTypeSlotMap['SWORD']       = "SLOT_HAND_R"  ;
-        itemTypeSlotMap['SWORD']       = "SLOT_HAND_L"  ;
+    //    itemTypeSlotMap['SWORD']       = "SLOT_HAND_L"  ;
 
 
         var EquipmentSlot = function(slotId, joint) {
             this.slotId = slotId;
             this.joint = joint;
             console.log("new Slot", slotId, joint);
+            this.equippedItem = null;
         };
 
         EquipmentSlot.prototype.initEquipmentSlots = function( dataId, workerData, onReady) {
@@ -54,6 +55,11 @@ define([
 
         };
 
+        EquipmentSlot.prototype.setEquippedSlotItem = function(item, gamePiece) {
+
+            gamePiece.attachWorldEntityToJoint(item.getGamePiece().getWorldEntity(), this.joint);
+
+        };
 
 
         return EquipmentSlot;

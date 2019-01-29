@@ -18,7 +18,7 @@ define([
             this.startTime = 0;
             this.fade = 0.25;
             this.ts = 1;
-            this.w = 1;
+            this.w = 0.01;
             this.channel = 0;
 
         };
@@ -27,13 +27,13 @@ define([
             return this.workerData.readDataKey(this.dataKey)[this.key];
         };
 
-        PieceAnim.prototype.activateNow = function(weight, timeScale) {
+        PieceAnim.prototype.activateNow = function(weight, timeScale, fadeTime) {
             this.currentTime = 0;
             this.animationState.setAnimationLoop(this.getData()['loop']);
             this.animationState.setAnimationClamp(this.getData()['clamp']);
             this.setWeight(weight || 1);
             this.setTimeScale(timeScale || 1);
-            this.setFadeTime(timeScale || 1);
+            this.setFadeTime(fadeTime || timeScale || 1);
             this.setChannel(this.getData()['channel'] || 0);
             this.duration = this.getData()['duration'] / this.ts;
         };

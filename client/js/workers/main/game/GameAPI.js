@@ -36,22 +36,36 @@ define([
             "ITEM_VIKINGHELMET",
             "ITEM_PLATEBELT",
             "ITEM_CHAINSHIRT",
-            "ITEM_SCALEMAIL",
+        //    "ITEM_SCALEMAIL",
             "ITEM_CHAINLEGGINGS",
-            "ITEM_SCALESKIRT",
+        //    "ITEM_SCALESKIRT",
             "ITEM_SCALEBOOTS",
             "ITEM_SCALEGLOVES"
         ];
+
+        var defaultActions = [
+            "CHOP",
+            "SLASH",
+            "SWIPE"
+        ];
+
 
         var character;
 
         GameAPI.loadTestPiece = function() {
             testPiece = !testPiece;
 
+            var actionReady = function(action) {
+                var slot = character.getSlotForAction(action);
+                character.setActionInSlot(action, slot);
+            };
+
             var itemReady = function(item) {
                 var slot = character.getSlotForItem(item);
                 character.equipItemToSlot(item, slot);
             };
+
+
 
             var charReady = function(char) {
                 character = char;
@@ -59,77 +73,22 @@ define([
                 gameMain.registerGamePiece(char.getGamePiece());
                 GuiAPI.getGuiDebug().debugPieceAnimations(char.getGamePiece());
 
-                while (equipItems.length) {
-                    GameAPI.createGameItem(equipItems.pop(), itemReady);
+                for (var i = 0; i < equipItems.length; i++) {
+                    GameAPI.createGameItem(equipItems[i], itemReady);
+                }
+
+                for (var i = 0; i < defaultActions.length; i++) {
+                    GameAPI.createGameAction(defaultActions[i], actionReady);
                 }
             };
 
-            GameAPI.createGameCharacter('CHARACTER_FIGHTER', charReady);
-            return;
-
-            var hatReady = function(hatPiece) {
-                gameMain.getPieceById(testPieceId).attachWorldEntityToJoint(hatPiece.getWorldEntity(), 'HEAD')
-            };
-
-            var beltReady = function(hatPiece) {
-                gameMain.getPieceById(testPieceId).attachWorldEntityToJoint(hatPiece.getWorldEntity(), 'PELVIS')
-            };
-
-            var skinReady = function(skinPiece) {
-                gameMain.getPieceById(testPieceId).attachWorldEntityToJoint(skinPiece.getWorldEntity(), 'SKIN')
-            //    if (skinItems.length) {
-            //        pieceBuilder.buildGamePiece(skinItems.pop(), skinReady);
-            //    }
-            };
-
-            var onReady = function(gamePiece) {
-
-                testPieceId = gamePiece.pieceId;
-                console.log("PieceReady ", gamePiece);
-
-                gameMain.registerGamePiece(gamePiece);
-
-
-                if (!testWeapon) {
-                    pieceBuilder.buildGamePiece("NINJASWORD", testWeapRdy);
-                    pieceBuilder.buildGamePiece("HELMET_VIKING", hatReady);
-                    pieceBuilder.buildGamePiece("BELT_PLATE", beltReady);
-                    // pieceBuilder.buildGamePiece(skinItems.pop(), skinReady);
-
-                        while (skinItems.length) {
-                            pieceBuilder.buildGamePiece(skinItems.pop(), skinReady);
-                        }
-
-                }
-
-            };
-
-            var testWeapRdy = function(piece) {
-                console.log("SwordReady ", piece);
-
-                if (!testWeapon) {
-                    GuiAPI.getGuiDebug().debugPieceAnimations(gameMain.getPieceById(testPieceId));
-                    GuiAPI.getGuiDebug().debugPieceAttachmentPoints(gameMain.getPieceById(testPieceId), piece);
-                }
-
-                testWeapon = piece;
-
-                gameMain.getPieceById(testPieceId).attachWorldEntityToJoint(testWeapon.getWorldEntity(), slots.pop());
-
-                if (slots.length) {
-                    pieceBuilder.buildGamePiece("NINJASWORD", testWeapRdy)
-                }
-
-            };
-
-            GuiAPI.printDebugText("LOAD TEST PIECE "+testPiece);
             if (testPiece) {
-
-                pieceBuilder.buildGamePiece("PIECE_FIGHTER", onReady);
+                console.log("ADD CHAR")
+                GameAPI.createGameCharacter('CHARACTER_FIGHTER', charReady);
 
             } else {
-                var piece = gameMain.getPieceById(testPieceId);
-                gameMain.removeGamePiece(piece);
+                console.log("REMOVE CHAR")
+                gameMain.removeGamePiece(character.getGamePiece());
             }
 
         };
@@ -144,6 +103,10 @@ define([
 
         GameAPI.createGameItem = function(dataId, onReady) {
             pieceBuilder.buildItem(dataId, onReady);
+        };
+
+        GameAPI.createGameAction = function(dataId, onReady) {
+            pieceBuilder.buildCombatAction(dataId, onReady);
         };
 
         GameAPI.testPieceLoaded = function() {

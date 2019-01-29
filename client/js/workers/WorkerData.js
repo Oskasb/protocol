@@ -29,7 +29,6 @@ define([
                 onDataLoaded(this.dataReady);
                 this.dataReady = true;
 
-
             }.bind(this);
 
             MainWorldAPI.fetchConfigData(this.configId, this.configKey, dataId, dataUpdate);

@@ -21,6 +21,20 @@ define([
                 }
             }.bind(this);
 
+
+            var updateCharacter = function(tpf, time) {
+                this.updateCharacter(tpf, time);
+            }.bind(this);
+
+            var actionStateUpdate = function(tpf, time) {
+                this.characterActionStateUpdate(tpf, time);
+            }.bind(this);
+
+            this.callbacks = {
+                updateCharacter:updateCharacter,
+                actionStateUpdate:actionStateUpdate
+            };
+
             workerData.fetchData(characterId, onDataReady);
         };
 
@@ -30,10 +44,29 @@ define([
 
         Character.prototype.setGamePiece = function( gamePiece) {
             this.gamePiece = gamePiece;
+            gamePiece.addPieceUpdateCallback(this.callbacks.updateCharacter);
         };
 
         Character.prototype.getGamePiece = function( ) {
             return this.gamePiece;
+        };
+
+        Character.prototype.setActiontSlots = function( actionSlots) {
+            this.actionSlots = actionSlots;
+        };
+
+        Character.prototype.getActiontSlots = function( ) {
+            return this.actionSlots
+        };
+
+        Character.prototype.getSlotForAction = function(action) {
+
+            return this.actionSlots.getAvailableActionSlot(action);
+        };
+
+        Character.prototype.setActionInSlot = function(action, slot) {
+
+            slot.setSlotAction(action)
         };
 
         Character.prototype.setEquipmentSlots = function( equipmentSlots) {
@@ -53,10 +86,32 @@ define([
         Character.prototype.equipItemToSlot = function(item, slot) {
 
             slot.setEquippedSlotItem(item, this.getGamePiece());
-
-        //    this.getGamePiece().
-
             console.log("Equip Item to Character", item, slot);
+
+        };
+
+        Character.prototype.characterActionStateUpdate = function(action) {
+            this.getGamePiece().actionStateUpdated(action);
+        };
+
+        Character.prototype.activateNextAvailableAction = function() {
+
+            if (this.getGamePiece().activeActions.length) return;
+
+            var slot = MATH.getRandomArrayEntry(this.actionSlots.slots);
+                if (slot.isReadyForActivation()) {
+                    var action = slot.activateCurrentSlottedAction();
+                    action.addActionStateChangeCallback(this.callbacks.actionStateUpdate);
+                }
+
+        };
+
+        Character.prototype.updateCharacter = function(tpf, time) {
+
+            if (Math.random() < 0.1) {
+                this.activateNextAvailableAction();
+            }
+
 
         };
 

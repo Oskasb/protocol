@@ -2,6 +2,8 @@
 
 define([
         'workers/WorkerData',
+        'client/js/workers/main/game/actions/Action',
+        'game/actions/ActionSlots',
         'game/pieces/PieceAnimator',
         'game/pieces/PieceAttacher',
         'game/actors/Character',
@@ -11,6 +13,8 @@ define([
     ],
     function(
         WorkerData,
+        Action,
+        ActionSlots,
         PieceAnimator,
         PieceAttacher,
         Character,
@@ -82,7 +86,10 @@ define([
         };
 
 
-
+        PieceBuilder.prototype.buildCombatAction = function( dataId, onReady) {
+            var action = new Action();
+            action.initAction(dataId, new WorkerData("GAME", "COMBAT_ACTIONS"), onReady)
+        };
 
 
         PieceBuilder.prototype.buildCharacter = function( dataId, onReady) {
@@ -95,17 +102,24 @@ define([
                     onReady(char);
                 };
 
-
                 var eqSlotsReady = function(eqSlots) {
                     char.setEquipmentSlots(eqSlots);
                     GameAPI.createGamePiece(char.readConfigData('game_piece'), pieceReady);
                 };
 
+                var actionSlotsReady = function(actionSlots) {
+                    char.setActiontSlots(actionSlots);
 
-                var eqSlots = new EquipmentSlots();
-                var eqDataId = char.readConfigData('equip_slots');
+                    var eqSlots = new EquipmentSlots();
+                    var eqDataId = char.readConfigData('equip_slots');
 
-                eqSlots.initEquipmentSlots(eqDataId, new WorkerData("GAME", "EQUIP_SLOTS"), eqSlotsReady)
+                    eqSlots.initEquipmentSlots(eqDataId, new WorkerData("GAME", "EQUIP_SLOTS"), eqSlotsReady);
+                };
+
+                var actionSlots = new ActionSlots();
+                var actionSlotsDataId = char.readConfigData('action_slots');
+
+                actionSlots.initActionSlots(actionSlotsDataId, new WorkerData("GAME", "ACTION_SLOTS"), actionSlotsReady)
 
             };
 

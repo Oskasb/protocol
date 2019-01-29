@@ -49,10 +49,18 @@ define([
             return this.animations[animationKey];
         };
 
-        PieceAnimator.prototype.activatePieceAnimation = function(animationKey, weight, timeScale) {
+
+        PieceAnimator.prototype.getActionMap = function(actionType) {
+
+            return this.gamePiece.getRigData().readDataKey('action_maps')[actionType];
+
+        };
+
+
+        PieceAnimator.prototype.activatePieceAnimation = function(animationKey, weight, timeScale, fadeTime) {
 
             var anim = this.getPieceAnim(animationKey);
-            anim.activateNow(weight, timeScale);
+            anim.activateNow(weight, timeScale, fadeTime);
 
             if (this.activeAnimations.indexOf(anim) === -1) {
                 this.activeAnimations.push(anim);

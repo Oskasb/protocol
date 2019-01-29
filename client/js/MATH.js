@@ -68,6 +68,10 @@ if(typeof(MATH) === "undefined") {
 		}
 	};
 
+	MATH.getRandomArrayEntry = function(array) {
+		return array[Math.floor(Math.random()*array.length)]
+	};
+
 	var idx;
 
 	MATH.getFromArrayByKeyValue = function(array, key, value) {
@@ -75,6 +79,13 @@ if(typeof(MATH) === "undefined") {
 			if (array[idx][key] === value) {
 				return array[idx];
 			}
+		}
+	};
+
+	var all;
+	MATH.callAll = function(array, arg1, arg2, arg3) {
+		for (all = 0; all <  array.length; all++) {
+			array[all](arg1, arg2, arg3);
 		}
 	};
 

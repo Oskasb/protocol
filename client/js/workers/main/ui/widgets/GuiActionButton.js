@@ -52,6 +52,26 @@ define([
         };
 
 
+        GuiActionButton.prototype.setGuiWidget = function(widget) {
+            this.guiWidget = widget;
+            widget.applyWidgetOptions(this.options);
+
+            var progressReady = function(pwidget) {
+                widget.addChild(pwidget);
+            };
+
+                widget.enableWidgetInteraction();
+
+                this.progressWidget = new GuiWidget(progWidgetId);
+                this.progressWidget.initGuiWidget(null, progressReady);
+                this.progressWidget.setWidgetIconKey(progressIcon);
+                this.setTestActiveCallback(this.callbacks.testActive);
+
+                widget.attachToAnchor('bottom_right');
+
+        };
+
+
         GuiActionButton.prototype.initActionButton = function(widgetConfig, onReady) {
             this.guiWidget = new GuiWidget(widgetConfig);
 
@@ -76,10 +96,9 @@ define([
             }.bind(this);
 
             this.guiWidget.initGuiWidget(null, buttonReady);
-        //    this.guiWidget.addOnActiaveCallback(onActivate);
+            //    this.guiWidget.addOnActiaveCallback(onActivate);
 
         };
-
 
         GuiActionButton.prototype.setAction = function(action) {
             this.action = action;
@@ -124,6 +143,10 @@ define([
 
         GuiActionButton.prototype.actionButtonInitiateAction = function() {
             this.getAction().activateActionNow();
+            this.actionButtonTriggerUiUpdate();
+        };
+
+        GuiActionButton.prototype.actionButtonTriggerUiUpdate = function() {
             GuiAPI.addGuiUpdateCallback(this.callbacks.updateProgress);
             this.guiWidget.disableWidgetInteraction();
         };

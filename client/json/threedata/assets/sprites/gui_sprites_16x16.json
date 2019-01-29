@@ -118,6 +118,23 @@
           },
 
           {
+            "id":"rot_ccw",
+            "tiles":[[0, 6]]
+          },
+          {
+            "id":"rot_cw",
+            "tiles":[[0, 7]]
+          },
+          {
+            "id":"rot_lth",
+            "tiles":[[0, 8]]
+          },
+          {
+            "id":"rot_htl",
+            "tiles":[[0, 9]]
+          },
+
+          {
             "id":"fuel",
             "tiles":[[0, 5]]
           },

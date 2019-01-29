@@ -1,14 +1,16 @@
 "use strict";
 
 define([
-
+        'game/actions/ActionStateProcessor'
     ],
     function(
-
+        ActionStateProcessor
     ) {
 
         var GamePiece = function(dataId) {
             this.dataId = dataId;
+            this.gamePieceUpdateCallbacks = [];
+            this.activeActions = [];
         };
 
         GamePiece.prototype.initGamePiece = function( pieceId, workerData, rigData) {
@@ -49,10 +51,8 @@ define([
             return this.pieceAnimator;
         };
 
-
-
-        GamePiece.prototype.activatePieceAnimation = function(key, weight, timeScale) {
-            this.getPieceAnimator().activatePieceAnimation(key, weight, timeScale);
+        GamePiece.prototype.activatePieceAnimation = function(key, weight, timeScale, playOnceOverTime) {
+            this.getPieceAnimator().activatePieceAnimation(key, weight, timeScale, playOnceOverTime);
         };
 
         GamePiece.prototype.getPlayingAnimation = function(key) {
@@ -78,13 +78,44 @@ define([
            return this.getPieceAttacher().isActiveJointKey(key);
         };
 
+        GamePiece.prototype.addPieceUpdateCallback = function(cb) {
+            if (this.gamePieceUpdateCallbacks.indexOf(cb) === -1) {
+                this.gamePieceUpdateCallbacks.push(cb);
+            }
+        };
+
+
+        GamePiece.prototype.removePieceUpdateCallback = function(cb) {
+            MATH.quickSplice(this.gamePieceUpdateCallbacks, cb);
+        };
+
+
+        GamePiece.prototype.actionStateEnded = function(action) {
+            MATH.quickSplice(this.activeActions, action);
+        };
+
+        GamePiece.prototype.actionStateUpdated = function(action) {
+            if (this.activeActions.indexOf(action) === -1) {
+                this.activeActions.push(action);
+            }
+            ActionStateProcessor.applyActionStateToGamePiece(action, this)
+        };
+
 
         GamePiece.prototype.updateGamePiece = function(tpf, time) {
+
+            MATH.callAll(this.gamePieceUpdateCallbacks, tpf, time);
+
             this.pieceAnimator.updatePieceAnimations(tpf, time);
         };
 
         GamePiece.prototype.disposeGamePiece = function() {
             GuiAPI.printDebugText("DISPOSE GAME PIECE "+this.pieceId);
+
+            this.getPieceAttacher().removeAttachedEntities();
+
+            MATH.emptyArray(this.gamePieceUpdateCallbacks);
+
             MainWorldAPI.getWorldSimulation().despawnWorldEntity(this.worldEntity);
         };
 

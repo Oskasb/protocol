@@ -39,6 +39,7 @@ define([
                 currentTime:0,
                 active:false,
                 state:ENUMS.ActionState.AVAILABLE,
+                action_type:ENUMS.ActionState.ATTACK_GREATSWORD,
                 name:"Test it",
                 text:"init",
                 icon:"fire"
@@ -48,8 +49,31 @@ define([
                 this.updateActionProgress(tpf, time)
             }.bind(this);
 
+
+            this.onStateChangeCallbacks = [];
+
             this.callbacks = {
                 updateActionProgress:updateActionProgress
+            }
+        };
+
+        Action.prototype.initAction = function(dataId, workerData, onReady) {
+            this.workerData = workerData;
+
+            var onDataReady = function(isUpdate) {
+                this.applyActionConfig(this.workerData.data);
+                if (!isUpdate) {
+                    onReady(this);
+                }
+            }.bind(this);
+
+            this.workerData.fetchData(dataId, onDataReady);
+
+        };
+
+        Action.prototype.applyActionConfig = function(actionConfig) {
+            for (var key in actionConfig) {
+                this.params[key] = actionConfig[key];
             }
         };
 
@@ -59,6 +83,7 @@ define([
                 params.currentTime -= params[timersMap[params.state]];
                 params.state = stateChainMap[params.state];
                 params.targetTime = params[timersMap[params.state]];
+                this.notifyActionStateChange()
             }
         };
 
@@ -80,9 +105,10 @@ define([
 
             if (params.state === ENUMS.ActionState.AVAILABLE) {
                 MainWorldAPI.removeWorldUpdateCallback(this.callbacks.updateActionProgress);
-                params.text = "ready";
+                params.text = params.name;
                 params.active = false;
                 params.progressTime = 0;
+                this.actionEnded()
             }
         };
 
@@ -104,7 +130,6 @@ define([
                 this.params.targetTime = this.params[timersMap[this.params.state]];
                 this.params.text = " ";
             }
-
         };
 
         Action.prototype.activateActionNow = function() {
@@ -148,7 +173,23 @@ define([
             return this.params.active;
         };
 
+        Action.prototype.getActionType = function() {
+            return this.params.action_type;
+        };
 
+
+        Action.prototype.addActionStateChangeCallback = function(cb) {
+            this.onStateChangeCallbacks.push(cb);
+            cb(this);
+        };
+
+        Action.prototype.notifyActionStateChange = function() {
+            MATH.callAll(this.onStateChangeCallbacks, this)
+        };
+
+        Action.prototype.actionEnded = function() {
+            MATH.emptyArray(this.onStateChangeCallbacks)
+        };
 
         return Action;
 

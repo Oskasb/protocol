@@ -43,7 +43,14 @@ define([
 
         WidgetBuilder.prototype.buildWidget = function(widgetClassName, options, onReady) {
             var widgetOfClass = new widgets[widgetClassName](options);
-            this.setupWidgetFromOptions(widgetOfClass, onReady);
+
+        //    if (widgetClassName === 'GuiActionButton') {
+        //        widgetOfClass.initActionButton(widgetOfClass.options.configId, )
+        //    } else {
+                this.setupWidgetFromOptions(widgetOfClass, onReady);
+        //    }
+
+
         };
 
         WidgetBuilder.prototype.setupWidgetFromOptions = function(widgetOfClass, onReady) {
@@ -61,6 +68,7 @@ define([
             guiWidget.initGuiWidget(null, wReady);
 
         };
+
 
 
         return WidgetBuilder;

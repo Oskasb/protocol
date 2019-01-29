@@ -9,6 +9,7 @@ define([
 
         var PieceAttacher = function() {
             this.pieceAttachments = {};
+            this.attachedWorldEntities = [];
         };
 
         PieceAttacher.prototype.initPieceAttacher = function(piece) {
@@ -43,6 +44,7 @@ define([
 
 
         PieceAttacher.prototype.attachEntityToJoint = function(entity, jointKey) {
+            this.attachedWorldEntities.push(entity);
             this.getAttachmentJoint(jointKey).setAttachedWorldEntity(entity);
         };
 
@@ -58,9 +60,11 @@ define([
             return this.getAttachmentJoint(key).releaseActiveAttachment();
         };
 
-        PieceAttacher.prototype.updatePieceAttachments = function(tpf, time) {
+        PieceAttacher.prototype.removeAttachedEntities = function() {
 
-
+            while (this.attachedWorldEntities.length) {
+                MainWorldAPI.getWorldSimulation().despawnWorldEntity(this.attachedWorldEntities.pop());
+            }
 
         };
 

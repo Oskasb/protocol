@@ -30,7 +30,7 @@ define([
             this.equippedItem = null;
         };
 
-        EquipmentSlot.prototype.initEquipmentSlots = function( dataId, workerData, onReady) {
+        EquipmentSlot.prototype.initEquipmentSlot = function( dataId, workerData, onReady) {
 
             this.workerData = workerData;
 

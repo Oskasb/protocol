@@ -162,6 +162,11 @@ if(typeof(ENUMS) === "undefined"){
         CT_MR_R:          27,
         CT_ML_R:          28
 
+    };
+
+    ENUMS.ActionTypes = {
+        ATTACK_GREATSWORD:  0,
+        ATTACK_SWORD:       1
 
     };
 

@@ -243,16 +243,12 @@ define([
         var cbs;
 
         var callInputUpdateCallbacks = function(input, buffer) {
-            for (cbs = 0; cbs < inputUpdateCallbacks.length; cbs++) {
-                inputUpdateCallbacks[cbs](input, buffer);
-            }
+            MATH.callAll(inputUpdateCallbacks, input, buffer);
         };
 
         var callAspectUpdateCallbacks = function(aspect) {
     //        console.log("Aspect:", aspect);
-            for (cbs = 0; cbs < aspectUpdateCallbacks.length; cbs++) {
-                aspectUpdateCallbacks[cbs](aspect);
-            }
+            MATH.callAll(aspectUpdateCallbacks, aspect);
         };
 
 
@@ -295,9 +291,7 @@ define([
                 dymmy1(registeredTextElements['main_text_box']);
             }
 
-            for (i = 0; i < guiUpdateCallbacks.length; i++) {
-                guiUpdateCallbacks[i](tpf, time);
-            }
+            MATH.callAll(guiUpdateCallbacks, tpf, time);
         };
 
         return GuiAPI;

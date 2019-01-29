@@ -3,7 +3,6 @@
     "files":[
       "threedata/assets/load_assets.json"                   ,
 
-
       "ui/elements/icon_elements.json"                      ,
       "ui/elements/surface_elements.json"                   ,
       "ui/elements/text_elements.json"                      ,
@@ -13,22 +12,20 @@
       "ui/feedback/surface_feedback.json"                   ,
 
       "ui/layout/surface_layout.json"                       ,
-
       "ui/widgets/standard_widgets.json"                    ,
-
       "ui/gui_systems.json"                                 ,
 
+      "game/actions/fighter_actions.json"                   ,
       "game/actors/fighter.json"                            ,
       "game/actors/game_items.json"                         ,
 
+      "game/character/action_slots.json"                    ,
       "game/character/equip_slots.json"                     ,
-
 
       "game/pieces/animated/humans.json"                    ,
       "game/pieces/equipable/equip_items.json"              ,
 
       "game/skeletons/biped_rigs.json"                      ,
-
 
 
       "threedata/assets/sprites/gui_sprites_16x16.json"     ,

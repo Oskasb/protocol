@@ -180,7 +180,6 @@ define([
 
         Action.prototype.addActionStateChangeCallback = function(cb) {
             this.onStateChangeCallbacks.push(cb);
-            cb(this);
         };
 
         Action.prototype.notifyActionStateChange = function() {
@@ -188,7 +187,7 @@ define([
         };
 
         Action.prototype.actionEnded = function() {
-            MATH.emptyArray(this.onStateChangeCallbacks)
+        //    MATH.emptyArray(this.onStateChangeCallbacks)
         };
 
         return Action;

@@ -4,8 +4,8 @@
       {
         "id":"CHOP",
         "data":{
-          "activationTime":0.35,
-          "activeTime": 0.5,
+          "activationTime":0.25,
+          "activeTime": 0.4,
           "cooldownTime":0.35,
           "name":"CHOP",
           "text":"init",
@@ -17,9 +17,9 @@
 
         "id":"SLASH",
         "data":{
-          "activationTime":0.35,
-          "activeTime": 0.6,
-          "cooldownTime":0.35,
+          "activationTime":0.25,
+          "activeTime": 0.34,
+          "cooldownTime":0.25,
           "name":"SLASH",
           "text":"init",
           "icon":"rot_ccw",
@@ -29,9 +29,9 @@
       {
         "id":"SWIPE",
         "data":{
-          "activationTime":0.35,
-          "activeTime": 0.34,
-          "cooldownTime":0.45,
+          "activationTime":0.25,
+          "activeTime": 0.44,
+          "cooldownTime":0.35,
           "name":"SWIPE",
           "text":"init",
           "icon":"rot_cw",
@@ -41,25 +41,25 @@
       {
         "id":"SWING",
         "data":{
-          "activationTime":1.3,
-          "activeTime": 0.5,
-          "cooldownTime":2.5,
+          "activationTime":0.21,
+          "activeTime": 0.34,
+          "cooldownTime":0.21,
           "name":"SWING",
           "text":"init",
           "icon":"rot_htl",
-          "action_type": "ATTACK_GREATSWORD"
+          "action_type": "ATTACK_GREATSWORD_SWING"
         }
       },
       {
         "id":"CUT",
         "data":{
-          "activationTime":1.3,
-          "activeTime": 0.5,
-          "cooldownTime":2.5,
+          "activationTime":0.25,
+          "activeTime": 0.44,
+          "cooldownTime":0.25,
           "name":"CUT",
           "text":"init",
           "icon":"rot_lth",
-          "action_type": "ATTACK_GREATSWORD"
+          "action_type": "ATTACK_GREATSWORD_CUT"
         }
       }
     ]

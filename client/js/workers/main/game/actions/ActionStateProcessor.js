@@ -55,7 +55,7 @@ define([
             }
 
 
-            console.log("ActionStateUpdate", action.getActionType(), [action]);
+        //    console.log("ActionStateUpdate", action.getActionType(), [action]);
             actionMap = gamePiece.getPieceAnimator().getActionMap(action.getActionType());
 
             animKeys = actionMap[actionStateMap[actionState]];
@@ -64,7 +64,7 @@ define([
                 return;
             }
             var key = MATH.getRandomArrayEntry(animKeys);
-            console.log(key)
+        //    console.log(key)
 
             gamePiece.activatePieceAnimation(key, 1, 1/action.getActionTargetTime(), action.getActionTargetTime())
 

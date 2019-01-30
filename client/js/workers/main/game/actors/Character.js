@@ -66,7 +66,8 @@ define([
 
         Character.prototype.setActionInSlot = function(action, slot) {
 
-            slot.setSlotAction(action)
+            slot.setSlotAction(action);
+            action.addActionStateChangeCallback(this.callbacks.actionStateUpdate)
         };
 
         Character.prototype.setEquipmentSlots = function( equipmentSlots) {
@@ -101,14 +102,14 @@ define([
             var slot = MATH.getRandomArrayEntry(this.actionSlots.slots);
                 if (slot.isReadyForActivation()) {
                     var action = slot.activateCurrentSlottedAction();
-                    action.addActionStateChangeCallback(this.callbacks.actionStateUpdate);
+                //    action.addActionStateChangeCallback(this.callbacks.actionStateUpdate);
                 }
 
         };
 
         Character.prototype.updateCharacter = function(tpf, time) {
 
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.4) {
                 this.activateNextAvailableAction();
             }
 

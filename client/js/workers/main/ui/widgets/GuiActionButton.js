@@ -54,7 +54,6 @@ define([
 
         GuiActionButton.prototype.setGuiWidget = function(widget) {
             this.guiWidget = widget;
-            widget.applyWidgetOptions(this.options);
 
             var progressReady = function(pwidget) {
                 widget.addChild(pwidget);

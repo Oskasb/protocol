@@ -6,7 +6,8 @@
         "data":{
           "activationTime":0.25,
           "activeTime": 0.4,
-          "cooldownTime":0.35,
+          "recoverTime": 0.25,
+          "cooldownTime":1.35,
           "name":"CHOP",
           "text":"init",
           "icon":"rot_htl",
@@ -19,7 +20,8 @@
         "data":{
           "activationTime":0.25,
           "activeTime": 0.34,
-          "cooldownTime":0.25,
+          "recoverTime": 0.35,
+          "cooldownTime":2.25,
           "name":"SLASH",
           "text":"init",
           "icon":"rot_ccw",
@@ -31,7 +33,8 @@
         "data":{
           "activationTime":0.25,
           "activeTime": 0.44,
-          "cooldownTime":0.35,
+          "recoverTime": 0.35,
+          "cooldownTime":2.35,
           "name":"SWIPE",
           "text":"init",
           "icon":"rot_cw",
@@ -43,7 +46,8 @@
         "data":{
           "activationTime":0.21,
           "activeTime": 0.34,
-          "cooldownTime":0.21,
+          "recoverTime": 0.21,
+          "cooldownTime":3.21,
           "name":"SWING",
           "text":"init",
           "icon":"rot_htl",
@@ -55,7 +59,8 @@
         "data":{
           "activationTime":0.25,
           "activeTime": 0.44,
-          "cooldownTime":0.25,
+          "recoverTime": 0.25,
+          "cooldownTime":5.25,
           "name":"CUT",
           "text":"init",
           "icon":"rot_lth",

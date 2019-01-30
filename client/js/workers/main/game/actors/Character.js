@@ -51,13 +51,31 @@ define([
             return this.gamePiece;
         };
 
+        Character.prototype.getActiontSlots = function( ) {
+            return this.actionSlots
+        };
+
+        Character.prototype.setActiontPoints = function( actionPoints) {
+            this.actionPoints = actionPoints;
+        };
+
+        Character.prototype.getActiontPoints = function( ) {
+            return this.actionPoints
+        };
+
         Character.prototype.setActiontSlots = function( actionSlots) {
             this.actionSlots = actionSlots;
         };
 
-        Character.prototype.getActiontSlots = function( ) {
-            return this.actionSlots
+
+        Character.prototype.setCharacterCombat = function(characterCombat ) {
+            this.characterCombat = characterCombat;
         };
+
+        Character.prototype.getCharacterCombat = function( ) {
+            return this.characterCombat
+        };
+
 
         Character.prototype.getSlotForAction = function(action) {
 

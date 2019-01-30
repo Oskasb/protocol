@@ -3,7 +3,9 @@
 define([
         'workers/WorkerData',
         'client/js/workers/main/game/actions/Action',
+        'client/js/workers/main/game/actions/ActionPointStatus',
         'game/actions/ActionSlots',
+        'game/combat/CharacterCombat',
         'game/pieces/PieceAnimator',
         'game/pieces/PieceAttacher',
         'game/actors/Character',
@@ -14,7 +16,9 @@ define([
     function(
         WorkerData,
         Action,
+        ActionPointStatus,
         ActionSlots,
+        CharacterCombat,
         PieceAnimator,
         PieceAttacher,
         Character,
@@ -102,18 +106,29 @@ define([
                     onReady(char);
                 };
 
+                var actionPointsReady = function(actionPoints) {
+                    char.setActiontPoints(actionPoints);
+
+
+                    var guiApsReady = function(guiAps) {
+                        guiAps.setActionPointStatus(actionPoints);
+                    };
+
+                    GuiAPI.buildGuiWidget('GuiActionPointStatus', {configId:"widget_action_point_container", anchor:'bottom_center', icon:'progress_horizontal'}, guiApsReady);
+
+                    GameAPI.createGamePiece(char.readConfigData('game_piece'), pieceReady);
+                };
+
                 var eqSlotsReady = function(eqSlots) {
                     char.setEquipmentSlots(eqSlots);
-                    GameAPI.createGamePiece(char.readConfigData('game_piece'), pieceReady);
+                    new ActionPointStatus().initActionPointStatus(char.readConfigData('action_points'), new WorkerData("GAME", "ACTION_POINTS"), actionPointsReady);
                 };
 
                 var actionSlotsReady = function(actionSlots) {
                     char.setActiontSlots(actionSlots);
 
-                    var eqSlots = new EquipmentSlots();
-                    var eqDataId = char.readConfigData('equip_slots');
-
-                    eqSlots.initEquipmentSlots(eqDataId, new WorkerData("GAME", "EQUIP_SLOTS"), eqSlotsReady);
+                //    var eqSlots = new EquipmentSlots();
+                    new EquipmentSlots().initEquipmentSlots(char.readConfigData('equip_slots'), new WorkerData("GAME", "EQUIP_SLOTS"), eqSlotsReady);
                 };
 
                 var actionSlots = new ActionSlots();

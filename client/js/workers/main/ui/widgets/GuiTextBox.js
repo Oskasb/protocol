@@ -49,7 +49,6 @@ define([
         };
 
         GuiTextBox.prototype.setGuiWidget = function(guiWidget) {
-            guiWidget.applyWidgetOptions(this.options);
             this.guiWidget = guiWidget;
         };
 

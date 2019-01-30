@@ -44,13 +44,20 @@ define([
         var actionMap;
         var animKeys;
         var actionState;
+        var key;
+        var targetTime;
 
         ActionStateProcessor.applyActionStateToGamePiece = function(action, gamePiece) {
 
             actionState = action.getActionState();
 
+        //    console.log("Action state",action.getActionState())
+
             if (actionState === ENUMS.ActionState.AVAILABLE) {
-                gamePiece.actionStateEnded(action);
+
+
+                GuiAPI.printDebugText("ACTION AVAILABLE");
+
                 return;
             }
 
@@ -60,13 +67,26 @@ define([
 
             animKeys = actionMap[actionStateMap[actionState]];
             if (!animKeys) {
+                GuiAPI.printDebugText("NO ANIM KEY "+action.getActionType()+" "+actionState);
             //    console.log("No Keys", action.getActionState(), actionStateMap, actionMap)
                 return;
             }
-            var key = MATH.getRandomArrayEntry(animKeys);
+            key = MATH.getRandomArrayEntry(animKeys);
+
         //    console.log(key)
 
-            gamePiece.activatePieceAnimation(key, 1, 1/action.getActionTargetTime(), action.getActionTargetTime())
+            GuiAPI.printDebugText(key);
+
+            if (actionState === ENUMS.ActionState.ON_COOLDOWN) {
+                targetTime =action.getActionRecoverTime();
+                gamePiece.actionStateEnded(action);
+                GuiAPI.printDebugText("END ACTION");
+            } else {
+                targetTime =action.getActionTargetTime();
+            }
+
+
+            gamePiece.activatePieceAnimation(key, 1, 1/targetTime, targetTime)
 
         };
 

@@ -95,7 +95,7 @@ define([
         };
 
         GamePiece.prototype.actionStateUpdated = function(action) {
-            if (this.activeActions.indexOf(action) === -1) {
+            if (action.getActionState() === ENUMS.ActionState.ACTIVATING) {
                 this.activeActions.push(action);
             }
             ActionStateProcessor.applyActionStateToGamePiece(action, this)

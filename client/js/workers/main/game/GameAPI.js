@@ -45,10 +45,14 @@ define([
 
         var defaultActions = [
             "CHOP",
+
             "SLASH",
+
             "SWIPE",
             "SWING",
             "CUT"
+            /*
+           */
         ];
 
 

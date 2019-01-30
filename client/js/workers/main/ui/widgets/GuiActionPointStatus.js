@@ -68,13 +68,16 @@ define([
 
         };
 
+        GuiActionPointStatus.prototype.setGuiWidget = function(widget) {
+            this.guiWidget = widget
+        };
+
         GuiActionPointStatus.prototype.getGuiActionPointForActionPoint = function(actionPoint, apArray) {
 
             for (var i = 0; i < apArray.length; i++) {
                 if (apArray[i].getActionPoint() === actionPoint)
                     return apArray[i];
             }
-            //    console.log("No guiAP registered", this);
 
         };
 

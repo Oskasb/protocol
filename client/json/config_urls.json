@@ -19,6 +19,7 @@
       "game/actors/fighter.json"                            ,
       "game/actors/game_items.json"                         ,
 
+      "game/character/action_points.json"                   ,
       "game/character/action_slots.json"                    ,
       "game/character/equip_slots.json"                     ,
 

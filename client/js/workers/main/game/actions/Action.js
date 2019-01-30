@@ -34,6 +34,7 @@ define([
                 activationTime:1.3,
                 activeTime: 0.5,
                 cooldownTime:2.5,
+                recoverTime:0.5,
                 targetTime:0,
                 progressTime:0,
                 currentTime:0,
@@ -129,6 +130,7 @@ define([
 
                 this.params.targetTime = this.params[timersMap[this.params.state]];
                 this.params.text = " ";
+                this.notifyActionStateChange();
             }
         };
 
@@ -161,6 +163,10 @@ define([
             return this.params.targetTime;
         };
 
+        Action.prototype.getActionRecoverTime = function() {
+            return this.params.recoverTime;
+        };
+
         Action.prototype.getActionProgressTime = function() {
             return this.params.progressTime;
         };
@@ -183,6 +189,7 @@ define([
         };
 
         Action.prototype.notifyActionStateChange = function() {
+
             MATH.callAll(this.onStateChangeCallbacks, this)
         };
 

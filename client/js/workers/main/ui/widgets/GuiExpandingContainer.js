@@ -24,7 +24,6 @@ define([
         };
 
         GuiExpandingContainer.prototype.setGuiWidget = function(guiWidget) {
-            guiWidget.applyWidgetOptions(this.options);
             this.guiWidget = guiWidget;
         };
 

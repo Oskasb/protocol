@@ -164,6 +164,10 @@ define([
                 this.printWidgetText(options.text);
             }
 
+            if (options.icon) {
+                this.setWidgetIconKey(options.icon);
+            }
+
             if (options.interactive) {
                 this.enableWidgetInteraction();
             }

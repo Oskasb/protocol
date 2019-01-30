@@ -38,7 +38,27 @@ define([
             }
         };
 
+        ActionPointStatus.prototype.initActionPointStatus = function(dataId, workerData, onReady) {
+            this.workerData = workerData;
 
+            var onDataReady = function(isUpdate) {
+                this.applyConfig(this.workerData.data);
+                if (!isUpdate) {
+                    MainWorldAPI.addWorldUpdateCallback(this.callbacks.updateActionPointStatus);
+                    onReady(this);
+                }
+            }.bind(this);
+
+            this.workerData.fetchData(dataId, onDataReady);
+
+        };
+
+        ActionPointStatus.prototype.applyConfig = function(config) {
+
+            for (var key in config) {
+                this.status[key] = config[key];
+            }
+        };
 
         ActionPointStatus.prototype.activateActionPointStatus = function(count) {
 
@@ -46,7 +66,6 @@ define([
             MainWorldAPI.addWorldUpdateCallback(this.callbacks.updateActionPointStatus);
 
         };
-
 
         var updateActionPointIndices = function(actionPoints) {
             for (var i = 0; i < actionPoints.length; i++) {

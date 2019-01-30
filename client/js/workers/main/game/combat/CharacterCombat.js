@@ -74,6 +74,13 @@ define([
             this.requestActionSlotActivation(slot, slot.getSlotCurrentAction());
         };
 
+        CharacterCombat.prototype.removeCharacterCombat = function() {
+            this.getActiontSlots().removeActionSlots();
+            this.getActionPoints().removeActionPointStatus();
+        };
+
+
+
         return CharacterCombat;
 
 

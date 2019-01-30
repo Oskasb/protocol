@@ -131,10 +131,36 @@ define([
             GuiAPI.buildGuiWidget('GuiExpandingContainer', opts, onReady);
         };
 
-        var addDebugButton = function(text, onActivate, testActive, container) {
+
+
+
+        var addDebugButton = function(text, onActivate, testActive, container, buttonStore) {
 
             var onReady = function(widget) {
                 container.addChildWidgetToContainer(widget.guiWidget);
+
+                var ta = testActive;
+                var w = widget.guiWidget;
+
+                var checkActive = function() {
+                    var active = ta();
+                    if (active) {
+                        if (w.guiSurface.getSurfaceInteractiveState() === ENUMS.ElementState.NONE) {
+                        //    console.log("Activate...")
+                            w.setWidgetInteractiveState(ENUMS.ElementState.ACTIVE)
+                        }
+
+                    } else {
+                        if (w.guiSurface.getSurfaceInteractiveState() === ENUMS.ElementState.ACTIVE) {
+                         w.setWidgetInteractiveState(ENUMS.ElementState.NONE)
+                        }
+                    }
+                };
+                widget.checkActive = checkActive;
+                GuiAPI.addGuiUpdateCallback(checkActive);
+                if (buttonStore) {
+                    buttonStore.push(widget);
+                }
             };
 
             var opts = GuiAPI.buildWidgetOptions('button_sharp_blue', onActivate, testActive, true, text);
@@ -143,7 +169,7 @@ define([
 
         };
 
-        var showAnimationState = function(animState, gamePiece) {
+        var showAnimationState = function(animState, gamePiece, buttonStore) {
 
             var testActive = function() {
                 return gamePiece.getPlayingAnimation(animState.key)
@@ -155,14 +181,27 @@ define([
             //    }
             };
 
-            addDebugButton(animState.key, onActivate, testActive, debugControlContainer)
+            addDebugButton(animState.key, onActivate, testActive, debugControlContainer, buttonStore)
+
+
         };
 
+
+        GuiDebug.removeDebugAnimations = function() {
+            while (debugButtons.length) {
+                var w = debugButtons.pop();
+                GuiAPI.removeGuiUpdateCallback(w.checkActive);
+                w.removeGuiWidget();
+            }
+            debugControlContainer.fitContainerChildren();
+        };
+
+        var debugButtons = [];
 
         GuiDebug.debugPieceAnimations = function(gamePiece) {
 
             for (var i = 0; i < gamePiece.worldEntity.animationStates.length; i++) {
-                showAnimationState(gamePiece.worldEntity.animationStates[i], gamePiece);
+                showAnimationState(gamePiece.worldEntity.animationStates[i], gamePiece, debugButtons);
             }
         };
 

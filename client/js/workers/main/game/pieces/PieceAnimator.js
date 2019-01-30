@@ -62,6 +62,12 @@ define([
             var anim = this.getPieceAnim(animationKey);
             anim.activateNow(weight, timeScale, fadeTime);
 
+            var currentInChannel = MATH.getFromArrayByKeyValue(this.activeAnimations, 'channel', anim.channel);
+
+            if (currentInChannel) {
+                currentInChannel.notifyOverwrite();
+            }
+
             if (this.activeAnimations.indexOf(anim) === -1) {
                 this.activeAnimations.push(anim);
             }

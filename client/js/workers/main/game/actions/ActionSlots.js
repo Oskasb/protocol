@@ -84,6 +84,12 @@ define([
             return this.workerData.readDataKey(key)
         };
 
+        ActionSlots.prototype.removeActionSlots = function() {
+
+            while (this.slots.length) {
+                this.slots.pop().removeActionSlot()
+            }
+        };
 
         return ActionSlots;
 

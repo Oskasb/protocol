@@ -61,6 +61,14 @@ define([
             this.animationState.setAnimationChannel(this.channel)
         };
 
+        PieceAnim.prototype.notifyOverwrite = function() {
+
+            if (this.w) {
+                this.currentTime = this.duration;
+            }
+
+        };
+
         PieceAnim.prototype.updateAnimation = function(tpf, time, removes) {
             this.currentTime += tpf;
 

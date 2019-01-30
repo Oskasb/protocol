@@ -35,9 +35,15 @@ define([
             if (immediateDataKey && this.readData()[immediateDataKey]) {
                 PipelineAPI.subscribeToCategoryKey(cat, key, dataCallback);
             } else {
+            //    requestIdleCallback(function() {
+                    PipelineAPI.subscribeToCategoryKey(cat, key, dataCallback);
+            //    });
+
+                /*
                 setTimeout(function() {
                     PipelineAPI.subscribeToCategoryKey(cat, key, dataCallback);
                 },0);
+                */
             }
         };
         PipelineObject.prototype.buildConfig = function(dataName) {

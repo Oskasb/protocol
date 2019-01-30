@@ -205,8 +205,13 @@ define([
             MATH.callAll(this.onStateChangeCallbacks, this)
         };
 
+
         Action.prototype.addActionActivateCallback = function(cb) {
             this.onActivateCallbacks.push(cb);
+        };
+
+        Action.prototype.removeActionActivateCallback = function(cb) {
+            MATH.quickSplice(this.onActivateCallbacks, cb);
         };
 
         Action.prototype.notifyActionActivate = function() {
@@ -217,12 +222,8 @@ define([
             //    MATH.emptyArray(this.onStateChangeCallbacks)
         };
 
-        Action.prototype.hasSufficientActionPoints = function() {
-            return !this.insufficientActionPoints;
-        };
-
         Action.prototype.updateAvailableAcionPointCount = function(count) {
-            console.log("PointCOunt", count)
+
             this.insufficientActionPoints = count < this.getActionPointCost();
 
             if (this.insufficientActionPoints) {

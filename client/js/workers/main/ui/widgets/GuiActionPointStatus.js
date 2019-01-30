@@ -42,6 +42,11 @@ define([
                 this.updateActionPointStatus(this.getActionPointStatus(), tpf);
             }.bind(this);
 
+            var removeActionPointStatus = function(aps) {
+                this.removeActionPointStatus(aps);
+            }.bind(this);
+
+
             var gapReady = function(gap) {
                 this.guiActionPoints.push(gap);
                 this.guiWidget.addChild(gap.guiWidget);
@@ -50,6 +55,7 @@ define([
 
             this.callbacks = {
                 updateActionPointStatus:updateActionPointStatus,
+                removeActionPointStatus:removeActionPointStatus,
                 gapReady:gapReady
             }
         };
@@ -211,6 +217,11 @@ define([
         GuiActionPointStatus.prototype.setActionPointStatus = function(aps) {
             this.actionPointStatus = aps;
             GuiAPI.addGuiUpdateCallback(this.callbacks.updateActionPointStatus);
+            aps.addRemoveActionPointStatusCallback(this.callbacks.removeActionPointStatus)
+        };
+
+        GuiActionPointStatus.prototype.removeActionPointStatus = function(aps) {
+            this.removeGuiWidget();
         };
 
         GuiActionPointStatus.prototype.createDummyActionPointStatus = function(count) {

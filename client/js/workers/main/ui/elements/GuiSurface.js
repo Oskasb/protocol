@@ -149,6 +149,10 @@ define([
             };
         };
 
+        GuiSurface.prototype.getSurfaceInteractiveState = function() {
+            return this.interactiveElement.state
+        };
+
         GuiSurface.prototype.setSurfaceMinXY = function(vec3) {
             this.minXY.copy(vec3);;
         };

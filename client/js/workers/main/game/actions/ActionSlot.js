@@ -86,6 +86,10 @@ define([
             console.log("Set Slot Action", action);
         };
 
+        ActionSlot.prototype.removeActionSlot = function() {
+            this.actionButton.removeGuiWidget();
+            this.getSlotCurrentAction().removeActionActivateCallback(this.callbacks.actionActivate)
+        };
 
         return ActionSlot;
 

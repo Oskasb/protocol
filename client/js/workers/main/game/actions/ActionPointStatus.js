@@ -33,6 +33,8 @@ define([
 
             this.actionPointsUpdatedCallbacks = [];
 
+            this.onRemoveCallbacks = [];
+
             var updateActionPointStatus = function(tpf, time) {
                 this.updateActionPointStatus(tpf, time)
             }.bind(this);
@@ -214,6 +216,17 @@ define([
 
         };
 
+        ActionPointStatus.prototype.addRemoveActionPointStatusCallback = function(cb) {
+            this.onRemoveCallbacks.push(cb);
+        };
+
+        ActionPointStatus.prototype.removeActionPointStatus = function() {
+
+            while(this.onRemoveCallbacks.length) {
+                this.onRemoveCallbacks.pop()(this);
+            }
+
+        };
 
         return ActionPointStatus;
 

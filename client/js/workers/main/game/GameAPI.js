@@ -94,7 +94,9 @@ define([
 
             } else {
                 console.log("REMOVE CHAR")
-                gameMain.removeGamePiece(character.getGamePiece());
+                character.disposeCharacter(gameMain)
+
+                GuiAPI.getGuiDebug().removeDebugAnimations();
             }
 
         };

@@ -95,12 +95,18 @@ define([
 
         Character.prototype.updateCharacter = function(tpf, time) {
 
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.7) {
                 if (!this.getGamePiece().activeActions.length) {
                     this.getCharacterCombat().activateRandomAvailableAction();
                 }
             }
 
+        };
+
+
+        Character.prototype.disposeCharacter = function(gameMain) {
+            gameMain.removeGamePiece(this.getGamePiece());
+            this.getCharacterCombat().removeCharacterCombat();
         };
 
 

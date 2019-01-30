@@ -51,22 +51,6 @@ define([
             return this.gamePiece;
         };
 
-        Character.prototype.getActiontSlots = function( ) {
-            return this.actionSlots
-        };
-
-        Character.prototype.setActiontPoints = function( actionPoints) {
-            this.actionPoints = actionPoints;
-        };
-
-        Character.prototype.getActiontPoints = function( ) {
-            return this.actionPoints
-        };
-
-        Character.prototype.setActiontSlots = function( actionSlots) {
-            this.actionSlots = actionSlots;
-        };
-
 
         Character.prototype.setCharacterCombat = function(characterCombat ) {
             this.characterCombat = characterCombat;
@@ -76,14 +60,11 @@ define([
             return this.characterCombat
         };
 
-
         Character.prototype.getSlotForAction = function(action) {
-
-            return this.actionSlots.getAvailableActionSlot(action);
+            return this.getCharacterCombat().getFreeSlotForAction(action);
         };
 
         Character.prototype.setActionInSlot = function(action, slot) {
-
             slot.setSlotAction(action);
             action.addActionStateChangeCallback(this.callbacks.actionStateUpdate)
         };
@@ -97,9 +78,7 @@ define([
         };
 
         Character.prototype.getSlotForItem = function(item) {
-
             return this.equipmentSlots.getEquipmentSlotForItem(item);
-
         };
 
         Character.prototype.equipItemToSlot = function(item, slot) {
@@ -113,24 +92,14 @@ define([
             this.getGamePiece().actionStateUpdated(action);
         };
 
-        Character.prototype.activateNextAvailableAction = function() {
-
-            if (this.getGamePiece().activeActions.length) return;
-
-            var slot = MATH.getRandomArrayEntry(this.actionSlots.slots);
-                if (slot.isReadyForActivation()) {
-                    var action = slot.activateCurrentSlottedAction();
-                //    action.addActionStateChangeCallback(this.callbacks.actionStateUpdate);
-                }
-
-        };
 
         Character.prototype.updateCharacter = function(tpf, time) {
 
-            if (Math.random() < 0.4) {
-                this.activateNextAvailableAction();
+            if (Math.random() < 0.1) {
+                if (!this.getGamePiece().activeActions.length) {
+                    this.getCharacterCombat().activateRandomAvailableAction();
+                }
             }
-
 
         };
 

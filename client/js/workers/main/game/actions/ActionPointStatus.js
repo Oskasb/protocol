@@ -26,8 +26,12 @@ define([
                 state:ENUMS.ActionState.DISABLED
             };
 
+            this.readyActionPoints = 0;
+
             this.actionPoints = [];
             this.consumedActionPoints = [];
+
+            this.actionPointsUpdatedCallbacks = [];
 
             var updateActionPointStatus = function(tpf, time) {
                 this.updateActionPointStatus(tpf, time)
@@ -120,8 +124,6 @@ define([
 
         ActionPointStatus.prototype.updateActionPoints = function(tpf) {
 
-
-
             for (var i = 0; i < this.actionPoints.length; i++) {
                 this.actionPoints[i].updateActionPoint(tpf);
             }
@@ -141,13 +143,13 @@ define([
             while (removes.length) {
                 MATH.quickSplice(this.consumedActionPoints, removes.pop())
             }
-
         };
 
         ActionPointStatus.prototype.updateActionPointStatus = function(tpf, time) {
             this.updateActionStatusFrame(tpf);
             this.updateActionPoints(tpf);
             this.updateConsumedActionPoints(tpf);
+            this.countReadyActionPoints();
         };
 
         ActionPointStatus.prototype.getTimePerPoint = function() {
@@ -174,6 +176,14 @@ define([
             return this.status.state;
         };
 
+        ActionPointStatus.prototype.addActionPointsUpdatedCallback = function(cb) {
+            this.actionPointsUpdatedCallbacks.push(cb);
+        };
+
+        ActionPointStatus.prototype.notifyAvailableActionPoints = function() {
+            MATH.callAll(this.actionPointsUpdatedCallbacks, this.readyActionPoints);
+        };
+
         ActionPointStatus.prototype.countReadyActionPoints = function() {
 
             var ready = 0;
@@ -184,8 +194,12 @@ define([
                 }
             }
 
-            return ready;
+            if (ready !== this.readyActionPoints) {
+                this.readyActionPoints = ready;
+                this.notifyAvailableActionPoints(ready);
+            }
 
+            return ready;
         };
 
         ActionPointStatus.prototype.consumeActionPoints = function(count) {

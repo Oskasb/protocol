@@ -20,6 +20,7 @@ define([
         isActiveMap[ENUMS.ActionState.ON_COOLDOWN] = true;
         isActiveMap[ENUMS.ActionState.ENABLED] = true;
         isActiveMap[ENUMS.ActionState.DISABLED] = false;
+        isActiveMap[ENUMS.ActionState.UNAVAILABLE] = false;
 
         var timersMap = {};
         timersMap[ENUMS.ActionState.ACTIVATING] = 'activationTime';
@@ -39,10 +40,11 @@ define([
                 progressTime:0,
                 currentTime:0,
                 active:false,
+                action_points:1,
                 state:ENUMS.ActionState.AVAILABLE,
                 action_type:ENUMS.ActionState.ATTACK_GREATSWORD,
                 name:"Test it",
-                text:"init",
+                text:" ",
                 icon:"fire"
             };
 
@@ -50,8 +52,10 @@ define([
                 this.updateActionProgress(tpf, time)
             }.bind(this);
 
+            this.insufficientActionPoints = true;
 
             this.onStateChangeCallbacks = [];
+            this.onActivateCallbacks = [];
 
             this.callbacks = {
                 updateActionProgress:updateActionProgress
@@ -139,8 +143,13 @@ define([
             this.activateAction();
         };
 
+        Action.prototype.requestActivation = function() {
+            this.notifyActionActivate();
+        };
+
         Action.prototype.testAvailable = function() {
-            return this.getActionState() === ENUMS.ActionState.AVAILABLE
+
+            return this.getActionState() === ENUMS.ActionState.AVAILABLE;
         };
 
         Action.prototype.testActivatable = function() {
@@ -183,6 +192,9 @@ define([
             return this.params.action_type;
         };
 
+        Action.prototype.getActionPointCost = function() {
+            return this.params.action_points;
+        };
 
         Action.prototype.addActionStateChangeCallback = function(cb) {
             this.onStateChangeCallbacks.push(cb);
@@ -193,8 +205,35 @@ define([
             MATH.callAll(this.onStateChangeCallbacks, this)
         };
 
+        Action.prototype.addActionActivateCallback = function(cb) {
+            this.onActivateCallbacks.push(cb);
+        };
+
+        Action.prototype.notifyActionActivate = function() {
+            MATH.callAll(this.onActivateCallbacks, this)
+        };
+
         Action.prototype.actionEnded = function() {
-        //    MATH.emptyArray(this.onStateChangeCallbacks)
+            //    MATH.emptyArray(this.onStateChangeCallbacks)
+        };
+
+        Action.prototype.hasSufficientActionPoints = function() {
+            return !this.insufficientActionPoints;
+        };
+
+        Action.prototype.updateAvailableAcionPointCount = function(count) {
+            console.log("PointCOunt", count)
+            this.insufficientActionPoints = count < this.getActionPointCost();
+
+            if (this.insufficientActionPoints) {
+                if (this.getActionState() === ENUMS.ActionState.AVAILABLE) {
+                    this.params.state = ENUMS.ActionState.UNAVAILABLE;
+                }
+            } else {
+                if (this.getActionState() === ENUMS.ActionState.UNAVAILABLE) {
+                    this.params.state = ENUMS.ActionState.AVAILABLE;
+                }
+            }
         };
 
         return Action;

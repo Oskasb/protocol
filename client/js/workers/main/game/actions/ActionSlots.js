@@ -9,6 +9,18 @@ define([
 
         var ActionSlots = function() {
             this.slots = [];
+
+            this.requestActivationCallbacks = [];
+
+            var requestSlotActivation = function(slot, action) {
+
+                return this.requestSlotActivation(slot, action);
+            }.bind(this);
+
+            this.callbacks = {
+                requestSlotActivation:requestSlotActivation
+            }
+
         };
 
         ActionSlots.prototype.initActionSlots = function( dataId, workerData, onReady) {
@@ -29,7 +41,7 @@ define([
             var slots = this.readConfigData('slots');
 
             for (var i = 0; i < slots.length; i++) {
-                this.slots.push(new ActionSlot(slots[i]['slot_id'], i, slots[i]['x'], slots[i]['y']))
+                this.slots.push(new ActionSlot(slots[i]['slot_id'], i, slots[i]['x'], slots[i]['y'], this.callbacks.requestSlotActivation))
             }
         };
 
@@ -50,6 +62,22 @@ define([
                     return this.slots[i];
                 }
             }
+        };
+
+        ActionSlots.prototype.notifyAvailableActionPointCount = function(count) {
+
+            for (var i = 0; i < this.slots.length; i++) {
+                this.slots[i].updateSlotActionPointAvailability(count);
+            }
+        };
+
+
+        ActionSlots.prototype.addRequestActivationCallback = function(cb) {
+            this.requestActivationCallbacks.push(cb);
+        };
+
+        ActionSlots.prototype.requestSlotActivation = function(slot, action) {
+            MATH.callAll(this.requestActivationCallbacks, slot, action);
         };
 
         ActionSlots.prototype.readConfigData = function(key) {

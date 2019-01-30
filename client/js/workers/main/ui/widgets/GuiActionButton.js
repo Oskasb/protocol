@@ -21,7 +21,6 @@ define([
         stateFeedbackMap[ENUMS.ActionState.ON_COOLDOWN   ] = ENUMS.ElementState.DISABLED    ;
         stateFeedbackMap[ENUMS.ActionState.ENABLED       ] = ENUMS.ElementState.NONE        ;
 
-
         var GuiActionButton = function(options) {
 
             this.options = {};
@@ -141,7 +140,7 @@ define([
         };
 
         GuiActionButton.prototype.actionButtonInitiateAction = function() {
-            this.getAction().activateActionNow();
+            this.getAction().requestActivation();
             this.actionButtonTriggerUiUpdate();
         };
 
@@ -163,6 +162,18 @@ define([
             this.guiWidget.addTestActiveCallback(cb);
         };
 
+        GuiActionButton.prototype.updateSufficientActionPoints = function(action, count) {
+            this.guiWidget.setWidgetInteractiveState(stateFeedbackMap[action.getActionState()]);
+
+            if (action.getActionState() === ENUMS.ActionState.UNAVAILABLE) {
+                this.guiWidget.setFirstSTringText(count +'/'+action.getActionPointCost());
+            } else {
+                if (action.getActionState() === ENUMS.ActionState.AVAILABLE) {
+                    this.updateCurrentProgress(action);
+                }
+            }
+
+        };
 
         GuiActionButton.prototype.removeGuiWidget = function() {
             this.guiWidget.recoverGuiWidget();

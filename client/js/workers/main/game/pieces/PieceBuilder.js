@@ -107,7 +107,7 @@ define([
                 };
 
                 var actionPointsReady = function(actionPoints) {
-                    char.setActiontPoints(actionPoints);
+                    char.getCharacterCombat().setActiontPoints(actionPoints);
 
 
                     var guiApsReady = function(guiAps) {
@@ -125,7 +125,7 @@ define([
                 };
 
                 var actionSlotsReady = function(actionSlots) {
-                    char.setActiontSlots(actionSlots);
+                    char.getCharacterCombat().setActiontSlots(actionSlots);
 
                 //    var eqSlots = new EquipmentSlots();
                     new EquipmentSlots().initEquipmentSlots(char.readConfigData('equip_slots'), new WorkerData("GAME", "EQUIP_SLOTS"), eqSlotsReady);
@@ -139,6 +139,7 @@ define([
             };
 
             var char = new Character();
+            char.setCharacterCombat(new CharacterCombat());
             char.initCharacter(dataId, new WorkerData("GAME", "CHARACTERS"), onDataReady)
 
         };

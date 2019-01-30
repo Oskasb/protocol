@@ -200,9 +200,11 @@ define([
             this.guiWidget.indicateProgress(0, aps.getTimePerPoint(), aps.getCurrentProgress(), 1);
             this.guiWidget.setWidgetInteractiveState(stateFeedbackMap[aps.getApsState()]);
 
+            /*
             if (Math.random() < 0.02) {
                 aps.consumeActionPoints( Math.floor(Math.random() * (aps.countReadyActionPoints() ) ) );
             }
+            */
 
         };
 

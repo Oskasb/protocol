@@ -7,13 +7,22 @@ define([
 
     ) {
 
-        var ActionSlot = function(slotId, index, x, y) {
+        var ActionSlot = function(slotId, index, x, y, requestSlotActivation) {
             this.slotId = slotId;
             this.x = x;
             this.y = y;
             this.index = index;
             this.currentAction = null;
             console.log("new ActionSlot", slotId, index);
+
+            var actionActivate = function(action) {
+                requestSlotActivation(this, action);
+            }.bind(this);
+
+            this.callbacks = {
+                actionActivate:actionActivate
+            }
+
         };
 
         ActionSlot.prototype.initActionSlot = function( actionId) {
@@ -47,6 +56,12 @@ define([
             return this.currentAction;
         };
 
+        ActionSlot.prototype.updateSlotActionPointAvailability = function(count) {
+
+            this.getSlotCurrentAction().updateAvailableAcionPointCount(count);
+            this.actionButton.updateSufficientActionPoints(this.getSlotCurrentAction(), count);
+        };
+
         ActionSlot.prototype.activateCurrentSlottedAction = function() {
 
             this.currentAction.activateActionNow();
@@ -56,6 +71,8 @@ define([
 
         ActionSlot.prototype.setSlotAction = function(action) {
             this.currentAction = action;
+
+            action.addActionActivateCallback(this.callbacks.actionActivate);
 
             var _this = this;
 

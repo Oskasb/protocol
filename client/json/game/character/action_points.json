@@ -4,9 +4,9 @@
       {
         "id":"ACTION_POINTS_FIGHTER",
         "data":{
-          "maxActionPoints":24,
-          "refillRate":6,
-          "timePerPoint":0.25
+          "maxActionPoints":16,
+          "refillRate":8,
+          "timePerPoint":0.35
         }
       }
     ]

@@ -79,6 +79,8 @@ define([
                 gameMain.registerGamePiece(char.getGamePiece());
                 GuiAPI.getGuiDebug().debugPieceAnimations(char.getGamePiece());
 
+                GameAPI.enableCharacterControlGui(character);
+
                 for (var i = 0; i < equipItems.length; i++) {
                     GameAPI.createGameItem(equipItems[i], itemReady);
                 }
@@ -115,6 +117,10 @@ define([
 
         GameAPI.createGameAction = function(dataId, onReady) {
             pieceBuilder.buildCombatAction(dataId, onReady);
+        };
+
+        GameAPI.enableCharacterControlGui = function( character ) {
+            pieceBuilder.attachCharacterGui( character );
         };
 
         GameAPI.testPieceLoaded = function() {

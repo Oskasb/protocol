@@ -24,10 +24,10 @@ define([
         var GuiActionButton = function(options) {
 
             this.options = {};
+
             for (var key in options) {
                 this.options[key] = options[key];
             }
-
 
             var testActive = function() {
                 if (this.action) {
@@ -43,10 +43,30 @@ define([
                 this.updateCurrentProgress(this.getAction());
             }.bind(this);
 
+            var actionButtonTriggerUiUpdate = function() {
+                this.actionButtonTriggerUiUpdate();
+            }.bind(this);
+
+            var updateSufficientActionPoints = function(action, count) {
+                this.updateSufficientActionPoints(action, count);
+            }.bind(this);
+
+            var attachActionToButton = function(action) {
+                this.attachActionToButton(action);
+            }.bind(this);
+
+            var removeGuiWidget = function() {
+                this.removeGuiWidget();
+            }.bind(this);
+
             this.callbacks = {
                 testActive:testActive,
                 activateAction:activateAction,
-                updateProgress:updateProgress
+                updateProgress:updateProgress,
+                actionButtonTriggerUiUpdate:actionButtonTriggerUiUpdate,
+                updateSufficientActionPoints:updateSufficientActionPoints,
+                attachActionToButton:attachActionToButton,
+                removeGuiWidget:removeGuiWidget
             }
         };
 
@@ -94,7 +114,6 @@ define([
             }.bind(this);
 
             this.guiWidget.initGuiWidget(null, buttonReady);
-            //    this.guiWidget.addOnActiaveCallback(onActivate);
 
         };
 
@@ -109,22 +128,34 @@ define([
 
 
         GuiActionButton.prototype.attachActionToButton = function(action) {
+
             this.setAction(action);
             this.guiWidget.printWidgetText(action.getActionName());
             this.guiWidget.setWidgetIconKey(action.getActionIcon());
             this.guiWidget.addOnActiaveCallback(this.callbacks.activateAction);
+
         };
 
+        GuiActionButton.prototype.bindActionSlotCallbacks = function(actionSlot) {
+
+            actionSlot.addActionPointUpdateCallback(this.callbacks.updateSufficientActionPoints);
+            actionSlot.addSetSlotActionCallback(this.callbacks.attachActionToButton);
+            actionSlot.addActionSlotRemovedCallback(this.callbacks.removeGuiWidget);
+            actionSlot.addActionTriggeredCallback(this.callbacks.actionButtonTriggerUiUpdate);
+
+            if (actionSlot.getSlotCurrentAction()) {
+                actionSlot.notifySetSlotAction(actionSlot.getSlotCurrentAction())
+            }
+
+        };
 
         GuiActionButton.prototype.updateCurrentProgress = function(action) {
-
 
             if (!action.getActionText()) {
                 console.log("TextMissing", action)
             } else {
                 this.guiWidget.setFirstSTringText(action.getActionText());
             }
-
 
             this.progressWidget.indicateProgress(0, action.getActionTargetTime(), action.getActionProgressTime(), 1);
 
@@ -140,13 +171,17 @@ define([
         };
 
         GuiActionButton.prototype.actionButtonInitiateAction = function() {
+
             this.getAction().requestActivation();
             this.actionButtonTriggerUiUpdate();
+
         };
 
         GuiActionButton.prototype.actionButtonTriggerUiUpdate = function() {
+
             GuiAPI.addGuiUpdateCallback(this.callbacks.updateProgress);
             this.guiWidget.disableWidgetInteraction();
+
         };
 
 

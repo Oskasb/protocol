@@ -13,7 +13,12 @@ define([
             this.y = y;
             this.index = index;
             this.currentAction = null;
-            console.log("new ActionSlot", slotId, index);
+        //    console.log("new ActionSlot", slotId, index);
+
+            this.actionTriggeredCallbacks = [];
+            this.actionPointUpdateCallbacks = [];
+            this.actionSlotRemovedCallbacks = [];
+            this.setSlotActionCallbacks = [];
 
             var actionActivate = function(action) {
                 requestSlotActivation(this, action);
@@ -59,36 +64,69 @@ define([
         ActionSlot.prototype.updateSlotActionPointAvailability = function(count) {
 
             this.getSlotCurrentAction().updateAvailableAcionPointCount(count);
-            this.actionButton.updateSufficientActionPoints(this.getSlotCurrentAction(), count);
+            this.notifyActionPointUpdate(this.getSlotCurrentAction(), count);
+            //this.actionButton.updateSufficientActionPoints(this.getSlotCurrentAction(), count);
         };
 
         ActionSlot.prototype.activateCurrentSlottedAction = function() {
 
             this.currentAction.activateActionNow();
-            this.actionButton.actionButtonTriggerUiUpdate();
+            this.notifyActionTriggered();
             return this.currentAction;
         };
 
         ActionSlot.prototype.setSlotAction = function(action) {
+
             this.currentAction = action;
-
             action.addActionActivateCallback(this.callbacks.actionActivate);
+            this.notifySetSlotAction(action);
 
-            var _this = this;
+        };
 
-            var buttonReady = function(actionButton) {
-                actionButton.attachActionToButton(action);
-                _this.actionButton = actionButton;
-            };
 
-            GuiAPI.buildGuiWidget('GuiActionButton', {configId:"widget_action_button", offset_x:this.x, offset_y:this.y}, buttonReady);
+        ActionSlot.prototype.addActionTriggeredCallback = function(cb) {
+            this.actionTriggeredCallbacks.push(cb)
+        };
 
-            console.log("Set Slot Action", action);
+        ActionSlot.prototype.notifyActionTriggered = function() {
+            MATH.callAll(this.actionTriggeredCallbacks)
+        };
+
+        ActionSlot.prototype.addActionPointUpdateCallback = function(cb) {
+            this.actionPointUpdateCallbacks.push(cb)
+        };
+
+        ActionSlot.prototype.notifyActionPointUpdate = function(action, count) {
+            MATH.callAll(this.actionPointUpdateCallbacks, action, count)
+        };
+
+        ActionSlot.prototype.addSetSlotActionCallback = function(cb) {
+            this.setSlotActionCallbacks.push(cb)
+        };
+
+        ActionSlot.prototype.notifySetSlotAction = function(action) {
+            MATH.callAll(this.setSlotActionCallbacks, action)
+        };
+
+        ActionSlot.prototype.addActionSlotRemovedCallback = function(cb) {
+            this.actionSlotRemovedCallbacks.push(cb)
+        };
+
+        ActionSlot.prototype.notifyActionSlotRemoved = function() {
+            MATH.callAll(this.actionSlotRemovedCallbacks)
         };
 
         ActionSlot.prototype.removeActionSlot = function() {
-            this.actionButton.removeGuiWidget();
+
+            this.notifyActionSlotRemoved();
+
+            MATH.emptyArray(this.actionSlotRemovedCallbacks);
+            MATH.emptyArray(this.setSlotActionCallbacks);
+            MATH.emptyArray(this.actionPointUpdateCallbacks);
+            MATH.emptyArray(this.actionTriggeredCallbacks);
+
             this.getSlotCurrentAction().removeActionActivateCallback(this.callbacks.actionActivate)
+
         };
 
         return ActionSlot;

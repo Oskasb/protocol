@@ -84,7 +84,7 @@ define([
         Character.prototype.equipItemToSlot = function(item, slot) {
 
             slot.setEquippedSlotItem(item, this.getGamePiece());
-            console.log("Equip Item to Character", item, slot);
+        //    console.log("Equip Item to Character", item, slot);
 
         };
 

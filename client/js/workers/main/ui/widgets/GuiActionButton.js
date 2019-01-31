@@ -146,7 +146,7 @@ define([
             if (actionSlot.getSlotCurrentAction()) {
                 actionSlot.notifySetSlotAction(actionSlot.getSlotCurrentAction())
             }
-
+            this.actionSlot = actionSlot;
         };
 
         GuiActionButton.prototype.updateCurrentProgress = function(action) {
@@ -214,6 +214,14 @@ define([
             this.guiWidget.recoverGuiWidget();
             this.progressWidget.recoverGuiWidget();
             GuiAPI.removeGuiUpdateCallback(this.callbacks.updateProgress);
+
+if (this.actionSlot) {
+    this.actionSlot.removeActionPointUpdateCallback(this.callbacks.updateSufficientActionPoints);
+    this.actionSlot.removeSetSlotActionCallback(this.callbacks.attachActionToButton);
+    this.actionSlot.removeActionSlotRemovedCallback(this.callbacks.removeGuiWidget);
+    this.actionSlot.removeActionTriggeredCallback(this.callbacks.actionButtonTriggerUiUpdate);
+}
+
         };
 
         GuiActionButton.prototype.getDummyAction = function() {

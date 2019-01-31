@@ -160,30 +160,11 @@ define([
         };
 
 
-    var attachSlotActionButton = function(slt) {
-        var slot = slt;
-
-        var addActionButtonToSlot = function(actionButton) {
-            actionButton.bindActionSlotCallbacks(slot);
-        };
-
-        GuiAPI.buildGuiWidget('GuiActionButton', {configId:"widget_action_button", offset_x:slot.x, offset_y:slot.y}, addActionButtonToSlot);
-    };
 
         PieceBuilder.prototype.attachCharacterGui = function( character ) {
 
-            var guiApsReady = function(guiAps) {
-                guiAps.setActionPointStatus(character.getCharacterCombat().getActionPoints());
-            };
-
-            GuiAPI.buildGuiWidget('GuiActionPointStatus', {configId:"widget_action_point_container", anchor:'bottom_center', icon:'progress_horizontal'}, guiApsReady);
-
-            var actionSlots = character.getCharacterCombat().getActiontSlots().slots;
-
-            for (var i = 0; i < actionSlots.length; i++) {
-                attachSlotActionButton( actionSlots[i])
-            }
-
+            GuiAPI.attachGuiToActor(character);
+            character.getActorGui().activateActorGui();
 
         };
 

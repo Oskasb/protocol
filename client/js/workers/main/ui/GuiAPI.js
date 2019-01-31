@@ -8,7 +8,8 @@ define([
         'ui/GuiSettings',
         'ui/GuiBuffers',
         'ui/systems/GuiDebug',
-        'ui/elements/GuiBufferElement'
+        'ui/elements/GuiBufferElement',
+        'ui/ActorGui'
     ],
     function(
         ExpandingPool,
@@ -16,7 +17,8 @@ define([
         GuiSettings,
         GuiBuffers,
         GuiDebug,
-        GuiBufferElement
+        GuiBufferElement,
+        ActorGui
     ) {
 
         var i;
@@ -181,6 +183,13 @@ define([
             GuiDebug.addDebugTextString(string)
         };
 
+        GuiAPI.attachGuiToActor = function(actor) {
+            actor.setActorGui(new ActorGui(actor))
+        };
+
+        GuiAPI.detachActorGui = function(actor) {
+            actor.getActorGui().removeAllGuiWidgets();
+        };
 
         GuiAPI.registerInteractiveGuiElement = function(surfaceElement) {
             inputSystem.registerInteractiveSurfaceElement(surfaceElement)

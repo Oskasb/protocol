@@ -90,13 +90,17 @@ define([
 
         GuiActionPointStatus.prototype.removeGuiWidget = function() {
             this.guiWidget.recoverGuiWidget();
-            this.actionPointStatus.recoverActionPointStatus();
+        //    this.actionPointStatus.recoverActionPointStatus();
             GuiAPI.removeGuiUpdateCallback(this.callbacks.updateActionPointStatus);
 
             while (this.guiActionPoints.length) {
                 this.guiActionPoints.pop().removeGuiWidget();
             }
 
+            while (this.releasedActionPoints.length) {
+                this.releasedActionPoints.pop().removeGuiWidget();
+            }
+            
         };
 
         GuiActionPointStatus.prototype.getActionPointStatus = function() {

@@ -88,12 +88,20 @@ define([
             this.actionTriggeredCallbacks.push(cb)
         };
 
+        ActionSlot.prototype.removeActionTriggeredCallback = function(cb) {
+            MATH.quickSplice(this.actionTriggeredCallbacks, cb)
+        };
+
         ActionSlot.prototype.notifyActionTriggered = function() {
             MATH.callAll(this.actionTriggeredCallbacks)
         };
 
         ActionSlot.prototype.addActionPointUpdateCallback = function(cb) {
             this.actionPointUpdateCallbacks.push(cb)
+        };
+
+        ActionSlot.prototype.removeActionPointUpdateCallback = function(cb) {
+            MATH.quickSplice(this.actionPointUpdateCallbacks, cb)
         };
 
         ActionSlot.prototype.notifyActionPointUpdate = function(action, count) {
@@ -104,12 +112,20 @@ define([
             this.setSlotActionCallbacks.push(cb)
         };
 
+        ActionSlot.prototype.removeSetSlotActionCallback = function(cb) {
+            MATH.quickSplice(this.setSlotActionCallbacks, cb)
+        };
+
         ActionSlot.prototype.notifySetSlotAction = function(action) {
             MATH.callAll(this.setSlotActionCallbacks, action)
         };
 
         ActionSlot.prototype.addActionSlotRemovedCallback = function(cb) {
             this.actionSlotRemovedCallbacks.push(cb)
+        };
+
+        ActionSlot.prototype.removeActionSlotRemovedCallback = function(cb) {
+            MATH.quickSplice(this.actionSlotRemovedCallbacks, cb)
         };
 
         ActionSlot.prototype.notifyActionSlotRemoved = function() {

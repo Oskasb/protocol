@@ -21,7 +21,6 @@ define([
                 }
             }.bind(this);
 
-
             var updateCharacter = function(tpf, time) {
                 this.updateCharacter(tpf, time);
             }.bind(this);
@@ -36,6 +35,7 @@ define([
             };
 
             workerData.fetchData(characterId, onDataReady);
+
         };
 
         Character.prototype.readConfigData = function(key) {
@@ -51,6 +51,13 @@ define([
             return this.gamePiece;
         };
 
+        Character.prototype.setActorGui = function( actorGui) {
+            this.actorGui = actorGui;
+        };
+
+        Character.prototype.getActorGui = function( ) {
+            return this.actorGui
+        };
 
         Character.prototype.setCharacterCombat = function(characterCombat ) {
             this.characterCombat = characterCombat;
@@ -82,10 +89,8 @@ define([
         };
 
         Character.prototype.equipItemToSlot = function(item, slot) {
-
             slot.setEquippedSlotItem(item, this.getGamePiece());
         //    console.log("Equip Item to Character", item, slot);
-
         };
 
         Character.prototype.characterActionStateUpdate = function(action) {
@@ -101,7 +106,21 @@ define([
                 }
             }
 
+            if (Math.random() < 0.03) {
+
+                if (this.getActorGui().guiWidgetCount()) {
+                    GuiAPI.detachActorGui(this);
+                } else {
+                    GuiAPI.attachGuiToActor(this);
+                    this.getActorGui().activateActorGui();
+                }
+
+            }
+
+
         };
+
+
 
 
         Character.prototype.disposeCharacter = function(gameMain) {

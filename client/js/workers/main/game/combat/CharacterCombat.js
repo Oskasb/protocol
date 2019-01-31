@@ -31,7 +31,7 @@ define([
 
 
         CharacterCombat.prototype.setActiontSlots = function( actionSlots ) {
-            actionSlots.addRequestActivationCallback(this.callbacks.requestActionSlotActivation)
+            actionSlots.addRequestActivationCallback(this.callbacks.requestActionSlotActivation);
             this.actionSlots = actionSlots;
         };
 

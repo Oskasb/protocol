@@ -91,12 +91,12 @@ define([
             };
 
             if (testPiece) {
-                console.log("ADD CHAR")
+                console.log("ADD CHAR");
                 GameAPI.createGameCharacter('CHARACTER_FIGHTER', charReady);
 
             } else {
-                console.log("REMOVE CHAR")
-                character.disposeCharacter(gameMain)
+                console.log("REMOVE CHAR");
+                character.disposeCharacter(gameMain);
 
                 GuiAPI.getGuiDebug().removeDebugAnimations();
             }

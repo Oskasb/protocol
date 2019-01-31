@@ -100,7 +100,7 @@ define([
             while (this.releasedActionPoints.length) {
                 this.releasedActionPoints.pop().removeGuiWidget();
             }
-            
+
         };
 
         GuiActionPointStatus.prototype.getActionPointStatus = function() {

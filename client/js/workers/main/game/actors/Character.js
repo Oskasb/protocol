@@ -106,31 +106,19 @@ define([
                 }
             }
 
-            if (Math.random() < 0.03) {
-
-                if (this.getActorGui().guiWidgetCount()) {
-                    GuiAPI.detachActorGui(this);
-                } else {
-                    GuiAPI.attachGuiToActor(this);
-                    this.getActorGui().activateActorGui();
-                }
-
-            }
-
-
         };
-
-
 
 
         Character.prototype.disposeCharacter = function(gameMain) {
+
             gameMain.removeGamePiece(this.getGamePiece());
-            this.getCharacterCombat().removeCharacterCombat();
+            if (this.getActorGui().guiWidgetCount()) {
+                GuiAPI.detachActorGui(this);
+            }
+
         };
 
-
         return Character;
-
 
     });
 

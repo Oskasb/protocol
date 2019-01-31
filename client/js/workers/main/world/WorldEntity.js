@@ -73,7 +73,6 @@ define([
         WorldEntity.prototype.setWorldEntityPosition = function(posVec) {
             this.obj3d.position.copy(posVec);
             this.setWorldEntityIsDirty();
-
         };
 
         WorldEntity.prototype.setWorldEntityQuaternion = function(quat) {

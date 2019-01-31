@@ -57,8 +57,6 @@ define([
         };
 
 
-
-
         CharacterCombat.prototype.requestActionSlotActivation = function(slot, action) {
 
             if (slot.isReadyForActivation()) {
@@ -73,12 +71,6 @@ define([
             var slot = MATH.getRandomArrayEntry(this.getActiontSlots().slots);
             this.requestActionSlotActivation(slot, slot.getSlotCurrentAction());
         };
-
-        CharacterCombat.prototype.removeCharacterCombat = function() {
-            this.getActiontSlots().removeActionSlots();
-            this.getActionPoints().removeActionPointStatus();
-        };
-
 
 
         return CharacterCombat;

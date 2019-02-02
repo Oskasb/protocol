@@ -6,9 +6,9 @@
         "data":{
           "turn_rate": 5,
           "input_thresh": 0.25,
-          "speed": 1.2,
+          "speed": 1.7,
           "walk_cycle_speed": 2,
-          "walk_combat_speed": 1.6
+          "walk_combat_speed": 1.8
         }
       }
     ]

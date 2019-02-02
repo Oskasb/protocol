@@ -72,14 +72,14 @@ define([
                 var currentInChannel = MATH.getFromArrayByKeyValue(this.activeAnimations, 'channel', anim.channel);
 
                 if (currentInChannel) {
-                    currentInChannel.notifyOverwrite(anim.fade);
+                    currentInChannel.notifyOverwrite(anim.fadeTime);
                 }
 
                 this.activeAnimations.push(anim);
             } else {
 
                 if (anim.channel === 0) {
-                    console.log("Refresh Legs")
+            //        console.log("Refresh Legs")
                 }
 
                 anim.refreshDuration();

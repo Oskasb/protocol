@@ -106,10 +106,16 @@ define([
 
             var pressActive = GuiAPI.readInputBufferValue(input, buffer, ENUMS.InputState.ACTION_0);
 
+            if (this.guiWidget.getWidgetSurface().getSurfaceInteractiveState() === ENUMS.ElementState.NONE) {
+                return;
+            }
+
             if (!pressActive) {
-                GuiAPI.removeInputUpdateCallback(this.callbacks.onStickInputUpdate);
-                GuiAPI.addGuiUpdateCallback(this.callbacks.onStickReleasedUpdate);
-                this.releaseTime = 0;
+
+                    GuiAPI.removeInputUpdateCallback(this.callbacks.onStickInputUpdate);
+                    GuiAPI.addGuiUpdateCallback(this.callbacks.onStickReleasedUpdate);
+                    this.releaseTime = 0;
+                    
             } else {
                 this.offset.x = GuiAPI.readInputBufferValue(input, buffer, ENUMS.InputState.DRAG_DISTANCE_X);
                 this.offset.y = GuiAPI.readInputBufferValue(input, buffer, ENUMS.InputState.DRAG_DISTANCE_Y);

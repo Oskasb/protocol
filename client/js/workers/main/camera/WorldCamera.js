@@ -14,6 +14,8 @@ define([
 
     var distance;
 
+    var direction = 0;
+
     var minDistance = 0.2;
     var maxDistance = 2000;
 
@@ -202,6 +204,10 @@ define([
         camera.lookAt(lookAt)
     };
 
+    WorldCamera.prototype.getCameraDirection = function() {
+        return direction;
+    };
+
     WorldCamera.prototype.setCameraLookAt = function(x, y, z) {
         lookAt.set(x, y, z);
         camera.up.set(0, 1, 0);
@@ -305,7 +311,7 @@ define([
 
 
     var t = 0;
-var char;
+    var char;
 
     WorldCamera.prototype.tickWorldCamera = function() {
         GuiAPI.setCameraAspect(camera.aspect);
@@ -326,6 +332,9 @@ var char;
         }
 
         this.setLookAtVec(tempVec1);
+
+        tempVec1.sub(camera.position);
+        direction = MATH.vectorXZToAngleAxisY(tempVec1);
 
         this.updateCameraLookAt();
         this.fireCameraUpdate();

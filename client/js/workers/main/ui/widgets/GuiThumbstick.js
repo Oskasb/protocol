@@ -81,9 +81,12 @@ define([
         };
 
 
+        var camDir;
         GuiThumbstick.prototype.applyPositionOffset = function() {
 
-            this.inputAngle = MATH.vectorXYToAngleAxisZ(this.offset);
+            camDir = MainWorldAPI.getWorldSimulation().getWorldCameraDirection();
+
+            this.inputAngle = MATH.addAngles(MATH.vectorXYToAngleAxisZ(this.offset), camDir);
             this.inputDistance = this.offset.length() / this.maxRange;
             this.guiWidget.offsetWidgetPosition(this.offset);
 

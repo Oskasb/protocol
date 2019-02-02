@@ -41,6 +41,9 @@ define([
             this.worldCamera.tickWorldCamera(tpf);
         };
 
+        WorldSimulation.prototype.getWorldCameraDirection = function() {
+            return this.worldCamera.getCameraDirection();
+        };
 
         WorldSimulation.prototype.addWorldEntity = function(worldEntity) {
             addEntities.push(worldEntity)

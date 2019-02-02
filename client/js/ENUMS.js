@@ -130,7 +130,7 @@ if(typeof(ENUMS) === "undefined"){
         WALK_BODY:         2,
         WALK_COMBAT:       3,
         RUN:               4,
-        IDLE_COMBAT:       5,
+        __:                5,
         ATTACK_1:          6,
         ATTACK_2:          7,
         DEAD:              8,
@@ -311,6 +311,16 @@ if(typeof(ENUMS) === "undefined"){
         ON_COOLDOWN:      4,
         ENABLED:          5,
         DISABLED:         6
+    };
+
+    ENUMS.CharacterState = {
+        ALERT:             0,
+        IDLE:              1,
+        ENGAGING:          2,
+        COMBAT:            3,
+        DISENGAGING:       4,
+        DISENGAGED:        5,
+        DEAD:              6
     };
 
     ENUMS.ElementState = {

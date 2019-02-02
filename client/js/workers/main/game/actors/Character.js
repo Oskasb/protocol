@@ -17,6 +17,8 @@ define([
             this.characterId = characterId;
             this.workerData = workerData;
 
+            this.characterState = ENUMS.CharacterState.IDLE;
+
             var onDataReady = function(isUpdate) {
                 if (!isUpdate) {
                     onReady(this);
@@ -42,6 +44,14 @@ define([
 
         Character.prototype.readConfigData = function(key) {
             return this.workerData.readDataKey(key)
+        };
+
+        Character.prototype.setCharacterState = function(state) {
+            this.characterState = state
+        };
+
+        Character.prototype.getCharacterState = function() {
+            return this.characterState
         };
 
         Character.prototype.setGamePiece = function( gamePiece) {
@@ -116,12 +126,22 @@ define([
 
             this.characterMovement.applyMovementToWorldEntity(this.getGamePiece().getWorldEntity(), tpf);
 
-            if (Math.random() < 0.7) {
-                if (!this.getGamePiece().activeActions.length) {
-            //        this.getCharacterCombat().activateRandomAvailableAction();
+            if (Math.random() < 0.025) {
+                if (this.getCharacterState() === ENUMS.CharacterState.COMBAT) {
+                    this.setCharacterState(ENUMS.CharacterState.IDLE)
+                } else {
+                    this.setCharacterState(ENUMS.CharacterState.COMBAT)
+                }
+            } else if (this.getCharacterState() === ENUMS.CharacterState.COMBAT) {
+                if (Math.random() < 0.1) {
+                    if (!this.getGamePiece().activeActions.length) {
+                        this.getCharacterCombat().activateRandomAvailableAction();
+                    }
                 }
             }
 
+
+            this.getGamePiece().animateMovementState(this.getCharacterState(), this.getCharacterMovement())
         };
 
 

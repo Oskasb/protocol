@@ -56,20 +56,35 @@ define([
 
         };
 
-
         PieceAnimator.prototype.activatePieceAnimation = function(animationKey, weight, timeScale, fadeTime) {
 
             var anim = this.getPieceAnim(animationKey);
-            anim.activateNow(weight, timeScale, fadeTime);
 
-            var currentInChannel = MATH.getFromArrayByKeyValue(this.activeAnimations, 'channel', anim.channel);
-
-            if (currentInChannel) {
-                currentInChannel.notifyOverwrite();
+            if (!anim) {
+                console.log("Bad animationKey: ", animationKey)
+                return;
             }
 
+
             if (this.activeAnimations.indexOf(anim) === -1) {
+                anim.activateNow(weight, timeScale, fadeTime);
+
+                var currentInChannel = MATH.getFromArrayByKeyValue(this.activeAnimations, 'channel', anim.channel);
+
+                if (currentInChannel) {
+                    currentInChannel.notifyOverwrite(anim.fade);
+                }
+
                 this.activeAnimations.push(anim);
+            } else {
+
+                if (anim.channel === 0) {
+                    console.log("Refresh Legs")
+                }
+
+                anim.refreshDuration();
+                anim.setTimeScale(timeScale);
+                anim.setWeight(weight);
             }
 
         };

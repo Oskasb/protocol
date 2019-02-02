@@ -92,7 +92,7 @@ define([
                     GameAPI.createGameAction(defaultActions[i], actionReady);
                 }
                 setTimeout(function() {
-                    GameAPI.createGameCharacter('CHARACTER_FIGHTER', char2Ready);
+               //    GameAPI.createGameCharacter('CHARACTER_FIGHTER', char2Ready);
                 }, 2000)
 
             };

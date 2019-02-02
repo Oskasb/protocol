@@ -52,6 +52,14 @@ define([
             this.callbacks.notifyUpdated();
         };
 
+        AnimationState.prototype.setAnimationSync = function(sync) {
+            this.sync = sync;
+        };
+
+        AnimationState.prototype.getAnimationSync = function() {
+            return this.sync;
+        };
+
         AnimationState.prototype.getAnimationChannel = function() {
             return this.channel;
         };

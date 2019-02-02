@@ -51,8 +51,8 @@ define([
             return this.pieceAnimator;
         };
 
-        GamePiece.prototype.activatePieceAnimation = function(key, weight, timeScale, playOnceOverTime) {
-            this.getPieceAnimator().activatePieceAnimation(key, weight, timeScale, playOnceOverTime);
+        GamePiece.prototype.activatePieceAnimation = function(key, weight, timeScale, fadeTime) {
+            this.getPieceAnimator().activatePieceAnimation(key, weight, timeScale, fadeTime);
         };
 
         GamePiece.prototype.getPlayingAnimation = function(key) {
@@ -100,6 +100,11 @@ define([
             }
             ActionStateProcessor.applyActionStateToGamePiece(action, this)
         };
+
+        GamePiece.prototype.animateMovementState = function(state, movement) {
+            ActionStateProcessor.applyMovementStateToGamePiece(state, movement, this)
+        };
+
 
 
         GamePiece.prototype.updateGamePiece = function(tpf, time) {

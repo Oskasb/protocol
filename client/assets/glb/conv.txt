@@ -63,6 +63,8 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_gd_rt_ff      D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_gd_rt_ff.FBX   -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_set_rt_ff     D:\projects\protocol\client\assets\models\characters\fighter\legs\RIGHT_set_rt_ff.FBX     -b
 
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\legs\IDLE_legs     D:\projects\protocol\client\assets\models\characters\fighter\legs\IDLE_legs.FBX     -b
+
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_middle_rff     D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_middle_rff.FBX     -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_high_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_high_rff.FBX       -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_low_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\GUARD_low_rff.FBX       -b
@@ -88,7 +90,11 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 
 
 
+
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_legs       D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_legs.FBX       -b
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_legs_combat       D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_legs_combat.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_body       D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_body.FBX       -b
 
 
 

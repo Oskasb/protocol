@@ -21,6 +21,9 @@ define([
             this.w = 0.01;
             this.channel = 0;
 
+            this.fadeTime = 0;
+            this.timeScale = 0;
+            this.weight = 0;
         };
 
         PieceAnim.prototype.getData = function() {
@@ -31,28 +34,29 @@ define([
             this.currentTime = 0;
             this.animationState.setAnimationLoop(this.getData()['loop']);
             this.animationState.setAnimationClamp(this.getData()['clamp']);
+            this.animationState.setAnimationSync(this.getData()['sync']);
             this.setWeight(weight || 1);
             this.setTimeScale(timeScale || 1);
             this.setFadeTime(fadeTime || timeScale || 1);
             this.setChannel(this.getData()['channel'] || 0);
-            this.duration = this.getData()['duration'] / this.ts;
+            this.duration = this.getData()['duration'] / this.ts || 99999999999;
         };
 
-
         PieceAnim.prototype.setWeight = function(w) {
-        //    if (this.w === w) return;
+            this.weight = w;
             this.w = w * this.getData()['weight'];
             this.animationState.setAnimationWeight(this.w)
         };
 
         PieceAnim.prototype.setTimeScale = function(ts) {
-        //    if (this.ts === ts) return;
+            this.timeScale = ts;
             this.ts = ts* this.getData()['time_scale'];
             this.animationState.setAnimationTimeScale(this.ts)
         };
 
         PieceAnim.prototype.setFadeTime = function(timeScale) {
-            this.fade = timeScale * this.getData()['fade'];
+            this.fadeTime = this.getData()['fade'];
+            this.fade = timeScale * this.fadeTime;
             this.animationState.setAnimationFade(this.fade)
         };
 
@@ -61,12 +65,15 @@ define([
             this.animationState.setAnimationChannel(this.channel)
         };
 
-        PieceAnim.prototype.notifyOverwrite = function() {
+        PieceAnim.prototype.notifyOverwrite = function(fade) {
 
             if (this.w) {
-                this.currentTime = this.duration - this.fade;
+                this.duration = this.currentTime + fade;
             }
+        };
 
+        PieceAnim.prototype.refreshDuration = function() {
+            this.duration = this.currentTime + this.getData()['duration'] || 99999999999;
         };
 
         PieceAnim.prototype.updateAnimation = function(tpf, time, removes) {

@@ -44,11 +44,12 @@ define([
                 animEvent[index+4],
                 animEvent[index+5],
                 animEvent[index+6],
-                animEvent[index+7]
+                animEvent[index+7],
+                animEvent[index+8]
             )
         };
 
-        var animStride = 7;
+        var animStride = 8;
         var attachStride = 12;
 
         parser[ENUMS.Event.UPDATE_ANIMATIONS] = function(modelInstance, event) {
@@ -133,6 +134,7 @@ define([
             animEvent[index+5] = animState.getAnimationChannel();
             animEvent[index+6] = animState.getAnimationLoop();
             animEvent[index+7] = animState.getAnimationClamp();
+            animEvent[index+8] = animState.getAnimationSync();
         };
 
         var idx;

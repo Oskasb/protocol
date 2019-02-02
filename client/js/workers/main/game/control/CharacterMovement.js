@@ -15,6 +15,8 @@ define([
             this.obj3d = new THREE.Object3D();
             this.velocity = new THREE.Vector3();
 
+            this.movementSpeed = 0;
+
             this.input = {
                 direction:0,
                 amount:0
@@ -22,7 +24,10 @@ define([
 
             this.config = {
                 turn_rate:1,
-                speed:1
+                speed:1,
+                input_thresh:0.1,
+                walk_cycle_speed:1,
+                walk_combat_speed:1
             };
 
             var applyInputUpdate = function(direction, amount) {
@@ -77,8 +82,18 @@ define([
         };
 
         CharacterMovement.prototype.updateMovementVelocity = function( ) {
-            this.velocity.set(0, 0, this.getInputAmount() * this.config.speed);
-            this.velocity.applyQuaternion(this.obj3d.quaternion);
+            if (this.getInputAmount() > this.config.input_thresh) {
+                this.movementSpeed = this.getInputAmount() * this.config.speed;
+                this.velocity.set(0, 0,  this.movementSpeed);
+                this.velocity.applyQuaternion(this.obj3d.quaternion);
+            } else {
+                this.movementSpeed = 0;
+                this.velocity.set(0, 0,  0);
+            }
+        };
+
+        CharacterMovement.prototype.getMovementSpeed = function( ) {
+            return this.movementSpeed;
         };
 
         CharacterMovement.prototype.updateMovementInput = function(direction, amount) {
@@ -87,7 +102,6 @@ define([
             this.updateMovementQuat();
             this.updateMovementVelocity();
         };
-
 
         CharacterMovement.prototype.getCallback = function(key) {
             return this.callbacks[key]

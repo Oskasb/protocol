@@ -62,41 +62,48 @@ define([
         var loopModes = [THREE.LoopOnce, THREE.LoopRepeat, THREE.LoopPingPong];
         var clampModes = [false, true];
 
-        InstanceAnimator.prototype.startChannelAction = function(channel, action, weight, fade, loop, clamp) {
+        InstanceAnimator.prototype.startChannelAction = function(channel, action, weight, fade, loop, clamp, timeScale, sync) {
     //        console.log("start chan action", action);
-            action.reset();
-            action.enabled = true;
 
-            action.loop = loopModes[loop];
-            action.clampWhenFinished = clampModes[clamp];
 
-            action.setEffectiveWeight( weight );
+                action.reset();
+                action.enabled = true;
+                action.loop = loopModes[loop];
+                action.clampWhenFinished = clampModes[clamp];
+                action.play();
+                action.fadeIn(fade);
 
-            action.play();
-            action.fadeIn(fade);
-            channel.push(action);
+                action.setEffectiveTimeScale( timeScale );
 
+                channel.push(action);
+
+
+                action.setEffectiveWeight( weight );
+                action.sync = sync;
         };
 
-        InstanceAnimator.prototype.fadeinChannelAction = function(channel, toAction, weight, fade, loop, clamp) {
+        InstanceAnimator.prototype.fadeinChannelAction = function(channel, toAction, weight, fade, loop, clamp, timeScale, sync) {
 
-            var fromAction = channel.pop();
 
-            if (fromAction === toAction) {
+            if (channel.indexOf(toAction) === -1) {
+                var fromAction = channel.pop();
 
-    //            console.log("_sched fade");
-                toAction._scheduleFading(fade, 1, weight / toAction.getEffectiveWeight());
-                channel.push(toAction);
-            } else {
+                //    toAction.crossFadeFrom(fromAction, toAction, fade)
+                this.startChannelAction(channel, toAction, weight, fade, loop, clamp, timeScale, sync);
 
-    //            console.log("X fade");
-            //    toAction.setEffectiveWeight(weight);
+                if (sync) {
+                    if (fromAction.sync === sync) {
+                        fromAction.setEffectiveTimeScale(timeScale);
+                        toAction.syncWith(fromAction);
+                    }
+                }
+
                 fromAction.fadeOut(fade)
-            //    toAction.crossFadeFrom(fromAction, toAction, fade)
-                this.startChannelAction(channel, toAction, weight, fade, loop, clamp)
+
+            } else {
+                toAction._scheduleFading(fade, toAction.getEffectiveWeight(), weight / toAction.getEffectiveWeight());
+                toAction.setEffectiveTimeScale( timeScale );
             }
-
-
 
         };
 
@@ -108,8 +115,7 @@ define([
         };
 
 
-
-        InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale, fade, chan, loop, clamp) {
+        InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale, fade, chan, loop, clamp, sync) {
             animKey = ENUMS.getKey('Animations', animationKey);
             action = this.animationActions[animKey];
 
@@ -126,15 +132,15 @@ define([
                 return;
             }
 
-            action.setEffectiveTimeScale( timeScale );
+
 
             if (weight) {
 
                 if (this.channels[chan].length) {
-                    this.fadeinChannelAction(this.channels[chan], action, weight, fade, loop, clamp)
+                    this.fadeinChannelAction(this.channels[chan], action, weight, fade, loop, clamp, timeScale, sync)
 
                 } else {
-                    this.startChannelAction(this.channels[chan], action, weight, fade, loop, clamp)
+                    this.startChannelAction(this.channels[chan], action, weight, fade, loop, clamp, timeScale, sync)
                 }
 
             } else {

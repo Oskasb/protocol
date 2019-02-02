@@ -7,18 +7,6 @@ define([
 
     ) {
 
-        var imgConf;
-        var state_feedback;
-        var stateKey;
-        var color;
-        var sprites;
-        var sprite;
-        var spriteName;
-
-        var lutColor;
-        var bufferElem;
-        var feedbackId;
-
 
         var actionStateMap = {};
         actionStateMap[ENUMS.ActionState.ACTIVATING]     = 'prep';
@@ -85,7 +73,39 @@ define([
         };
 
 
+        var moveStateMap = {};
+        moveStateMap[ENUMS.CharacterState.COMBAT] = 'WALK_COMBAT';
+        moveStateMap[ENUMS.CharacterState.IDLE] = 'WALK';
 
+        var stationaryStateMap = {};
+        stationaryStateMap[ENUMS.CharacterState.COMBAT] = 'GD_RT_FF';
+        stationaryStateMap[ENUMS.CharacterState.IDLE] = 'IDLE';
+
+        var speedRefMap = {};
+        speedRefMap[ENUMS.CharacterState.COMBAT] = 'walk_combat_speed';
+        speedRefMap[ENUMS.CharacterState.IDLE] = 'walk_cycle_speed';
+
+        var speed;
+
+        var animRefSpeed = 1;
+
+        ActionStateProcessor.applyMovementStateToGamePiece = function(state, movement, gamePiece) {
+
+            speed = movement.getMovementSpeed();
+
+            if (speed) {
+                key = moveStateMap[state] ;
+                animRefSpeed = movement.readConfig(speedRefMap[state]);
+            } else {
+                key = stationaryStateMap[state];
+                speed = 1;
+                animRefSpeed = 1;
+            }
+
+
+            gamePiece.activatePieceAnimation(key, 1, speed / animRefSpeed, 1)
+
+        };
 
         return ActionStateProcessor;
 

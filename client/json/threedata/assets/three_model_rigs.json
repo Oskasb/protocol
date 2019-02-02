@@ -20,6 +20,9 @@
             ],
             "animations":[
               {"key":"IDLE"           , "id":"file_pose_idle"            },
+              {"key":"WALK"           , "id":"file_walk_legs"            },
+              {"key":"WALK_COMBAT"    , "id":"file_walk_legs_combat"     },
+              {"key":"WALK_BODY"      , "id":"file_walk_body"            },
               {"key":"GD_LFT_FF"      , "id":"file_gd_left_ff"           },
               {"key":"SET_LFT_FF"     , "id":"file_set_left_ff"          },
               {"key":"GD_RT_FF"       , "id":"file_gd_right_ff"          },

@@ -1,0 +1,13 @@
+[{
+  "GAME":{
+    "CONTROL_MOVEMENT":[
+      {
+        "id":"MOVEMENT_FIGHTER",
+        "data":{
+          "turn_rate": 5,
+          "speed": 0.7
+        }
+      }
+    ]
+  }
+}]

@@ -6,6 +6,7 @@ define([
         'client/js/workers/main/game/actions/ActionPointStatus',
         'game/actions/ActionSlots',
         'game/combat/CharacterCombat',
+        'game/control/CharacterMovement',
         'game/pieces/PieceAnimator',
         'game/pieces/PieceAttacher',
         'game/actors/Character',
@@ -19,6 +20,7 @@ define([
         ActionPointStatus,
         ActionSlots,
         CharacterCombat,
+        CharacterMovement,
         PieceAnimator,
         PieceAttacher,
         Character,
@@ -66,7 +68,6 @@ define([
                 var pieceAnimator = new PieceAnimator();
 
                 var animatorReady = function(pa) {
-                    GuiAPI.printDebugText("ANIMATOR RDY "+pa.gamePiece.dataId);
                     onReady(pa.gamePiece);
                 };
 
@@ -106,12 +107,19 @@ define([
                     onReady(char);
                 };
 
-                var actionPointsReady = function(actionPoints) {
-                    char.getCharacterCombat().setActiontPoints(actionPoints);
 
 
 
+                var charMovementReady = function(charMovement) {
+
+                    char.setCharacterMovement(charMovement);
                     GameAPI.createGamePiece(char.readConfigData('game_piece'), pieceReady);
+                };
+
+                var actionPointsReady = function(actionPoints) {
+
+                    char.getCharacterCombat().setActiontPoints(actionPoints);
+                    new CharacterMovement().initCharacterMovement(char.readConfigData('control_movement'), new WorkerData("GAME", "CONTROL_MOVEMENT"), charMovementReady);
                 };
 
                 var eqSlotsReady = function(eqSlots) {
@@ -121,10 +129,10 @@ define([
 
                 var actionSlotsReady = function(actionSlots) {
                     char.getCharacterCombat().setActiontSlots(actionSlots);
-
-                //    var eqSlots = new EquipmentSlots();
                     new EquipmentSlots().initEquipmentSlots(char.readConfigData('equip_slots'), new WorkerData("GAME", "EQUIP_SLOTS"), eqSlotsReady);
                 };
+
+
 
                 var actionSlots = new ActionSlots();
                 var actionSlotsDataId = char.readConfigData('action_slots');

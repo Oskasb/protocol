@@ -4,10 +4,11 @@ define([
     ],
     function() {
 
-        var AttachmentJoint = function(key, dirtyCallback) {
+        var AttachmentJoint = function(key, parentScale, dirtyCallback) {
             this.key = key;
             this.isDirty = false;
 
+            this.parentScale = parentScale;
             this.obj3d = new THREE.Object3D();
 
             this.attachedEntity = null;
@@ -40,6 +41,8 @@ define([
             this.obj3d.scale.x = jointData.scale[0];
             this.obj3d.scale.y = jointData.scale[1];
             this.obj3d.scale.z = jointData.scale[2];
+            this.obj3d.scale.multiply(this.parentScale);
+            this.obj3d.position.multiply(this.obj3d.scale)
         };
 
         AttachmentJoint.prototype.detatchAttachedEntity = function() {

@@ -104,6 +104,7 @@ define([
                 var cloneSkinnedMeshes = {};
 
                 clone.traverse(function(node) {
+                    node.frustumCulled = false;
                     if (node.isBone) {
                         cloneBones[node.name] = node;
                     }

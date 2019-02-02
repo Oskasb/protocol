@@ -30,13 +30,22 @@ define([
         GuiPointer.prototype.pointerPressElementStart = function(interactiveElem) {
             if (this.getIsSeeking()) {
                 this.setPointerInteractiveElement(interactiveElem);
+                GuiAPI.printDebugText("ELEMENT POINTER");
+                GuiAPI.unregisterWorldSpacePointer(this);
+            } else {
+
             }
         };
 
         GuiPointer.prototype.setIsSeeking = function(bool) {
 
             if (this.isSeeking !== bool){
-        //        GuiAPI.printDebugText("SEEK: "+bool);
+
+                if (bool) {
+                    GuiAPI.printDebugText("WORLD POINTER");
+                    GuiAPI.registerWorldSpacePointer(this);
+                }
+
             }
 
             this.isSeeking = bool;
@@ -76,7 +85,7 @@ define([
         };
 
         GuiPointer.prototype.releasePointer = function() {
-        //    GuiAPI.printDebugText("RELEASE POINTER");
+            GuiAPI.unregisterWorldSpacePointer(this);
             this.bufferElement.releaseElement()
         };
 

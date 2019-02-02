@@ -20,6 +20,8 @@ define([
 
         var pieceBuilder = new PieceBuilder();
 
+        var playerCharacter;
+
         GameAPI = function() {};
 
         GameAPI.initGameAPI = function() {
@@ -69,7 +71,8 @@ define([
                 gameMain.registerGamePiece(char.getGamePiece());
                 GuiAPI.getGuiDebug().debugPieceAnimations(char.getGamePiece());
 
-                GameAPI.enableCharacterControlGui(character);
+                GameAPI.setPlayerCharacter(character)
+
 
                 var actionReady = function(action) {
                     var slot = character.getSlotForAction(action);
@@ -90,7 +93,7 @@ define([
                 }
                 setTimeout(function() {
                     GameAPI.createGameCharacter('CHARACTER_FIGHTER', char2Ready);
-                }, 200)
+                }, 2000)
 
             };
 
@@ -104,8 +107,8 @@ define([
 
 //                GameAPI.enableCharacterControlGui(character2);
 
-
-                GameAPI.transformGamePiece(char.getGamePiece(), px++, 0, 3 + px%4, 0, 3.14, 0, 1, 1, 1);
+                var scale = Math.random()*0.9+0.4;
+                GameAPI.transformGamePiece(char.getGamePiece(), px++, 0, 2 + px%6, 0, 3.14, 0, scale, scale, scale);
 
                 var action2Ready = function(action) {
                     var slot = character2.getSlotForAction(action);
@@ -119,6 +122,8 @@ define([
 
             //    for (var i = 0; i < equipItems.length; i++) {
                     GameAPI.createGameItem("ITEM_KATANA", item2Ready);
+                GameAPI.createGameItem("ITEM_VIKINGHELMET", item2Ready);
+                GameAPI.createGameItem("ITEM_PLATEBELT", item2Ready);
             //    }
 
                 for (var i = 0; i < defaultActions.length; i++) {
@@ -181,6 +186,16 @@ define([
 
         GameAPI.testPieceLoaded = function() {
             return testPiece;
+        };
+
+
+        GameAPI.setPlayerCharacter = function(char) {
+            GameAPI.enableCharacterControlGui(char);
+            playerCharacter = char;
+        };
+
+        GameAPI.getPlayerCharacter = function() {
+            return playerCharacter;
         };
 
         GameAPI.requestAssetWorldEntity = function(modelAssetId, cb) {

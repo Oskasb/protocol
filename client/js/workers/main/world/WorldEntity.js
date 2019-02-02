@@ -46,7 +46,7 @@ define([
 
             for (var i = 0; i < this.data.jointKeys.length; i ++) {
                 var key = ENUMS.getKey('Joints',this.data.jointKeys[i]);
-                var joint = new AttachmentJoint(key, this.callbacks.setAttachmentUpdated);
+                var joint = new AttachmentJoint(key, this.obj3d.scale, this.callbacks.setAttachmentUpdated);
                 this.attachmentJoints.push(joint);
             }
 
@@ -68,6 +68,14 @@ define([
 
         WorldEntity.prototype.getWorldEntityPosition = function(storeVec) {
             storeVec.copy(this.obj3d.position);
+        };
+
+        WorldEntity.prototype.getWorldEntityScale = function(storeVec) {
+            storeVec.copy(this.obj3d.scale);
+        };
+
+        WorldEntity.prototype.getWorldEntityQuat = function(storeQuat) {
+            storeQuat.copy(this.obj3d.quaternion);
         };
 
         WorldEntity.prototype.setWorldEntityPosition = function(posVec) {

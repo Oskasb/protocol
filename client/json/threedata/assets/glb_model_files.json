@@ -9,6 +9,9 @@
 
         {"id": "file_fighter_bind",       "config": { "url": "./client/assets/models/characters/fighter/SKIN_fighter_male"            }},
         {"id": "file_pose_idle"   ,       "config": { "url": "./client/assets/models/characters/fighter/idle/pose_idle"               }},
+        {"id": "file_walk_legs"   ,       "config": { "url": "./client/assets/models/characters/fighter/movement/WALK_legs"           }},
+        {"id": "file_walk_legs_combat",   "config": { "url": "./client/assets/models/characters/fighter/movement/WALK_legs_combat"    }},
+        {"id": "file_walk_body"   ,       "config": { "url": "./client/assets/models/characters/fighter/movement/WALK_body"           }},
 
         {"id": "file_gd_left_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/LEFT_gd_lt_ff"           }},
         {"id": "file_set_left_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/LEFT_set_lt_ff"         }},

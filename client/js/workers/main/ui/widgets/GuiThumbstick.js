@@ -25,7 +25,12 @@ define([
 
             this.maxRange = 0.08;
 
+            this.inputAngle = 0;
+            this.inputDistance = 0;
+
             this.activeInputIndex = null;
+
+            this.applyInputCallbacks = [];
 
             var onPressStart = function(index, widget) {
                 this.handleThumbstickPressStart(index, widget)
@@ -40,17 +45,21 @@ define([
             }.bind(this);
 
 
+            var notifyInputUpdated = function() {
+                this.notifyInputUpdated(this.inputAngle, this.inputDistance)
+            }.bind(this);
+
             this.callbacks = {
                 onPressStart:onPressStart,
                 onStickInputUpdate:onStickInputUpdate,
-                onStickReleasedUpdate:onStickReleasedUpdate
+                onStickReleasedUpdate:onStickReleasedUpdate,
+                notifyInputUpdated:notifyInputUpdated
             }
 
         };
 
 
         GuiThumbstick.prototype.initThumbstick = function(widgetConfig, onReady) {
-
 
             var widgetRdy = function(widget) {
                 widget.attachToAnchor('bottom_left');
@@ -65,10 +74,19 @@ define([
 
         };
 
+        GuiThumbstick.prototype.setGuiWidget = function(widget) {
+            this.guiWidget = widget;
+            widget.addOnPressStartCallback(this.callbacks.onPressStart);
+            widget.enableWidgetInteraction();
+        };
 
 
         GuiThumbstick.prototype.applyPositionOffset = function() {
+
+            this.inputAngle = MATH.vectorXYToAngleAxisZ(this.offset);
+            this.inputDistance = this.offset.length() / this.maxRange;
             this.guiWidget.offsetWidgetPosition(this.offset);
+
         };
 
         GuiThumbstick.prototype.handleThumbstickPressStart = function(inputIndex, guiWidget) {
@@ -76,7 +94,7 @@ define([
             console.log("Thumbstick press start", inputIndex);
             GuiAPI.removeGuiUpdateCallback(this.callbacks.onStickReleasedUpdate);
             GuiAPI.addInputUpdateCallback(this.callbacks.onStickInputUpdate);
-
+            GuiAPI.addGuiUpdateCallback(this.callbacks.notifyInputUpdated);
         };
 
         var length;
@@ -117,14 +135,27 @@ define([
             if (this.offset.lengthSq() < 0.0000001) {
                 this.offset.set(0, 0, 0);
                 GuiAPI.removeGuiUpdateCallback(this.callbacks.onStickReleasedUpdate);
+                GuiAPI.removeGuiUpdateCallback(this.callbacks.notifyInputUpdated);
             }
 
             this.applyPositionOffset();
         };
 
 
+        GuiThumbstick.prototype.addInputUpdateCallback = function(applyInputUpdate) {
+            this.applyInputCallbacks.push(applyInputUpdate)
+        };
+
+        GuiThumbstick.prototype.notifyInputUpdated = function(ang, dist) {
+
+            for (var i = 0; i < this.applyInputCallbacks.length; i++) {
+                this.applyInputCallbacks[i](ang, dist);
+            }
+        };
+
         GuiThumbstick.prototype.removeGuiWidget = function() {
-            this.guiWidget.recoverGuiWidget();
+            MATH.emptyArray(this.applyInputCallbacks);
+            this.guiWidget.recoverGuiWidget()
         };
 
 

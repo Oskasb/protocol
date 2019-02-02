@@ -81,3 +81,22 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_mr_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_mr_rff.FBX       -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_tr_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_tr_rff.FBX       -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_tc_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_tc_rff.FBX       -b
+
+
+
+
+
+
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_legs       D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_legs.FBX       -b
+
+
+
+
+
+
+
+
+
+
+

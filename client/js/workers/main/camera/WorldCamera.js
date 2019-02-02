@@ -32,7 +32,9 @@ define([
     var startIndex;
     var worldCam;
 
-    var sampleInput = function(input, buffer) {
+    var sampleInput = function(input, buffer, worldSpacePointers) {
+
+        if (!worldSpacePointers.length) return;
 
         tpf = MainWorldAPI.getTpf();
 
@@ -82,7 +84,9 @@ define([
         worldCam = this;
 
         var inputUpdateCallback = function(input, buffer) {
-            sampleInput(input, buffer);
+
+            sampleInput(input, buffer, GuiAPI.getWorldSpacePointers());
+
         };
 
         GuiAPI.addInputUpdateCallback(inputUpdateCallback);
@@ -301,14 +305,26 @@ define([
 
 
     var t = 0;
-
+var char;
 
     WorldCamera.prototype.tickWorldCamera = function() {
         GuiAPI.setCameraAspect(camera.aspect);
         t+=tpf;
-        tempVec1.x = 0;
-        tempVec1.y = 1.3;
-        tempVec1.z = 0;
+
+        char = GameAPI.getPlayerCharacter();
+
+        if (char) {
+            char.getCharacterPosition(tempVec1);
+            tempVec1.y += 1.3;
+            lookAt.sub(tempVec1);
+            camera.position.sub(lookAt);
+
+        } else {
+            tempVec1.x = 0;
+            tempVec1.y = 1.3;
+            tempVec1.z = 0;
+        }
+
         this.setLookAtVec(tempVec1);
 
         this.updateCameraLookAt();

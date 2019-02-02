@@ -23,6 +23,7 @@
       "game/character/action_slots.json"                    ,
       "game/character/equip_slots.json"                     ,
 
+      "game/control/control_movement.json"                  ,
       "game/pieces/animated/humans.json"                    ,
       "game/pieces/equipable/equip_items.json"              ,
 

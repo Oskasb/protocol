@@ -7,6 +7,8 @@ define([
 
     ) {
 
+
+
         var Character = function() {
 
         };
@@ -59,6 +61,14 @@ define([
             return this.actorGui
         };
 
+        Character.prototype.setCharacterMovement = function( characterMovement) {
+            this.characterMovement = characterMovement;
+        };
+
+        Character.prototype.getCharacterMovement = function( ) {
+            return this.characterMovement
+        };
+
         Character.prototype.setCharacterCombat = function(characterCombat ) {
             this.characterCombat = characterCombat;
         };
@@ -77,7 +87,7 @@ define([
         };
 
         Character.prototype.setEquipmentSlots = function( equipmentSlots) {
-            this.equipmentSlots = equipmentSlots;
+            this.equipmentSlots = equipmentSlots
         };
 
         Character.prototype.getEquipmentSlots = function( ) {
@@ -85,24 +95,30 @@ define([
         };
 
         Character.prototype.getSlotForItem = function(item) {
-            return this.equipmentSlots.getEquipmentSlotForItem(item);
+            return this.equipmentSlots.getEquipmentSlotForItem(item)
         };
 
         Character.prototype.equipItemToSlot = function(item, slot) {
-            slot.setEquippedSlotItem(item, this.getGamePiece());
+            slot.setEquippedSlotItem(item, this.getGamePiece())
         //    console.log("Equip Item to Character", item, slot);
         };
 
         Character.prototype.characterActionStateUpdate = function(action) {
-            this.getGamePiece().actionStateUpdated(action);
+            this.getGamePiece().actionStateUpdated(action)
         };
 
 
+        Character.prototype.getCharacterPosition = function(storeVec) {
+            this.getGamePiece().getWorldEntity().getWorldEntityPosition(storeVec)
+        };
+
         Character.prototype.updateCharacter = function(tpf, time) {
+
+            this.characterMovement.applyMovementToWorldEntity(this.getGamePiece().getWorldEntity(), tpf);
 
             if (Math.random() < 0.7) {
                 if (!this.getGamePiece().activeActions.length) {
-                    this.getCharacterCombat().activateRandomAvailableAction();
+            //        this.getCharacterCombat().activateRandomAvailableAction();
                 }
             }
 

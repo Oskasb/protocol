@@ -64,7 +64,7 @@ define([
         PieceAnim.prototype.notifyOverwrite = function() {
 
             if (this.w) {
-                this.currentTime = this.duration;
+                this.currentTime = this.duration - this.fade;
             }
 
         };

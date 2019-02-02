@@ -51,7 +51,6 @@ if(typeof(ENUMS) === "undefined"){
         REGISTER_TERRAIN:       7,
         FETCH_PIPELINE_DATA:    8,
         SEND_PIPELINE_DATA:     9,
-
         GENERATE_STATIC_AREA:   10,
         STATIC_AREA_DATA:       11,
         REQUEST_SHARED_WORKER:  12,
@@ -62,7 +61,6 @@ if(typeof(ENUMS) === "undefined"){
         FETCH_GEOMETRY_BUFFER:  17,
         SET_GEOMETRY_BUFFER:    18,
         REGISTER_GEOMETRY:      19,
-
         XXX:                    20,
         SET_CONFIG_DATA:        21,
         CANVAS_DYNAMIC_ADD:     22,
@@ -72,7 +70,6 @@ if(typeof(ENUMS) === "undefined"){
         WRITE_FRAME:            26,
         READ_FRAME:             27,
         FRAME:                  28,
-
         POS_X:                  29,
         POS_Y:                  30,
         POS_Z:                  31,
@@ -84,7 +81,6 @@ if(typeof(ENUMS) === "undefined"){
         SCALE_Y:                37,
         SCALE_Z:                38,
         TIME:                   39,
-
         STATE_INIT:             40,
         STATE_LOADING:          41,
         STATE_LOADED:           42,
@@ -129,39 +125,42 @@ if(typeof(ENUMS) === "undefined"){
 
 
     ENUMS.Animations = {
-        IDLE:               0,
-        WALK:               1,
-        RUN:                2,
-        IDLE_COMBAT:        3,
-        ATTACK_1:           4,
-        ATTACK_2:           5,
-        DEAD:               6,
-        FALL:               7,
-        IDL_LO_CB:          8,
-        IDL_HI_CB:          9,
-        SET_LFT_FF:         10,
-        GD_LFT_FF:          11,
-
-        SET_RT_FF:         12,
-        GD_RT_FF:          13,
-
-        GD_HI_R:           14,
-        GD_MID_R:          15,
-        GD_LOW_R:          16,
-        GD_LNG_R:          17,
-        GD_SHT_R:          18,
-        GD_BCK_R:          19,
-        GD_HNG_R:          20,
-        GD_INS_R:          21,
-        GD_SID_R:          22,
-        SW_BCK_R:          23,
-        SW_SID_R:          24,
-
-        CT_TC_R:          25,
-        CT_TR_R:          26,
-        CT_MR_R:          27,
-        CT_ML_R:          28
-
+        IDLE:              0,
+        WALK:              1,
+        WALK_BODY:         2,
+        WALK_COMBAT:       3,
+        RUN:               4,
+        IDLE_COMBAT:       5,
+        ATTACK_1:          6,
+        ATTACK_2:          7,
+        DEAD:              8,
+        FALL:              9,
+        IDL_LO_CB:         10,
+        IDL_HI_CB:         11,
+        SET_LFT_FF:        12,
+        GD_LFT_FF:         13,
+        SET_RT_FF:         14,
+        GD_RT_FF:          15,
+        GD_HI_R:           16,
+        GD_MID_R:          17,
+        GD_LOW_R:          18,
+        GD_LNG_R:          19,
+        GD_SHT_R:          20,
+        GD_BCK_R:          21,
+        GD_HNG_R:          22,
+        GD_INS_R:          23,
+        GD_SID_R:          24,
+        SW_BCK_R:          25,
+        SW_SID_R:          26,
+        CT_TC_R:           27,
+        CT_TR_R:           28,
+        CT_MR_R:           29,
+        CT_ML_R:           30,
+        __:                31,
+        __:                32,
+        __:                33,
+        __:                34,
+        __:                35
     };
 
     ENUMS.ActionTypes = {

@@ -55,9 +55,6 @@ define([
 
             if (actionState === ENUMS.ActionState.AVAILABLE) {
 
-
-                GuiAPI.printDebugText("ACTION AVAILABLE");
-
                 return;
             }
 
@@ -75,12 +72,9 @@ define([
 
         //    console.log(key)
 
-            GuiAPI.printDebugText(key);
-
             if (actionState === ENUMS.ActionState.ON_COOLDOWN) {
                 targetTime =action.getActionRecoverTime();
                 gamePiece.actionStateEnded(action);
-                GuiAPI.printDebugText("END ACTION");
             } else {
                 targetTime =action.getActionTargetTime();
             }

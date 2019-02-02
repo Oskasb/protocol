@@ -33,6 +33,7 @@ define([
         var inputSystem;
         var textSystem;
 
+        var worldSpacePointers = [];
 
         var guiSettings = new GuiSettings();
         var widgetBuilder = new WidgetBuilder();
@@ -249,7 +250,17 @@ define([
             }
         };
 
-        var cbs;
+        GuiAPI.registerWorldSpacePointer = function(pointer) {
+            worldSpacePointers.push(pointer);
+        };
+
+        GuiAPI.unregisterWorldSpacePointer = function(pointer) {
+            MATH.quickSplice(worldSpacePointers, pointer)
+        };
+
+        GuiAPI.getWorldSpacePointers = function() {
+            return worldSpacePointers
+        };
 
         var callInputUpdateCallbacks = function(input, buffer) {
             MATH.callAll(inputUpdateCallbacks, input, buffer);

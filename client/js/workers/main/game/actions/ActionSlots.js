@@ -77,7 +77,7 @@ define([
         };
 
         ActionSlots.prototype.requestSlotActivation = function(slot, action) {
-            GuiAPI.getGuiDebug().printDebugText("REQ SLOT ACTIVATE");
+            GuiAPI.printDebugText("REQ SLOT ACTIVATE");
             MATH.callAll(this.requestActivationCallbacks, slot, action);
         };
 

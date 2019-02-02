@@ -39,6 +39,13 @@ define([
                 attachSlotActionButton( actionSlots[i], actorGui)
             }
 
+            var stickReady = function(stick) {
+                stick.addInputUpdateCallback(actor.getCharacterMovement().getCallback('applyInputUpdate'));
+                actorGui.addGuiWidget(stick);
+            };
+
+            GuiAPI.buildGuiWidget('GuiThumbstick', {configId:'widget_thumbstick', anchor:'bottom_left', icon:'directional_arrows'}, stickReady);
+
         };
 
 

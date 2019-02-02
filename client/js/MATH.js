@@ -84,7 +84,7 @@ if(typeof(MATH) === "undefined") {
 
 	var all;
 	MATH.callAll = function(array, arg1, arg2, arg3) {
-		for (all = 0; all <  array.length; all++) {
+		for (all = 0; all < array.length; all++) {
 			array[all](arg1, arg2, arg3);
 		}
 	};
@@ -438,7 +438,7 @@ if(typeof(MATH) === "undefined") {
 	};
 
 	MATH.vectorXYToAngleAxisZ = function(vec) {
-		return Math.atan2(vec.x, vec.y);
+		return -Math.atan2(vec.x, vec.y);
 	};
 
     MATH.angleZFromVectorToVector = function(fromVec, toVec) {

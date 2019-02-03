@@ -65,6 +65,8 @@ define([
 
             this.setupMaterial(id);
 
+            var global_uniforms = ThreeAPI.getGlobalUniforms();
+
             var shaderLoaded = function() {
 
                 updateUniforms(id, THREE.UniformsLib['common']);
@@ -74,16 +76,32 @@ define([
                 materialReady()
             }.bind(this);
 
-
-            loadShader(id, shader, shaderLoaded);
-
-
-            var global_uniforms = {
+            var g_uniforms = {
                 systemTime:systemTime,
                 ambientLightColor: { value: {r:1, g:1, b:1}},
                 sunLightColor: { value: {r:1, g:1, b:1}},
                 sunLightDirection: { value: {x:0.7, y:-0.3, z:0.7}}
             };
+
+
+            if (!global_uniforms['system_time']) {
+                global_uniforms = g_uniforms.systemTime;
+            }
+
+            if (!global_uniforms['ambientLightColor']) {
+                global_uniforms = g_uniforms.ambientLightColor;
+            }
+
+            if (!global_uniforms['sunLightColor']) {
+                global_uniforms = g_uniforms.sunLightColor;
+            }
+
+            if (!global_uniforms['sunLightDirection']) {
+                global_uniforms = g_uniforms.sunLightDirection;
+            }
+
+
+            loadShader(id, shader, shaderLoaded);
 
         };
 

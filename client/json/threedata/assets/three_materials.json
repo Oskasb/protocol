@@ -15,6 +15,23 @@
             ]
           }
         },
+
+        {
+          "id":"material_terrain",
+          "config":{
+            "settings": "terrain_basic_settings",
+            "textures":[
+              {"key":"tx0", "id":"terrain_striperock"  },
+              {"key":"tx1", "id":"terrain_darkrock"    },
+              {"key":"tx2", "id":"terrain_mud"         },
+              {"key":"tx3", "id":"terrain_dark_grass"  },
+              {"key":"tx4", "id":"terrain_grass"       },
+              {"key":"tx5", "id":"terrain_detail"      },
+              {"key":"tx6", "id":"terrain_fract"       }
+            ]
+          }
+        },
+
         {
           "id":"material_opaque",
           "config":{

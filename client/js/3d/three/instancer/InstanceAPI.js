@@ -138,6 +138,11 @@ define([
             }
 
             var mat;
+
+            var globalUnifs = ThreeAPI.getGlobalUniforms();
+
+
+
             for (i = 0; i < materials.length; i++) {
                 mat = materials[i];
 
@@ -166,7 +171,7 @@ define([
                 if (mat.uniforms.sunLightDirection) {
                     applyUniformEnvironmentQuaternion(mat.uniforms.sunLightDirection, 'sun');
                 }
-                mat.needsUpdate = true;
+            //    mat.needsUpdate = true;
             }
 
         };

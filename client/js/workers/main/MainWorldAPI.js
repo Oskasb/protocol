@@ -133,6 +133,10 @@ define([
 
         };
 
+        MainWorldAPI.getHeightAtPosition = function(pos, normalStore) {
+            return  worldSimulation.getTerrainHeightAt(pos, normalStore);
+        };
+
         MainWorldAPI.addWorldUpdateCallback = function(callback) {
             worldSimulation.addWorldStepCallback(callback);
         };

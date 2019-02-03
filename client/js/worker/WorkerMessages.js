@@ -64,10 +64,15 @@ define([
             handlers[ENUMS.Message.INIT_RENDERER] = function(workerKey, msg) {
                 clientViewer.setRenderCallbacksOn(msg[0]);
             //    console.log("INIT_RENDERER", ENUMS.getKey('Worker', workerKey), "->->-> RENDER", msg[0])
-            }
+            };
 
             handlers[ENUMS.Message.RELAY_CONFIG_DATA] = function(workerKey, msg) {
                 setupFetcher(workerKey, msg);
+            };
+
+            handlers[ENUMS.Message.TERRAIN_BUFFERS] = function(workerKey, msg) {
+                console.log("Terrain Buffers: ", msg)
+                ThreeAPI.buildTerrainFromBuffers(msg.buffers, msg.pos[0], msg.pos[1], msg.pos[2])
             }
 
         };

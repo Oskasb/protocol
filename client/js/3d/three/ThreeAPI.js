@@ -40,6 +40,8 @@ define([
         var renderFilter;
         var assetLoader;
 
+        var globalUniforms = {};
+
         var animationMixers = [];
     //    THREE.Object3D.DefaultMatrixAutoUpdate = false;
 
@@ -293,6 +295,43 @@ define([
             return ThreeModelLoader.loadGroundMesh(applies, array1d, rootObject, ThreeSetup, partsReady);
         };
 
+        ThreeAPI.buildTerrainFromBuffers = function(buffers, x, y, z) {
+
+            var bufferGeo = new THREE.BufferGeometry();
+            var train = new THREE.Object3D();
+
+
+            var matReady=function(mat, value) {
+                console.log("Mat Ready", mat, value)
+                var mesh = new THREE.Mesh( bufferGeo, value.mat);
+                train.add(mesh);
+
+                //    var bufferGeo = train.children[0].geometry;
+//
+                //    bufferGeo.attributes.position.array = buffers[0];
+                //  //    bufferGeo.attributes.normal.array = buffers[1];
+                //    bufferGeo.attributes.color.array = buffers[2];
+                //    bufferGeo.attributes.uv.array = buffers[3];
+
+                bufferGeo.addAttribute( 'position', new THREE.Float32BufferAttribute( buffers[0], 3 ) );
+                bufferGeo.addAttribute( 'normal', new THREE.Float32BufferAttribute( buffers[1], 3 ) );
+                bufferGeo.addAttribute( 'color', new THREE.Float32BufferAttribute(  buffers[2], 3 ) );
+                bufferGeo.addAttribute( 'uv', new THREE.Float32BufferAttribute(  buffers[3], 2 ) );
+
+
+                bufferGeo.needsUpdate = true;
+
+                //    */
+                train.rotateX(-Math.PI/2);
+                ThreeSetup.addToScene(train);
+            }
+
+            console.log("Load Terrain Mat");
+            assetLoader.loadAsset('MATERIALS_', 'material_terrain', matReady);
+
+            return train;
+        };
+
         ThreeAPI.removeTerrainByPosition = function(pos) {
             return ThreeModelLoader.removeGroundMesh(pos);
         };
@@ -361,6 +400,10 @@ define([
             for (var i = 0; i < animationMixers.length; i ++) {
                 animationMixers[i].update(tpf);
             }
+        };
+
+        ThreeAPI.getGlobalUniforms = function() {
+            return globalUniforms;
         };
 
 

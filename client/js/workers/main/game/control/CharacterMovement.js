@@ -107,6 +107,8 @@ define([
             return this.callbacks[key]
         };
 
+
+
         CharacterMovement.prototype.applyMovementToWorldEntity = function(worldEntity, tpf ) {
             worldEntity.getWorldEntityQuat(tempObj3d.quaternion);
             //    obj3d.quaternion.set(0, 0, 0, 1);
@@ -114,9 +116,15 @@ define([
 
             worldEntity.setWorldEntityQuaternion(tempObj3d.quaternion);
 
+
             worldEntity.getWorldEntityPosition(tempObj3d.position);
             tempVec1.copy(this.velocity).multiplyScalar(tpf);
+
             tempObj3d.position.add(tempVec1);
+
+            let height = MainWorldAPI.getHeightAtPosition(tempObj3d.position);
+            tempObj3d.position.y = height;
+
             worldEntity.setWorldEntityPosition(tempObj3d.position);
         };
 

@@ -86,6 +86,7 @@ define([
             }
         };
 
+
         MainWorldCom.prototype.setupConfigDataCallback = function(category, key, dataId, callback) {
             DataFetcher.fetchConfigData(category, key, dataId, callback)
         };

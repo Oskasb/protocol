@@ -3,6 +3,8 @@
     "files":[
       "threedata/assets/load_assets.json"                   ,
 
+      "geometry/terrain_configs.json"                       ,
+
       "ui/elements/icon_elements.json"                      ,
       "ui/elements/surface_elements.json"                   ,
       "ui/elements/text_elements.json"                      ,

@@ -107,7 +107,7 @@ define([
             var pressActive = GuiAPI.readInputBufferValue(input, buffer, ENUMS.InputState.ACTION_0);
 
             if (this.guiWidget.getWidgetSurface().getSurfaceInteractiveState() === ENUMS.ElementState.NONE) {
-                return;
+        //        return;
             }
 
             if (!pressActive) {

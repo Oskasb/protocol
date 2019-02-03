@@ -5,23 +5,30 @@ define([        'application/PipelineObject'],
     function(PipelineObject) {
 
 
+
         var ThreeMaterial = function(id, config, callback) {
+
+            if (id === "material_terrain") console.log("material_terrain", this);
+
+            this.id = id;
 
             this.textureMap = {};
 
             this.textures = {};
 
             var matReady = function() {
+                if ( this.id === "material_terrain") console.log("material_terrain", this);
 
                 for (var key in this.textureMap) {
                     this.mat[this.textureMap[key]] = this.textures[this.textureMap[key]].texture;
                 }
-
+                if ( this.id === "material_terrain") console.log("material_terrain", this);
                 callback(this);
             }.bind(this);
 
 
             var materialSettingsLoaded = function(src, asset) {
+
                 this.applyMaterialSettings(asset.config.shader, asset.config.properties, matReady);
             }.bind(this);
 
@@ -134,9 +141,42 @@ define([        'application/PipelineObject'],
         };
 
 
+        ThreeMaterial.prototype.addTextureUniform = function(uniforms, texConf) {
+            console.log("TEXTURE addTextureUniform:", uniforms, texConf);;
+
+            var key = texConf.key;
+
+            var tx = this.textures[key].texture;
+
+            uniforms[key] = {};
+
+
+        //    tx.repeat.x = texConf.repeat[0];
+         //   tx.repeat.y = texConf.repeat[1];
+            uniforms[key].value = tx;
+            uniforms[key].type = 't';
+            uniforms[key+'repeat'] = {};
+            uniforms[key+'repeat'].value = {x:texConf.repeat[0],y:texConf.repeat[1]};
+
+         //   tx.needsUpdate = true;
+        };
+
+        var updateUniforms = function(uniforms, newuniforms) {
+
+            for (var key in newuniforms) {
+                if (!uniforms[key]) {
+                    uniforms[key] = {};
+                }
+                console.log("Add Lib Uniform", key)
+                uniforms[key].value = newuniforms[key].value
+            }
+        };
+
         ThreeMaterial.prototype.setupCustomShaderMaterial = function(shader, props, cb) {
 
-            var mapTexture = this.textures['map'].texture;
+            if ( this.id === "material_terrain") console.log("material_terrain", this);
+
+
             if (props.data_texture) var dataTx = this.textures[props.data_texture].texture;
 
             var applyShaders = function(src, data) {
@@ -158,9 +198,22 @@ define([        'application/PipelineObject'],
                 var uniforms = {
                     systemTime: {value:0},
                     alphaTest:  {value:props.settings.alphaTest},
-                    map:        {value:mapTexture},
-                    tiles:      {value:new THREE.Vector2(mapTexture.userData.tiles_x, mapTexture.userData.tiles_y)}
                 };
+
+                if ( this.textures['map']) {
+                    var mapTexture = this.textures['map'].texture;
+                    uniforms['map'] = {value:mapTexture};
+                    uniforms['tiles'] = {value:new THREE.Vector2(mapTexture.userData.tiles_x, mapTexture.userData.tiles_y)};
+                }
+
+                if (props['texture_uniforms']) {
+
+                    for (var i = 0; i < props['texture_uniforms'].length; i++) {
+                        this.addTextureUniform(uniforms, props['texture_uniforms'][i])
+                    }
+
+                }
+
 
                 if (props.data_texture) {
                     uniforms.data_texture =  {value:dataTx};
@@ -168,10 +221,23 @@ define([        'application/PipelineObject'],
                 }
 
                 if (props.global_uniforms) {
+
+                    var globalUniforms = ThreeAPI.getGlobalUniforms();
+
                     for (var key in props.global_uniforms) {
-                        uniforms[key] = props.global_uniforms[key];
+                        if (!globalUniforms[key]) {
+                            globalUniforms[key] = props.global_uniforms[key]
+                        }
+                        uniforms[key] = globalUniforms[key];
                     }
                 }
+
+                if (props['lib_uniforms']) {
+                    for (var i = 0; i < props['lib_uniforms'].length; i++) {
+                        updateUniforms(uniforms, THREE.UniformsLib[props['lib_uniforms'][i]]);
+                    }
+                }
+
 
                 var opts = {
                     uniforms: uniforms,
@@ -198,11 +264,15 @@ define([        'application/PipelineObject'],
                 }
 
 
+
                 if (props.side) opts.side = THREE[props.side];
 
 
-
                 var mat = new THREE[shader](opts);
+
+                setInterval(function() {
+                    mat.needsUpdate = true
+                }, 500)
 
                 if (props.color) {
                     mat.color.r = props.color.r;

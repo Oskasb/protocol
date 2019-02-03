@@ -88,6 +88,19 @@
               "flipY": false
             }
           }
+        },
+        {
+          "id": "terrain_settings" ,
+          "config":{
+            "settings" : {
+              "wrapS": "RepeatWrapping",
+              "wrapT": "RepeatWrapping",
+              "generateMipmaps": false,
+              "magFilter": "LinearFilter",
+              "minFilter": "LinearFilter",
+              "flipY": false
+            }
+          }
         }
       ]
     }

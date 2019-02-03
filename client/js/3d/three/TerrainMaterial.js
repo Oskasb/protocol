@@ -1,12 +1,10 @@
 "use strict";
 
 define([
-        'application/PipelineObject',
-    'evt'
+        'application/PipelineObject'
     ],
     function(
         PipelineObject,
-        evt
     ) {
 
         var ThreeAPI;
@@ -53,14 +51,11 @@ define([
         var TerrainMaterial = function(tApi) {
 
             ThreeAPI = tApi;
-
-
-
-
-
         };
 
         TerrainMaterial.prototype.addTerrainMaterial = function(id, textures, shader) {
+
+            console.log("AddTerrainMAterial", id, textures, shader)
 
             uniforms[id] = {};
 
@@ -143,7 +138,10 @@ define([
                 updateUniforms(trId, uniforms[trId]);
 
                 data.needsUpdate = true;
+                console.log("TX Attached")
             };
+
+            console.log("TX ", id, txConf)
 
             new PipelineObject("THREE_TEXTURE", "terrain_"+txConf.file+"_"+txUrl+txConf.file+".png", applyTexture);
         };

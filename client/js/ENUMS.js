@@ -15,7 +15,8 @@ if(typeof(ENUMS) === "undefined"){
         REQUEST_ASSET:          6,
         REGISTER_ASSET:         7,
         REGISTER_UI_BUFFERS:    8,
-        RELAY_CONFIG_DATA:      9
+        RELAY_CONFIG_DATA:      9,
+        TERRAIN_BUFFERS:        10
     };
 
     ENUMS.Event = {

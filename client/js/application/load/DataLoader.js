@@ -116,7 +116,7 @@ define([
                 if (loadState === loadStates.CONFIGS && remaining === 0) {
                     //    console.log( "json cached:", PipelineAPI.getCachedConfigs());
                     loadState = loadStates.COMPLETED;
-                    //    ThreeAPI.loadThreeData();
+                //        ThreeAPI.loadThreeData();
                     loadStateChange(loadState);
                 }
 

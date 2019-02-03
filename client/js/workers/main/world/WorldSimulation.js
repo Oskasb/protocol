@@ -1,10 +1,12 @@
 "use strict";
 
 define([
-        'workers/main/camera/WorldCamera'
+        'workers/main/camera/WorldCamera',
+        'worker/terrain/TerrainSystem'
     ],
     function(
-        WorldCamera
+        WorldCamera,
+        TerrainSystem
     ) {
 
         var worldStatus = {
@@ -32,10 +34,17 @@ define([
 
 
         WorldSimulation.prototype.startWorldSystem = function(cameraAspect) {
+            this.terrainSystem = new TerrainSystem();
+
             this.worldCamera.getCamera().aspect = cameraAspect;
             GuiAPI.setCameraAspect(cameraAspect);
+
+            this.terrainSystem.generateTerrainArea();
         };
 
+        WorldSimulation.prototype.getTerrainHeightAt = function(pos, normalStore) {
+            return this.terrainSystem.getTerrainHeightAndNormal(pos, normalStore)
+        };
 
         WorldSimulation.prototype.tickWorldSimulation = function(tpf) {
             this.worldCamera.tickWorldCamera(tpf);
@@ -51,13 +60,10 @@ define([
 
         var e;
 
-
         WorldSimulation.prototype.addNewEntities = function(time) {
             while (addEntities.length) {
                 e = addEntities.pop();
-
                 e.initWorldEntity(time);
-
                 worldEntities.push(e);
             }
         };

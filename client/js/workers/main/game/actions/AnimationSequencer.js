@@ -105,7 +105,7 @@ define([
 
                     if (speed) {
                         key = MATH.getRandomArrayEntry(peaceMoveIdle);
-                        gamePiece.activatePieceAnimation(key, 1, 1, 0.7)
+                        gamePiece.activatePieceAnimation(key, 1, 1, 0.25)
                     } else {
                         key = MATH.getRandomArrayEntry(peaceIdle);
                         gamePiece.activatePieceAnimation(key, 1, 1, 0.25)
@@ -119,7 +119,7 @@ define([
                         key = MATH.getRandomArrayEntry(combatIdles);
                     }
 
-                    gamePiece.activatePieceAnimation(key, 1, 1, 0.4);
+                    gamePiece.activatePieceAnimation(key, 1, 1, 0.25);
 
                 }
 

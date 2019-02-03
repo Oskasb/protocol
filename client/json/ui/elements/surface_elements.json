@@ -7,6 +7,17 @@
           "id": "GUI_16x16",
           "data": [
             {
+              "id":"nineslice_surface_anchor",
+              "config": {
+                "padding": { "x":0.0, "y":0.0},
+                "image": {
+                  "layer": "UI_ELEMENTS_BACK",
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.0, "y": 0.0}
+                }
+              }
+            },
+            {
               "id":"nineslice_surface_action_button",
               "config": {
                 "padding": { "x":0.0, "y":0.0},

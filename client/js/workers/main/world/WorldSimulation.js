@@ -33,13 +33,77 @@ define([
         };
 
 
+        var tempVec = new THREE.Vector3();
+        var tempVec2 = new THREE.Vector3();
+
         WorldSimulation.prototype.startWorldSystem = function(cameraAspect) {
             this.terrainSystem = new TerrainSystem();
 
             this.worldCamera.getCamera().aspect = cameraAspect;
             GuiAPI.setCameraAspect(cameraAspect);
 
+
+            var ts = this.terrainSystem;
             this.terrainSystem.generateTerrainArea();
+
+
+var count = 0;
+
+
+            var scale = 3;
+
+            var worldEntityReady = function(worldEntity) {
+
+            //    console.log("..", worldEntity)
+
+                count++
+
+                GuiAPI.printDebugText('asset_tree_1 '+count);
+
+                tempVec.set(0, 0, 0);
+
+                var area = ts.getTerrainAreaAtPos(tempVec);
+                area.getRandomPointOnTerrain(tempVec, tempVec2, 1, 1000);
+
+
+
+                worldEntity.obj3d.lookAt(tempVec2);
+                worldEntity.obj3d.rotateX(1.57);
+                worldEntity.setWorldEntityPosition(tempVec);
+                worldEntity.obj3d.scale.multiplyScalar(scale);
+                scale *= 0.9995;
+
+                if (count < 4000) {
+                 //   GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
+                    GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
+                    setTimeout(function() {
+
+                //        GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
+                        GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
+
+                    }, 10)
+
+                }
+
+            };
+
+
+            var trees = ['asset_tree_1', 'asset_tree_2', 'asset_tree_3', 'asset_tree_4']
+
+
+            var treesReady = function(we) {
+                worldEntityReady(we)
+            //    for (var i = 0; i < 20; i++) {
+                    GameAPI.requestAssetWorldEntity('asset_tree_1', worldEntityReady);
+            //    }
+            }
+
+          //  setInterval(function() {
+
+            //}, 200)
+
+                GameAPI.requestAssetWorldEntity('asset_tree_1', treesReady);
+
         };
 
         WorldSimulation.prototype.getTerrainHeightAt = function(pos, normalStore) {

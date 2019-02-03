@@ -62,6 +62,7 @@ define([
 					zoomTimeout = false;
 				}, 100);
 				zoomTimeout = true;
+				POINTER_STATE.mouse.wheelDelta = wheelDelta;
 				callInputUpdate(POINTER_STATE.mouse);
 			});
 

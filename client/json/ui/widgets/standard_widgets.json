@@ -206,8 +206,8 @@
               "id":"widget_gui_anchor",
               "layout":"layout_gui_anchor_point",
               "surface": {
-                "nineslice": "nineslice_surface_action_status_container",
-                "feedback": "feedback_button_action"
+                "nineslice": "nineslice_surface_anchor",
+                "feedback":"feedback_surface_anchor"
               }
             }
           ]

@@ -163,10 +163,10 @@ define([],
                 "invert_hill":false,
                 "terrain_edge_size":100,
                 "edge_easing":"clampSin",
-                "max_height":25,
-                "min_height":-10,
-                "frequency":5,
-                "steps":4
+                "max_height":15,
+                "min_height":-4,
+                "frequency":3,
+                "steps":6
         };
 
         TerrainFunctions.prototype.createTerrain = function(moduleOptions) {

@@ -36,14 +36,25 @@ define([
 
     var sampleInput = function(input, buffer, worldSpacePointers) {
 
-        if (!worldSpacePointers.length) return;
-
-        tpf = MainWorldAPI.getTpf();
-
         startIndex = input;
 
         inputBuffer = buffer;
         camera.aspect = inputBuffer[startIndex + ENUMS.InputState.ASPECT];
+
+        if (inputBuffer[startIndex+ ENUMS.InputState.WHEEL_DELTA]) {
+            GuiAPI.printDebugText("WHEEL DELTA "+inputBuffer[startIndex+ ENUMS.InputState.WHEEL_DELTA]);
+
+            tempVec1.set(0, 0, 2 * MATH.sign(-inputBuffer[startIndex+ ENUMS.InputState.WHEEL_DELTA]));
+            inputBuffer[startIndex+ ENUMS.InputState.WHEEL_DELTA] = 0;
+            tempVec1.applyQuaternion(camera.quaternion);
+            camera.position.add(tempVec1);
+        }
+
+
+        if (!worldSpacePointers.length) return;
+
+        tpf = MainWorldAPI.getTpf();
+
 
         if (inputBuffer[startIndex+ ENUMS.InputState.ACTION_0]) {
 
@@ -240,43 +251,6 @@ define([
         return camera;
     };
 
-    WorldCamera.prototype.updateCameraControlState = function() {
-
-        tempVec1.set(WorldAPI.getCom(ENUMS.BufferChannels.UI_CAM_DRAG_X), WorldAPI.getCom(ENUMS.BufferChannels.UI_CAM_DRAG_Y), WorldAPI.getCom(ENUMS.BufferChannels.UI_CAM_DRAG_Z));
-
-        distance = this.distanceToLookTarget();
-
-        if (distance < minDistance) {
-            if (tempVec1.z < 0) {
-                tempVec1.z = 0.1;
-            }
-        } else if (distance > maxDistance) {
-            if (tempVec1.z > 0) {
-                tempVec1.z = -0.1;
-            }
-        }
-
-        WorldAPI.setCom(ENUMS.BufferChannels.UI_CAM_DRAG_X, tempVec1.x * 0.95);
-        WorldAPI.setCom(ENUMS.BufferChannels.UI_CAM_DRAG_Y, tempVec1.y * 0.95);
-        WorldAPI.setCom(ENUMS.BufferChannels.UI_CAM_DRAG_Z, tempVec1.z * 0.95 || 0);
-
-        tempVec1.applyQuaternion(camera.quaternion);
-
-        camera.position.x += tempVec1.x * (0.2+distance*0.02);
-        camera.position.y += tempVec1.y * (0.2+distance*0.02);
-        camera.position.z += tempVec1.z * (0.2+distance*0.02);
-
-    };
-
-    WorldCamera.prototype.followActiveSelection = function(renderable) {
-
-        if (renderable) {
-            renderable.getDynamicSpatialVelocity(tempVec1);
-            tempVec1.multiplyScalar(WorldAPI.getCom(ENUMS.BufferChannels.TPF)/1000);
-            camera.position.add(tempVec1);
-        }
-
-    };
 
     var camEvt = [
         ENUMS.Args.POS_X,       0,
@@ -295,7 +269,6 @@ define([
 
 
     WorldCamera.prototype.fireCameraUpdate = function() {
-
 
 
         evt.setArgVec3(camEvt, 0, camera.position);

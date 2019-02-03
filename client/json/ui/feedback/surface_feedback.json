@@ -6,6 +6,20 @@
         {
           "id": "SURFACE",
           "data": [
+
+            {
+              "id":"feedback_surface_anchor",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.85, "g": 0.45, "b": 0.15, "a": 0.7}
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.01, "g": 0.99, "b": 0.01, "a": 1.0},
+                  "sprite": "container_box_framed"
+                }
+              }
+            },
+
             {
               "id":"feedback_surface_stat_label",
               "config": {

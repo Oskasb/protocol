@@ -62,42 +62,53 @@ define([
         var loopModes = [THREE.LoopOnce, THREE.LoopRepeat, THREE.LoopPingPong];
         var clampModes = [false, true];
 
+
+        InstanceAnimator.prototype.getSyncSource = function(sync) {
+            for (var i = 0; i < this.channels.length; i++ ) {
+                if (this.channels[i].sync === sync) {
+                    return this.channels[i];
+                }
+            }
+        };
+
+
+
         InstanceAnimator.prototype.startChannelAction = function(channel, action, weight, fade, loop, clamp, timeScale, sync) {
     //        console.log("start chan action", action);
-
-
+            
                 action.reset();
                 action.enabled = true;
                 action.loop = loopModes[loop];
                 action.clampWhenFinished = clampModes[clamp];
                 action.play();
+
+                action.setEffectiveWeight( weight );
+
                 action.fadeIn(fade);
 
                 action.setEffectiveTimeScale( timeScale );
 
+
+                if (sync) {
+                    let syncSrc = this.getSyncSource(sync);
+                    if (syncSrc) {
+                        syncSrc.setEffectiveTimeScale(timeScale);
+                        action.syncWith(syncSrc);
+                    }
+                }
+
+                action.sync = sync;
+
                 channel.push(action);
 
-
-                action.setEffectiveWeight( weight );
-                action.sync = sync;
         };
 
         InstanceAnimator.prototype.fadeinChannelAction = function(channel, toAction, weight, fade, loop, clamp, timeScale, sync) {
 
-
             if (channel.indexOf(toAction) === -1) {
-                var fromAction = channel.pop();
 
-                //    toAction.crossFadeFrom(fromAction, toAction, fade)
                 this.startChannelAction(channel, toAction, weight, fade, loop, clamp, timeScale, sync);
-
-                if (sync) {
-                    if (fromAction.sync === sync) {
-                        fromAction.setEffectiveTimeScale(timeScale);
-                        toAction.syncWith(fromAction);
-                    }
-                }
-
+                var fromAction = channel.pop();
                 fromAction.fadeOut(fade)
 
             } else {

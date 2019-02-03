@@ -135,7 +135,7 @@ define([
             } else if (this.getCharacterState() === ENUMS.CharacterState.COMBAT) {
                 if (Math.random() < 0.1) {
                     if (!this.getGamePiece().activeActions.length) {
-                        this.getCharacterCombat().activateRandomAvailableAction();
+            //            this.getCharacterCombat().activateRandomAvailableAction();
                     }
                 }
             }

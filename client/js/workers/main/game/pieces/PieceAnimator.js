@@ -11,7 +11,11 @@ define([
 
             this.animations = {};
             this.activeAnimations = [];
-            this.removes = []
+            this.removes = [];
+
+            this.timeAtKey = 0;
+            this.poseKey = ENUMS.getKey('Animations', ENUMS.Animations.IDLE);
+
         };
 
         PieceAnimator.prototype.initPieceAnimator = function(piece, onReady) {
@@ -45,18 +49,32 @@ define([
             onReady(this);
         };
 
+
         PieceAnimator.prototype.getPieceAnim = function(animationKey) {
             return this.animations[animationKey];
         };
 
 
-        PieceAnimator.prototype.getActionMap = function(actionType) {
-
-            return this.gamePiece.getRigData().readDataKey('action_maps')[actionType];
-
+        PieceAnimator.prototype.setPoseKey = function(key) {
+            this.timeAtKey = 0;
+            this.poseKey = key
         };
 
+        PieceAnimator.prototype.getPoseKey = function() {
+            return this.poseKey;
+        };
+
+        PieceAnimator.prototype.getTimeAtKey = function() {
+            return this.timeAtKey;
+        };
+
+        PieceAnimator.prototype.getActionMap = function(actionType) {
+            return this.gamePiece.getRigData().readDataKey('action_maps')[actionType];
+        };
+
+
         PieceAnimator.prototype.activatePieceAnimation = function(animationKey, weight, timeScale, fadeTime) {
+
 
             var anim = this.getPieceAnim(animationKey);
 
@@ -94,6 +112,8 @@ define([
         };
 
         PieceAnimator.prototype.updatePieceAnimations = function(tpf, time) {
+
+            this.timeAtKey += tpf;
 
             for (var i = 0; i < this.activeAnimations.length; i++) {
                 this.activeAnimations[i].updateAnimation(tpf, time, this.removes);

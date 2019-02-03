@@ -63,41 +63,61 @@ define([
         var clampModes = [false, true];
 
 
+
+        var src;
         InstanceAnimator.prototype.getSyncSource = function(sync) {
             for (var i = 0; i < this.channels.length; i++ ) {
-                if (this.channels[i].sync === sync) {
-                    return this.channels[i];
+                src = MATH.getFromArrayByKeyValue(this.channels[i], 'sync', sync);
+                if (src) {
+                    return src;
                 }
             }
         };
 
+        InstanceAnimator.prototype.syncAction = function(action) {
 
+            let syncSrc = this.getSyncSource(action.sync);
+            if (syncSrc) {
+
+                if (action.channel <= syncSrc.channel ) {
+
+                    console.log("SyncPrio");
+
+                    syncSrc.setEffectiveTimeScale(action.getEffectiveTimeScale());
+                    action.syncWith(syncSrc);
+
+                } else {
+
+                    action.setEffectiveTimeScale(syncSrc.getEffectiveTimeScale());
+                    syncSrc.syncWith(action);
+
+                }
+
+            }
+
+        };
 
         InstanceAnimator.prototype.startChannelAction = function(channel, action, weight, fade, loop, clamp, timeScale, sync) {
     //        console.log("start chan action", action);
-            
+
                 action.reset();
                 action.enabled = true;
                 action.loop = loopModes[loop];
                 action.clampWhenFinished = clampModes[clamp];
-                action.play();
 
                 action.setEffectiveWeight( weight );
+                action.setEffectiveTimeScale( timeScale );
+
+                action.play();
 
                 action.fadeIn(fade);
 
-                action.setEffectiveTimeScale( timeScale );
-
-
-                if (sync) {
-                    let syncSrc = this.getSyncSource(sync);
-                    if (syncSrc) {
-                        syncSrc.setEffectiveTimeScale(timeScale);
-                        action.syncWith(syncSrc);
-                    }
-                }
-
                 action.sync = sync;
+                action.channel = channel;
+
+                if (sync !== 0) {
+                    this.syncAction(action);
+                }
 
                 channel.push(action);
 
@@ -107,12 +127,19 @@ define([
 
             if (channel.indexOf(toAction) === -1) {
 
-                this.startChannelAction(channel, toAction, weight, fade, loop, clamp, timeScale, sync);
                 var fromAction = channel.pop();
-                fromAction.fadeOut(fade)
+
+                this.startChannelAction(channel, toAction, weight, fade, loop, clamp, timeScale, sync);
+
+                if (fromAction.sync && fromAction.sync === sync) {
+                    fromAction.syncWith(toAction);
+                }
+                fromAction.fadeOut(fade);
 
             } else {
-                toAction._scheduleFading(fade, toAction.getEffectiveWeight(), weight / toAction.getEffectiveWeight());
+                if (weight !== toAction.getEffectiveWeight()) {
+                    toAction._scheduleFading(fade, toAction.getEffectiveWeight(), weight / toAction.getEffectiveWeight());
+                }
                 toAction.setEffectiveTimeScale( timeScale );
             }
 
@@ -140,10 +167,8 @@ define([
             if (!this.channels[chan]) {
         //        console.log("Add anim channel", chan);
                 this.channels[chan] = [];
-                return;
+            //    return;
             }
-
-
 
             if (weight) {
 

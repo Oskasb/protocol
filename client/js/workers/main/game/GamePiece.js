@@ -1,10 +1,10 @@
 "use strict";
 
 define([
-        'game/actions/ActionStateProcessor'
+        'game/actions/AnimationStateProcessor'
     ],
     function(
-        ActionStateProcessor
+        AnimationStateProcessor
     ) {
 
         var GamePiece = function(dataId) {
@@ -98,13 +98,12 @@ define([
             if (action.getActionState() === ENUMS.ActionState.ACTIVATING) {
                 this.activeActions.push(action);
             }
-            ActionStateProcessor.applyActionStateToGamePiece(action, this)
+            AnimationStateProcessor.applyActionStateToGamePiece(action, this)
         };
 
         GamePiece.prototype.animateMovementState = function(state, movement) {
-            ActionStateProcessor.applyMovementStateToGamePiece(state, movement, this)
+            AnimationStateProcessor.applyMovementStateToGamePiece(state, movement, this)
         };
-
 
 
         GamePiece.prototype.updateGamePiece = function(tpf, time) {

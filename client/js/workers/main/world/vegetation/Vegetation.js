@@ -6,11 +6,13 @@ define([
         'application/ExpandingPool',
         'workers/main/instancing/Instantiator',
         'workers/main/world/vegetation/Plant',
+        'workers/main/world/vegetation/VegetationGrid'
     ],
     function(
         ExpandingPool,
         Instantiator,
-        Plant
+        Plant,
+        VegetationGrid
     ) {
 
         var configDefault = {
@@ -28,20 +30,43 @@ define([
 
             count++;
 
+            this.areaGrids = [];
+
             this.config = {};
             for (var key in configDefault) {
                 this.config[key] = config[key] || configDefault[key];
             }
 
             this.instantiator = new Instantiator();
-            this.elementKey = this.config.sysKey+count;
+            this.elementKey = this.config.sys_key+count;
             this.instantiator.addInstanceSystem(this.elementKey, this.config.sys_key, this.config.asset_id, this.config.pool_size, this.config.render_order)
 
             var addPlant = function(poolKey, callback) {
-                callback(poolKey, new Plant())
+                callback(poolKey, new Plant(plantActivate, plantDectivate))
             };
 
             this.expandingPool = new ExpandingPool(this.elementKey, addPlant);
+
+            var populateSector = function(sector, area, plantCount) {
+                this.populateVegetationSector(sector, area, plantCount)
+            }.bind(this);
+
+            var depopulateSector = function(sector, area) {
+                this.depopulateVegetationSector(sector, area)
+            }.bind(this);
+
+            var plantActivate = function(plant) {
+                this.activateVegetationPlant(plant)
+            }.bind(this);
+
+            var plantDectivate = function(plant) {
+                this.deactivateVegetationPlant(plant)
+            }.bind(this);
+
+            this.callbacks = {
+                populateSector:populateSector,
+                depopulateSector:depopulateSector
+            }
 
         };
 
@@ -58,15 +83,58 @@ define([
                 plant.setPlantPosition(pos);
                 var area = terrainSystem.getTerrainAreaAtPos(pos);
                 plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
-                this.buildBufferElement(plant.getElementCallback())
+                plant.plantActivate()
             }.bind(this);
 
             this.expandingPool.getFromExpandingPool(getPlant)
 
         };
 
+        Vegetation.prototype.createPlant = function(cb, area) {
 
-        Vegetation.prototype.updateVegetation = function(tpf, time) {
+            var getPlant = function(key, plant) {
+                cb(plant, area);
+            }.bind(this);
+
+            this.expandingPool.getFromExpandingPool(getPlant)
+
+        };
+
+        Vegetation.prototype.vegetateTerrainArea = function(area) {
+            var grid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector)
+            this.areaGrids.push(grid);
+            grid.generateGridSectors(100, 100);
+        };
+
+        Vegetation.prototype.activateVegetationPlant = function(plant) {
+            this.buildBufferElement(plant.getElementCallback())
+        };
+
+        Vegetation.prototype.deactivateVegetationPlant = function(plant) {
+            this.instantiator.recoverBufferElement(this.elementKey, plant.getPlantElement());
+            plant.bufferElement = null;
+        };
+
+        Vegetation.prototype.populateVegetationSector = function(sector, area, plantCount) {
+
+        //    console.log("Pop", plantCount)
+            for (var i = 0; i < plantCount; i++) {
+                this.createPlant(sector.getAddPlantCallback(), area);
+            }
+
+        };
+
+
+
+        Vegetation.prototype.depopulateVegetationSector = function(sector) {
+            sector.deactivateSectorPlants();
+        };
+
+        Vegetation.prototype.updateVegetation = function(tpf, time, worldCamera) {
+            for (var i = 0; i < this.areaGrids.length; i++) {
+                this.areaGrids[i].updateVegetationGrid(tpf, time, worldCamera)
+            }
+
             this.instantiator.updateInstantiatorBuffers();
         };
 

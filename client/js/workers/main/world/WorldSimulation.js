@@ -45,12 +45,14 @@ define([
             this.worldCamera.getCamera().aspect = cameraAspect;
             GuiAPI.setCameraAspect(cameraAspect);
 
-
+            var veg = this.vegetation;
             var ts = this.terrainSystem;
             this.terrainSystem.generateTerrainArea();
+            tempVec.set(0, 0, 0);
 
+            var area = ts.getTerrainAreaAtPos(tempVec);
+            veg.vegetateTerrainArea(area);
 
-            var veg = this.vegetation;
 
             var count = 0;
 
@@ -68,16 +70,17 @@ define([
                 tempVec.set(0, 0, 0);
 
 
-                var area = ts.getTerrainAreaAtPos(tempVec);
-                area.getRandomPointOnTerrain(tempVec, tempVec2, 0.1, 1000);
+                area = ts.getTerrainAreaAtPos(tempVec);
+                area.getRandomPointOnTerrain(tempVec, tempVec2, 0.1, 1000, 0.9);
 
 
                 worldEntity.obj3d.lookAt(tempVec2);
                 worldEntity.obj3d.rotateX(1.57);
+                worldEntity.obj3d.rotateY(Math.random()*5);
                 worldEntity.setWorldEntityPosition(tempVec);
                 worldEntity.obj3d.scale.multiplyScalar(scale);
 
-                for (var i = 0; i < 5; i++) {
+                for (var i = 0; i < 15; i++) {
 
                     tempVec.x = worldEntity.obj3d.position.x + 5*(Math.random()-0.5);
                     tempVec.z = worldEntity.obj3d.position.z + 5*(Math.random()-0.5);
@@ -89,7 +92,7 @@ define([
 
                 scale *= 0.9995;
 
-                if (count < 1000) {
+                if (count < 100) {
                  //   GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
                     GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
                     setTimeout(function() {
@@ -210,6 +213,8 @@ define([
         WorldSimulation.prototype.tickWorldSimulation = function(tpf, time) {
 
             this.worldCamera.tickWorldCamera(tpf);
+
+            this.vegetation.updateVegetation(tpf, time, this.worldCamera);
 
             this.addNewEntities(time);
 

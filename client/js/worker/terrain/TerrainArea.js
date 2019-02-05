@@ -83,6 +83,14 @@ define([
             return this.extents;
         };
 
+        TerrainArea.prototype.getSizeX = function() {
+            return this.extents.x - this.origin.x;
+        };
+
+        TerrainArea.prototype.getSizeZ = function() {
+            return this.extents.z - this.origin.z;
+        };
+
         TerrainArea.prototype.updateCenter = function() {
             this.center.copy(this.extents);
             this.center.multiplyScalar(0.5);
@@ -106,14 +114,14 @@ define([
             this.updateCenter();
         };
 
-        TerrainArea.prototype.getRandomPointOnTerrain = function(posStore, normStore, minHeight, maxHeight) {
+        TerrainArea.prototype.getRandomPointOnTerrain = function(posStore, normStore, minHeight, maxHeight, minNormalY) {
 
             posStore.copy(this.origin);
             posStore.x += Math.random()*this.extents.x;
             posStore.z += Math.random()*this.extents.z;
             posStore.y = this.getHeightAndNormalForPos(posStore, normStore);
 
-            if (posStore.y < minHeight || posStore.y > maxHeight) {
+            if (posStore.y < minHeight || posStore.y > maxHeight || normStore.y < minNormalY) {
                 GuiAPI.printDebugText("POINT OUTSIDE BOUNTS "+Math.round(posStore.y));
                 this.getRandomPointOnTerrain(posStore, normStore, minHeight, maxHeight);
             }

@@ -24,16 +24,22 @@ define([
 
             var buildElement = function(sysKey, cb) {
 
-                var getElement = function(key, elem) {
-                    elem.initGuiBufferElement(elementBuffers[key]);
+                var getElement = function(elem) {
+                    elem.initGuiBufferElement(elementBuffers[sysKey]);
                     cb(elem);
                 };
 
                 elementPools[sysKey].getFromExpandingPool(getElement)
             };
 
+            var recoverElement = function(sysKey, elem) {
+                elem.releaseElement();
+                elementPools[sysKey].returnToExpandingPool(elem)
+            };
+
             this.callbacks = {
                 buildElement:buildElement,
+                recoverElement:recoverElement,
             }
 
         };
@@ -45,7 +51,7 @@ define([
 
                 var addElement = function(poolKey, callback) {
                     var element = new InstancingBufferElement();
-                    callback(poolKey, element)
+                    callback(element)
                 };
                 this.elementPools[elementKey] = new ExpandingPool(elementKey, addElement);
             };
@@ -54,6 +60,9 @@ define([
             this.callbacks.buildElement(sysKey, cb);
         };
 
+        Instantiator.prototype.recoverBufferElement = function(sysKey, bufferElem) {
+            this.callbacks.recoverElement(sysKey, bufferElem);
+        };
 
         Instantiator.prototype.updateInstantiatorBuffers = function() {
 

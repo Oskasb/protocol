@@ -11,15 +11,14 @@ define([
 
         var tempVec1 = new THREE.Vector3();
 
-        var VegetationGrid = function(terrainArea, populateSector, depopulateSector) {
-            this.activeGridRange = 6;
+        var VegetationGrid = function(terrainArea, populateSector, depopulateSector, getPlantConfigs) {
+            this.activeGridRange = 8;
             this.terrainArea = terrainArea;
 
             this.sectors = [];
 
             this.populateCallbacks = [populateSector];
             this.depopulateCallbacks = [depopulateSector];
-
 
             this.centerSector = null;
             this.activeSectors = [];
@@ -34,36 +33,29 @@ define([
 
             this.callbacks = {
                 sectorActivate:sectorActivate,
-                sectorDeactivate:sectorDeactivate
+                sectorDeactivate:sectorDeactivate,
+                getPlantConfigs:getPlantConfigs
             }
         };
 
-
-        VegetationGrid.prototype.generateGridSectors = function(sectorsX, sectorsZ) {
-
+        VegetationGrid.prototype.generateGridSectors = function(sectorPlants, gridRange, sectorsX, sectorsZ) {
+            this.activeGridRange = gridRange;
             for (var i = 0; i < sectorsX; i++) {
                 this.sectors[i] = [];
                 for (var j = 0; j < sectorsZ; j++) {
-                    this.sectors[i].push(new VegetationSector(i, j, sectorsX, sectorsZ, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea))
+                    this.sectors[i].push(new VegetationSector(i, j, sectorsX, sectorsZ, sectorPlants, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea, this.callbacks.getPlantConfigs))
                 }
             }
         };
 
         VegetationGrid.prototype.gridSectorActivate = function(sector, plantCount) {
-
-        //    GuiAPI.printDebugText("ACTIVATE SECTOR _ x:"+sector.gridX+' z:'+sector.gridZ);
-        //    console.log('Activate Sector', plantCount);
-
             MATH.callAll(this.populateCallbacks, sector, this.terrainArea, plantCount)
 
         };
 
         VegetationGrid.prototype.gridSectorDeactivate = function(sector) {
-        //    GuiAPI.printDebugText("DEACTIVATE SECTOR _ x:"+sector.gridX+' z:'+sector.gridZ);
-        //    console.log('DEactivate Sector', sector);
             MATH.callAll(this.depopulateCallbacks, sector, this.terrainArea)
         };
-
 
 
         VegetationGrid.prototype.getSectorAtPosition = function(pos) {
@@ -146,10 +138,10 @@ define([
             tempVec1.copy(centerPos);
             tempVec1.y = sector.center.y;
 
-            let dst = tempVec1.distanceTo(sector.center);
-            dst = dst / (this.activeGridRange * sector.sectorSizeX);
+            let dst = Math.max(tempVec1.distanceTo(sector.center) - sector.sectorSizeX*0.15, 0);
+            dst = (dst / ((this.activeGridRange) * sector.sectorSizeX));
         //    console.log(dx, dz);
-            return MATH.clamp(1 - (dst * 1.25), 0, 1)//+dz
+            return MATH.clamp(MATH.curveSigmoid(1 - MATH.curveSqrt(dst*(0.45+(1/this.activeGridRange)))), 0, 1)//+dz
 
         };
 
@@ -187,6 +179,17 @@ define([
         VegetationGrid.prototype.updateVegetationGrid = function(tpf, time, worldCamera) {
 
             this.updateCenterSectorAtPosition(worldCamera);
+
+        };
+
+        VegetationGrid.prototype.disposeGridSectors = function() {
+
+            while (this.activeSectors.length) {
+                this.activeSectors.pop().deactivateVegetationSector();
+            }
+            while (this.sectors.length) {
+                this.sectors.pop();
+            }
 
         };
 

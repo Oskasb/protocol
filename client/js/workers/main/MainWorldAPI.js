@@ -33,7 +33,6 @@ define([
             console.log('CONFIGS WORLD:', PipelineAPI.getCachedConfigs());
             mainWorldCom = new MainWorldCom();
             mainWorldCom.initWorldCom(workerIndex);
-            worldSimulation = new WorldSimulation();
 
             var uiSetupReady = function() {
                 uiSetup.setupDefaultUi()
@@ -43,7 +42,13 @@ define([
                 uiSetup.initUiSetup(uiSetupReady)
             };
 
-            GuiAPI.initGuiApi(uiReady)
+
+            var simReady = function() {
+                GuiAPI.initGuiApi(uiReady)
+            };
+
+
+            worldSimulation = new WorldSimulation(simReady);
         };
 
         MainWorldAPI.postMessage = function(msg) {

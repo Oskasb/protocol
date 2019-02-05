@@ -24,28 +24,16 @@ define([
 
         var count = 0;
 
-        var Vegetation = function(config) {
-
-            config = config || {};
+        var Vegetation = function() {
 
             count++;
 
             this.areaGrids = [];
 
             this.config = {};
-            for (var key in configDefault) {
-                this.config[key] = config[key] || configDefault[key];
-            }
+            this.plantConfig = {};
 
             this.instantiator = new Instantiator();
-            this.elementKey = this.config.sys_key+count;
-            this.instantiator.addInstanceSystem(this.elementKey, this.config.sys_key, this.config.asset_id, this.config.pool_size, this.config.render_order)
-
-            var addPlant = function(poolKey, callback) {
-                callback(poolKey, new Plant(plantActivate, plantDectivate))
-            };
-
-            this.expandingPool = new ExpandingPool(this.elementKey, addPlant);
 
             var populateSector = function(sector, area, plantCount) {
                 this.populateVegetationSector(sector, area, plantCount)
@@ -55,6 +43,77 @@ define([
                 this.depopulateVegetationSector(sector, area)
             }.bind(this);
 
+            var getPlantConfigs = function() {
+                return this.plantConfig
+            }.bind(this);
+
+            this.callbacks = {
+                populateSector:populateSector,
+                depopulateSector:depopulateSector,
+                getPlantConfigs:getPlantConfigs
+            }
+
+        };
+
+
+        Vegetation.prototype.initVegetation = function(dataId, workerData, plantsData, onReady) {
+
+            this.workerData = workerData;
+
+
+            var plantDataReady = function(isUpdate) {
+                this.applyPlantConfig(plantsData.data);
+                if (!isUpdate) {
+                    onReady(this);
+                }
+
+            }.bind(this);
+
+
+            var onDataReady = function(isUpdate) {
+
+                this.applyConfig(this.workerData.data);
+
+                if (!isUpdate) {
+                    plantsData.fetchData(this.config['area_plants'], plantDataReady);
+                    this.setupInstantiator();
+                }
+
+            }.bind(this);
+
+            workerData.fetchData(dataId, onDataReady);
+
+        };
+
+        Vegetation.prototype.applyConfig = function(config) {
+
+            for (var key in config) {
+                this.config[key] = config[key];
+            }
+            this.resetVegetationSectors();
+        };
+
+        Vegetation.prototype.applyPlantConfig = function(config) {
+
+            for (var key in config) {
+                this.plantConfig[key] = config[key];
+            }
+
+            this.resetVegetationSectors();
+
+        };
+
+        Vegetation.prototype.setupInstantiator = function() {
+
+            this.elementKey = this.config.sys_key+count;
+            this.instantiator.addInstanceSystem(this.elementKey, this.config.sys_key, this.config.asset_id, this.config.pool_size, this.config.render_order);
+
+            var addPlant = function(poolKey, callback) {
+                callback(poolKey, new Plant(plantActivate, plantDectivate))
+            };
+
+            this.expandingPool = new ExpandingPool(this.elementKey, addPlant);
+
             var plantActivate = function(plant) {
                 this.activateVegetationPlant(plant)
             }.bind(this);
@@ -63,13 +122,7 @@ define([
                 this.deactivateVegetationPlant(plant)
             }.bind(this);
 
-            this.callbacks = {
-                populateSector:populateSector,
-                depopulateSector:depopulateSector
-            }
-
         };
-
 
         Vegetation.prototype.buildBufferElement = function(cb) {
             this.instantiator.buildBufferElement(this.elementKey, cb)
@@ -101,9 +154,13 @@ define([
         };
 
         Vegetation.prototype.vegetateTerrainArea = function(area) {
-            var grid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector)
+
+            var grid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getPlantConfigs);
             this.areaGrids.push(grid);
-            grid.generateGridSectors(100, 100);
+
+            grid.generateGridSectors(this.config.sector_plants, this.config.grid_range, this.config.area_sectors[0], this.config.area_sectors[1]);
+
+
         };
 
         Vegetation.prototype.activateVegetationPlant = function(plant) {
@@ -122,6 +179,7 @@ define([
                 this.createPlant(sector.getAddPlantCallback(), area);
             }
 
+
         };
 
 
@@ -137,6 +195,24 @@ define([
 
             this.instantiator.updateInstantiatorBuffers();
         };
+
+
+        Vegetation.prototype.resetVegetationSectors = function() {
+
+            var rebuild = [];
+
+            while (this.areaGrids.length) {
+                var areaGrid = this.areaGrids.pop();
+                areaGrid.disposeGridSectors();
+                rebuild.push(areaGrid.terrainArea);
+            }
+
+            while (rebuild.length) {
+                this.vegetateTerrainArea(rebuild.pop())
+            }
+
+        };
+
 
         return Vegetation;
 

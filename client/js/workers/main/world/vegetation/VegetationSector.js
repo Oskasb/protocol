@@ -12,7 +12,7 @@ define([
         var tempVec1 = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
 
-        var VegetationSector = function(gridX, gridZ, xMax, zMax, activate, deactivate, terrainArea) {
+        var VegetationSector = function(gridX, gridZ, xMax, zMax, sectorPlants, activate, deactivate, terrainArea, getPlantConfigs) {
 
             this.gridX = gridX;
             this.gridZ = gridZ;
@@ -28,8 +28,7 @@ define([
             this.inactivePlants = [];
             this.plants = [];
 
-            this.targetPlandCount = 0;
-            this.maxPlantCount = 100;
+            this.maxPlantCount = sectorPlants;
 
             this.isActive = false;
             this.isCenterSector = false;
@@ -57,13 +56,10 @@ define([
                 this.addPlantToSector(plant, area)
             }.bind(this);
 
-            var activatePlant = function(plant) {
-                this.activateSectorPlant(plant)
-            }.bind(this);
 
             this.callbacks = {
                 addPlant:addPlant,
-                activatePlant:activatePlant
+                getPlantConfigs:getPlantConfigs
             }
 
         };
@@ -97,6 +93,34 @@ define([
             return this.callbacks.addPlant;
         };
 
+
+        var candidates = [];
+
+        VegetationSector.prototype.applyAppropriatePlantConfig = function(plant) {
+            let configs = this.callbacks.getPlantConfigs();
+
+            for (var key in configs) {
+
+                let cfg = configs[key];
+                if (plant.pos.y > cfg.min_y && plant.pos.y < cfg.max_y) {
+                   if (plant.normal.y <= cfg.normal_ymin && plant.normal.y >= cfg.normal_ymax) {
+                       candidates.push(cfg);
+                   }
+                }
+
+            }
+
+            if (candidates.length) {
+                plant.applyPlantConfig(MATH.getRandomArrayEntry(candidates));
+                this.inactivePlants.push(plant);
+                MATH.emptyArray(candidates);
+            } else {
+                this.maxPlantCount--;
+            }
+
+
+        };
+
         VegetationSector.prototype.addPlantToSector = function(plant, area) {
 
             plant.pos.subVectors(this.extents, this.origin);
@@ -107,7 +131,7 @@ define([
             plant.pos.add(this.origin);
             plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal)
 
-            this.inactivePlants.push(plant);
+            this.applyAppropriatePlantConfig(plant);
 
         };
 
@@ -147,9 +171,6 @@ define([
             }
         };
 
-        VegetationSector.prototype.getActivatePlantCallback = function() {
-            return this.callbacks.activatePlant;
-        };
 
         VegetationSector.prototype.updateProximityStatus = function(proximityFactor) {
             if (this.proximityFactor === proximityFactor) return;

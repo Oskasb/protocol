@@ -1,11 +1,13 @@
 "use strict";
 
 define([
+        'workers/WorkerData',
         'workers/main/camera/WorldCamera',
         'worker/terrain/TerrainSystem',
         'workers/main/world/vegetation/Vegetation',
     ],
     function(
+        WorkerData,
         WorldCamera,
         TerrainSystem,
         Vegetation
@@ -21,11 +23,14 @@ define([
         var worldSimulation;
         var worldUdateCallbacks = [];
 
-        var WorldSimulation = function() {
+        var WorldSimulation = function(simReady) {
+
             this.terrainSystem = new TerrainSystem();
             this.vegetation = new Vegetation();
             this.worldCamera = new WorldCamera();
             worldSimulation = this;
+
+            this.vegetation.initVegetation("grid_default", new WorkerData('VEGETATION', 'GRID'),  new WorkerData('VEGETATION', 'PLANTS') ,simReady);
         };
 
         WorldSimulation.prototype.getWorldStatus = function() {
@@ -52,7 +57,6 @@ define([
 
             var area = ts.getTerrainAreaAtPos(tempVec);
             veg.vegetateTerrainArea(area);
-
 
             var count = 0;
 

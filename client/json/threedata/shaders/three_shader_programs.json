@@ -891,10 +891,10 @@
 
           "float lowness = 1.0-uv.y;",
 
-
-          "vColor.r = ambientLightColor.r * (1.0-(lowness*0.25)) + sunLightColor.r * (lowness*1.0 - 0.0);",
-          "vColor.g = ambientLightColor.g * (1.0-(lowness*0.25)) + sunLightColor.g * (lowness*1.0 - 0.0);",
-          "vColor.b = ambientLightColor.b * (1.0-(lowness*0.25)) + sunLightColor.b * (lowness*1.0 - 0.0);",
+          "vColor = vertexColor;",
+          "vColor.r *= vertexColor.r * ambientLightColor.r * (1.0-(lowness*0.25)) + sunLightColor.r * (lowness*1.0 - 0.0);",
+          "vColor.g *= vertexColor.g * ambientLightColor.g * (1.0-(lowness*0.25)) + sunLightColor.g * (lowness*1.0 - 0.0);",
+          "vColor.b *= vertexColor.b * ambientLightColor.b * (1.0-(lowness*0.25)) + sunLightColor.b * (lowness*1.0 - 0.0);",
 
 
           "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",

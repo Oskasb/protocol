@@ -1,0 +1,112 @@
+[
+  {
+    "VEGETATION": {
+      "PLANTS":[
+        {
+          "id":"plants_default",
+          "data":{
+            "leafy_small": {
+              "min_y": 0.0,
+              "max_y": 9999,
+              "normal_ymin": 0.985,
+              "normal_ymax": 0.94,
+              "size_min": 2,
+              "size_max": 3,
+              "color_min": [0.9, 0.85, 0.85, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [0, 7, 1, 0]
+            },
+            "grass_tall_1": {
+              "min_y": 1,
+              "max_y": 9999,
+              "normal_ymin": 0.9998,
+              "normal_ymax": 0.98,
+              "size_min": 4,
+              "size_max": 6,
+              "color_min": [0.95, 0.95, 0.95, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [0, 6, 1, 0]
+            },
+            "grass_tall_2": {
+              "min_y": 1,
+              "max_y": 9999,
+              "normal_ymin": 0.9998,
+              "normal_ymax": 0.98,
+              "size_min": 4,
+              "size_max": 6,
+              "color_min": [0.95, 0.93, 0.9, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [1, 6, 1, 0]
+            },
+            "grass_tall_sparse_1": {
+              "min_y": 1,
+              "max_y": 9999,
+              "normal_ymin": 0.9998,
+              "normal_ymax": 0.98,
+              "size_min": 4,
+              "size_max": 7,
+              "color_min": [0.95, 0.93, 0.9, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [2, 6, 1, 0]
+            },
+            "grass_tall_sparse_2": {
+              "min_y": 1,
+              "max_y": 9999,
+              "normal_ymin": 0.998,
+              "normal_ymax": 0.98,
+              "size_min": 4,
+              "size_max": 8,
+              "color_min": [0.95, 0.93, 0.9, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [3, 6, 1, 0]
+            },
+            "grass_low_1": {
+              "min_y": 1,
+              "max_y": 9999,
+              "normal_ymin": 1.0,
+              "normal_ymax": 0.98,
+              "size_min": 6,
+              "size_max": 9,
+              "color_min": [0.95, 0.95, 0.95, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [4, 6, 2, 0]
+            },
+            "grass_lowl_2": {
+              "min_y": 1,
+              "max_y": 9999,
+              "normal_ymin": 1.0,
+              "normal_ymax": 0.98,
+              "size_min": 5,
+              "size_max": 11,
+              "color_min": [0.95, 0.93, 0.9, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [5, 6, 2, 0]
+            },
+            "grass_low_3": {
+              "min_y": 1,
+              "max_y": 9999,
+              "normal_ymin": 1.0,
+              "normal_ymax": 0.98,
+              "size_min": 6,
+              "size_max": 9,
+              "color_min": [0.95, 0.95, 0.95, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [6, 6, 2, 0]
+            },
+            "ferns_1": {
+              "min_y": 1,
+              "max_y": 9999,
+              "normal_ymin": 0.999,
+              "normal_ymax": 0.98,
+              "size_min": 9,
+              "size_max": 13,
+              "color_min": [0.95, 0.93, 0.9, 1],
+              "color_max": [1, 1, 1, 1],
+              "sprite": [7, 6, 2, 0]
+            }
+          }
+        }
+      ]
+    }
+  }
+]

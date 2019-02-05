@@ -1,0 +1,21 @@
+[
+  {
+    "VEGETATION": {
+      "GRID":[
+        {
+          "id":"grid_default",
+          "data": {
+            "sys_key": "VEG_8x8",
+            "asset_id":  "asset_vegQuad",
+            "pool_size": 15000,
+            "render_order": 0,
+            "area_plants": "plants_default",
+            "grid_range": 8,
+            "sector_plants": 100,
+            "area_sectors": [120, 120]
+          }
+        }
+      ]
+    }
+  }
+]

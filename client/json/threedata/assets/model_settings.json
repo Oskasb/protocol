@@ -12,7 +12,20 @@
             }
           }
         },
-
+        {"id": "instancing_vegetation_settings" ,
+          "config": {
+            "instancing": {
+              "instances": 1,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
         {"id": "ui_instancing_settings" ,
           "config": {
             "instancing": {

@@ -2,11 +2,13 @@
 
 define([
         'workers/main/camera/WorldCamera',
-        'worker/terrain/TerrainSystem'
+        'worker/terrain/TerrainSystem',
+        'workers/main/world/vegetation/Vegetation',
     ],
     function(
         WorldCamera,
-        TerrainSystem
+        TerrainSystem,
+        Vegetation
     ) {
 
         var worldStatus = {
@@ -20,6 +22,8 @@ define([
         var worldUdateCallbacks = [];
 
         var WorldSimulation = function() {
+            this.terrainSystem = new TerrainSystem();
+            this.vegetation = new Vegetation();
             this.worldCamera = new WorldCamera();
             worldSimulation = this;
         };
@@ -37,7 +41,6 @@ define([
         var tempVec2 = new THREE.Vector3();
 
         WorldSimulation.prototype.startWorldSystem = function(cameraAspect) {
-            this.terrainSystem = new TerrainSystem();
 
             this.worldCamera.getCamera().aspect = cameraAspect;
             GuiAPI.setCameraAspect(cameraAspect);
@@ -47,7 +50,9 @@ define([
             this.terrainSystem.generateTerrainArea();
 
 
-var count = 0;
+            var veg = this.vegetation;
+
+            var count = 0;
 
 
             var scale = 3;
@@ -62,26 +67,36 @@ var count = 0;
 
                 tempVec.set(0, 0, 0);
 
-                var area = ts.getTerrainAreaAtPos(tempVec);
-                area.getRandomPointOnTerrain(tempVec, tempVec2, 1, 1000);
 
+                var area = ts.getTerrainAreaAtPos(tempVec);
+                area.getRandomPointOnTerrain(tempVec, tempVec2, 0.1, 1000);
 
 
                 worldEntity.obj3d.lookAt(tempVec2);
                 worldEntity.obj3d.rotateX(1.57);
                 worldEntity.setWorldEntityPosition(tempVec);
                 worldEntity.obj3d.scale.multiplyScalar(scale);
+
+                for (var i = 0; i < 5; i++) {
+
+                    tempVec.x = worldEntity.obj3d.position.x + 5*(Math.random()-0.5);
+                    tempVec.z = worldEntity.obj3d.position.z + 5*(Math.random()-0.5);
+
+                    area = ts.getTerrainAreaAtPos(tempVec);
+                    area.getHeightAndNormalForPos(tempVec, tempVec2);
+                    veg.addVegetationAtPosition(tempVec, ts);
+                }
+
                 scale *= 0.9995;
 
-                if (count < 4000) {
+                if (count < 1000) {
                  //   GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
                     GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
                     setTimeout(function() {
 
-                //        GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
                         GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
 
-                    }, 10)
+                    }, 1)
 
                 }
 

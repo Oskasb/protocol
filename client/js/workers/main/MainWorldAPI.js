@@ -27,7 +27,6 @@ define([
 
         MainWorldAPI = function() {};
 
-
         var sharedBuffers = {};
 
         MainWorldAPI.initMainWorld = function(workerIndex) {

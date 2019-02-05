@@ -36,7 +36,7 @@ define([
         ];
 
 
-        var GuiBuffers = function(uiSysKey, assetId, elementCount, renderOrder) {
+        var InstancingBuffers = function(bufferSysKey, assetId, elementCount, renderOrder) {
             this.highestRenderingIndex = 0;
             this.activeCount = 0;
 
@@ -49,7 +49,7 @@ define([
             this.elementBook[ENUMS.IndexState.INDEX_AVAILABLE] = [];
 
 
-            this.uiSysKey = uiSysKey;
+            this.uiSysKey = bufferSysKey;
             this.assetId = assetId;
             this.buffers = {};
             this.activeElements = [];
@@ -58,7 +58,7 @@ define([
         };
 
 
-        GuiBuffers.prototype.initAttributeBuffers = function(elementCount) {
+        InstancingBuffers.prototype.initAttributeBuffers = function(elementCount) {
             var buffers = [];
 
             for (var i = 0; i < useBuffers.length; i++) {
@@ -70,11 +70,11 @@ define([
             };
 
             var msg = [this.uiSysKey, this.assetId, useBuffers, buffers, this.renderOrder];
-            MainWorldAPI.postToRender([ENUMS.Message.REGISTER_UI_BUFFERS, msg])
+            MainWorldAPI.postToRender([ENUMS.Message.REGISTER_INSTANCING_BUFFERS, msg])
 
         };
 
-        GuiBuffers.prototype.setAttribX = function(name, index, x) {
+        InstancingBuffers.prototype.setAttribX = function(name, index, x) {
 
             buffer = this.buffers[name];
             dims = attributes[name].dimensions;
@@ -83,7 +83,7 @@ define([
             this.setUpdated(buffer);
         };
 
-        GuiBuffers.prototype.setAttribXY = function(name, index, x, y) {
+        InstancingBuffers.prototype.setAttribXY = function(name, index, x, y) {
             buffer = this.buffers[name];
             dims = attributes[name].dimensions;
             idx = dims*index;
@@ -92,7 +92,7 @@ define([
             this.setUpdated(buffer);
         };
 
-        GuiBuffers.prototype.setAttribXYZ = function(name, index, x, y, z) {
+        InstancingBuffers.prototype.setAttribXYZ = function(name, index, x, y, z) {
 
             buffer = this.buffers[name];
             dims = attributes[name].dimensions;
@@ -103,7 +103,7 @@ define([
             this.setUpdated(buffer);
         };
 
-        GuiBuffers.prototype.setAttribXYZW = function(name, index, x, y, z, w) {
+        InstancingBuffers.prototype.setAttribXYZW = function(name, index, x, y, z, w) {
 
             buffer = this.buffers[name];
             dims = attributes[name].dimensions;
@@ -115,12 +115,12 @@ define([
             this.setUpdated(buffer);
         };
 
-        GuiBuffers.prototype.getSystemTime = function() {
+        InstancingBuffers.prototype.getSystemTime = function() {
             buffer = this.buffers['offset'];
             return buffer[buffer.length - 2];
         };
 
-        GuiBuffers.prototype.setUpdated = function(buffer) {
+        InstancingBuffers.prototype.setUpdated = function(buffer) {
             buffer[buffer.length-1] = 1
         };
 
@@ -129,7 +129,7 @@ define([
         var clears;
         var elemIndex;
 
-        GuiBuffers.prototype.updateReleaseIndices = function(releasedIndices) {
+        InstancingBuffers.prototype.updateReleaseIndices = function(releasedIndices) {
             while (releasedIndices.length) {
                 elemIndex = releasedIndices.pop();
                 element = this.activeElements[elemIndex];
@@ -142,7 +142,7 @@ define([
             }
         };
 
-        GuiBuffers.prototype.updateCleanupIndices = function(cleanupIndices) {
+        InstancingBuffers.prototype.updateCleanupIndices = function(cleanupIndices) {
             while (cleanupIndices.length) {
                 elemIndex = cleanupIndices.pop();
                 this.setIndexBookState(elemIndex, ENUMS.IndexState.INDEX_RELEASING);
@@ -150,7 +150,7 @@ define([
         };
 
 
-        GuiBuffers.prototype.updateActiveCount = function() {
+        InstancingBuffers.prototype.updateActiveCount = function() {
 
             if (!this.activeCount) {
                 this.highestRenderingIndex = -1;
@@ -168,7 +168,7 @@ define([
 
 
 
-        GuiBuffers.prototype.updateGuiBuffer = function() {
+        InstancingBuffers.prototype.updateGuiBuffer = function() {
 
             var releasedIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
 
@@ -183,7 +183,7 @@ define([
 
         };
 
-        GuiBuffers.prototype.setElementReleased = function(guiElement) {
+        InstancingBuffers.prototype.setElementReleased = function(guiElement) {
             guiElement.endLifecycleNow(this.getSystemTime());
             this.setIndexBookState(guiElement.index, ENUMS.IndexState.INDEX_RELEASING);
         };
@@ -191,7 +191,7 @@ define([
 
         var currentDrawRange;
 
-        GuiBuffers.prototype.bufferRangeOk = function() {
+        InstancingBuffers.prototype.bufferRangeOk = function() {
             buffer = this.buffers['offset'];
             currentDrawRange = buffer[buffer.length-3];
 
@@ -208,7 +208,7 @@ define([
         };
 
 
-        GuiBuffers.prototype.updateDrawRange = function() {
+        InstancingBuffers.prototype.updateDrawRange = function() {
 
             buffer = this.buffers['offset'];
             buffer[buffer.length-3] = this.highestRenderingIndex+1;
@@ -216,7 +216,7 @@ define([
         };
 
 
-        GuiBuffers.prototype.drawFromAvailableIndex = function() {
+        InstancingBuffers.prototype.drawFromAvailableIndex = function() {
 
             if (this.getBookState(ENUMS.IndexState.INDEX_AVAILABLE).length) {
                 return this.getBookState(ENUMS.IndexState.INDEX_AVAILABLE).shift();
@@ -229,7 +229,7 @@ define([
 
 
 
-        GuiBuffers.prototype.getAvailableIndex = function() {
+        InstancingBuffers.prototype.getAvailableIndex = function() {
 
             availableIndex = this.drawFromAvailableIndex();
 
@@ -248,16 +248,16 @@ define([
             return availableIndex;
         };
 
-        GuiBuffers.prototype.setIndexBookState = function(index, state) {
+        InstancingBuffers.prototype.setIndexBookState = function(index, state) {
             this.elementBook[state].push(index);
         };
 
-        GuiBuffers.prototype.getBookState = function(state) {
+        InstancingBuffers.prototype.getBookState = function(state) {
             return this.elementBook[state];
         };
 
 
-        GuiBuffers.prototype.registerElement = function(guiElement) {
+        InstancingBuffers.prototype.registerElement = function(guiElement) {
             adds++;
             this.activeCount++;
             this.activeElements[guiElement.index] = guiElement;
@@ -267,7 +267,7 @@ define([
         var relCount = 0;
         var actCount = 0;
 
-        GuiBuffers.monitorBufferStats = function() {
+        InstancingBuffers.monitorBufferStats = function() {
             MainWorldAPI.trackStat('gui_releases', relCount);
             MainWorldAPI.trackStat('gui_active', actCount);
             MainWorldAPI.trackStat('gui_adds', adds);
@@ -276,6 +276,6 @@ define([
             adds = 0;
         };
 
-        return GuiBuffers;
+        return InstancingBuffers;
 
     });

@@ -126,8 +126,8 @@ define([
 
 
 
-    DynamicMain.prototype.initiateUiFromBufferMsg = function(bufferMsg) {
-        InstanceAPI.setupUiInstancing(bufferMsg);
+    DynamicMain.prototype.initiateInstancesFromBufferMsg = function(bufferMsg) {
+        InstanceAPI.setupInstancingBuffers(bufferMsg);
     };
 
 

@@ -7,6 +7,8 @@ define([
 
     ) {
 
+    var tempObj = new THREE.Object3D();
+
         var GuiBufferElement = function() {
 
         };
@@ -119,6 +121,16 @@ define([
             this.lifecycle.x = this.guiBuffers.getSystemTime();
             this.applyLifecycle();
             this.applyDataTexture();
+        };
+
+        GuiBufferElement.prototype.lookAtVec3 = function(vec3) {
+            tempObj.position.set(0, 0, 0);
+            tempObj.lookAt(vec3);
+            this.setQuat(tempObj.quaternion);
+        };
+
+        GuiBufferElement.prototype.scaleUniform = function(scale) {
+            this.guiBuffers.setAttribXYZ('scale3d', this.index, scale, scale, scale)
         };
 
         GuiBufferElement.prototype.releaseElement = function() {

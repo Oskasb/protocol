@@ -6,18 +6,16 @@ define([
         'application/ExpandingPool',
         'ui/widgets/WidgetBuilder',
         'ui/GuiSettings',
-        'ui/GuiBuffers',
+        'workers/main/instancing/Instantiator',
         'ui/systems/GuiDebug',
-        'ui/elements/GuiBufferElement',
         'ui/ActorGui'
     ],
     function(
         ExpandingPool,
         WidgetBuilder,
         GuiSettings,
-        GuiBuffers,
+        Instantiator,
         GuiDebug,
-        GuiBufferElement,
         ActorGui
     ) {
 
@@ -32,6 +30,8 @@ define([
 
         var inputSystem;
         var textSystem;
+
+        var instantiator = new Instantiator();
 
         var worldSpacePointers = [];
 
@@ -53,17 +53,6 @@ define([
 
         var GuiAPI = function() {
 
-        };
-
-        var addUiSystem = function(sysKey, spriteKey, assetName, poolSize, renderOrder) {
-
-            guiBuffers[sysKey] = new GuiBuffers(spriteKey, assetName, poolSize, renderOrder);
-
-            var addElement = function(poolKey, callback) {
-                var element = new GuiBufferElement();
-                callback(poolKey, element)
-            };
-            elementPools[sysKey] = new ExpandingPool(sysKey, addElement);
         };
 
 
@@ -100,16 +89,12 @@ define([
 
         };
 
-        GuiAPI.addUiSystem = addUiSystem;
-
+        GuiAPI.addUiSystem = function(sysKey, uiSysKey, assetId, poolSize, renderOrder) {
+            instantiator.addInstanceSystem(sysKey, uiSysKey, assetId, poolSize, renderOrder)
+        };
 
         GuiAPI.buildBufferElement = function(uiSysKey, cb) {
-
-            var getElement = function(key, elem) {
-                elem.initGuiBufferElement(guiBuffers[key]);
-                cb(elem);
-            };
-            elementPools[uiSysKey].getFromExpandingPool(getElement)
+            instantiator.buildBufferElement(uiSysKey, cb)
         };
 
         var registeredTextElements = {};
@@ -296,16 +281,10 @@ define([
             GuiDebug.updateDebugElements();
         };
 
-        var updateBufferIndices = function() {
-            for (var key in guiBuffers) {
-                guiBuffers[key].updateGuiBuffer()
-            }
-            GuiBuffers.monitorBufferStats();
-        };
-
         GuiAPI.updateGui = function(tpf, time) {
             GuiDebug.updateDebugElements();
-            updateBufferIndices();
+            instantiator.updateInstantiatorBuffers();
+            instantiator.monitorBufferStats();
 
             if (registeredTextElements['main_text_box']) {
                 dymmy1(registeredTextElements['main_text_box']);

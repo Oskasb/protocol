@@ -43,8 +43,8 @@ define([
                 MainWorldAPI.initMainWorldFrame(msg[0], msg[1]);
             };
 
-            handlers[ENUMS.Message.REGISTER_UI_BUFFERS] = function(workerKey, msg) {
-                clientViewer.getDynamicMain().initiateUiFromBufferMsg(msg);
+            handlers[ENUMS.Message.REGISTER_INSTANCING_BUFFERS] = function(workerKey, msg) {
+                clientViewer.getDynamicMain().initiateInstancesFromBufferMsg(msg);
             };
 
             handlers[ENUMS.Message.REGISTER_BUFFER] = function(workerKey, msg) {

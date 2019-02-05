@@ -4,12 +4,13 @@
       "FILES_IMAGES":[
 
         {"id": "img_atlas_2k_diff"       , "config": { "url":"./client/assets/images/textures/atlas_2k_diff.png"     }},
+        {"id": "img_veg_2k"              , "config": { "url":"./client/assets/images/textures/veg_2k.png"            }},
         {"id": "img_canopy_normals"      , "config": { "url":"./client/assets/images/textures/canopy_normals.png"    }},
         {"id": "img_glass_surface"       , "config": { "url":"./client/assets/images/textures/glass_surface.png"     }},
         {"id": "img_ref_sphere"          , "config": { "url":"./client/assets/images/textures/ref_sphere.png"        }},
         {"id": "img_data_texture"        , "config": { "url":"./client/assets/images/effects/data_texture.png"       }},
         {"id": "img_particle_atlas_6x6"  , "config": { "url":"./client/assets/images/effects/particle_atlas_6x6.png" }},
-        {"id": "img_gui_atlas_16x16"     , "config": { "url":"./client/assets/images/effects/gui_atlas_16x16.png"      }},
+        {"id": "img_gui_atlas_16x16"     , "config": { "url":"./client/assets/images/effects/gui_atlas_16x16.png"    }},
         {"id": "img_fontatlas"           , "config": { "url":"./client/assets/images/effects/fontatlas_sego.png"     }},
         {"id": "img_terrain_darkrock"    , "config": { "url":"./client/assets/images/textures/tiles/darkrock.png"    }},
         {"id": "img_terrain_striperock"  , "config": { "url":"./client/assets/images/textures/tiles/striperock.png"  }},

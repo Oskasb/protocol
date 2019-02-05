@@ -14,7 +14,7 @@ if(typeof(ENUMS) === "undefined"){
         RENDERER_READY:         5,
         REQUEST_ASSET:          6,
         REGISTER_ASSET:         7,
-        REGISTER_UI_BUFFERS:    8,
+        REGISTER_INSTANCING_BUFFERS:    8,
         RELAY_CONFIG_DATA:      9,
         TERRAIN_BUFFERS:        10
     };

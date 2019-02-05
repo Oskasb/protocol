@@ -79,6 +79,15 @@
           }
         },
         {
+          "id":"mat_instancing_vegetation",
+          "config":{
+            "settings": "mat_settings_vegetation",
+            "textures":[
+              {"key":"map"           , "id":"tx_veg_2k"      }
+            ]
+          }
+        },
+        {
           "id":"material_instancing_ui_back",
           "config":{
             "settings": "instancing_ui_back_settings",

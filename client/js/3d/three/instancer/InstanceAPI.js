@@ -73,7 +73,7 @@ define([
             callback(instance);
         };
 
-        InstanceAPI.setupUiInstancing = function(msg) {
+        InstanceAPI.setupInstancingBuffers = function(msg) {
 
             var uiSysId     = msg[0];
             var assetId     = msg[1];

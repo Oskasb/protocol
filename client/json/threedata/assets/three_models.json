@@ -19,8 +19,10 @@
         {"id": "asset_scale_gloves", "config":{"model": "file_scale_gloves", "material": "material_opaque",         "settings": "default_model_settings"}},
 
 
+        {"id": "asset_vegQuad",     "config": { "model": "file_vegQuad",  "material": "mat_instancing_vegetation",  "settings": "instancing_vegetation_settings"  }},
 
         {"id": "asset_letterQuad",  "config": { "model": "file_nineQuad", "material": "material_instancing_font",   "settings": "ui_instancing_settings"  }},
+
         {"id": "asset_nineQuad",    "config": { "model": "file_nineQuad", "material": "material_instancing_ui",     "settings": "ui_instancing_settings"  }},
         {"id": "asset_nine_back",   "config": { "model": "file_nineQuad", "material": "material_instancing_ui_back","settings": "ui_instancing_settings"  }},
         {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_basic",       "settings": "instancing_settings"     }},

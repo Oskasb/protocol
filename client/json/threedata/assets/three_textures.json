@@ -5,6 +5,7 @@
       "TEXTURES":[
 
         {"id": "atlas_2k_diff"      ,  "config": {  "img" : "img_atlas_2k_diff"       , "settings": "model_settings"    }} ,
+        {"id": "tx_veg_2k"          ,  "config": {  "img" : "img_veg_2k"              , "settings": "ui_tx_tiles_8x8"    }} ,
         {"id": "canopy_normals"     ,  "config": {  "img" : "img_canopy_normals"      , "settings": "model_settings"    }} ,
         {"id": "glass_surface"      ,  "config": {  "img" : "img_glass_surface"       , "settings": "model_settings"    }} ,
         {"id": "ref_sphere"         ,  "config": {  "img" : "img_ref_sphere"          , "settings": "env_settings"      }} ,

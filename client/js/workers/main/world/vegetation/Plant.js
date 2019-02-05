@@ -18,14 +18,15 @@ define([
             this.colorRgba = {r:1, g:1, b:1, a: 1};
 
             this.config = {
-                "min_y": 1,
+                "min_y": 0.0,
                 "max_y": 9999,
-                "normal_ymax": 0.9,
-                "size_min": 3,
-                "size_max": 6,
-                "color_rgba": [1, 1, 1, 1],
-                "color_spread": 0.05,
-                "sprite": [0, 7]
+                "normal_ymin": 1.985,
+                "normal_ymax": 0.92,
+                "size_min": 7,
+                "size_max": 22,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [4, 5, 1, 0]
             };
 
             this.sprite = [0, 7];
@@ -66,6 +67,15 @@ define([
             this.sprite[1] = this.config.sprite[1] || 7;
             this.sprite[2] = this.config.sprite[2] || 1;
             this.sprite[3] = this.config.sprite[3] || 0;
+            if (config.surface) {
+
+                if (this.pos.y < 0) {
+                    this.pos.y = 0;
+                    this.normal.set(0, 1, 0)
+                }
+
+            }
+
         };
 
         Plant.prototype.plantActivate = function() {

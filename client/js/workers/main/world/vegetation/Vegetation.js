@@ -136,6 +136,7 @@ define([
                 plant.setPlantPosition(pos);
                 var area = terrainSystem.getTerrainAreaAtPos(pos);
                 plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
+                plant.applyPlantConfig(plant.config)
                 plant.plantActivate()
             }.bind(this);
 

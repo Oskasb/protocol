@@ -61,7 +61,7 @@ define([
             var count = 0;
 
 
-            var scale = 3;
+            var scale = 5;
 
             var worldEntityReady = function(worldEntity) {
 
@@ -84,19 +84,19 @@ define([
                 worldEntity.setWorldEntityPosition(tempVec);
                 worldEntity.obj3d.scale.multiplyScalar(scale);
 
-                for (var i = 0; i < 15; i++) {
+                for (var i = 0; i < 6; i++) {
 
-                    tempVec.x = worldEntity.obj3d.position.x + 5*(Math.random()-0.5);
-                    tempVec.z = worldEntity.obj3d.position.z + 5*(Math.random()-0.5);
+                    tempVec.x = worldEntity.obj3d.position.x + 3*(Math.random()-0.5);
+                    tempVec.z = worldEntity.obj3d.position.z + 3*(Math.random()-0.5);
 
                     area = ts.getTerrainAreaAtPos(tempVec);
                     area.getHeightAndNormalForPos(tempVec, tempVec2);
                     veg.addVegetationAtPosition(tempVec, ts);
                 }
 
-                scale *= 0.9995;
+                scale *= 0.995;
 
-                if (count < 100) {
+                if (count < 300) {
                  //   GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
                     GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
                     setTimeout(function() {

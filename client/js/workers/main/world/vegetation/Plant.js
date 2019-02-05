@@ -64,7 +64,8 @@ define([
             this.colorRgba.a = MATH.randomBetween(this.config.color_min[3], this.config.color_max[3]) || 1;
             this.sprite[0] = this.config.sprite[0] || 0;
             this.sprite[1] = this.config.sprite[1] || 7;
-
+            this.sprite[2] = this.config.sprite[2] || 1;
+            this.sprite[3] = this.config.sprite[3] || 0;
         };
 
         Plant.prototype.plantActivate = function() {

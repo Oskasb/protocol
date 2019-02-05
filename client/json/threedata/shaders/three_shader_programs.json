@@ -875,21 +875,32 @@
 
           "vec2 tileScale = 1.0/tiles;",
 
-          "vec2 tileOffset = vec2(sprite.x * tileScale.x, sprite.y * tileScale.y);",
+
+
+          "vec2 tileOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
+
+          "tileScale.y /= sprite.z;",
 
           "vec2 scaledUv = uv*tileScale;",
 
-          "vUv = scaledUv + tileOffset;",
+          "scaledUv.y /= sprite.z;",
+
+          "vUv = (scaledUv + tileOffset);",
+
+          "vUv.y += ((tileScale.y / sprite.z)*sprite.z + (tileScale.y / sprite.z)*sprite.w);",
+          "vUv.y -= tileScale.y*(2.0 - sprite.z);",
+          "vUv.y *= sprite.z;",
+
 
           "vPosition.x = vPosition.x * (1.0 * scale3d.x) ;",
-          "vPosition.y = vPosition.y * (1.0 * scale3d.y) ;",
+          "vPosition.y = vPosition.y * (1.0 * scale3d.y / sprite.z) ;",
           "vPosition.z = vPosition.z * (1.0 * scale3d.z) ;",
 
           "vec3 vNormal = normal.xzy;",
           "vec3 faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
 
 
-          "float lowness = 1.0-uv.y;",
+          "float lowness = sprite.z - (uv.y*sprite.z);",
 
           "vColor = vertexColor;",
           "vColor.r *= vertexColor.r * ambientLightColor.r * (1.0-(lowness*0.25)) + sunLightColor.r * (lowness*1.0 - 0.0);",
@@ -919,16 +930,11 @@
           "varying float vFragDepth;",
           "varying vec4 vColor;",
 
-
-
           "void main(){",
-
 
           "vec4 txColor = texture2D( map, vUv);",
           "if (txColor.a <= alphaTest) discard;",
-
           "vec4 lightColor = vec4(sunDir, 1.0);",
-
 
           "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
 

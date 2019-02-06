@@ -69,7 +69,6 @@ define([
                 character = char;
                 console.log("Char Ready")
                 gameMain.registerGamePiece(char.getGamePiece());
-                GuiAPI.getGuiDebug().debugPieceAnimations(char.getGamePiece());
 
                 GameAPI.setPlayerCharacter(character)
 

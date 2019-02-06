@@ -1,6 +1,7 @@
 "use strict";
 
 define([
+    'evt',
         'ui/widgets/GuiStatsPanel',
         'ui/widgets/GuiActionPointStatus',
         'ui/widgets/GuiActionButton',
@@ -12,6 +13,7 @@ define([
         'ui/widgets/GuiProgressBar'
     ],
     function(
+        evt,
         GuiStatsPanel,
         GuiActionPointStatus,
         GuiActionButton,
@@ -263,6 +265,33 @@ define([
 
             addTopButton('PIECE', GameAPI.loadTestPiece, GameAPI.testPieceLoaded);
 
+
+
+            var debugAnims = function() {
+                GuiAPI.getGuiDebug().debugPieceAnimations(GameAPI.getPlayerCharacter())
+            }
+
+            addTopButton('ANIMS', debugAnims, GuiAPI.getGuiDebug().getDebugAnimChar);
+
+
+            var envArgs = [];
+
+            var env = 0;
+
+            var advanceEnv = function() {
+                envArgs[0] = env;
+                envArgs[1] = 10;
+                evt.fire(ENUMS.Event.ADVANCE_ENVIRONMENT, envArgs);
+                env++;
+                GuiAPI.printDebugText("STEP ENVIRONMENT "+env);
+            };
+
+            var advancingEnv = function() {
+
+            };
+
+            addTopButton('STEPENV', advanceEnv, advancingEnv);
+
         };
 
         UiTestSetup.prototype.addProgressBar = function() {
@@ -280,7 +309,7 @@ define([
                 }
             };
 
-            progressBar.initProgressBar('progress_indicator_big_red', onActivate, null, tempVec1)
+            progressBar.initProgressBar('progress_indicator_big_red', onActivate, null, tempVec1);
             progressBars.push(progressBar);
         };
 

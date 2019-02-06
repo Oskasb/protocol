@@ -198,13 +198,30 @@ define([
 
         var debugButtons = [];
 
-        GuiDebug.debugPieceAnimations = function(gamePiece) {
+        var debugAnimsChar;
 
+        GuiDebug.debugPieceAnimations = function(character) {
+
+            if (debugAnimsChar) {
+                GuiDebug.removeDebugAnimations();
+                debugAnimsChar = null;
+                return;
+            }
+
+            if (!character) {
+                return;
+            }
+
+            var gamePiece = character.getGamePiece();
+            debugAnimsChar = character;
             for (var i = 0; i < gamePiece.worldEntity.animationStates.length; i++) {
                 showAnimationState(gamePiece.worldEntity.animationStates[i], gamePiece, debugButtons);
             }
         };
 
+        GuiDebug.getDebugAnimChar = function() {
+            return debugAnimsChar;
+        };
 
         var showAttachmentButton = function(attachmentJoint, gamePiece, testWeapon) {
 

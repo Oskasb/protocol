@@ -38,7 +38,8 @@ if(typeof(ENUMS) === "undefined"){
         UPDATE_ANIMATIONS:      15,
         ____:                   16,
         DETATCH:                17,
-        ATTACH_TO_JOINT:        18
+        ATTACH_TO_JOINT:        18,
+        ADVANCE_ENVIRONMENT:    19
     };
 
     ENUMS.Args = {

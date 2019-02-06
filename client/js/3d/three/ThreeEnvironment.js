@@ -9,7 +9,8 @@ define(['application/PipelineObject',
 ], function(
     PipelineObject,
     WaterFX,
-    PipelineAPI
+    PipelineAPI,
+    evt
 ) {
 
     var waterFx;
@@ -539,6 +540,15 @@ define(['application/PipelineObject',
         transitionProgress = 0;
         currentEnvId = envConfId;
     };
+
+    ThreeEnvironment.advanceEnv = function(envArgs) {
+        var keys = Object.keys(envList);
+        var key = keys[envArgs[0] % keys.length];
+        ThreeEnvironment.setEnvConfigId(key, envArgs[1]);
+        console.log("Advance ENV ", key, envArgs, currentEnvId, envList);
+    };
+
+    evt.on(ENUMS.Event.ADVANCE_ENVIRONMENT, ThreeEnvironment.advanceEnv);
 
     ThreeEnvironment.initEnvironment = function(store, envReady) {
 

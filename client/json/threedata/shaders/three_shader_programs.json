@@ -924,7 +924,7 @@
 
           "float lowness = sprite.z - (uv.y*sprite.z);",
 
-          "float lightAboveness = sunLightDirection.y * sign(sunLightDirection.y);",
+          "float lightAboveness = 0.3 + sunLightDirection.y * sign(sunLightDirection.y);",
 
           "vColor = vertexColor;",
           "vColor.r *= vertexColor.r * ambientLightColor.r * (1.0-(lowness*0.25)) + sunLightColor.r * (lowness*1.0 - 0.0) * lightAboveness;",

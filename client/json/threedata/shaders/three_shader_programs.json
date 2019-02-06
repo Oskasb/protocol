@@ -768,10 +768,7 @@
 
           "varying vec4 vColor;",
 
-
-
           "void main(){",
-
 
           "vec4 txColor = texture2D( map, vUv);",
           "float rowLutColor = texelRowAttribute.x;",
@@ -859,14 +856,38 @@
           "uniform vec3 sunLightDirection;",
           "varying vec3 sunDir;",
 
+          "uniform vec3 character;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
-
+          "uniform float alphaTest;",
           "void main(){",
 
 
+          "float startTime = lifecycle.x;",
+          "float endTime = lifecycle.z;",
+
+          "float effectAge = systemTime - startTime;",
+
+          "float isPreEnd = max(sign(endTime - startTime), 0.0);",
+
+          "float decayTime = min(systemTime - endTime, isPreEnd * lifecycle.w);",
+
+          "float attackProg = 1.0 - max(lifecycle.y - (effectAge / lifecycle.y), 0.0);",
+
+          "float decayProg  = max(decayTime, 0.0) / lifecycle.w;",
+
+          "float progressState = attackProg - decayProg;",
+
+          "float alphaFactor = progressState*alphaTest + (1.0-alphaTest);",
+
+          "float alphaState =  alphaFactor;",
+
+          "float zHideFactor = floor(decayProg);",
+
+
+          "vec3 charPos = character;",
           "vec3 vPosition = vertexPosition.xzy;",
 
           "vec3 vcV = cross(orientation.xyz, vPosition);",
@@ -892,8 +913,9 @@
           "vUv.y *= sprite.z;",
 
 
+
           "vPosition.x = vPosition.x * (1.0 * scale3d.x) ;",
-          "vPosition.y = vPosition.y * (1.0 * scale3d.y / sprite.z) ;",
+          "vPosition.y = vPosition.y * (1.0 * scale3d.y / sprite.z);",
           "vPosition.z = vPosition.z * (1.0 * scale3d.z) ;",
 
           "vec3 vNormal = normal.xzy;",
@@ -908,9 +930,32 @@
           "vColor.r *= vertexColor.r * ambientLightColor.r * (1.0-(lowness*0.25)) + sunLightColor.r * (lowness*1.0 - 0.0) * lightAboveness;",
           "vColor.g *= vertexColor.g * ambientLightColor.g * (1.0-(lowness*0.25)) + sunLightColor.g * (lowness*1.0 - 0.0) * lightAboveness;",
           "vColor.b *= vertexColor.b * ambientLightColor.b * (1.0-(lowness*0.25)) + sunLightColor.b * (lowness*1.0 - 0.0) * lightAboveness;",
+          "vColor.a *= alphaState*lowness+(1.0-lowness);",
+
+          "vec3 vertexPos = vec3( offset + vPosition);",
 
 
-          "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",
+          "float influenceRange = 0.5;",
+
+          "vec3 push = vertexPos-charPos;",
+
+
+          "charPos.y = vertexPos.y;",
+          "float dist = min(distance(vertexPos, charPos), influenceRange);",
+
+
+          "float pushX = min( push.x - influenceRange, influenceRange);",
+          "float pushZ = min( push.z - influenceRange, influenceRange);",
+
+
+          "float height = (1.0 - uv.y);",
+
+          "vPosition.y *= (0.5 + dist*(1.0/influenceRange)*0.5) * height;",
+
+          "vPosition.x += vPosition.y*(influenceRange - dist*sign(dist)) * push.x / dist;",
+          "vPosition.z += vPosition.y*(influenceRange - dist*sign(dist)) * push.z / dist;",
+
+          "gl_Position = projectionMatrix * modelViewMatrix * vec4(offset + vPosition, 1.0);",
 
           "}",
           ""
@@ -935,7 +980,7 @@
           "void main(){",
 
           "vec4 txColor = texture2D( map, vUv);",
-          "if (txColor.a <= alphaTest) discard;",
+          "if (txColor.a * vColor.a <= alphaTest) discard;",
           "vec4 lightColor = vec4(sunDir, 1.0);",
 
           "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",

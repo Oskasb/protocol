@@ -106,25 +106,8 @@ define([
             instanceBuffers.setInstancedCount(instanceBuffers.updateBufferStates(systemTime));
         };
 
-        var color;
-        var applyUniformEnvironmentColor = function(uniform, worldProperty) {
-            color = ThreeAPI.readEnvironmentUniform(worldProperty, 'color');
-            uniform.value.r = color.r;
-            uniform.value.g = color.g;
-            uniform.value.b = color.b;
-        };
-
         var quat;
         var tempVec = new THREE.Vector3();
-        var applyUniformEnvironmentQuaternion = function(uniform, worldProperty) {
-            quat = ThreeAPI.readEnvironmentUniform(worldProperty, 'quaternion');
-            tempVec.set(0, 0, -1);
-            tempVec.applyQuaternion(quat);
-            uniform.value.x = tempVec.x;
-            uniform.value.y = tempVec.y;
-            uniform.value.z = tempVec.z;
-        };
-
         var i;
 
         InstanceAPI.updateInstances = function(tpf) {
@@ -139,39 +122,24 @@ define([
 
             var mat;
 
-            var globalUnifs = ThreeAPI.getGlobalUniforms();
+            ThreeAPI.setGlobalUniform('fogDensity', ThreeAPI.readEnvironmentUniform('fog', 'density'));
+            ThreeAPI.setGlobalUniform( 'fogColor' ,ThreeAPI.readEnvironmentUniform('fog', 'color'));
+            ThreeAPI.setGlobalUniform( 'sunLightColor' ,ThreeAPI.readEnvironmentUniform('sun', 'color'));
+            ThreeAPI.setGlobalUniform( 'ambientLightColor' ,ThreeAPI.readEnvironmentUniform('ambient', 'color'));
 
-
+            quat = ThreeAPI.readEnvironmentUniform('sun', 'quaternion');
+            tempVec.set(0, 0, -1);
+            tempVec.applyQuaternion(quat);
+            ThreeAPI.setGlobalUniform( 'sunLightDirection' ,tempVec);
 
             for (i = 0; i < materials.length; i++) {
                 mat = materials[i];
-
                 if (mat.uniforms.systemTime) {
                     mat.uniforms.systemTime.value = systemTime;
                 } else {
                     console.log("no uniform yet...")
                 }
 
-                if (mat.uniforms.fogColor) {
-                    applyUniformEnvironmentColor(mat.uniforms.fogColor, 'fog')
-                }
-
-                if (mat.uniforms.fogDensity) {
-                    mat.uniforms.fogDensity.value = ThreeAPI.readEnvironmentUniform('fog', 'density');
-                }
-
-                if (mat.uniforms.ambientLightColor) {
-                    applyUniformEnvironmentColor(mat.uniforms.ambientLightColor, 'ambient');
-                }
-
-                if (mat.uniforms.sunLightColor) {
-                    applyUniformEnvironmentColor(mat.uniforms.sunLightColor, 'sun');
-                }
-
-                if (mat.uniforms.sunLightDirection) {
-                    applyUniformEnvironmentQuaternion(mat.uniforms.sunLightDirection, 'sun');
-                }
-            //    mat.needsUpdate = true;
             }
 
         };

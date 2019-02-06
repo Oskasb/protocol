@@ -406,6 +406,17 @@ define([
             return globalUniforms;
         };
 
+        ThreeAPI.setGlobalUniform = function(uniformKey, values) {
+
+            if (typeof (values) === 'number') {
+                globalUniforms[uniformKey].value = values;
+            } else {
+                for (var key in values) {
+                    globalUniforms[uniformKey].value[key] = values[key];
+                }
+            }
+        };
+
 
         ThreeAPI.toRgb = function(r, g, b) {
             return 'rgb('+Math.floor(r*255)+','+Math.floor(g*255)+','+Math.floor(b*255)+')';

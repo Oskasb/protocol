@@ -33,7 +33,6 @@ define([
             };
 
             var recoverElement = function(sysKey, elem) {
-                elem.scaleUniform(0);
                 elem.releaseElement();
                 elementPools[sysKey].returnToExpandingPool(elem)
             };

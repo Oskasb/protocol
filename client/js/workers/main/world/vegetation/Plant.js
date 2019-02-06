@@ -86,6 +86,7 @@ define([
         Plant.prototype.plantDeactivate = function() {
             if (this.isActive === false) return;
             this.isActive = false;
+            this.bufferElement.endLifecycleNow();
             MATH.callAll(this.callbacks.deactivatePlant, this);
         };
 
@@ -112,6 +113,11 @@ define([
             this.bufferElement.sprite.w = this.sprite[3];
             this.bufferElement.setSprite(this.bufferElement.sprite);
             this.bufferElement.setColorRGBA(this.colorRgba);
+
+            this.bufferElement.setAttackTime(1.0);
+            this.bufferElement.setReleaseTime(1.0);
+            this.bufferElement.startLifecycleNow();
+
         };
 
 

@@ -65,8 +65,8 @@
               "max_y": 4,
               "normal_ymin": 1.0,
               "normal_ymax": 0.98,
-              "size_min": 6,
-              "size_max": 10,
+              "size_min": 4,
+              "size_max": 6,
               "color_min": [0.95, 0.95, 0.95, 1],
               "color_max": [1, 1, 1, 1],
               "sprite": [4, 6, 2, 1]
@@ -83,8 +83,8 @@
               "sprite": [4, 6, 2, 2]
             },
             "grass_low_3_dry": {
-              "min_y": 1,
-              "max_y": 3,
+              "min_y": 3,
+              "max_y": 6,
               "normal_ymin": 1.0,
               "normal_ymax": 0.98,
               "size_min": 6,
@@ -120,8 +120,8 @@
               "max_y": 9999,
               "normal_ymin": 0.9993,
               "normal_ymax": 0.9918,
-              "size_min": 5,
-              "size_max": 7,
+              "size_min": 9,
+              "size_max": 13,
               "color_min": [0.95, 0.95, 0.95, 1],
               "color_max": [1, 1, 1, 1],
               "sprite": [7, 6, 2, 2]
@@ -132,7 +132,7 @@
               "normal_ymin": 0.998,
               "normal_ymax": 0.965,
               "size_min": 9,
-              "size_max": 12,
+              "size_max": 15,
               "color_min": [0.95, 0.95, 0.95, 1],
               "color_max": [1, 1, 1, 1],
               "sprite": [7, 6, 2, 1]

@@ -12,14 +12,25 @@ define([
         var InstanceSpatial = function(obj3d) {
             this.obj3d = obj3d;
             this.offsetObj3d = new THREE.Object3D();
+            this.frameMovement = new THREE.Vector3();
             this.attachedToBone = null;
             this.parentSpatial = null;
         };
 
+        InstanceSpatial.prototype.getFrameMovement = function() {
+            return this.frameMovement;
+        };
+
+        InstanceSpatial.prototype.getSpatialPosition = function() {
+            return this.obj3d.position;
+        };
+
         InstanceSpatial.prototype.setPosXYZ = function(x, y, z) {
+            this.frameMovement.copy(this.obj3d.position);
             this.obj3d.position.x = x;
             this.obj3d.position.y = y;
             this.obj3d.position.z = z;
+            this.frameMovement.sub(this.obj3d.position);
             if (this.geometryInstance) {
                 this.geometryInstance.applyObjPos();
             }

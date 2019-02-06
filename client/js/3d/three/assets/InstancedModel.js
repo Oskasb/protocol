@@ -217,6 +217,12 @@ define([
 
             this.getSpatial().updateSpatialMatrix();
 
+            let moveDist = this.getSpatial().getFrameMovement();
+            if (moveDist.lengthSq()) {
+                ThreeAPI.setGlobalUniform('character', this.getSpatial().getSpatialPosition())
+                moveDist.set(0, 0, 0);
+            }
+
         };
 
 

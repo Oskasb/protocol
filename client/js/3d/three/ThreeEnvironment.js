@@ -162,8 +162,8 @@ define(['application/PipelineObject',
         );
 
         sunSphere.position.y = 0;
-        sunSphere.visible = true;
-        scene.add( sunSphere );
+    //    sunSphere.visible = true;
+    //    scene.add( sunSphere );
     };
 
     var setCanvasColor = function(ctx, tx) {

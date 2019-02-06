@@ -569,12 +569,34 @@
           "if ( diffuseColor.w < 0.5 ) discard;",
           ""
         ],
+
+
+
         "vertexColor":[
           "vColor = customColor;"
         ],
+
+
         "fragmentColor":[
           "gl_FragColor = vec4( color * vColor, 1.0 );",
           "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );"
+        ],
+
+
+        "fogVxInit":[
+          "vColor = customColor;"
+        ],
+
+        "fogFxInit":[
+          "vColor = customColor;"
+        ],
+
+        "vertexSimpleFog":[
+          "fogDepth = gl_Position.z;"
+        ],
+        "fragmentSimpleFog":[
+          "float fogFactor = min(fogDensity * fogDepth, 1.0);",
+          "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );"
         ],
 
         "vertexGeometryInstancing": [
@@ -637,7 +659,7 @@
             "vColor = vec4(vertexColor.r * vColor.r, vertexColor.g*vColor.g, vertexColor.b*vColor.b,  vColor.a*vertexColor.a);",
 
             "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",
-
+          "fogDepth = gl_Position.z*1.0;",
           "}",
           ""
         ],
@@ -668,6 +690,9 @@
 
 
             "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
+
+          "float fogFactor = min(fogDensity * fogDepth, 1.0);",
+          "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
 
           "}",
           ""
@@ -956,7 +981,7 @@
           "vPosition.z += vPosition.y*(influenceRange - dist*sign(dist)) * push.z / dist;",
 
           "gl_Position = projectionMatrix * modelViewMatrix * vec4(offset + vPosition, 1.0);",
-
+          "fogDepth = gl_Position.z;",
           "}",
           ""
         ],
@@ -983,8 +1008,10 @@
           "if (txColor.a * vColor.a <= alphaTest) discard;",
           "vec4 lightColor = vec4(sunDir, 1.0);",
 
-          "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
 
+          "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
+          "float fogFactor = min(fogDensity * fogDepth, 1.0);",
+          "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
           "}",
           ""
 

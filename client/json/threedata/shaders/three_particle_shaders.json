@@ -57,6 +57,7 @@
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_position"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_fog"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_simple_light"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_sunLightDirection"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_terrainTextureLayers"},
@@ -66,12 +67,14 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"vxTerrainUvLayersMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vxShaderMaterial"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexDirectionalVertexLight"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSimpleFog"},
           {"source":"INSTANCING_CHUNKS", "chunk":"exitVoidMain"}
         ],
 
         "fragment":[
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_fog"},
           {"source":"THREE_CHUNKS", "chunk":"common"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_varying_vColor4"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_sunLight"},
@@ -80,6 +83,7 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"fxStoreLight"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentTerrainTxLayersMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fxShaderMaterial"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentSimpleFog"},
           {"source":"INSTANCING_CHUNKS", "chunk":"exitVoidMain"}
         ]
       },
@@ -99,7 +103,7 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"vxTerrainUvLayersMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vxShaderMaterial"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexDirectionalVertexLight"},
-          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexFogExp2Verts"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSimpleFog"},
           {"source":"INSTANCING_CHUNKS", "chunk":"exitVoidMain"}
         ],
 
@@ -115,7 +119,7 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"fxStoreLight"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentTerrainTxLayersMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fxShaderMaterial"},
-          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentFogExp2Verts"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentSimpleFog"},
           {"source":"INSTANCING_CHUNKS", "chunk":"exitVoidMain"}
         ]
       },

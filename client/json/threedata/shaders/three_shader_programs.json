@@ -90,9 +90,9 @@
 
           "vec4 txColor0 = (smoothstep(0.07, 0.22, slope))                                  * texture2D( tx0, vUv0 );",
 
-          "vec4 txColor1 = (smoothstep(0.04, 0.08, slope) - smoothstep(0.08, 0.23, slope)) * texture2D( tx1, vUv1  );",
+          "vec4 txColor1 = (smoothstep(0.04, 0.12, slope) - smoothstep(0.12, 0.21, slope)) * texture2D( tx1, vUv1  );",
 
-          "vec4 txColor2 = (smoothstep(0.005, 0.04, slope) - smoothstep(0.03, 0.13, slope)) * texture2D( tx2, vUv2 );",
+          "vec4 txColor2 = (smoothstep(0.005, 0.04, slope) - smoothstep(0.03, 0.26, slope)) * texture2D( tx2, vUv2 );",
 
           "vec4 txColor3 = (smoothstep( -0.015, 0.03, slope) - smoothstep(0.02, 0.06, slope)) * texture2D( tx3, vUv3 );",
 
@@ -109,8 +109,11 @@
           "txColor = mix(txColor, txColor7, txColor7.a);",
 
           "txColor *= txColor5;",
-          "txColor *= txColor6;"
+          "txColor *= txColor6;",
 
+          "vec4 bottomColor = smoothstep(1.4 * slope, -0.12, height) * texture2D( tx2, vUv2 );",
+          "vec4 shoreLineColor = mix(smoothstep(4.0 * slope, -3.0, height) * texture2D( tx1, vUv2 ) , bottomColor,  bottomColor.a);",
+          "txColor = mix(txColor, shoreLineColor, shoreLineColor.a);"
         ],
 
 
@@ -949,7 +952,7 @@
 
           "float lowness = sprite.z - (uv.y*sprite.z);",
 
-          "float lightAboveness = 0.3 + sunLightDirection.y * sign(sunLightDirection.y);",
+          "float lightAboveness = sunLightDirection.y * sign(sunLightDirection.y);",
 
           "vColor = vertexColor;",
           "vColor.r *= vertexColor.r * ambientLightColor.r * (1.0-(lowness*0.25)) + sunLightColor.r * (lowness*1.0 - 0.0) * lightAboveness;",

@@ -153,6 +153,10 @@ define([
             return worldSimulation;
         };
 
+        MainWorldAPI.getSuitableSpawnPoint = function(pos) {
+            return worldSimulation.getWorldSpawnPoint(pos);
+        };
+
         MainWorldAPI.getSharedBuffers = function() {
             return sharedBuffers;
         };

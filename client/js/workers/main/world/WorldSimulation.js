@@ -37,6 +37,15 @@ define([
             return worldStatus;
         };
 
+
+        WorldSimulation.prototype.getWorldSpawnPoint = function(intendedPos) {
+            var area = this.terrainSystem.getTerrainAreaAtPos(intendedPos);
+            tempVec.copy(intendedPos);
+            area.getRandomPointOnTerrain(tempVec, tempVec2, 0.1, 1000, 0.9);
+            return tempVec;
+
+        };
+
         WorldSimulation.prototype.readWorldStatusValue = function(key) {
             return worldStatus[key];
         };
@@ -124,7 +133,7 @@ define([
 
             //}, 200)
 
-                GameAPI.requestAssetWorldEntity('asset_tree_1', treesReady);
+        //        GameAPI.requestAssetWorldEntity('asset_tree_1', treesReady);
 
         };
 

@@ -123,6 +123,8 @@ define([
             this.applyDataTexture();
         };
 
+
+
         GuiBufferElement.prototype.lookAtVec3 = function(vec3) {
             tempObj.position.set(0, 0, 0);
             tempObj.lookAt(vec3);

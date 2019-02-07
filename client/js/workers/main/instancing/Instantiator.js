@@ -23,11 +23,13 @@ define([
             var elementPools = this.elementPools;
 
             var buildElement = function(sysKey, cb) {
-
                 var getElement = function(elem) {
                     elem.initGuiBufferElement(elementBuffers[sysKey]);
                     cb(elem);
                 };
+                if (! elementPools[sysKey]) {
+                    console.log("Bad pool", sysKey, [elementPools])
+                }
 
                 elementPools[sysKey].getFromExpandingPool(getElement)
             };

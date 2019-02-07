@@ -173,14 +173,14 @@
             "rayleigh":          0.6  ,
             "mieCoefficient":    0.52  ,
             "mieDirectionalG":   0.040  ,
-            "inclination":       0.8  ,
-            "azimuth":           1.2   ,
+            "inclination":       0.01  ,
+            "azimuth":           0.23   ,
             "distance":          10000000000
           },
           "configs":[
-            {"id":"sun",     "color":[0.1,    0.20,  0.28]},
-            {"id":"ambient", "color":[0.15,   0.31,  0.99]},
-            {"id":"fog",     "color":[0.09,  0.04, 0.22], "density":0.019}
+            {"id":"sun",     "color":[0.21,   0.00,  0.78]},
+            {"id":"ambient", "color":[0.02,   0.11,  0.49]},
+            {"id":"fog",     "color":[0.09,   0.04,  0.42], "density":0.019}
           ]
         }
       ]

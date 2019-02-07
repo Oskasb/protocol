@@ -32,8 +32,13 @@ define([
 
             this.config = {};
             this.plantConfig = {};
+            this.treeConfig = {};
+
+            this.instanceAssetKeys = [];
 
             this.instantiator = new Instantiator();
+
+            this.plantPools = {};
 
             var populateSector = function(sector, area, plantCount) {
                 this.populateVegetationSector(sector, area, plantCount)
@@ -47,14 +52,18 @@ define([
                 return this.plantConfig
             }.bind(this);
 
+            var getTreesConfigs = function() {
+                return this.treeConfig
+            }.bind(this);
+
             this.callbacks = {
                 populateSector:populateSector,
                 depopulateSector:depopulateSector,
-                getPlantConfigs:getPlantConfigs
+                getPlantConfigs:getPlantConfigs,
+                getTreesConfigs:getTreesConfigs
             }
 
         };
-
 
         Vegetation.prototype.initVegetation = function(dataId, workerData, plantsData, onReady) {
 
@@ -62,7 +71,8 @@ define([
 
 
             var plantDataReady = function(isUpdate) {
-                this.applyPlantConfig(plantsData.data);
+                this.applyTreeConfig(plantsData.data.trees);
+                this.applyPlantConfig(plantsData.data.plants);
                 if (!isUpdate) {
                     onReady(this);
                 }
@@ -103,16 +113,36 @@ define([
 
         };
 
+        Vegetation.prototype.applyTreeConfig = function(config) {
+
+            for (var key in config) {
+                this.treeConfig[key] = config[key];
+            }
+
+        //    this.resetVegetationSectors();
+
+        };
+
+
         Vegetation.prototype.setupInstantiator = function() {
 
-            this.elementKey = this.config.sys_key+count;
-            this.instantiator.addInstanceSystem(this.elementKey, this.config.sys_key, this.config.asset_id, this.config.pool_size, this.config.render_order);
-
             var addPlant = function(poolKey, callback) {
-                callback(poolKey, new Plant(plantActivate, plantDectivate))
+                callback(poolKey, new Plant(poolKey, plantActivate, plantDectivate))
             };
 
-            this.expandingPool = new ExpandingPool(this.elementKey, addPlant);
+            this.instantiator.addInstanceSystem(this.config.asset_id, this.config.sys_key, this.config.asset_id, this.config.pool_size, this.config.render_order);
+
+            var treesCfg = this.config.trees;
+            if (treesCfg) {
+                for (var i = 0; i < treesCfg.length; i++) {
+                    let assetId = treesCfg[i].asset_id
+                    this.instanceAssetKeys.push(assetId);
+                    this.instantiator.addInstanceSystem(assetId, assetId, assetId, treesCfg[i].pool_size, treesCfg[i].render_order);
+                    this.plantPools[assetId] = new ExpandingPool(assetId, addPlant);
+                }
+            }
+
+            this.plantPools[this.config.asset_id] = new ExpandingPool(this.config.asset_id, addPlant);
 
             var plantActivate = function(plant) {
                 this.activateVegetationPlant(plant)
@@ -124,10 +154,9 @@ define([
 
         };
 
-        Vegetation.prototype.buildBufferElement = function(cb) {
-            this.instantiator.buildBufferElement(this.elementKey, cb)
+        Vegetation.prototype.buildBufferElement = function(poolKey, cb) {
+            this.instantiator.buildBufferElement(poolKey, cb)
         };
-
 
 
         Vegetation.prototype.addVegetationAtPosition = function(pos, terrainSystem) {
@@ -140,17 +169,17 @@ define([
                 plant.plantActivate()
             }.bind(this);
 
-            this.expandingPool.getFromExpandingPool(getPlant)
+            this.plantPools["asset_vegQuad"].getFromExpandingPool(getPlant)
 
         };
 
-        Vegetation.prototype.createPlant = function(cb, area) {
+        Vegetation.prototype.createPlant = function(assetId, cb, area) {
 
             var getPlant = function(key, plant) {
                 cb(plant, area);
             }.bind(this);
 
-            this.expandingPool.getFromExpandingPool(getPlant)
+            this.plantPools[assetId].getFromExpandingPool(getPlant)
 
         };
 
@@ -161,25 +190,30 @@ define([
 
             grid.generateGridSectors(this.config.sector_plants, this.config.grid_range, this.config.area_sectors[0], this.config.area_sectors[1]);
 
-
+            if (this.config.trees) {
+                var treeGrid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getTreesConfigs);
+                treeGrid.generateGridSectors(this.config.sector_trees, this.config.tree_Sector_range, this.config.tree_sectors[0], this.config.tree_sectors[1]);
+            }
+            this.areaGrids.push(treeGrid);
         };
 
         Vegetation.prototype.activateVegetationPlant = function(plant) {
-            this.buildBufferElement(plant.getElementCallback())
+            this.buildBufferElement(plant.poolKey, plant.getElementCallback())
         };
 
         Vegetation.prototype.deactivateVegetationPlant = function(plant) {
-            this.instantiator.recoverBufferElement(this.elementKey, plant.getPlantElement());
+            this.instantiator.recoverBufferElement(plant.poolKey, plant.getPlantElement());
             plant.bufferElement = null;
         };
 
-        Vegetation.prototype.populateVegetationSector = function(sector, area, plantCount) {
+        Vegetation.prototype.populateVegetationSector = function(sector, area, plantCount, assetId) {
+
+            assetId = assetId || "asset_vegQuad";
 
         //    console.log("Pop", plantCount)
             for (var i = 0; i < plantCount; i++) {
-                this.createPlant(sector.getAddPlantCallback(), area);
+                this.createPlant(assetId, sector.getAddPlantCallback(), area);
             }
-
 
         };
 
@@ -208,8 +242,12 @@ define([
                 rebuild.push(areaGrid.terrainArea);
             }
 
+            this.instantiator.updateInstantiatorBuffers();
+
+            var _this = this;
+
             while (rebuild.length) {
-                this.vegetateTerrainArea(rebuild.pop())
+                _this.vegetateTerrainArea(rebuild.pop())
             }
 
         };

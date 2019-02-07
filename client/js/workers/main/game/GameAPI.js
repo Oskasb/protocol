@@ -63,15 +63,20 @@ define([
         GameAPI.loadTestPiece = function() {
             testPiece = !testPiece;
 
-
-
+            var px = 0;
+            var point;
             var charReady = function(char) {
                 character = char;
                 console.log("Char Ready")
                 gameMain.registerGamePiece(char.getGamePiece());
 
-                GameAPI.setPlayerCharacter(character)
+                GameAPI.setPlayerCharacter(character);
 
+
+
+                point = MainWorldAPI.getSuitableSpawnPoint(tempObj3d.position);
+                px = point.x;
+                char.getGamePiece().getWorldEntity().setWorldEntityPosition(point);
 
                 var actionReady = function(action) {
                     var slot = character.getSlotForAction(action);
@@ -92,22 +97,26 @@ define([
                 }
                 setTimeout(function() {
                    GameAPI.createGameCharacter('CHARACTER_FIGHTER', char2Ready);
-                }, 2000)
+                }, 500)
 
             };
 
-            var px = 0;
 
             var char2Ready = function(char) {
                 character2 = char;
                 console.log("Char2 Ready")
                 gameMain.registerGamePiece(char.getGamePiece());
-            //    GuiAPI.getGuiDebug().debugPieceAnimations(char.getGamePiece());
-
-//                GameAPI.enableCharacterControlGui(character2);
 
                 var scale = Math.random()*0.9+0.4;
-                GameAPI.transformGamePiece(char.getGamePiece(), px++, 0, 2 + px%6, 0, 3.14, 0, scale, scale, scale);
+                point.x++;
+                point.z++;
+
+                GameAPI.getPlayerCharacter().getGamePiece().getWorldEntity().getWorldEntityPosition(tempObj3d.position);
+
+                tempObj3d.position.x += (Math.random()-0.5)*5;
+                tempObj3d.position.z += (Math.random()-0.5)*5;
+
+                GameAPI.transformGamePiece(char.getGamePiece(), tempObj3d.position.x, tempObj3d.position.y, tempObj3d.position.z, 0, 3.14, 0, scale, scale, scale);
 
                 var action2Ready = function(action) {
                     var slot = character2.getSlotForAction(action);

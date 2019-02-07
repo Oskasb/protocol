@@ -11,7 +11,7 @@ define([
 
         var tempVec1 = new THREE.Vector3();
 
-        var VegetationGrid = function(terrainArea, populateSector, depopulateSector, getPlantConfigs) {
+        var VegetationTrees = function(terrainArea, populateSector, depopulateSector, getPlantConfigs) {
             this.activeGridRange = 8;
             this.terrainArea = terrainArea;
 
@@ -176,13 +176,13 @@ define([
 
         };
 
-        VegetationGrid.prototype.updateVegetationGrid = function(tpf, time, worldCamera) {
+        VegetationTrees.prototype.updateVegetationGrid = function(tpf, time, worldCamera) {
 
             this.updateCenterSectorAtPosition(worldCamera);
 
         };
 
-        VegetationGrid.prototype.disposeGridSectors = function() {
+        VegetationTrees.prototype.disposeVegetationTrees = function() {
 
             while (this.activeSectors.length) {
                 this.activeSectors.pop().deactivateVegetationSector();
@@ -193,6 +193,6 @@ define([
 
         };
 
-        return VegetationGrid;
+        return VegetationTrees;
 
     });

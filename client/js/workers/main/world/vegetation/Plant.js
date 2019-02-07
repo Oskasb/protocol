@@ -9,7 +9,10 @@ define([
 
     ) {
 
-        var Plant = function(activate, deactivate) {
+        var tempObj = new THREE.Object3D();
+
+        var Plant = function(poolKey, activate, deactivate) {
+            this.poolKey = poolKey;
             this.pos = new THREE.Vector3();
             this.normal = new THREE.Vector3(0, 1, 0);
 
@@ -67,6 +70,11 @@ define([
             this.sprite[1] = this.config.sprite[1] || 7;
             this.sprite[2] = this.config.sprite[2] || 1;
             this.sprite[3] = this.config.sprite[3] || 0;
+
+            if (this.config.asset_ids) {
+                this.poolKey = MATH.getRandomArrayEntry(this.config.asset_ids)
+            }
+
             if (config.surface) {
 
                 if (this.pos.y < 0) {
@@ -105,7 +113,15 @@ define([
         Plant.prototype.setBufferElement = function(bufferElement) {
             this.bufferElement = bufferElement;
             this.bufferElement.setPositionVec3(this.pos);
-            this.bufferElement.lookAtVec3(this.normal);
+
+            tempObj.lookAt(this.normal);
+
+
+            tempObj.rotateZ(Math.random() * 10);
+            this.bufferElement.setQuat(tempObj.quaternion);
+
+
+
             this.bufferElement.scaleUniform(this.size);
             this.bufferElement.sprite.x = this.sprite[0];
             this.bufferElement.sprite.y = this.sprite[1];

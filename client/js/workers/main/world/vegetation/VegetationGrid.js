@@ -11,9 +11,11 @@ define([
 
         var tempVec1 = new THREE.Vector3();
 
-        var VegetationGrid = function(terrainArea, populateSector, depopulateSector, getPlantConfigs) {
+        var VegetationGrid = function(terrainArea, populateSector, depopulateSector, getPlantConfigs, plantsKey) {
             this.activeGridRange = 8;
             this.terrainArea = terrainArea;
+
+            this.plantsKey = plantsKey;
 
             this.sectors = [];
 
@@ -23,8 +25,8 @@ define([
             this.centerSector = null;
             this.activeSectors = [];
 
-            var sectorActivate = function(sector, plantCount) {
-                this.gridSectorActivate(sector, plantCount);
+            var sectorActivate = function(sector, plantCount, parentPlant) {
+                this.gridSectorActivate(sector, plantCount, parentPlant);
             }.bind(this);
 
             var sectorDeactivate = function(sector) {
@@ -43,13 +45,13 @@ define([
             for (var i = 0; i < sectorsX; i++) {
                 this.sectors[i] = [];
                 for (var j = 0; j < sectorsZ; j++) {
-                    this.sectors[i].push(new VegetationSector(i, j, sectorsX, sectorsZ, sectorPlants, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea, this.callbacks.getPlantConfigs))
+                    this.sectors[i].push(new VegetationSector(i, j, sectorsX, sectorsZ, sectorPlants, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea, this.callbacks.getPlantConfigs, this.plantsKey))
                 }
             }
         };
 
-        VegetationGrid.prototype.gridSectorActivate = function(sector, plantCount) {
-            MATH.callAll(this.populateCallbacks, sector, this.terrainArea, plantCount)
+        VegetationGrid.prototype.gridSectorActivate = function(sector, plantCount, parentPlant) {
+            MATH.callAll(this.populateCallbacks, sector, this.terrainArea, plantCount, parentPlant)
 
         };
 

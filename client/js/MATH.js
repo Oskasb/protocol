@@ -83,9 +83,9 @@ if(typeof(MATH) === "undefined") {
 	};
 
 	var all;
-	MATH.callAll = function(array, arg1, arg2, arg3) {
+	MATH.callAll = function(array, arg1, arg2, arg3, arg4, arg5) {
 		for (all = 0; all < array.length; all++) {
-			array[all](arg1, arg2, arg3);
+			array[all](arg1, arg2, arg3, arg4, arg5);
 		}
 	};
 
@@ -432,7 +432,13 @@ if(typeof(MATH) === "undefined") {
 		store.data[0] = Math.cos(angle)*distance;
 		store.data[2] = Math.sin(angle)*distance;
 	};
-	
+
+	MATH.spreadVector = function(vec, spreadV) {
+		vec.x += spreadV.x * (Math.random()-0.5);
+		vec.y += spreadV.y * (Math.random()-0.5);
+		vec.z += spreadV.z * (Math.random()-0.5);
+	};
+
 	MATH.vectorXZToAngleAxisY = function(vec) {
 		return Math.atan2(vec.x, vec.z);
 	};

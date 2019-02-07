@@ -12,8 +12,8 @@ define([
         var tempVec1 = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
 
-        var VegetationSector = function(gridX, gridZ, xMax, zMax, sectorPlants, activate, deactivate, terrainArea, getPlantConfigs) {
-
+        var VegetationSector = function(gridX, gridZ, xMax, zMax, sectorPlants, activate, deactivate, terrainArea, getPlantConfigs, plantsKey) {
+            this.plantsKey = plantsKey;
             this.gridX = gridX;
             this.gridZ = gridZ;
 
@@ -29,6 +29,8 @@ define([
             this.plants = [];
 
             this.maxPlantCount = sectorPlants;
+
+            this.companionCount = 0;
 
             this.isActive = false;
             this.isCenterSector = false;
@@ -52,8 +54,8 @@ define([
             this.center.add(this.getOrigin())
 
 
-            var addPlant = function(plant, area) {
-                this.addPlantToSector(plant, area)
+            var addPlant = function(plant, area, parentPlant) {
+                this.addPlantToSector(plant, area, parentPlant)
             }.bind(this);
 
 
@@ -96,8 +98,8 @@ define([
 
         var candidates = [];
 
-        VegetationSector.prototype.applyAppropriatePlantConfig = function(plant) {
-            let configs = this.callbacks.getPlantConfigs();
+        VegetationSector.prototype.getAppropriatePlantConfig = function(plant) {
+            let configs = this.callbacks.getPlantConfigs(this.plantsKey);
 
             for (var key in configs) {
 
@@ -107,13 +109,12 @@ define([
                        candidates.push(cfg);
                    }
                 }
-
             }
 
             if (candidates.length) {
-                plant.applyPlantConfig(MATH.getRandomArrayEntry(candidates));
-                this.inactivePlants.push(plant);
+                let candidate = MATH.getRandomArrayEntry(candidates);
                 MATH.emptyArray(candidates);
+                return candidate;
             } else {
                 this.maxPlantCount--;
             }
@@ -121,20 +122,73 @@ define([
 
         };
 
-        VegetationSector.prototype.addPlantToSector = function(plant, area) {
+        VegetationSector.prototype.positionPlantRandomlyInSector = function(plant) {
 
             plant.pos.subVectors(this.extents, this.origin);
-
             plant.pos.x *= Math.random();
             plant.pos.z *= Math.random();
-
             plant.pos.add(this.origin);
-            plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal)
-
-            this.applyAppropriatePlantConfig(plant);
 
         };
 
+        VegetationSector.prototype.positionPlantRandomlyNearParentPlant = function(plant, parentPlant, compCfv) {
+
+            plant.pos.set(0, 0, 0);
+            tempVec1.set(1 , 0,1  )
+
+            MATH.spreadVector(plant.pos, tempVec1);
+            plant.pos.normalize();
+            let dst = MATH.randomBetween(compCfv.dst_min || 1, compCfv.dst_max || 2);
+            plant.pos.multiplyScalar(0.25 + parentPlant.size * 0.001 * dst);
+            plant.pos.add(parentPlant.pos);
+        };
+
+
+        VegetationSector.prototype.addPlantToSector = function(plant, area, parentPlant) {
+
+            let cfg = null;
+
+            if (!parentPlant) {
+                this.positionPlantRandomlyInSector(plant);
+                plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
+                cfg = this.getAppropriatePlantConfig(plant);
+                if (!cfg) return;
+            } else {
+
+                let compCfv = parentPlant.companions.pop();
+                this.positionPlantRandomlyNearParentPlant(plant, parentPlant, compCfv);
+                plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
+                cfg = this.callbacks.getPlantConfigs(compCfv.config)[compCfv.key];
+                this.companionCount++
+            }
+
+            plant.applyPlantConfig(cfg);
+
+            this.inactivePlants.push(plant);
+
+            if (plant.config.companions) {
+                this.addPlantCompanions(plant, plant.config.companions)
+            }
+
+        };
+
+        VegetationSector.prototype.addPlantCompanions = function(plant, companions) {
+
+            plant.companions = [];
+
+
+            for (var i = 0; i < companions.length; i++) {
+                let config = companions[i];
+
+                let count = Math.round(MATH.randomBetween(config.min || 1, config.max || 2));
+                for (var j = 0; j < count; j++) {
+                    plant.companions.push(config);
+                }
+
+                MATH.callAll(this.activateCallbacks, this, count, plant);
+            }
+
+        };
 
         VegetationSector.prototype.activateSectorPlants = function(count) {
             while (this.inactivePlants.length) {
@@ -192,7 +246,7 @@ define([
             }
 
             if (missingPlants < 0) {
-                this.deactivateSectorPlantCount(-missingPlants);
+                this.deactivateSectorPlantCount(-missingPlants );
             }
 
         };

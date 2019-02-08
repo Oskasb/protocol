@@ -139,6 +139,10 @@ define([
             applyUniformEnvironmentColor(uniforms.sunColor, 'sun');
             applyUniformEnvironmentPosition(uniforms.sunDirection, 'sun');
 
+            uniforms.fogDensity.value = ThreeAPI.getGlobalUniform('fogDensity').value;
+
+           applyUniformEnvironmentColor(uniforms.fogColor, 'fog');
+
 
         };
 

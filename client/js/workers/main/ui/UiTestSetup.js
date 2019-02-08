@@ -280,7 +280,7 @@ define([
 
             var advanceEnv = function() {
                 envArgs[0] = env;
-                envArgs[1] = 10;
+                envArgs[1] = 20;
                 evt.fire(ENUMS.Event.ADVANCE_ENVIRONMENT, envArgs);
                 env++;
                 GuiAPI.printDebugText("STEP ENVIRONMENT "+env);

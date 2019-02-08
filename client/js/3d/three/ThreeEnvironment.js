@@ -440,7 +440,7 @@ define(['application/PipelineObject',
         }
 
         if (fraction > 1.01) {
-                    return;
+     //               return;
         }
 
         var useSky = interpolateSky(currentSkyConfig, skyList[currentEnvId], fraction);

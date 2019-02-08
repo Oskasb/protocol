@@ -406,6 +406,13 @@ define([
             return globalUniforms;
         };
 
+        ThreeAPI.getGlobalUniform = function(key) {
+            if (!globalUniforms[key]) {
+                globalUniforms[key] = {value:{}}
+            }
+            return globalUniforms[key];
+        };
+
         ThreeAPI.setGlobalUniform = function(uniformKey, values) {
 
             if (typeof (values) === 'number') {

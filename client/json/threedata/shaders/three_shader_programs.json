@@ -952,7 +952,7 @@
 
           "float lowness = sprite.z - (uv.y*sprite.z);",
 
-          "float lightAboveness = sunLightDirection.y * sign(sunLightDirection.y);",
+          "float lightAboveness = 0.25 + (sunLightDirection.y * 0.75 ) * sign(sunLightDirection.y);",
 
           "vColor = vertexColor;",
           "vColor.r *= vertexColor.r * ambientLightColor.r * (1.0-(lowness*0.25)) + sunLightColor.r * (lowness*1.0 - 0.0) * lightAboveness;",
@@ -996,12 +996,12 @@
 
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
-
+          "varying float fogDepth;",
           "uniform sampler2D map;",
 
           "varying vec2 vUv;",
           "varying vec3 sunDir;",
-          "varying float fogDepth;",
+
           "varying float vFragDepth;",
           "varying vec4 vColor;",
 

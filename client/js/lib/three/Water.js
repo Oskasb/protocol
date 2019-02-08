@@ -28,9 +28,10 @@ THREE.Water = function ( geometry, options ) {
 	var eye = options.eye !== undefined ? options.eye : new THREE.Vector3( 0, 0, 0 );
 	var distortionScale = options.distortionScale !== undefined ? options.distortionScale : 20.0;
 	var side = options.side !== undefined ? options.side : THREE.FrontSide;
-	var fog = options.fog !== undefined ? options.fog : false;
+	var fog = options.fog !== undefined ? options.fog : true;
 
-	//
+	var fogDensity = {value:0.01};
+	var fogColor = new THREE.Color( options.sunColor !== undefined ? options.sunColor : 0xffffff );
 
 	var mirrorPlane = new THREE.Plane();
 	var normal = new THREE.Vector3();
@@ -63,6 +64,9 @@ THREE.Water = function ( geometry, options ) {
 
 	}
 
+
+	var globalUnifs = ThreeAPI.getGlobalUniform();
+
 	var mirrorShader = {
 
 		uniforms: THREE.UniformsUtils.merge( [
@@ -76,7 +80,7 @@ THREE.Water = function ( geometry, options ) {
 				size: { value: 1.0 },
 				distortionScale: { value: 20.0 },
 				textureMatrix: { value: new THREE.Matrix4() },
-				sunColor: { value: new THREE.Color( 0x7F7F7F ) },
+				sunColor: { value: new THREE.Color( 0.70707, 0.70707, 0 ) },
 				sunDirection: { value: new THREE.Vector3( 0.70707, 0.70707, 0 ) },
 				eye: { value: new THREE.Vector3() },
 				waterColor: { value: new THREE.Color( 0x555555 ) }
@@ -90,7 +94,8 @@ THREE.Water = function ( geometry, options ) {
 			'varying vec4 mirrorCoord;',
 			'varying vec4 worldPosition;',
 
-			THREE.ShaderChunk[ 'fog_pars_vertex' ],
+			"varying float fogDepth;",
+
 			THREE.ShaderChunk[ 'shadowmap_pars_vertex' ],
 
 			'void main() {',
@@ -103,9 +108,8 @@ THREE.Water = function ( geometry, options ) {
 
 			'	gl_Position = projectionMatrix * mvPosition;',
 
-			THREE.ShaderChunk[ 'fog_vertex' ],
 			THREE.ShaderChunk[ 'shadowmap_vertex' ],
-
+			"fogDepth = gl_Position.z;",
 			'}'
 		].join( '\n' ),
 
@@ -120,6 +124,10 @@ THREE.Water = function ( geometry, options ) {
 			'uniform vec3 sunDirection;',
 			'uniform vec3 eye;',
 			'uniform vec3 waterColor;',
+
+			"uniform vec3 fogColor;",
+			"uniform float fogDensity;",
+			"varying float fogDepth;",
 
 			'varying vec4 mirrorCoord;',
 			'varying vec4 worldPosition;',
@@ -146,10 +154,12 @@ THREE.Water = function ( geometry, options ) {
 			THREE.ShaderChunk[ 'common' ],
 			THREE.ShaderChunk[ 'packing' ],
 			THREE.ShaderChunk[ 'bsdfs' ],
-			THREE.ShaderChunk[ 'fog_pars_fragment' ],
 			THREE.ShaderChunk[ 'lights_pars_begin' ],
 			THREE.ShaderChunk[ 'shadowmap_pars_fragment' ],
 			THREE.ShaderChunk[ 'shadowmask_pars_fragment' ],
+
+
+
 
 			'void main() {',
 			'	vec4 noise = getNoise( worldPosition.xz * size );',
@@ -177,8 +187,8 @@ THREE.Water = function ( geometry, options ) {
 			'	gl_FragColor = vec4( outgoingLight, alpha );',
 
 			THREE.ShaderChunk[ 'tonemapping_fragment' ],
-			THREE.ShaderChunk[ 'fog_fragment' ],
-
+			"float fogFactor = min(sqrt(fogDepth) * fogDensity*5.0+0.25, 0.96);",
+			"gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
 			'}'
 		].join( '\n' )
 
@@ -198,6 +208,8 @@ THREE.Water = function ( geometry, options ) {
 	material.uniforms.textureMatrix.value = textureMatrix;
 	material.uniforms.alpha.value = alpha;
 	material.uniforms.time.value = time;
+	material.uniforms.fogDensity = fogDensity;
+	material.uniforms.fogColor.value = fogColor;
 	material.uniforms.normalSampler.value = normalSampler;
 	material.uniforms.sunColor.value = sunColor;
 	material.uniforms.waterColor.value = waterColor;

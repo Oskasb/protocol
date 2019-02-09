@@ -25,6 +25,9 @@ define([
             this.centerSector = null;
             this.activeSectors = [];
 
+            this.vegetationPatches = [];
+            this.activePatches = [];
+
             var sectorActivate = function(sector, plantCount, parentPlant) {
                 this.gridSectorActivate(sector, plantCount, parentPlant);
             }.bind(this);
@@ -45,19 +48,32 @@ define([
             for (var i = 0; i < sectorsX; i++) {
                 this.sectors[i] = [];
                 for (var j = 0; j < sectorsZ; j++) {
-                    this.sectors[i].push(new VegetationSector(i, j, sectorsX, sectorsZ, sectorPlants, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea, this.callbacks.getPlantConfigs, this.plantsKey))
+                    let sector = new VegetationSector(sectorPlants, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea, this.callbacks.getPlantConfigs, this.plantsKey)
+                    sector.setupAsGridSector(i, j, sectorsX, sectorsZ);
+                    this.sectors[i].push(sector)
                 }
             }
         };
 
+
+
         VegetationGrid.prototype.gridSectorActivate = function(sector, plantCount, parentPlant) {
             MATH.callAll(this.populateCallbacks, sector, this.terrainArea, plantCount, parentPlant)
-
         };
 
         VegetationGrid.prototype.gridSectorDeactivate = function(sector) {
             MATH.callAll(this.depopulateCallbacks, sector, this.terrainArea)
         };
+
+        VegetationGrid.prototype.addPatchToVegetationGrid = function(patchConfig, pos) {
+
+            let config = this.callbacks.getPlantConfigs('patches')[patchConfig];
+            console.log("PatchCfg:", config);
+
+
+
+        };
+
 
 
         VegetationGrid.prototype.getSectorAtPosition = function(pos) {
@@ -172,9 +188,7 @@ define([
                 }
 
                 this.updateGridProximity(centerPos);
-
             }
-
 
         };
 

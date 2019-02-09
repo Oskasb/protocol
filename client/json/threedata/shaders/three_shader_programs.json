@@ -918,6 +918,9 @@
 
 
           "vec3 charPos = character;",
+
+          "vec3 originalVpos = vertexPosition;",
+
           "vec3 vPosition = vertexPosition.xzy;",
 
           "vec3 vcV = cross(orientation.xyz, vPosition);",
@@ -925,7 +928,6 @@
           "vPosition = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + vPosition);",
 
           "vec2 tileScale = 1.0/tiles;",
-
 
 
           "vec2 tileOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
@@ -943,16 +945,12 @@
           "vUv.y *= sprite.z;",
 
 
-
-          "vPosition.x = vPosition.x * (1.0 * scale3d.x) ;",
-          "vPosition.y = vPosition.y * (1.0 * scale3d.y / sprite.z);",
-          "vPosition.z = vPosition.z * (1.0 * scale3d.z) ;",
-
-          "vec3 vNormal = normal.xzy;",
-          "vec3 faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
-
-
           "float lowness = sprite.z - (uv.y*sprite.z);",
+
+          "vPosition.x = originalVpos.x * (1.0 * scale3d.x) ;",
+          "vPosition.y = vPosition.y * (1.0 * scale3d.y / sprite.z);",
+          "vPosition.z = originalVpos.z * (1.0 * scale3d.z) ;",
+
 
           "float lightAboveness = 0.25 + (sunLightDirection.y * 0.75 ) * sign(sunLightDirection.y);",
 
@@ -963,7 +961,6 @@
           "vColor.a *= alphaState*lowness+(1.0-lowness);",
 
           "vec3 vertexPos = vec3( offset + vPosition);",
-
 
           "float influenceRange = 0.5;",
 

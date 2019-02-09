@@ -22,9 +22,11 @@ define([
 
         };
 
+
         SectorContent.prototype.getActivePlantCount = function() {
             return this.plants.length;
         };
+
 
         SectorContent.prototype.getInactivePlants = function() {
             return this.inactivePlants;
@@ -48,7 +50,6 @@ define([
                 if (count === 0) {
                     break;
                 }
-
             }
         };
 

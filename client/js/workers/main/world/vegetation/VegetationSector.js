@@ -12,47 +12,30 @@ define([
         var tempVec1 = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
 
-        var VegetationSector = function(gridX, gridZ, xMax, zMax, sectorPlants, activate, deactivate, terrainArea, getPlantConfigs, plantsKey) {
+        var VegetationSector = function(sectorPlants, activate, deactivate, terrainArea, getPlantConfigs, plantsKey) {
 
             this.sectorContent = new SectorContent(sectorPlants);
+            this.proximityFactor = 1;
+
+            this.terrainArea = terrainArea;
 
             this.plantsKey = plantsKey;
-            this.gridX = gridX;
-            this.gridZ = gridZ;
 
             this.center = new THREE.Vector3();
             this.origin = new THREE.Vector3();
             this.extents = new THREE.Vector3();
 
 
-            this.sectorSizeX = terrainArea.getSizeX()/xMax;
-            this.sectorSizeZ = terrainArea.getSizeZ()/zMax;
-
 
             this.maxPlantCount = sectorPlants;
-
-            this.companionCount = 0;
 
             this.isActive = false;
             this.isCenterSector = false;
 
-            this.proximityFactor = 1;
+
 
             this.activateCallbacks = [activate];
             this.deactivateCallbacks = [deactivate];
-
-            tempVec1.x = this.sectorSizeX;
-            tempVec1.y = 0;
-            tempVec1.z = this.sectorSizeZ;
-
-
-            this.origin.set(this.sectorSizeX * gridX, terrainArea.center.y, this.sectorSizeZ * gridZ);
-            this.origin.add(terrainArea.getOrigin());
-            this.extents.copy(this.getOrigin());
-            this.extents.add(tempVec1);
-            this.center.copy(tempVec1);
-            this.center.multiplyScalar(0.5);
-            this.center.add(this.getOrigin())
 
 
             var addPlant = function(plant, area, parentPlant) {
@@ -67,6 +50,44 @@ define([
 
         };
 
+        VegetationSector.prototype.setupAsGridSector = function(gridX, gridZ, xMax, zMax) {
+
+            this.sectorSizeX = this.terrainArea.getSizeX()/xMax;
+            this.sectorSizeZ = this.terrainArea.getSizeZ()/zMax;
+            this.gridX = gridX;
+            this.gridZ = gridZ;
+
+            this.setupSctorDimensions();
+
+            tempVec1.x = this.sectorSizeX;
+            tempVec1.y = 0;
+            tempVec1.z = this.sectorSizeZ;
+
+        };
+
+        VegetationSector.prototype.setupAsPatchSector = function(pos, config) {
+
+            this.sectorSizeX = config.size;
+            this.sectorSizeZ = config.size;
+            this.gridX = Math.round(pos.x / config.size);
+            this.gridZ = Math.round(pos.z / config.size);
+            this.setupSctorDimensions();
+        };
+
+        VegetationSector.prototype.setupSctorDimensions = function() {
+
+            tempVec1.x = this.sectorSizeX;
+            tempVec1.y = 0;
+            tempVec1.z = this.sectorSizeZ;
+
+            this.origin.set(this.sectorSizeX * this.gridX, this.terrainArea.center.y, this.sectorSizeZ * this.gridZ);
+            this.origin.add(this.terrainArea.getOrigin());
+            this.extents.copy(this.getOrigin());
+            this.extents.add(tempVec1);
+            this.center.copy(tempVec1);
+            this.center.multiplyScalar(0.5);
+            this.center.add(this.getOrigin())
+        };
 
         VegetationSector.prototype.getCenter = function() {
             return this.center;
@@ -120,7 +141,6 @@ define([
                 this.maxPlantCount--;
             }
 
-
         };
 
         VegetationSector.prototype.positionPlantRandomlyInSector = function(plant) {
@@ -147,51 +167,23 @@ define([
 
         VegetationSector.prototype.addPlantToSector = function(plant, area, parentPlant) {
 
-            let cfg = null;
 
-            if (!parentPlant) {
+
                 this.positionPlantRandomlyInSector(plant);
                 plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
-                cfg = this.getAppropriatePlantConfig(plant);
+                let cfg = this.getAppropriatePlantConfig(plant);
                 if (!cfg) return;
-            } else {
-
-                let compCfv = parentPlant.companions.pop();
-                this.positionPlantRandomlyNearParentPlant(plant, parentPlant, compCfv);
-                plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
-                cfg = this.callbacks.getPlantConfigs(compCfv.config)[compCfv.key];
-                this.companionCount++
-            }
 
             plant.applyPlantConfig(cfg);
 
             this.sectorContent.addInactivePlant(plant);
 
-        //    this.inactivePlants.push(plant);
-
-            if (plant.config.companions) {
-                this.addPlantCompanions(plant, plant.config.companions)
+            if (plant.config['patch']) {
+                MainWorldAPI.getWorldSimulation().addVegetationPatch(plant.config['patch'], plant.pos)
             }
 
         };
 
-        VegetationSector.prototype.addPlantCompanions = function(plant, companions) {
-
-            plant.companions = [];
-
-
-            for (var i = 0; i < companions.length; i++) {
-                let config = companions[i];
-
-                let count = Math.round(MATH.randomBetween(config.min || 1, config.max || 2));
-                for (var j = 0; j < count; j++) {
-                    plant.companions.push(config);
-                }
-
-                MATH.callAll(this.activateCallbacks, this, count, plant);
-            }
-
-        };
 
         VegetationSector.prototype.activateSectorPlants = function(count) {
             this.sectorContent.activatePlantCount(count);

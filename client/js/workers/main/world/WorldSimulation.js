@@ -50,6 +50,9 @@ define([
             return worldStatus[key];
         };
 
+        WorldSimulation.prototype.addVegetationPatch = function(patchConfig, pos) {
+            this.vegetation.addVegetationAtPosition(patchConfig, pos, this.terrainSystem)
+        };
 
         var tempVec = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
@@ -66,74 +69,6 @@ define([
 
             var area = ts.getTerrainAreaAtPos(tempVec);
             veg.vegetateTerrainArea(area);
-
-            var count = 0;
-
-
-            var scale = 5;
-
-            var worldEntityReady = function(worldEntity) {
-
-            //    console.log("..", worldEntity)
-
-                count++
-
-                GuiAPI.printDebugText('asset_tree_1 '+count);
-
-                tempVec.set(0, 0, 0);
-
-
-                area = ts.getTerrainAreaAtPos(tempVec);
-                area.getRandomPointOnTerrain(tempVec, tempVec2, 0.1, 1000, 0.9);
-
-
-                worldEntity.obj3d.lookAt(tempVec2);
-                worldEntity.obj3d.rotateX(1.57);
-                worldEntity.obj3d.rotateY(Math.random()*5);
-                worldEntity.setWorldEntityPosition(tempVec);
-                worldEntity.obj3d.scale.multiplyScalar(scale);
-
-                for (var i = 0; i < 6; i++) {
-
-                    tempVec.x = worldEntity.obj3d.position.x + 3*(Math.random()-0.5);
-                    tempVec.z = worldEntity.obj3d.position.z + 3*(Math.random()-0.5);
-
-                    area = ts.getTerrainAreaAtPos(tempVec);
-                    area.getHeightAndNormalForPos(tempVec, tempVec2);
-                    veg.addVegetationAtPosition(tempVec, ts);
-                }
-
-                scale *= 0.995;
-
-                if (count < 300) {
-                 //   GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
-                    GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
-                    setTimeout(function() {
-
-                        GameAPI.requestAssetWorldEntity(MATH.getRandomArrayEntry(trees), worldEntityReady);
-
-                    }, 1)
-
-                }
-
-            };
-
-
-            var trees = ['asset_tree_1', 'asset_tree_2', 'asset_tree_3', 'asset_tree_4']
-
-
-            var treesReady = function(we) {
-                worldEntityReady(we)
-            //    for (var i = 0; i < 20; i++) {
-                    GameAPI.requestAssetWorldEntity('asset_tree_1', worldEntityReady);
-            //    }
-            }
-
-          //  setInterval(function() {
-
-            //}, 200)
-
-        //        GameAPI.requestAssetWorldEntity('asset_tree_1', treesReady);
 
         };
 

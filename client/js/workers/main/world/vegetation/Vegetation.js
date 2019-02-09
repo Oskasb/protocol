@@ -105,7 +105,6 @@ define([
                 this.plantConfigs[key] = config[key];
             }
 
-
         };
 
 
@@ -139,24 +138,21 @@ define([
 
         };
 
+
         Vegetation.prototype.buildBufferElement = function(poolKey, cb) {
             this.instantiator.buildBufferElement(poolKey, cb)
         };
 
 
-        Vegetation.prototype.addVegetationAtPosition = function(pos, terrainSystem) {
+        Vegetation.prototype.addVegetationAtPosition = function(patchConfig, pos, terrainSystem) {
 
-            var getPlant = function(key, plant) {
-                plant.setPlantPosition(pos);
-                var area = terrainSystem.getTerrainAreaAtPos(pos);
-                plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
-                plant.applyPlantConfig(plant.config)
-                plant.plantActivate()
-            }.bind(this);
-
-            this.plantPools["asset_vegQuad"].getFromExpandingPool(getPlant)
+            var area = terrainSystem.getTerrainAreaAtPos(pos);
+            var grid = MATH.getFromArrayByKeyValue(this.areaGrids, 'terrainArea', area);
+            grid.addPatchToVegetationGrid(patchConfig, pos);
 
         };
+
+
 
         Vegetation.prototype.createPlant = function(assetId, cb, area, parentPlant) {
 

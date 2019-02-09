@@ -178,7 +178,7 @@
               "tree_1": {
                 "asset_ids": ["asset_tree_1", "asset_tree_2", "asset_tree_3", "asset_tree_4"],
                 "companions": [
-                    {"config":"plants", "key": "ferns_1", "min": 0, "max":3, "dst_min": 0.7, "dst_max": 2.5},
+                    {"config":"plants", "key": "ferns_1", "min": 0, "max":4, "dst_min": 0.7, "dst_max": 2.5},
                      {"config":"plants", "key": "grass_low_3_flowery", "min": 2, "max":4, "dst_min": 2.72, "dst_max": 3.95},
                     {"config":"plants", "key": "bushes_1", "min": 0, "max":2, "dst_min": 0.3, "dst_max": 1.7}
                   ],

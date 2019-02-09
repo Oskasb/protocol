@@ -3,16 +3,19 @@
 var GuiAPI;
 
 define([
-
+        'workers/main/world/vegetation/SectorContent'
     ],
     function(
-
+        SectorContent
     ) {
 
         var tempVec1 = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
 
         var VegetationSector = function(gridX, gridZ, xMax, zMax, sectorPlants, activate, deactivate, terrainArea, getPlantConfigs, plantsKey) {
+
+            this.sectorContent = new SectorContent(sectorPlants);
+
             this.plantsKey = plantsKey;
             this.gridX = gridX;
             this.gridZ = gridZ;
@@ -25,8 +28,6 @@ define([
             this.sectorSizeX = terrainArea.getSizeX()/xMax;
             this.sectorSizeZ = terrainArea.getSizeZ()/zMax;
 
-            this.inactivePlants = [];
-            this.plants = [];
 
             this.maxPlantCount = sectorPlants;
 
@@ -164,7 +165,9 @@ define([
 
             plant.applyPlantConfig(cfg);
 
-            this.inactivePlants.push(plant);
+            this.sectorContent.addInactivePlant(plant);
+
+        //    this.inactivePlants.push(plant);
 
             if (plant.config.companions) {
                 this.addPlantCompanions(plant, plant.config.companions)
@@ -191,38 +194,15 @@ define([
         };
 
         VegetationSector.prototype.activateSectorPlants = function(count) {
-            while (this.inactivePlants.length) {
-
-                var plant = this.inactivePlants.pop();
-                plant.plantActivate();
-                this.plants.push(plant);
-
-                count--;
-                if (count === 0) {
-                    break;
-                }
-
-            }
+            this.sectorContent.activatePlantCount(count);
         };
 
         VegetationSector.prototype.deactivateSectorPlantCount = function(count) {
-
-            for (var i = 0; i < count; i++) {
-                let plant = this.plants.pop();
-                if (!plant) {
-                    console.log("Bad plant copunt");
-                    return;
-                }
-                plant.plantDeactivate();
-                this.inactivePlants.push(plant);
-            }
-
+            this.sectorContent.deactivatePlantCount(count);
         };
 
         VegetationSector.prototype.deactivateSectorPlants = function() {
-            for (var i = 0; i < this.plants.length; i++) {
-                this.plants[i].plantDeactivate();
-            }
+            this.sectorContent.deactivateAllPlants();
         };
 
 
@@ -233,7 +213,7 @@ define([
         };
 
         VegetationSector.prototype.getMissingPlantCount = function() {
-            return Math.floor(this.maxPlantCount * this.proximityFactor) - this.plants.length;
+            return Math.floor(this.maxPlantCount * this.proximityFactor) - this.sectorContent.getActivePlantCount();
         };
 
         VegetationSector.prototype.enableMissingPlants = function() {

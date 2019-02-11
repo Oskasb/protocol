@@ -41,7 +41,7 @@
 
 
         {"id": "file_cut_topcenter_rff" ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_tc_rff"         }},
-        {"id": "file_cut_topright_rff"  ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_tr_rff"          }},
+        {"id": "file_cut_topright_rff"  ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_tr_rff"         }},
         {"id": "file_cut_midright_rff"  ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_mr_rff"         }},
         {"id": "file_cut_midleft_rff"   ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_ml_rff"         }},
 
@@ -65,9 +65,20 @@
         {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"          }},
 
 
-        {"id": "file_ninjablade",   "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                    }},
-        {"id": "file_helmetviking", "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_viking"              }},
-        {"id": "file_beltplate",    "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_plate"                 }},
+        {"id": "file_ninjablade",    "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                   }},
+
+
+        {"id": "file_beltplate",     "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_plate"                }},
+        {"id": "file_belt_bronze",   "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_bronze"               }},
+
+
+        {"id": "file_helmet_bronze", "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_bronze"             }},
+        {"id": "file_helmetviking",  "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_viking"             }},
+
+        {"id": "file_bracer_bronze", "config": { "url": "./client/assets/models/items_rigid/armor/wrist/bracer_bronze"            }},
+
+        {"id": "file_bronze_bp",     "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/bronze_bp"        }},
+        {"id": "file_bronze_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/bronze_legs"      }},
 
         {"id": "file_chain_shirt",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/chain_shirt"       }},
         {"id": "file_scale_shirt",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_shirt"       }},
@@ -84,7 +95,8 @@
         {"id": "file_tree_1",     "config": { "url": "./client/assets/models/trees/tree_1"                                        }},
         {"id": "file_tree_2",     "config": { "url": "./client/assets/models/trees/tree_2"                                        }},
         {"id": "file_tree_3",     "config": { "url": "./client/assets/models/trees/tree_3"                                        }},
-        {"id": "file_tree_4",     "config": { "url": "./client/assets/models/trees/tree_4"                                        }}
+        {"id": "file_tree_4",     "config": { "url": "./client/assets/models/trees/tree_4"                                        }},
+        {"id": "file_tree_5_big", "config": { "url": "./client/assets/models/trees/tree_5_big"                                    }}
       ]
     }
   }

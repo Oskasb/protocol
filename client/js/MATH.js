@@ -82,6 +82,7 @@ if(typeof(MATH) === "undefined") {
 		}
 	};
 
+
 	var all;
 	MATH.callAll = function(array, arg1, arg2, arg3, arg4, arg5) {
 		for (all = 0; all < array.length; all++) {

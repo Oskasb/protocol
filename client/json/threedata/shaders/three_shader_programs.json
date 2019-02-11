@@ -921,10 +921,11 @@
 
           "vec3 originalVpos = vertexPosition;",
 
-          "vec3 vPosition = vertexPosition.xzy;",
+          "originalVpos.y /= sprite.z;",
+
+          "vec3 vPosition = originalVpos.xzy;",
 
           "vec3 vcV = cross(orientation.xyz, vPosition);",
-
           "vPosition = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + vPosition);",
 
           "vec2 tileScale = 1.0/tiles;",
@@ -947,9 +948,9 @@
 
           "float lowness = sprite.z - (uv.y*sprite.z);",
 
-          "vPosition.x = originalVpos.x * (1.0 * scale3d.x) ;",
-          "vPosition.y = vPosition.y * (1.0 * scale3d.y / sprite.z);",
-          "vPosition.z = originalVpos.z * (1.0 * scale3d.z) ;",
+          "vPosition.x = vPosition.x * (1.0 * scale3d.x) ;",
+          "vPosition.y = vPosition.y * (1.0 * scale3d.y);",
+          "vPosition.z = vPosition.z * (1.0 * scale3d.z) ;",
 
 
           "float lightAboveness = 0.25 + (sunLightDirection.y * 0.75 ) * sign(sunLightDirection.y);",
@@ -977,7 +978,7 @@
 
           "float height = (1.0 - uv.y);",
 
-          "vPosition.y *= (0.5 + dist*(1.0/influenceRange)*0.5) * height;",
+          "vPosition.y *= (0.5 + dist*(1.0/influenceRange)*0.5);",
 
           "vPosition.x += vPosition.y*(influenceRange - dist*sign(dist)) * push.x / dist;",
           "vPosition.z += vPosition.y*(influenceRange - dist*sign(dist)) * push.z / dist;",

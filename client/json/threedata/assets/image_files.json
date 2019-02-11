@@ -4,6 +4,10 @@
       "FILES_IMAGES":[
 
         {"id": "img_atlas_2k_diff"       , "config": { "url":"./client/assets/images/textures/atlas_2k_diff.png"     }},
+        {"id": "img_atlas_2k_spec"       , "config": { "url":"./client/assets/images/textures/atlas_2k_spec.png"     }},
+        {"id": "img_atlas_2k_metalness"  , "config": { "url":"./client/assets/images/textures/atlas_2k_metal.png"    }},
+        {"id": "img_atlas_2k_roughness"  , "config": { "url":"./client/assets/images/textures/atlas_2k_rough.png"    }},
+        {"id": "img_atlas_2k_norm"       , "config": { "url":"./client/assets/images/textures/atlas_2k_norm.png"     }},
         {"id": "img_veg_2k"              , "config": { "url":"./client/assets/images/textures/veg_2k.png"            }},
         {"id": "img_canopy_normals"      , "config": { "url":"./client/assets/images/textures/canopy_normals.png"    }},
         {"id": "img_glass_surface"       , "config": { "url":"./client/assets/images/textures/glass_surface.png"     }},

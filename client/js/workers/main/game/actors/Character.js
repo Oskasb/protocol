@@ -129,13 +129,15 @@ define([
 
             this.characterMovement.applyMovementToWorldEntity(this.getGamePiece().getWorldEntity(), tpf);
 
-            if (this.t > 5.0 + Math.random()*50) {
+            if (this.t > 15.0 + Math.random()*5) {
+                this.t = 0;
                 if (this.getCharacterState() === ENUMS.CharacterState.COMBAT) {
                     this.setCharacterState(ENUMS.CharacterState.IDLE)
                 } else {
                     this.setCharacterState(ENUMS.CharacterState.COMBAT)
+                    this.t += 10;
                 }
-                this.t = 0;
+
             } else if (this.getCharacterState() === ENUMS.CharacterState.COMBAT) {
                 if (Math.random() < 0.1) {
                     if (!this.getGamePiece().activeActions.length) {

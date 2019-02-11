@@ -175,27 +175,47 @@
               }
             },
             "patches": {
-              "tree_companions": {
-                "size": 6,
-                "plants_min": 3,
-                "plants_max": 10,
+              "tree_companions_small": {
+                "size": 1,
+                "plants_min": 5,
+                "plants_max": 8,
                 "plants": [
-                  {"key": "ferns_1",              "weight": 1, "dst_min": 0.7,  "dst_max": 2.5},
-                  {"key": "grass_low_3_flowery",  "weight": 1, "dst_min": 2.72, "dst_max": 3.95},
-                  {"key": "bushes_1",             "weight": 1, "dst_min": 0.3,  "dst_max": 1.7}
+                  {"plant_id": "grass_low_6_bright",   "weight": 1, "dst_min": 0.1,  "dst_max": 0.2},
+                  {"plant_id": "grass_low_3_flowery",  "weight": 4, "dst_min": 0.2,  "dst_max": 0.5}
+                ]
+              },
+              "tree_companions_medium": {
+                "size": 2,
+                "plants_min": 6,
+                "plants_max": 16,
+                "plants": [
+                  {"plant_id": "grass_low_6_bright",   "weight": 3, "dst_min": 0.1,  "dst_max": 0.3},
+                  {"plant_id": "grass_low_3_flowery",  "weight": 6, "dst_min": 0.2,  "dst_max": 0.5},
+                  {"plant_id": "bushes_1",             "weight": 1, "dst_min": 0.15,  "dst_max": 0.3}
+                ]
+              },
+              "tree_companions_large": {
+                "size": 2,
+                "plants_min": 18,
+                "plants_max": 24,
+                "plants": [
+                  {"plant_id": "ferns_1",              "weight": 1, "dst_min": 0.41,  "dst_max": 0.6},
+                  {"plant_id": "grass_low_3_flowery",  "weight": 3, "dst_min": 0.4,  "dst_max": 0.6},
+                  {"plant_id": "grass_low_6_bright",   "weight": 1, "dst_min": 0.5,  "dst_max": 1.0},
+                  {"plant_id": "bushes_1",             "weight": 1, "dst_min": 0.46,  "dst_max": 0.6}
                 ]
               }
             },
             "trees": {
               "tree_1": {
                 "asset_ids": ["asset_tree_1", "asset_tree_2", "asset_tree_3", "asset_tree_4"],
-                "patch": "tree_companions",
+                "patch": "tree_companions_medium",
                 "min_y":  2.0,
                 "max_y": 9999,
                 "normal_ymin": 1.05,
-                "normal_ymax": 0.94,
-                "size_min": 80,
-                "size_max": 120,
+                "normal_ymax": 0.96,
+                "size_min": 15,
+                "size_max": 25,
                 "color_min": [0.85, 0.65, 0.65, 1],
                 "color_max": [1, 1, 1, 1],
                 "sprite": [6, 5, 1, 0],
@@ -203,12 +223,55 @@
               },
               "tree_2": {
                 "asset_ids": ["asset_tree_1", "asset_tree_2", "asset_tree_3", "asset_tree_4"],
+                "patch": "tree_companions_large",
                 "min_y":  2.0,
                 "max_y": 9999,
                 "normal_ymin": 1.05,
-                "normal_ymax": 0.94,
-                "size_min": 280,
-                "size_max": 400,
+                "normal_ymax": 0.98,
+                "size_min": 26,
+                "size_max": 46,
+                "color_min": [0.75, 0.75, 0.75, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              },
+              "tree_3": {
+                "asset_ids": ["asset_tree_1", "asset_tree_2", "asset_tree_3", "asset_tree_4"],
+                "patch": "tree_companions_small",
+                "min_y":  2.0,
+                "max_y": 9999,
+                "normal_ymin": 1.05,
+                "normal_ymax": 0.96,
+                "size_min": 12,
+                "size_max": 15,
+                "color_min": [0.75, 0.75, 0.75, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              },
+              "tree_4": {
+                "asset_ids": ["asset_tree_5"],
+                "patch": "tree_companions_small",
+                "min_y":  2.0,
+                "max_y": 9999,
+                "normal_ymin": 1.05,
+                "normal_ymax": 0.96,
+                "size_min": 5,
+                "size_max": 7,
+                "color_min": [0.75, 0.75, 0.75, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              },
+              "tree_5": {
+                "asset_ids": ["asset_tree_5"],
+                "patch": "tree_companions_large",
+                "min_y":  2.0,
+                "max_y": 9999,
+                "normal_ymin": 1.05,
+                "normal_ymax": 0.96,
+                "size_min": 7,
+                "size_max": 15,
                 "color_min": [0.75, 0.75, 0.75, 1],
                 "color_max": [1, 1, 1, 1],
                 "sprite": [6, 5, 1, 0],

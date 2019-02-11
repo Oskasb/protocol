@@ -9,6 +9,7 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\trees\tree
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\trees\tree_2                              D:\projects\protocol\client\assets\models\trees\tree_2.FBX     -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\trees\tree_3                              D:\projects\protocol\client\assets\models\trees\tree_3.FBX     -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\trees\tree_4                              D:\projects\protocol\client\assets\models\trees\tree_4.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\trees\tree_5_big                              D:\projects\protocol\client\assets\models\trees\tree_5_big.FBX     -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\shapes\bullet                             D:\projects\protocol\client\assets\models\shapes\bullet.FBX    -b
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\barb\barb_bind                 D:\projects\protocol\client\assets\models\characters\barb\barb_bind.FBX             -b
@@ -44,6 +45,17 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigi
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\head\helmet_viking      D:\projects\protocol\client\assets\models\items_rigid\armor\head\helmet_viking.FBX   -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\belt\belt_plate         D:\projects\protocol\client\assets\models\items_rigid\armor\belt\belt_plate.FBX      -b
+
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\head\helmet_viking      D:\projects\protocol\client\assets\models\items_rigid\armor\head\helmet_viking.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\head\helmet_bronze      D:\projects\protocol\client\assets\models\items_rigid\armor\head\helmet_bronze.FBX     -b
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\belt\belt_plate         D:\projects\protocol\client\assets\models\items_rigid\armor\belt\belt_plate.FBX         -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\belt\belt_bronze        D:\projects\protocol\client\assets\models\items_rigid\armor\belt\belt_bronze.FBX        -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\bracer\bracer_bronze    D:\projects\protocol\client\assets\models\items_rigid\armor\bracer\bracer_bronze.FBX      -b
+
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\bronze_bp          D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\bronze_bp.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\bronze_legs        D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\bronze_legs.FBX    -b
 
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\chain_shirt         D:\projects\protocol\client\assets\models\items_skinned\fighter_rig\armor\chain_shirt.FBX      -b
@@ -83,12 +95,6 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_mr_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_mr_rff.FBX       -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_tr_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_tr_rff.FBX       -b
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_tc_rff       D:\projects\protocol\client\assets\models\characters\fighter\body\CUT_tc_rff.FBX       -b
-
-
-
-
-
-
 
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_legs       D:\projects\protocol\client\assets\models\characters\fighter\movement\WALK_legs.FBX       -b

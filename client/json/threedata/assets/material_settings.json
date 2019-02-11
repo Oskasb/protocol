@@ -24,6 +24,23 @@
           }
         },
         {
+          "id": "standard_opaque_settings"  ,
+          "config": {
+            "shader": "MeshStandardMaterial",
+            "properties": {
+              "blending": "NoBlending",
+              "color": {"r": 1, "g": 1, "b": 1 },
+              "settings": {
+                "roughness":1,
+                "metalness":1.0,
+                "envMapIntensity":1.2,
+                "aoMapIntensity":1.1
+              }
+            }
+          }
+        },
+
+        {
           "id": "phong_opaque_settings"  ,
           "config": {
             "shader": "MeshPhongMaterial",
@@ -31,7 +48,8 @@
               "blending": "NoBlending",
               "color": {"r": 1, "g": 1, "b": 1 },
               "settings": {
-                "shininess": 5
+                "reflectivity":0.8,
+                "shininess": 1
               }
             }
           }

@@ -15,7 +15,7 @@ define([
         var VegetationSector = function(sectorPlants, activate, deactivate, terrainArea, getPlantConfigs, plantsKey) {
 
             this.sectorContent = new SectorContent(sectorPlants);
-            this.proximityFactor = 1;
+            this.proximityFactor = -1;
 
             this.terrainArea = terrainArea;
 
@@ -57,11 +57,10 @@ define([
             this.gridX = gridX;
             this.gridZ = gridZ;
 
-            this.setupSctorDimensions();
+            this.origin.set(this.sectorSizeX * this.gridX, this.terrainArea.center.y, this.sectorSizeZ * this.gridZ);
+            this.origin.add(this.terrainArea.getOrigin());
 
-            tempVec1.x = this.sectorSizeX;
-            tempVec1.y = 0;
-            tempVec1.z = this.sectorSizeZ;
+            this.setupSectorDimensions();
 
         };
 
@@ -71,17 +70,17 @@ define([
             this.sectorSizeZ = config.size;
             this.gridX = Math.round(pos.x / config.size);
             this.gridZ = Math.round(pos.z / config.size);
-            this.setupSctorDimensions();
+            this.origin.set(pos.x - config.size/2, this.terrainArea.center.y, pos.z - config.size/2);
+            this.setupSectorDimensions();
+            this.patchConfig = config[this.plantsKey];
         };
 
-        VegetationSector.prototype.setupSctorDimensions = function() {
+        VegetationSector.prototype.setupSectorDimensions = function() {
 
             tempVec1.x = this.sectorSizeX;
             tempVec1.y = 0;
             tempVec1.z = this.sectorSizeZ;
 
-            this.origin.set(this.sectorSizeX * this.gridX, this.terrainArea.center.y, this.sectorSizeZ * this.gridZ);
-            this.origin.add(this.terrainArea.getOrigin());
             this.extents.copy(this.getOrigin());
             this.extents.add(tempVec1);
             this.center.copy(tempVec1);
@@ -117,6 +116,18 @@ define([
             return this.callbacks.addPlant;
         };
 
+        VegetationSector.prototype.checkPlantMaxSlope = function(plant, cfg) {
+            return plant.normal.y >= cfg.normal_ymax
+        };
+
+
+        VegetationSector.prototype.checkPlantIsLegit = function(plant, cfg) {
+            if (plant.pos.y > cfg.min_y && plant.pos.y < cfg.max_y) {
+                if (plant.normal.y <= cfg.normal_ymin) {
+                    return this.checkPlantMaxSlope(plant, cfg);
+                }
+            }
+        };
 
         var candidates = [];
 
@@ -126,10 +137,8 @@ define([
             for (var key in configs) {
 
                 let cfg = configs[key];
-                if (plant.pos.y > cfg.min_y && plant.pos.y < cfg.max_y) {
-                   if (plant.normal.y <= cfg.normal_ymin && plant.normal.y >= cfg.normal_ymax) {
-                       candidates.push(cfg);
-                   }
+                if (this.checkPlantIsLegit(plant, cfg)) {
+                    candidates.push(cfg);
                 }
             }
 
@@ -152,27 +161,66 @@ define([
 
         };
 
-        VegetationSector.prototype.positionPlantRandomlyNearParentPlant = function(plant, parentPlant, compCfv) {
+        VegetationSector.prototype.positionPlantRandomlyNearSectorCenter = function(plant, compCfv) {
 
             plant.pos.set(0, 0, 0);
             tempVec1.set(1 , 0,1  )
 
             MATH.spreadVector(plant.pos, tempVec1);
             plant.pos.normalize();
-            let dst = MATH.randomBetween(compCfv.dst_min || 1, compCfv.dst_max || 2);
-            plant.pos.multiplyScalar(0.25 + parentPlant.size * 0.001 * dst);
-            plant.pos.add(parentPlant.pos);
+            let dst = MATH.randomBetween(compCfv.dst_min|| 0.2, compCfv.dst_max || 1);
+            plant.pos.multiplyScalar(this.sectorSizeX * dst);
+            plant.pos.add(this.center);
         };
 
+        VegetationSector.prototype.getCfgByWeight = function(patchCfg) {
+
+            var select = 0;
+            var sumWeight = 0;
+            var rnd = Math.random();
+
+            for (var i = 0; i < patchCfg.length; i++) {
+                sumWeight += patchCfg[i].weight;
+            }
+
+            for (var i = 0; i < patchCfg.length; i++) {
+                select += patchCfg[i].weight;
+                if (select / sumWeight > rnd) {
+                    return patchCfg[i];
+                }
+            }
+        };
 
         VegetationSector.prototype.addPlantToSector = function(plant, area, parentPlant) {
 
+            let cfg;
+            if (this.patchConfig) {
 
+                let patchCfg = this.getCfgByWeight(this.patchConfig);
+
+                this.positionPlantRandomlyNearSectorCenter(plant, patchCfg);
+                plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
+
+                cfg = this.callbacks.getPlantConfigs(this.plantsKey)[patchCfg.plant_id];
+
+                if (!this.checkPlantMaxSlope(plant, cfg)) {
+                    return;
+                }
+
+                if (!cfg) {
+                    console.log("bad patch config", [this]);
+                    return;
+                }
+
+            } else {
 
                 this.positionPlantRandomlyInSector(plant);
                 plant.pos.y = area.getHeightAndNormalForPos(plant.pos, plant.normal);
-                let cfg = this.getAppropriatePlantConfig(plant);
+                cfg = this.getAppropriatePlantConfig(plant);
                 if (!cfg) return;
+
+            }
+
 
             plant.applyPlantConfig(cfg);
 

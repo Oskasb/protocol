@@ -81,13 +81,13 @@ define([
 
                 if (action.channel <= syncSrc.channel ) {
 
-                    console.log("SyncPrio");
+            //        console.log("SyncSlave", syncSrc._clip.name, "Master: ",action._clip.name);
 
                     syncSrc.setEffectiveTimeScale(action.getEffectiveTimeScale());
                     action.syncWith(syncSrc);
 
                 } else {
-
+            //        console.log("SyncMaster", syncSrc._clip.name, "Slave:", action._clip.name);
                     action.setEffectiveTimeScale(syncSrc.getEffectiveTimeScale());
                     syncSrc.syncWith(action);
 
@@ -113,7 +113,6 @@ define([
                 action.fadeIn(fade);
 
                 action.sync = sync;
-                action.channel = channel;
 
                 if (sync !== 0) {
                     this.syncAction(action);
@@ -141,6 +140,9 @@ define([
                     toAction._scheduleFading(fade, toAction.getEffectiveWeight(), weight / toAction.getEffectiveWeight());
                 }
                 toAction.setEffectiveTimeScale( timeScale );
+                if (toAction.sync) {
+                    this.syncAction(toAction);
+                }
             }
 
         };
@@ -156,7 +158,7 @@ define([
         InstanceAnimator.prototype.updateAnimationAction = function(animationKey, weight, timeScale, fade, chan, loop, clamp, sync) {
             animKey = ENUMS.getKey('Animations', animationKey);
             action = this.animationActions[animKey];
-
+            action.channel = chan;
         //    console.log("anim event:", animationKey, weight, timeScale, fade, chan);
 
             if (!action) {

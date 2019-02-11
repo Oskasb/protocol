@@ -100,7 +100,7 @@
               "generateMipmaps": false,
               "magFilter": "LinearFilter",
               "minFilter": "LinearFilter",
-              "flipY": false
+              "flipY": true
             }
           }
         },

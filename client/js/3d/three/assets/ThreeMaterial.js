@@ -8,8 +8,6 @@ define([        'application/PipelineObject'],
 
         var ThreeMaterial = function(id, config, callback) {
 
-            if (id === "material_terrain") console.log("material_terrain", this);
-
             this.id = id;
 
             this.textureMap = {};
@@ -17,15 +15,13 @@ define([        'application/PipelineObject'],
             this.textures = {};
 
             var matReady = function() {
-                if ( this.id === "material_terrain") console.log("material_terrain", this);
 
                 for (var key in this.textureMap) {
                     this.mat[this.textureMap[key]] = this.textures[this.textureMap[key]].texture;
                 }
-                if ( this.id === "material_terrain") console.log("material_terrain", this);
+
                 callback(this);
             }.bind(this);
-
 
             var materialSettingsLoaded = function(src, asset) {
 
@@ -47,11 +43,10 @@ define([        'application/PipelineObject'],
 
         ThreeMaterial.prototype.setupTextureMap = function(config, cb) {
 
-            var txRqs = 0;
             var txLds = 0;
 
             var loadCheck = function() {
-                if (txRqs === txLds) {
+                if (config.textures.length === txLds) {
                     cb();
                 }
             }.bind(this);
@@ -64,7 +59,6 @@ define([        'application/PipelineObject'],
 
             if (config.textures) {
                 for (var i = 0; i < config.textures.length; i++) {
-                    txRqs++;
                     var id = config.textures[i].id;
                     var key = config.textures[i].key;
                     this.textureMap[id] = key;
@@ -134,6 +128,7 @@ define([        'application/PipelineObject'],
             }
 
             if (props.side) mat.side = THREE[props.side];
+            if (props.combine) mat.combine = THREE[props.combine];
             if (props.depthTest) mat.depthTest = props.depthTest;
 
             this.mat = mat;

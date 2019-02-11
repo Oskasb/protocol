@@ -30,14 +30,26 @@ define([
 
 
         var equipItems = [
-            "ITEM_KATANA",
-            "ITEM_VIKINGHELMET",
-            "ITEM_PLATEBELT",
-            "ITEM_CHAINSHIRT",
-        //    "ITEM_SCALEMAIL",
-            "ITEM_CHAINLEGGINGS",
-        //    "ITEM_SCALESKIRT",
-            "ITEM_SCALEBOOTS",
+            "ITEM_KATANA"         ,
+            "ITEM_HELMET_BRONZE"  ,
+            "ITEM_BELT_BRONZE"         ,
+            "ITEM_BREASTPLATE_BRONZE"     ,
+        //    "ITEM_SCALEMAIL"    ,
+            "ITEM_LEGS_BRONZE"    ,
+        //    "ITEM_SCALESKIRT"   ,
+            "ITEM_SCALEBOOTS"     ,
+            "ITEM_SCALEGLOVES"
+        ];
+
+        var equipItems2 = [
+            "ITEM_KATANA"        ,
+            "ITEM_VIKINGHELMET"  ,
+            "ITEM_PLATEBELT"     ,
+            "ITEM_CHAINSHIRT"    ,
+            //    "ITEM_SCALEMAIL",
+            "ITEM_CHAINLEGGINGS" ,
+            //    "ITEM_SCALESKIRT",
+            "ITEM_SCALEBOOTS"    ,
             "ITEM_SCALEGLOVES"
         ];
 

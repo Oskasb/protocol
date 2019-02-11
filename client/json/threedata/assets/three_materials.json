@@ -5,13 +5,13 @@
         {
           "id":"material_standard",
           "config":{
-            "settings": "standard_settings",
+            "settings": "standard_opaque_settings",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   } ,
               {"key":"envMap"        , "id":"ref_sphere"      } ,
-              {"key":"metalnessMap"  , "id":"atlas_2k_diff"   } ,
-              {"key":"roughnessMap"  , "id":"atlas_2k_diff"   } ,
-              {"key":"normalMap"     , "id":"atlas_2k_diff"   }
+              {"key":"metalnessMap"  , "id":"atlas_2k_metalness"   } ,
+              {"key":"roughnessMap"  , "id":"atlas_2k_roughness"   } ,
+              {"key":"normalMap"     , "id":"atlas_2k_norm"   }
             ]
           }
         },
@@ -37,7 +37,9 @@
           "config":{
             "settings": "phong_opaque_settings",
             "textures":[
-              {"key":"map"           , "id":"atlas_2k_diff"   }
+              {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"specularMap"   , "id":"atlas_2k_spec"   },
+              {"key":"envMap"        , "id":"ref_sphere"      }
             ]
           }
         },

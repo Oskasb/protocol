@@ -68,12 +68,18 @@ define([
         VegetationGrid.prototype.addPatchToVegetationGrid = function(patchConfig, pos) {
 
             let config = this.callbacks.getPlantConfigs('patches')[patchConfig];
-            console.log("PatchCfg:", config);
+        //    console.log("PatchCfg:", config);
 
+            var plantCount = Math.round(MATH.randomBetween(config.plants_min, config.plants_max));
 
+            if (config['plants']) {
+                let sector = new VegetationSector(plantCount, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea, this.callbacks.getPlantConfigs, 'plants');
+                sector.setupAsPatchSector(pos, config);
+                sector.activateVegetationSector();
+                this.vegetationPatches.push(sector);
+            }
 
         };
-
 
 
         VegetationGrid.prototype.getSectorAtPosition = function(pos) {
@@ -95,12 +101,11 @@ define([
             return this.sectors[tempVec1.x][tempVec1.z];
         };
 
-
         var clears = [];
 
         VegetationGrid.prototype.activateNeighboringSectors = function(centerSector) {
 
-            var range = this.activeGridRange;
+            var range = Math.ceil((this.activeGridRange / this.sectors.length) * centerSector.sectorSizeX) ;
             var row;
             var col;
             var sector;
@@ -156,10 +161,10 @@ define([
             tempVec1.copy(centerPos);
             tempVec1.y = sector.center.y;
 
-            let dst = Math.max(tempVec1.distanceTo(sector.center) - sector.sectorSizeX*0.15, 0);
-            dst = (dst / ((this.activeGridRange) * sector.sectorSizeX));
+            let dst = Math.max(tempVec1.distanceTo(sector.center), 0);
+            dst = (dst / this.activeGridRange);
         //    console.log(dx, dz);
-            return MATH.clamp(MATH.curveSigmoid(1 - MATH.curveSqrt(dst*(0.45+(1/this.activeGridRange)))), 0, 1)//+dz
+            return MATH.clamp(MATH.curveSigmoid(1.2 - MATH.curveSqrt(dst*2.5), 0, 1))//+dz
 
         };
 
@@ -170,6 +175,17 @@ define([
 
                 let distance = this.calcDistanceFromCenter(this.activeSectors[i], centerPos);
                 this.activeSectors[i].updateProximityStatus(distance);
+
+            }
+
+
+            for (var i = 0; i < this.vegetationPatches.length; i++) {
+
+
+            //    if (Math.random() < 0.1) {
+                    let distance = this.calcDistanceFromCenter(this.vegetationPatches[i], centerPos);
+                    this.vegetationPatches[i].updateProximityStatus(distance);
+            //    }
 
             }
 
@@ -203,6 +219,11 @@ define([
             while (this.activeSectors.length) {
                 this.activeSectors.pop().deactivateVegetationSector();
             }
+
+            while (this.vegetationPatches.length) {
+                this.vegetationPatches.pop().deactivateVegetationSector();
+            }
+
             while (this.sectors.length) {
                 this.sectors.pop();
             }

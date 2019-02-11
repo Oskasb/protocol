@@ -7,6 +7,41 @@
           "model_asset":"asset_ninjablade"
         }
       },
+
+
+
+      {
+        "id":"LEGS_BRONZE",
+        "data":{
+          "model_asset":"asset_bronze_legs"
+        }
+      },
+      {
+        "id":"BREASTPLATE_BRONZE",
+        "data":{
+          "model_asset":"asset_bronze_bp"
+        }
+      },
+      {
+        "id":"HELMET_BRONZE",
+        "data":{
+          "model_asset":"asset_helmet_bronze"
+        }
+      },
+      {
+        "id":"BRACER_BRONZE",
+        "data":{
+          "model_asset":"asset_bracer_bronze"
+        }
+      },
+      {
+        "id":"BELT_BRONZE",
+        "data":{
+          "model_asset":"asset_belt_bronze"
+        }
+      },
+
+
       {
         "id":"HELMET_VIKING",
         "data":{

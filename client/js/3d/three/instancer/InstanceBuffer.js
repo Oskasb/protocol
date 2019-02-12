@@ -45,7 +45,7 @@ define([
 
             var vertices = new THREE.BufferAttribute(posBuffer , 3 );
             geometry.addAttribute( 'vertexPosition', vertices );
-
+            geometry.addAttribute( 'position', vertices );
             var uvs = new THREE.BufferAttribute( uvBuffer , 2 );
             geometry.addAttribute( 'uv', uvs );
 

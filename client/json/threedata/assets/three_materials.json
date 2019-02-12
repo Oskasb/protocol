@@ -15,7 +15,28 @@
             ]
           }
         },
-
+        {
+          "id":"mat_instancing_lambert",
+          "config":{
+            "settings": "lambert_instancing_settings",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"       }
+            ]
+          }
+        },
+        {
+          "id":"mat_instancing_standard",
+          "config":{
+            "settings": "standard_instancing_settings",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"       } ,
+              {"key":"envMap"        , "id":"ref_sphere"          } ,
+              {"key":"metalnessMap"  , "id":"atlas_2k_metalness"  } ,
+              {"key":"roughnessMap"  , "id":"atlas_2k_roughness"  } ,
+              {"key":"normalMap"     , "id":"atlas_2k_norm"       }
+            ]
+          }
+        },
         {
           "id":"material_terrain",
           "config":{

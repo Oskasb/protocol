@@ -609,7 +609,7 @@
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
 
-          "attribute vec3 vertexPosition;",
+          "attribute vec3 position;",
           "attribute vec3 normal;",
           "attribute vec3 offset;",
           "attribute vec3 scale3d;",
@@ -635,10 +635,12 @@
 
 
           "void main(){",
-            "vec3 vPosition = vertexPosition.xzy;",
+            "vec3 vPosition = position;",
 
-            "vec3 vcV = cross(orientation.xyz, vPosition);",
-            "vPosition = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + vPosition);",
+            "vec4 quat = orientation.xyzw;",
+
+            "vec3 vcV = cross(quat.xyz, vPosition);",
+            "vPosition = vcV * (2.0 * quat.w) + (cross(quat.xyz, vcV) * 2.0 + vPosition);",
 
             "vUv = uv;",
 
@@ -646,7 +648,7 @@
             "vPosition.y = vPosition.y * (1.0 * scale3d.y);",
             "vPosition.z = vPosition.z * (1.0 * scale3d.z);"  ,
 
-            "vec3 vNormal = normal.xzy;",
+            "vec3 vNormal = normal.xyz;",
             "vec3 faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
 
             "float intensity = max( 0.4 + dot(faceNormal, sunLightDirection ) * 0.5, 0.0);",
@@ -709,7 +711,7 @@
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
 
-          "attribute vec3 vertexPosition;",
+          "attribute vec3 position;",
           "attribute vec3 normal;",
           "attribute vec3 offset;",
           "attribute vec3 scale3d;",
@@ -753,7 +755,7 @@
 
           "float zHideFactor = floor(decayProg);",
 
-          "vec3 vPosition = vertexPosition.xzy;",
+          "vec3 vPosition = position.xzy;",
           "vPosition.y = vPosition.y - sign(uv.y - 0.5) * sprite.z * (attackProg - decayProg);",
           "vPosition.x = vPosition.x + sign(uv.x - 0.5) * sprite.w * (attackProg - decayProg);",
 
@@ -862,7 +864,7 @@
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
 
-          "attribute vec3 vertexPosition;",
+          "attribute vec3 position;",
           "attribute vec3 normal;",
           "attribute vec3 offset;",
           "attribute vec3 scale3d;",
@@ -919,7 +921,7 @@
 
           "vec3 charPos = character;",
 
-          "vec3 originalVpos = vertexPosition;",
+          "vec3 originalVpos = position;",
 
           "originalVpos.y /= sprite.z;",
 

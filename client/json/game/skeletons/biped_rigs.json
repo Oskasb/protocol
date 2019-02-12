@@ -9,11 +9,11 @@
             "PROP_1":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
             "PROP_2":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
             "PROP_3":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
-            "HEAD":     { "offset": [0, 0, 0], "rot": [1.57,-0.0,  -1.57], "scale": [1, 1, 1]},
-            "PELVIS":   { "offset": [0, 0, 0], "rot": [1.57,-0.0,  -1.57], "scale": [1, 1, 1]},
-            "HAND_L":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
-            "HAND_R":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
-            "GRIP_R":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
+            "HEAD":     { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14], "scale": [1, 1, 1]},
+            "PELVIS":   { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14], "scale": [1, 1, 1]},
+            "HAND_L":   { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14], "scale": [1, 1, 1]},
+            "HAND_R":   { "offset": [0, 0, 0], "rot": [0, 0, 1.57], "scale": [1, 1, 1]},
+            "GRIP_R":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]},
             "GRIP_L":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]}
           },
           "animations": {

@@ -134,10 +134,12 @@ define([
 
             for (i = 0; i < materials.length; i++) {
                 mat = materials[i];
-                if (mat.uniforms.systemTime) {
-                    mat.uniforms.systemTime.value = systemTime;
-                } else {
-                    console.log("no uniform yet...")
+                if (mat.uniforms) {
+                    if (mat.uniforms.systemTime) {
+                        mat.uniforms.systemTime.value = systemTime;
+                    } else {
+                        console.log("no uniform yet...")
+                    }
                 }
 
             }

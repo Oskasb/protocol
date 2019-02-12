@@ -24,6 +24,37 @@
           }
         },
         {
+          "id": "lambert_instancing_settings"  ,
+          "config": {
+            "shader": "MeshLambertMaterial",
+            "properties": {
+              "defines": {"INSTANCED": ""},
+              "blending": "NoBlending",
+              "color": {"r": 1, "g": 1, "b": 1 },
+              "settings": {
+
+              }
+            }
+          }
+        },
+        {
+          "id": "standard_instancing_settings"  ,
+          "config": {
+            "shader": "MeshStandardMaterial",
+            "properties": {
+              "defines": {"INSTANCED": ""},
+              "blending": "NoBlending",
+              "color": {"r": 1, "g": 1, "b": 1 },
+              "settings": {
+                "roughness":1,
+                "metalness":1.0,
+                "envMapIntensity":1.2,
+                "aoMapIntensity":1.1
+              }
+            }
+          }
+        },
+        {
           "id": "standard_opaque_settings"  ,
           "config": {
             "shader": "MeshStandardMaterial",

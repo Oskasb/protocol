@@ -75,12 +75,23 @@ define([        'application/PipelineObject'],
 
             for (var key in props.settings) {
                 mat[key] = props.settings[key]
-            };
+            }
+
+            if (props.defines) {
+
+                console.log("Add defines: ", mat.defines);
+
+                mat.defines = mat.defines || {};
+
+                for (var key in props.defines) {
+                    mat.defines[key] = props.defines[key]
+
+                }
+            }
 
             if (props.blending) {
                 mat.blending = THREE[props.blending];
             }
-
 
             if (props.customBlending) {
                 for (var key in props.customBlending) {
@@ -88,9 +99,7 @@ define([        'application/PipelineObject'],
                 }
             }
 
-
             if (props.side) mat.side = THREE[props.side];
-
 
             if (props.color) {
                 mat.color.r = props.color.r;
@@ -115,6 +124,7 @@ define([        'application/PipelineObject'],
                 return;
             }
 
+
             var mat = new THREE[shader](props.settings);
 
             if (props.blending) {
@@ -130,6 +140,20 @@ define([        'application/PipelineObject'],
             if (props.side) mat.side = THREE[props.side];
             if (props.combine) mat.combine = THREE[props.combine];
             if (props.depthTest) mat.depthTest = props.depthTest;
+
+
+
+            if (props.defines) {
+
+                console.log("Add defines: ", mat.defines);
+
+                mat.defines = mat.defines || {};
+
+                for (var key in props.defines) {
+                    mat.defines[key] = props.defines[key]
+
+                }
+            }
 
             this.mat = mat;
             cb(this);
@@ -169,7 +193,7 @@ define([        'application/PipelineObject'],
 
         ThreeMaterial.prototype.setupCustomShaderMaterial = function(shader, props, cb) {
 
-            if ( this.id === "material_terrain") console.log("material_terrain", this);
+        //    if ( this.id === "material_terrain") console.log("material_terrain", this);
 
 
             if (props.data_texture) var dataTx = this.textures[props.data_texture].texture;
@@ -289,6 +313,8 @@ define([        'application/PipelineObject'],
         ThreeMaterial.prototype.setAssetConfig = function(assetType, assetId, data) {
 
         };
+
+
 
         return ThreeMaterial;
 

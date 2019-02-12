@@ -5,12 +5,14 @@ define([
         'workers/main/camera/WorldCamera',
         'worker/terrain/TerrainSystem',
         'workers/main/world/vegetation/Vegetation',
+        'worker/physics/PhysicsWorldAPI'
     ],
     function(
         WorkerData,
         WorldCamera,
         TerrainSystem,
-        Vegetation
+        Vegetation,
+        pwAPI
     ) {
 
         var worldStatus = {
@@ -25,10 +27,18 @@ define([
 
         var WorldSimulation = function(simReady) {
 
+            MATH.setCalcVec(new THREE.Vector3());
+
             this.terrainSystem = new TerrainSystem();
             this.vegetation = new Vegetation();
             this.worldCamera = new WorldCamera();
             worldSimulation = this;
+
+            var pReady = function(x) {
+                console.log("PhysicsReady", x)
+            };
+
+            PhysicsWorldAPI.initPhysicsWorld(pReady);
 
             this.vegetation.initVegetation("grid_default", new WorkerData('VEGETATION', 'GRID'),  new WorkerData('VEGETATION', 'PLANTS') ,simReady);
         };
@@ -69,7 +79,7 @@ define([
 
             var area = ts.getTerrainAreaAtPos(tempVec);
             veg.vegetateTerrainArea(area);
-
+            PhysicsWorldAPI.addTerrainToPhysics(area);
         };
 
         WorldSimulation.prototype.getTerrainHeightAt = function(pos, normalStore) {
@@ -159,6 +169,8 @@ define([
         var tempVec1 = new THREE.Vector3();
 
         WorldSimulation.prototype.tickWorldSimulation = function(tpf, time) {
+
+            PhysicsWorldAPI.callPhysicsSimulationUpdate(tpf);
 
             this.worldCamera.tickWorldCamera(tpf);
 

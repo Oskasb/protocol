@@ -42,6 +42,10 @@ define([
 
         };
 
+        TerrainArea.prototype.setAmmoBody = function(body) {
+            this.ammoBody = body;
+        };
+
         TerrainArea.prototype.configRead = function(dataKey) {
 
         };

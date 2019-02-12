@@ -82,7 +82,7 @@ define([
                 chunks[key] = THREE.ShaderChunk[key];
                 PipelineAPI.setCategoryKeyValue("THREE_CHUNKS", key, "\n" + chunks[key] + "\n");
             }
-            console.log("CACHE THREE CHUNKS:", chunks);
+        //    console.log("CACHE THREE CHUNKS:", chunks);
         };
 
         var combineProgramFromSources = function(sources) {
@@ -362,7 +362,7 @@ define([
             gl = glContext;
 
             monkeyPatchStandardShaderForInstancing();
-            console.log("Shader Lib: ", THREE.ShaderLib)
+        //    console.log("Shader Lib: ", THREE.ShaderLib)
 
             mapThreeShaderChunks();
 

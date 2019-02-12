@@ -161,7 +161,7 @@ define([        'application/PipelineObject'],
 
 
         ThreeMaterial.prototype.addTextureUniform = function(uniforms, texConf) {
-            console.log("TEXTURE addTextureUniform:", uniforms, texConf);;
+    //        console.log("TEXTURE addTextureUniform:", uniforms, texConf);;
 
             var key = texConf.key;
 

@@ -95,10 +95,10 @@ define([
 
         WorldEntity.prototype.initWorldEntity = function(time) {
             this.active = ENUMS.InstanceState.ACTIVE_VISIBLE;
-
             this.setWorldEntityIsDirty();
-
         };
+
+
 
         WorldEntity.prototype.updateWorldEntity = function() {
             if (this.worldEntityIsDirty) {

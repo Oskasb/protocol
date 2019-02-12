@@ -184,6 +184,29 @@ define([
             gamePiece.getWorldEntity().setWorldEntityScale(tempObj3d.scale);
         };
 
+
+        GameAPI.dropCharacterItem = function(character) {
+
+
+
+
+
+            var dropItemReady = function(item) {
+
+                character.getCharacterPosition(tempObj3d.position);
+                tempObj3d.position.y+=1;
+                item.setItemPosition(tempObj3d.position);
+                item.enableItemPhysics();
+        //        console.log("Character Drop Item",item, character);
+
+            };
+
+            //    for (var i = 0; i < equipItems.length; i++) {
+            GameAPI.createGameItem("ITEM_HELMET_BRONZE", dropItemReady);
+
+        };
+
+
         GameAPI.createGamePiece = function(dataId, onReady) {
             pieceBuilder.buildGamePiece(dataId, onReady);
         };

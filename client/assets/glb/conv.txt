@@ -43,7 +43,7 @@ FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\shapes\nin
 
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\weapons\ninjablade            D:\projects\protocol\client\assets\models\items_rigid\weapons\ninjablade.FBX   -b
 
-FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\head\helmet_viking      D:\projects\protocol\client\assets\models\items_rigid\armor\head\helmet_viking.FBX   -b
+
 FBX2glTF-windows-x64.exe -o D:\projects\protocol\client\assets\models\items_rigid\armor\belt\belt_plate         D:\projects\protocol\client\assets\models\items_rigid\armor\belt\belt_plate.FBX      -b
 
 

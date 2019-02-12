@@ -29,6 +29,16 @@ define([
             return this.workerData.readDataKey(key)
         };
 
+        Item.prototype.setItemPosition = function( posVec) {
+            this.gamePiece.getWorldEntity().setWorldEntityPosition(posVec);
+        };
+
+
+        Item.prototype.enableItemPhysics = function( ) {
+            PhysicsWorldAPI.addPhysicsToWorldEntity(this.gamePiece.getWorldEntity())
+
+        };
+
         Item.prototype.setGamePiece = function( gamePiece) {
             this.gamePiece = gamePiece;
         };

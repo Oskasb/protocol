@@ -286,11 +286,18 @@ define([
                 GuiAPI.printDebugText("STEP ENVIRONMENT "+env);
             };
 
-            var advancingEnv = function() {
+            var dummy = function() {
 
             };
 
-            addTopButton('STEPENV', advanceEnv, advancingEnv);
+            addTopButton('STEPENV', advanceEnv, dummy);
+
+            var dropItem = function() {
+                GameAPI.dropCharacterItem(GameAPI.getPlayerCharacter());
+            };
+
+
+            addTopButton('DROPITEM', dropItem, dummy);
 
         };
 

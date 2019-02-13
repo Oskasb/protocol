@@ -271,7 +271,6 @@ define([
 
         };
 
-
         VegetationSector.prototype.activateVegetationSector = function() {
             this.isActive = true;
         };
@@ -280,7 +279,6 @@ define([
             this.isActive = false;
             MATH.callAll(this.deactivateCallbacks, this);
         };
-
 
         return VegetationSector;
 

@@ -43,7 +43,7 @@
         {"id": "instancing_items_settings" ,
           "config": {
             "instancing": {
-              "instances": 50,
+              "instances": 200,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
               "cameraspace": false
             },

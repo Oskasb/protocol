@@ -413,7 +413,7 @@ define([
 
             console.log("createPhysicalTerrain", totalSize, posx, posz, minHeight, maxHeight);
 
-            var margin = 5;
+            var margin = 1;
 
             var terrainMaxHeight = maxHeight;
             var terrainMinHeight = minHeight;

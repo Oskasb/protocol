@@ -5,12 +5,14 @@ var GameAPI;
 define([
         'game/GameMain',
         'game/GameAssets',
-        'game/pieces/PieceBuilder'
+        'game/pieces/PieceBuilder',
+    'evt'
     ],
     function(
         GameMain,
         GameAssets,
-        PieceBuilder
+        PieceBuilder,
+        evt
     ) {
 
     var tempObj3d = new THREE.Object3D();
@@ -51,6 +53,14 @@ define([
             //    "ITEM_SCALESKIRT",
             "ITEM_SCALEBOOTS"    ,
             "ITEM_SCALEGLOVES"
+        ];
+
+        var staticItems = [
+            "ITEM_KATANA"        ,
+            "ITEM_VIKINGHELMET"  ,
+            "ITEM_PLATEBELT"     ,
+            "ITEM_HELMET_BRONZE"  ,
+            "ITEM_BELT_BRONZE"         ,
         ];
 
         var defaultActions = [
@@ -194,15 +204,21 @@ define([
             var dropItemReady = function(item) {
 
                 character.getCharacterPosition(tempObj3d.position);
-                tempObj3d.position.y+=1;
+                tempObj3d.position.y+=1.5;
                 item.setItemPosition(tempObj3d.position);
                 item.enableItemPhysics();
+
+                tempObj3d.position.set(Math.random()-0.5,0, Math.random()-0.5);
+                tempObj3d.position.normalize();
+                tempObj3d.position.y += Math.random()+0.25;
+
+                PhysicsWorldAPI.applyForceToWorldEntity(item.gamePiece.getWorldEntity(), tempObj3d.position)
         //        console.log("Character Drop Item",item, character);
 
             };
 
             //    for (var i = 0; i < equipItems.length; i++) {
-            GameAPI.createGameItem("ITEM_HELMET_BRONZE", dropItemReady);
+            GameAPI.createGameItem(MATH.getRandomArrayEntry(staticItems), dropItemReady);
 
         };
 
@@ -251,6 +267,40 @@ define([
 
         GameAPI.updateGame = function(tpf, time) {
             gameMain.updateGameMain(tpf, time);
+        };
+
+        var largs = [];
+        GameAPI.debugDrawLine = function(fromVec3, toVec3, color) {
+            largs[0] = fromVec3.x;
+            largs[1] = fromVec3.y;
+            largs[2] = fromVec3.z;
+            largs[3] = toVec3.x;
+            largs[4] = toVec3.y;
+            largs[5] = toVec3.z;
+            largs[6] = color;
+            evt.fire(ENUMS.Event.DEBUG_DRAW_LINE, largs)
+        };
+
+        var xargs = [];
+        GameAPI.debugDrawCross = function(point, color, size) {
+            xargs[0] = point.x;
+            xargs[1] = point.y;
+            xargs[2] = point.z;
+            xargs[3] = color;
+            xargs[4] = size;
+            evt.fire(ENUMS.Event.DEBUG_DRAW_CROSS, xargs)
+        };
+
+        var bargs = [];
+        GameAPI.debugDrawAABox = function(fromVec3, toVec3, color) {
+            bargs[0] = fromVec3.x;
+            bargs[1] = fromVec3.y;
+            bargs[2] = fromVec3.z;
+            bargs[3] = toVec3.x;
+            bargs[4] = toVec3.y;
+            bargs[5] = toVec3.z;
+            bargs[6] = color;
+            evt.fire(ENUMS.Event.DEBUG_DRAW_AABOX, bargs)
         };
 
         return GameAPI;

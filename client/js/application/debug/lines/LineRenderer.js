@@ -44,9 +44,9 @@ define([],
 
         
         var vecByIndex = function(vec, i) {
-            if (i == 0) return vec.x;
-            if (i == 1) return vec.y;
-            if (i == 2) return vec.z;
+            if (i === 0) return vec.x;
+            if (i === 1) return vec.y;
+            if (i === 2) return vec.z;
         };
 
         LineRenderer.prototype._addLine = function (start, end, color) {
@@ -82,6 +82,7 @@ define([],
 
         LineRenderer.prototype._clear = function () {
             this._numRenderingLines = 0;
+            this.geometry.setDrawRange( 0, 0);
         };
 
         LineRenderer.prototype._pause = function () {

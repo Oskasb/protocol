@@ -30,8 +30,14 @@ define([
 
             this.isDynamic = 1;
 
+            this.velocity = new THREE.Vector3();
+            this.angularVelocity = new THREE.Vector3();
+
             this.shapesMap = {};
             this.dynamicShapes = [];
+            this.stillFrames = 0;
+            this.simulateFlag = 1;
+            this.disabledFlag = 0;
             this.stillLimit = 5;
             this.visiblePingFrames = 2000;
         };
@@ -99,6 +105,13 @@ define([
             this.bodyMass = mass;
         };
 
+        DynamicSpatial.prototype.applyDynamicSpatialForce = function(ammoApi, forceVec) {
+            forceVec.multiplyScalar(this.bodyMass*50);
+            ammoApi.applyForceAndTorqueToBody(forceVec, this.body)
+
+        };
+
+
         DynamicSpatial.prototype.getVisualSize = function() {
             return this.bodyMass;
         };
@@ -131,13 +144,37 @@ define([
             return (Math.abs(this.spatialBuffer[indx]) + Math.abs(this.spatialBuffer[indx+1]) + Math.abs(this.spatialBuffer[indx+2]))
         };
 
+        DynamicSpatial.prototype.setSpatialSimulateFlag = function(value) {
+            this.simulateFlag = value;
+        };
+
+        DynamicSpatial.prototype.getSpatialSimulateFlag = function() {
+            return this.simulateFlag;
+        };
+
+        DynamicSpatial.prototype.setSpatialDisabledFlag = function(value) {
+            this.disabledFlag = value;
+        };
+
+        DynamicSpatial.prototype.getSpatialDisabledFlag = function() {
+            return this.disabledFlag;
+        };
+
+        DynamicSpatial.prototype.setSpatialStillFrames = function(value) {
+            this.stillFrames = value;
+        };
+
+        DynamicSpatial.prototype.getSpatialStillFrames = function() {
+            return this.stillFrames;
+        };
+
         var motion;
 
         DynamicSpatial.prototype.testSpatialMotion = function() {
-            return;
-            motion = this.testVectorByFirstIndex(ENUMS.BufferSpatial.VELOCITY_X)+this.testVectorByFirstIndex(ENUMS.BufferSpatial.ANGULAR_VEL_X);
 
-            if (motion < 0.0001) {
+            motion = this.velocity.lengthSq()+ this.angularVelocity.lengthSq();
+
+            if (motion < 0.01) {
                 this.setSpatialStillFrames(this.getSpatialStillFrames()+1);
             } else {
                 this.setSpatialStillFrames(0);
@@ -148,6 +185,38 @@ define([
 
         DynamicSpatial.prototype.tickPhysicsUpdate = function(ammoApi) {
 
+            this.testSpatialMotion();
+            if (this.getSpatialStillFrames() < this.stillLimit) {
+
+                this.setSpatialSimulateFlag(1)
+
+            } else {
+                this.setSpatialSimulateFlag(0)
+            }
+
+            if (this.getSpatialSimulateFlag()) {
+
+                if (this.getSpatialDisabledFlag()) {
+
+                    //    ammoApi.includeBody(this.body);
+                    ammoApi.requestBodyActivation(this.body);
+
+                    this.setSpatialDisabledFlag(0);
+
+                }
+
+
+            } else {
+
+                if (!this.getSpatialDisabledFlag()) {
+
+                    //    ammoApi.excludeBody(this.body);
+                    ammoApi.requestBodyDeactivation(this.body);
+
+                    this.setSpatialDisabledFlag(1);
+
+                }
+            }
         };
 
         var vel;
@@ -192,7 +261,7 @@ define([
         DynamicSpatial.prototype.sampleBodyState = function() {
 
             if (this.isStatic()) {
-        //        return;
+                return;
             }
 
             if (!this.body.getMotionState) {
@@ -205,8 +274,14 @@ define([
 
             vel = this.body.getLinearVelocity();
 
+            this.velocity.set(vel.x(), vel.y(), vel.z());
+
+            angVel = this.body.getAngularVelocity();
+
+            this.angularVelocity.set(angVel.x(), angVel.y(), angVel.z());
+
             if (this.isStatic()) {
-        //        this.setSpatialDisabledFlag(1);
+                this.setSpatialDisabledFlag(1);
             }
 
         };

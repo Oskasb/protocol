@@ -36,10 +36,12 @@ if(typeof(ENUMS) === "undefined"){
         REGISTER_INSTANCE:      13,
         UPDATE_MODEL:           14,
         UPDATE_ANIMATIONS:      15,
-        ____:                   16,
+        DEBUG_DRAW_LINE:        16,
         DETATCH:                17,
         ATTACH_TO_JOINT:        18,
-        ADVANCE_ENVIRONMENT:    19
+        ADVANCE_ENVIRONMENT:    19,
+        DEBUG_DRAW_CROSS:       20,
+        DEBUG_DRAW_AABOX:       21
     };
 
     ENUMS.Args = {
@@ -456,6 +458,24 @@ if(typeof(ENUMS) === "undefined"){
         oneZeroOne:     3,
         zeroToOne:      2,
         oneToZero:      1
+    };
+
+    ENUMS.Color = {
+        WHITE    :    0,
+        GREY     :    1,
+        PINK     :    2,
+        RED      :    3,
+        PURPLE   :    4,
+        GREEN    :    5,
+        PEA      :    6,
+        BLUE     :    7,
+        AQUA     :    8,
+        CYAN     :    9,
+        MAGENTA  :    10,
+        DARKPURP :    11,
+        YELLOW   :    12,
+        ORANGE   :    13,
+        BLACK    :    14
     };
 
 

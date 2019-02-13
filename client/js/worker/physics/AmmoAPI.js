@@ -153,9 +153,6 @@ define(['worker/physics/AmmoFunctions'],
             ammoFunctions.forceAtPointToBody(forceVec3, pointVec, body)
         };
 
-        AmmoAPI.prototype.applyForceAtPointToBody = function(forceVec3, pointVec, body) {
-            ammoFunctions.forceAtPointToBody(forceVec3, pointVec, body)
-        };
 
         AmmoAPI.prototype.applyForceToActor = function(forceVec3, actor, randomize) {
             ammoFunctions.applyForceToBodyWithMass(forceVec3, actor.getPhysicsBody(), actor.physicalPiece.getPhysicsPieceMass(), randomize)

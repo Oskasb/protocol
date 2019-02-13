@@ -28,27 +28,33 @@ define([
 		LineRenderSystem.axis = ['x', 'y', 'z'];
 
 		//setup a preset of colors
-		LineRenderSystem.prototype.WHITE = new Vector3(1, 1, 1);
-		LineRenderSystem.prototype.GREY = new Vector3(0.5, 0.5, 0.5);
-		LineRenderSystem.prototype.PINK = new Vector3(1, 0.6, 0.6);
-		LineRenderSystem.prototype.RED = new Vector3(1, 0, 0);
+		var colors = {
+			WHITE 	: new Vector3(1, 1, 1),
+			GREY 	: new Vector3(0.5, 0.5, 0.5),
+			PINK 	: new Vector3(1, 0.6, 0.6),
+			RED 	: new Vector3(1, 0, 0),
+			PURPLE 	: new Vector3(1, 0.5, 1),
+			GREEN	: new Vector3(0, 1, 0),
+			PEA 	: new Vector3(0.5, 1, 0.5),
+			BLUE 	: new Vector3(0, 0, 1),
+			AQUA 	: new Vector3(0, 1, 1),
+			CYAN 	: new Vector3(0.5, 1, 1),
+			MAGENTA : new Vector3(1, 0, 1),
+			DARKPURP: new Vector3(0.35, 0, 0.35),
+			YELLOW 	: new Vector3(1, 1, 0),
+			ORANGE 	: new Vector3(1, 0.8, 0.3),
+			BLACK 	: new Vector3(0, 0, 0)
+		};
 
-		LineRenderSystem.prototype.PURPLE = new Vector3(1, 0.5, 1);
-		LineRenderSystem.prototype.GREEN = new Vector3(0, 1, 0);
-		LineRenderSystem.prototype.PEA = new Vector3(0.5, 1, 0.5);
 
-		LineRenderSystem.prototype.BLUE = new Vector3(0, 0, 1);
-		LineRenderSystem.prototype.AQUA = new Vector3(0, 1, 1);
-		LineRenderSystem.prototype.CYAN = new Vector3(0.5, 1, 1);
-		LineRenderSystem.prototype.MAGENTA = new Vector3(1, 0, 1);
-		LineRenderSystem.prototype.DARKPURP = new Vector3(0.35, 0, 0.35);
-		LineRenderSystem.prototype.YELLOW = new Vector3(1, 1, 0);
-		LineRenderSystem.prototype.ORANGE = new Vector3(1, 0.8, 0.3);
-		LineRenderSystem.prototype.BLACK = new Vector3(0, 0, 0);
+		LineRenderSystem.prototype.color = function(color) {
+			return colors[color];
+		};
+
 
 
 		LineRenderSystem.prototype.drawLine = function (start, end, color) {
-			var lineRenderer = this._lineRenderers[0];
+			let lineRenderer = this._lineRenderers[0];
 
 			lineRenderer._addLine(start, end, color);
 		};

@@ -299,6 +299,17 @@ define([
 
             addTopButton('DROPITEM', dropItem, dummy);
 
+
+            var physDebug = function() {
+                PhysicsWorldAPI.setDebugDrawPhysics(!PhysicsWorldAPI.getDebugDrawPhysics())
+            };
+            var physIsDebug = function() {
+                return PhysicsWorldAPI.getDebugDrawPhysics()
+            };
+
+
+            addTopButton('PHYS_DBG', physDebug, physIsDebug);
+
         };
 
         UiTestSetup.prototype.addProgressBar = function() {

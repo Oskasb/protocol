@@ -133,16 +133,43 @@ define([
 
             frameEnd = getNow();
 
+
+            if (debugDraw) {
+                PhysicsWorldAPI.debugDrawPhysics();
+            }
         //    PhysicsWorldAPI.updatePhysicsStats();
 
         };
 
+        var tempVec1 = new THREE.Vector3();
+        var isSimulating;
 
+        PhysicsWorldAPI.debugDrawPhysics = function() {
+            for (var i = 0; i < dynamicSpatials.length; i++) {
+
+                isSimulating = dynamicSpatials[i].getSpatialSimulateFlag();
+
+                if (isSimulating) {
+                    dynamicSpatials[i].getSpatialPosition(tempVec1);
+                    GameAPI.debugDrawCross(tempVec1, ENUMS.Color.YELLOW, 0.3);
+                }
+            }
+        };
 
 
         PhysicsWorldAPI.startPhysicsSimulationLoop = function() {
             start = performance.now();
             frameEnd = getNow();
+        };
+
+        var debugDraw = false;
+
+        PhysicsWorldAPI.setDebugDrawPhysics = function(bool) {
+            debugDraw = bool;
+        };
+
+        PhysicsWorldAPI.getDebugDrawPhysics = function() {
+            return debugDraw;
         };
 
         var getTerrainKey = function(msg) {
@@ -215,6 +242,13 @@ define([
             ammoApi.setupRigidBody(boxConfig, dynamicSpatial, bodyReady);
 
         };
+
+        PhysicsWorldAPI.applyForceToWorldEntity = function(worldEntity, forceVec) {
+
+            var dynSpat = MATH.getFromArrayByKeyValue(dynamicSpatials, 'worldEntity', worldEntity);
+            dynSpat.applyDynamicSpatialForce(ammoApi, forceVec);
+        };
+
 
         PhysicsWorldAPI.setPhysicsGeometryBuffer = function(msg) {
             console.log("Set Phys Buffer", msg)

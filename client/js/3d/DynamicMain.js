@@ -26,8 +26,10 @@ define([
 
     var dynamicMain;
 
+
     var DynamicMain = function() {
         dynamicMain = this;
+
 
         var requestInstance = function(event) {
             this.requestAssetInstance(event)
@@ -122,6 +124,7 @@ define([
     DynamicMain.prototype.tickDynamicMain = function(tpf) {
         ThreeAPI.updateAnimationMixers(tpf);
         InstanceAPI.updateInstances(tpf);
+
     };
 
 

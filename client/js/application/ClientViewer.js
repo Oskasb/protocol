@@ -5,6 +5,7 @@ define([
         'PipelineAPI',
         '3d/SceneController',
         '3d/DynamicMain',
+        'application/debug/SetupDebug',
 		'evt'
     ],
 	function(
@@ -12,6 +13,7 @@ define([
         PipelineAPI,
         SceneController,
         DynamicMain,
+        SetupDebug,
         evt
     ) {
 
@@ -22,7 +24,7 @@ define([
     var callbacks = [];
     var workerCallbacks = [];
     var callbackFunctions;
-
+        var setupDebug;
     var dynamicMain;
 
 
@@ -42,6 +44,7 @@ define([
 
 
             var workerFrameCallback = function(frame) {
+                setupDebug.updateSetupDebug()
                 evt.initEventFrame(frame);
                 dynamicMain.tickDynamicMain(lastTpf);
                 dynamicMain.tickPrerenderDynamics(lastTpf);
@@ -68,8 +71,9 @@ define([
 
         ClientViewer.prototype.initScene = function(ready) {
             //    console.log("tick", tpf)
-            sceneController.setup3dScene(ready);
 
+            sceneController.setup3dScene(ready);
+            setupDebug = new SetupDebug();
         };
 
         ClientViewer.prototype.setRenderCallbacksOn = function(on) {

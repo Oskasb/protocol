@@ -119,7 +119,7 @@ define([
             GameAPI.updateGame(tpf, time);
             worldSimulation.tickWorldSimulation(tpf, time);
             GuiAPI.updateGui(tpf, time);
-
+            DebugAPI.updateDebugApi()
         };
 
         MainWorldAPI.registerSharedBuffer = function(buffer, bufferType, bufferIndex) {

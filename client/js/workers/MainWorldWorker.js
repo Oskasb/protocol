@@ -39,12 +39,14 @@ require.config({
 
 require([
         'evt',
+        'client/js/workers/DebugAPI',
         'client/js/workers/main/ui/GuiAPI',
         'client/js/workers/main/MainWorldAPI',
         'game/GameAPI'
     ],
     function(
     evt,
+    dbgApi,
     guiAPI,
     mwAPI,
     gameAPI

@@ -90,7 +90,7 @@ define([
             var charReady = function(char) {
                 character = char;
                 console.log("Char Ready")
-                gameMain.registerGamePiece(char.getGamePiece());
+                gameMain.registerGameCharacter(char);
 
                 GameAPI.setPlayerCharacter(character);
 
@@ -127,7 +127,7 @@ define([
             var char2Ready = function(char) {
                 character2 = char;
                 console.log("Char2 Ready")
-                gameMain.registerGamePiece(char.getGamePiece());
+                gameMain.registerGameCharacter(char);
 
                 var scale = Math.random()*0.9+0.4;
                 point.x++;
@@ -151,7 +151,7 @@ define([
                 };
 
             //    for (var i = 0; i < equipItems.length; i++) {
-                    GameAPI.createGameItem("ITEM_KATANA", item2Ready);
+                GameAPI.createGameItem("ITEM_KATANA", item2Ready);
                 GameAPI.createGameItem("ITEM_VIKINGHELMET", item2Ready);
                 GameAPI.createGameItem("ITEM_PLATEBELT", item2Ready);
             //    }
@@ -196,8 +196,6 @@ define([
 
 
         GameAPI.dropCharacterItem = function(character) {
-
-
 
 
 
@@ -265,43 +263,15 @@ define([
             return gameAssets;
         };
 
+        GameAPI.getGameMain = function() {
+            return gameMain;
+        };
+
         GameAPI.updateGame = function(tpf, time) {
             gameMain.updateGameMain(tpf, time);
         };
 
-        var largs = [];
-        GameAPI.debugDrawLine = function(fromVec3, toVec3, color) {
-            largs[0] = fromVec3.x;
-            largs[1] = fromVec3.y;
-            largs[2] = fromVec3.z;
-            largs[3] = toVec3.x;
-            largs[4] = toVec3.y;
-            largs[5] = toVec3.z;
-            largs[6] = color;
-            evt.fire(ENUMS.Event.DEBUG_DRAW_LINE, largs)
-        };
 
-        var xargs = [];
-        GameAPI.debugDrawCross = function(point, color, size) {
-            xargs[0] = point.x;
-            xargs[1] = point.y;
-            xargs[2] = point.z;
-            xargs[3] = color;
-            xargs[4] = size;
-            evt.fire(ENUMS.Event.DEBUG_DRAW_CROSS, xargs)
-        };
-
-        var bargs = [];
-        GameAPI.debugDrawAABox = function(fromVec3, toVec3, color) {
-            bargs[0] = fromVec3.x;
-            bargs[1] = fromVec3.y;
-            bargs[2] = fromVec3.z;
-            bargs[3] = toVec3.x;
-            bargs[4] = toVec3.y;
-            bargs[5] = toVec3.z;
-            bargs[6] = color;
-            evt.fire(ENUMS.Event.DEBUG_DRAW_AABOX, bargs)
-        };
 
         return GameAPI;
     });

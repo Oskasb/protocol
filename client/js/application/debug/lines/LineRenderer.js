@@ -6,7 +6,7 @@ define([],
         function LineRenderer() {
 
             this._numRenderingLines = 0;
-            this.MAX_NUM_LINES = 10000;
+            this.MAX_NUM_LINES = 50000;
 
             this.geometry = new THREE.BufferGeometry();
 
@@ -27,7 +27,7 @@ define([],
             this.geometry.setDrawRange( 0, 0);
 
             this.material = new THREE.LineBasicMaterial( {
-                color: 0xffaa00,
+                color: 0xffffff,
                 blending:THREE.NoBlending,
                 depthTest:false,
                 depthWrite:true,

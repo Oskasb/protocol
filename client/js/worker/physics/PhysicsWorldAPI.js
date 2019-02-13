@@ -133,27 +133,6 @@ define([
 
             frameEnd = getNow();
 
-
-            if (debugDraw) {
-                PhysicsWorldAPI.debugDrawPhysics();
-            }
-        //    PhysicsWorldAPI.updatePhysicsStats();
-
-        };
-
-        var tempVec1 = new THREE.Vector3();
-        var isSimulating;
-
-        PhysicsWorldAPI.debugDrawPhysics = function() {
-            for (var i = 0; i < dynamicSpatials.length; i++) {
-
-                isSimulating = dynamicSpatials[i].getSpatialSimulateFlag();
-
-                if (isSimulating) {
-                    dynamicSpatials[i].getSpatialPosition(tempVec1);
-                    GameAPI.debugDrawCross(tempVec1, ENUMS.Color.YELLOW, 0.3);
-                }
-            }
         };
 
 
@@ -162,14 +141,9 @@ define([
             frameEnd = getNow();
         };
 
-        var debugDraw = false;
 
-        PhysicsWorldAPI.setDebugDrawPhysics = function(bool) {
-            debugDraw = bool;
-        };
-
-        PhysicsWorldAPI.getDebugDrawPhysics = function() {
-            return debugDraw;
+        PhysicsWorldAPI.getDynamicSpatials = function() {
+            return dynamicSpatials;
         };
 
         var getTerrainKey = function(msg) {

@@ -301,14 +301,26 @@ define([
 
 
             var physDebug = function() {
-                PhysicsWorldAPI.setDebugDrawPhysics(!PhysicsWorldAPI.getDebugDrawPhysics())
+                DebugAPI.setDebugDrawPhysics(!DebugAPI.getDebugDrawPhysics())
             };
             var physIsDebug = function() {
-                return PhysicsWorldAPI.getDebugDrawPhysics()
+                return DebugAPI.getDebugDrawPhysics()
             };
 
 
             addTopButton('PHYS_DBG', physDebug, physIsDebug);
+
+
+            var charDebug = function() {
+                DebugAPI.setDebugDrawCharacters(!DebugAPI.getDebugDrawCharacters())
+            };
+            var charIsDebug = function() {
+                return DebugAPI.getDebugDrawCharacters()
+            };
+
+
+            addTopButton('CHAR_DBG', charDebug, charIsDebug);
+
 
         };
 

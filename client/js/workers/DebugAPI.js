@@ -29,8 +29,18 @@ define([
                 isSimulating = dynSpats[i].getSpatialSimulateFlag();
 
                 if (isSimulating) {
+                    let args = dynSpats[i].getConfigKey('args');
                     dynSpats[i].getSpatialPosition(tempVec1);
-                    DebugAPI.debugDrawCross(tempVec1, ENUMS.Color.YELLOW, 0.3);
+                    DebugAPI.debugDrawCross(tempVec1, ENUMS.Color.YELLOW, args[0]);
+                    tempVec2.copy(dynSpats[i].up);
+                    tempVec2.multiplyScalar(args[0]);
+                    tempVec2.add(tempVec1);
+                    DebugAPI.debugDrawLine(tempVec2, tempVec1, ENUMS.Color.ORANGE);
+
+                    tempVec2.copy(dynSpats[i].axis);
+                    tempVec2.add(tempVec1);
+                    DebugAPI.debugDrawLine(tempVec2, tempVec1, ENUMS.Color.CYAN)
+
                 }
             }
         };
@@ -51,7 +61,7 @@ define([
             for (var i = 0; i < characters.length; i++) {
                 let char = characters[i];
 
-                tempVec1.copy(char.getCharacterMovement().velocity);
+                tempVec1.copy(char.getCharacterMovement().inputVector);
                 char.getCharacterPosition(tempVec2);
                 if (tempVec1.lengthSq()) {
 

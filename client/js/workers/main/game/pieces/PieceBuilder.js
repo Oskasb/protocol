@@ -104,10 +104,10 @@ define([
                 var pieceReady = function(gamePiece) {
 
                     char.setGamePiece(gamePiece);
+
                     onReady(char);
+                    char.getCharacterMovement().attachMovementSphere(gamePiece.getWorldEntity());
                 };
-
-
 
 
                 var charMovementReady = function(charMovement) {

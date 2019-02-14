@@ -23,7 +23,9 @@ define([
         var TRANSFORM_AUX;
         var VECTOR_AUX;
 
-        var DynamicSpatial = function() {
+        var DynamicSpatial = function(config) {
+
+            this.config = config;
 
             this.pieceConfKey = "";
             this.pieceConfId = "";
@@ -32,6 +34,9 @@ define([
 
             this.velocity = new THREE.Vector3();
             this.angularVelocity = new THREE.Vector3();
+            this.up = new THREE.Vector3();
+            this.axis = new THREE.Vector3();
+            this.quat = new THREE.Quaternion();
 
             this.shapesMap = {};
             this.dynamicShapes = [];
@@ -39,6 +44,7 @@ define([
             this.simulateFlag = 1;
             this.disabledFlag = 0;
             this.stillLimit = 5;
+            this.inheritRotation = true;
             this.visiblePingFrames = 2000;
         };
 
@@ -52,6 +58,11 @@ define([
 
             this.applyBodyTransform(body);
             return this.body = body;
+
+        };
+
+        DynamicSpatial.prototype.getConfigKey = function(key) {
+            return this.config[key];
 
         };
 
@@ -82,8 +93,15 @@ define([
         };
 
         DynamicSpatial.prototype.applySpatialQuaternionXYZW = function(x, y, z, w) {
-            tempQuat.set(x, y, z, w);
-            this.worldEntity.setWorldEntityQuaternion(tempQuat);
+            this.quat.set(x, y, z, w);
+            this.axis.set(this.config.args[0], 0, 0);
+            this.axis.applyQuaternion(this.quat);
+            this.up.set(0, 1, 0);
+            this.up.applyQuaternion(this.quat);
+            if (this.inheritRotation) {
+                this.worldEntity.setWorldEntityQuaternion(tempQuat);
+            }
+
         };
 
         DynamicSpatial.prototype.applySpatialScaleXYZ = function(x, y, z) {
@@ -105,12 +123,15 @@ define([
             this.bodyMass = mass;
         };
 
+        DynamicSpatial.prototype.applyDynamicSpatialTorque = function(ammoApi, torqueVec) {
+            torqueVec.multiplyScalar(this.bodyMass*50);
+            ammoApi.applyForceAndTorqueToBody(null, this.body, torqueVec)
+        };
+
         DynamicSpatial.prototype.applyDynamicSpatialForce = function(ammoApi, forceVec) {
             forceVec.multiplyScalar(this.bodyMass*50);
             ammoApi.applyForceAndTorqueToBody(forceVec, this.body)
-
         };
-
 
         DynamicSpatial.prototype.getVisualSize = function() {
             return this.bodyMass;
@@ -253,8 +274,15 @@ define([
                     return;
                 }
 
-                this.applySpatialPositionXYZ(p.x(), p.y(), p.z());
-                this.applySpatialQuaternionXYZW(q.x(), q.y(), q.z(), q.w());
+                let y = p.y()
+
+                if (!this.inheritRotation) {
+                    y -= this.config.args[0];
+                }
+                this.applySpatialPositionXYZ(p.x(), y, p.z());
+
+            this.applySpatialQuaternionXYZW(q.x(), q.y(), q.z(), q.w());
+
 
         };
 
@@ -275,6 +303,8 @@ define([
             vel = this.body.getLinearVelocity();
 
             this.velocity.set(vel.x(), vel.y(), vel.z());
+
+            this.worldEntity.setWorldEntityVelocity(this.velocity);
 
             angVel = this.body.getAngularVelocity();
 

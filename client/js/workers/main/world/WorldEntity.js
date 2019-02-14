@@ -18,6 +18,7 @@ define([
             this.data = data;
             this.ptr = ptr;
             this.obj3d = new THREE.Object3D();
+            this.velocity = new THREE.Vector3(),
             this.animationStates = [];
             this.attachmentJoints = [];
             this.skin = {};
@@ -64,6 +65,14 @@ define([
 
         WorldEntity.prototype.getAttachmentJoint = function(key) {
             return MATH.getFromArrayByKeyValue(this.attachmentJoints, 'key', key)
+        };
+
+        WorldEntity.prototype.setWorldEntityVelocity = function(v3) {
+            this.velocity.copy(v3);
+        };
+
+        WorldEntity.prototype.getWorldEntityVelocity = function() {
+            return this.velocity;
         };
 
         WorldEntity.prototype.getWorldEntityPosition = function(storeVec) {

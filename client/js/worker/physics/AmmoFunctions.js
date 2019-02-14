@@ -413,16 +413,16 @@ define([
 
             console.log("createPhysicalTerrain", totalSize, posx, posz, minHeight, maxHeight);
 
-            var margin = 1;
+            var margin = 0.05;
 
             var terrainMaxHeight = maxHeight;
             var terrainMinHeight = minHeight;
 
             var heightDiff = maxHeight-minHeight;
 
-            var restitution =  0.1;
-            var damping     =  8.0;
-            var friction    =  2.0;
+            var restitution =  0.5;
+            var damping     =  0.5;
+            var friction    =  145.0;
 
             //    console.log("Ground Matrix: ", data.length)
 
@@ -843,6 +843,11 @@ define([
             return new Ammo.btCylinderShape(new Ammo.btVector3(w * 0.5, l * 0.5, h * 1));
         }
 
+        function ammoSphereShape(r) {
+            return new Ammo.btSphereShape(r);
+        }
+
+
 
         function ammoCompoundShape(args) {
 
@@ -972,6 +977,10 @@ define([
 
             var shape;
 
+            if (bodyParams.shape === 'Sphere') {
+                shape = ammoSphereShape(args[0]);
+            }
+
             if (bodyParams.shape === 'Cylinder') {
                 shape = ammoCylinderShape(args[0], args[1], args[2]);
             }
@@ -995,10 +1004,11 @@ define([
 
             var restitution = bodyParams.restitution || 0.5;
             var damping = bodyParams.damping || 0.5;
+            var dampingA = bodyParams.dampingA || damping;
             var friction = bodyParams.friction || 2.9;
             body.setRestitution(restitution);
             body.setFriction(friction);
-            body.setDamping(damping, damping);
+            body.setDamping(damping, dampingA);
 
             if (bodyParams.angular_factor) {
                 var af = bodyParams.angular_factor;

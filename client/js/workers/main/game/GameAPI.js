@@ -79,8 +79,7 @@ define([
         var character;
         var character2;
 
-        var spawn = ['CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER',
-            'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER']
+        var spawn = ['CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER']
 
         GameAPI.loadTestPiece = function() {
             testPiece = !testPiece;

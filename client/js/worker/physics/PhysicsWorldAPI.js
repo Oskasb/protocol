@@ -42,6 +42,7 @@ define([
         var dynamicSpatials = [];
         var terrainBodies = {};
         var linFac
+        var tempVec1 = new THREE.Vector3()
 
         PhysicsWorldAPI = function() {};
 
@@ -204,23 +205,12 @@ define([
              "shape":"Box",
              "args":[0.2, 0.2, 0.2],
              "friction":1.7,
-             "restitution":0.83,
-             "damping":0.15,
+             "restitution":0.1,
+             "damping":0.35,
              "mass":20
         };
 
-        var sphereConfig = {
-            "body_key":"sphere",
-            "category":"primitive",
-            "state":"WANTS_DEACTIVATION",
-            "shape":"Sphere",
-            "args":[0.5, 0.5, 0.5],
-            "friction":15.7,
-            "restitution":0.23,
-            "damping":0.25,
-            "dampingA":1.5,
-            "mass":100
-        };
+
 
         PhysicsWorldAPI.addPhysicsToWorldEntity = function(worldEntity) {
 
@@ -231,12 +221,44 @@ define([
 
         };
 
-        PhysicsWorldAPI.buildMovementSphere = function(worldEntity) {
+        PhysicsWorldAPI.buildMovementSphere = function(worldEntity, radius, mass) {
+
+            var sphereConfig = {
+                "body_key":"sphere",
+                "category":"primitive",
+                "state":"WANTS_DEACTIVATION",
+                "shape":"Sphere",
+                "args":[radius || 0.5 , 0.5, 0.5],
+                "friction":15.7,
+                "restitution":0.13,
+                "damping":0.25,
+                "dampingA":1.5,
+                "mass":mass || 100
+            };
+
             var dynamicSpatial = new DynamicSpatial(sphereConfig);
             dynamicSpatial.inheritRotation = false;
             dynamicSpatial.setWorldEntity(worldEntity);
 
             ammoApi.setupRigidBody(sphereConfig, dynamicSpatial, bodyReady);
+
+        };
+
+        PhysicsWorldAPI.positionWorldEntity = function(worldEntity, posVec) {
+
+            var dynSpat = MATH.getFromArrayByKeyValue(dynamicSpatials, 'worldEntity', worldEntity);
+            ammoApi.setBodyPosition(dynSpat.body, posVec);
+
+        };
+
+        PhysicsWorldAPI.moveWorldEntity = function(worldEntity, distanceVec) {
+
+            var dynSpat = MATH.getFromArrayByKeyValue(dynamicSpatials, 'worldEntity', worldEntity);
+
+            worldEntity.getWorldEntityPosition(tempVec1);
+            tempVec1.add(distanceVec);
+
+            ammoApi.setBodyPosition(dynSpat.body, tempVec1);
 
         };
 
@@ -273,6 +295,21 @@ define([
             dynSpat.body.setLinearFactor(linFac);
         };
 
+
+        PhysicsWorldAPI.raycastFromTo = function(fromVec, dirVec, hitPosStore, hitNormStore) {
+            var hit = ammoApi.raycastPhysicsWorld(fromVec, dirVec, hitPosStore, hitNormStore)
+
+            if (DebugAPI.getDebugDrawPhysics()) {
+                if (hit) {
+                    DebugAPI.debugDrawRaycast(fromVec, dirVec, hitPosStore, hitNormStore)
+                } else {
+                    DebugAPI.debugDrawRaycast(fromVec, dirVec)
+                }
+            }
+
+            return hit;
+
+        };
 
         PhysicsWorldAPI.processRequest = function(msg) {
             protocolRequests.handleMessage(msg)

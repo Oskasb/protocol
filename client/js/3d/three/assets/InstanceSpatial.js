@@ -1,20 +1,17 @@
 "use strict";
 
 define([
-
+        'evt'
     ],
     function(
-
+        evt
     ) {
 
     var tempVec1 = new THREE.Vector3();
 
         var InstanceSpatial = function(obj3d) {
             this.obj3d = obj3d;
-            this.offsetObj3d = new THREE.Object3D();
             this.frameMovement = new THREE.Vector3();
-            this.attachedToBone = null;
-            this.parentSpatial = null;
         };
 
         InstanceSpatial.prototype.getFrameMovement = function() {
@@ -55,30 +52,19 @@ define([
             }
         };
 
-        InstanceSpatial.prototype.getOffsetObj3D = function() {
-            return this.offsetObj3d;
-        };
 
-        InstanceSpatial.prototype.attachToBone = function(bone, parentSpatial) {
-            this.attachedToBone = bone;
-            this.parentSpatial = parentSpatial;
+        InstanceSpatial.prototype.attachToDynamicJoint = function(dynamicJoint) {
+            this.dynamicJoint = dynamicJoint;
         };
 
 
-        InstanceSpatial.prototype.stickToBoneWorldMatrix = function(bone) {
+        InstanceSpatial.prototype.stickToDynamicJoint = function() {
 
-            bone.matrixWorld.decompose(this.obj3d.position, this.obj3d.quaternion, this.obj3d.scale);
+            let obj3d = this.dynamicJoint.obj3d;
 
-            if (this.offsetObj3d.position.lengthSq()) {
-                tempVec1.copy(this.offsetObj3d.position);
-                tempVec1.applyQuaternion(this.obj3d.quaternion);
-                this.obj3d.position.add(tempVec1);
-            }
-
-            tempVec1.setFromMatrixScale(bone.matrixWorld);
-            this.obj3d.scale.divide(tempVec1);
-            this.obj3d.scale.multiply(this.offsetObj3d.scale);
-            this.obj3d.quaternion.multiply(this.offsetObj3d.quaternion);
+            this.obj3d.position.copy(obj3d.position);
+            this.obj3d.scale.copy(obj3d.scale);
+            this.obj3d.quaternion.copy(obj3d.quaternion);
 
             if (this.geometryInstance) {
                 this.geometryInstance.applyObjPos();
@@ -91,9 +77,10 @@ define([
 
         InstanceSpatial.prototype.updateSpatialFrame = function() {
 
-            if (this.attachedToBone) {
-                this.stickToBoneWorldMatrix(this.attachedToBone)
-            };
+            if (this.dynamicJoint) {
+                this.dynamicJoint.stickToBoneWorldMatrix();
+                this.stickToDynamicJoint()
+            }
 
         };
 

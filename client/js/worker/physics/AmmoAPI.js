@@ -166,7 +166,11 @@ define(['worker/physics/AmmoFunctions'],
             ammoFunctions.applyBodyDamping(body, dampingV, dampingA);
         };
 
+        AmmoAPI.prototype.setBodyPosition = function(body, posVec) {
 
+            ammoFunctions.setBodyPosition(body, posVec);
+
+        };
 
         AmmoAPI.prototype.triggerPhysicallyActive = function(actor) {
                return ammoFunctions.enableBodySimulation(actor.getPhysicsBody());
@@ -180,7 +184,7 @@ define(['worker/physics/AmmoFunctions'],
         AmmoAPI.prototype.raycastPhysicsWorld = function(position, direction, hitPositionStore, hitNormalStore) {
             var hit = ammoFunctions.physicsRayRange(world, position, direction, hitPositionStore, hitNormalStore);
             if (hit) {
-                return hit.ptr;
+                return hit;
             }
         };
 

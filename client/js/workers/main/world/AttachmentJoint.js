@@ -11,6 +11,8 @@ define([
             this.parentScale = parentScale;
             this.obj3d = new THREE.Object3D();
 
+            this.dynamicPosition = new THREE.Vector3();
+
             this.attachedEntity = null;
 
             let notifyUpdated = function(msg) {
@@ -26,6 +28,14 @@ define([
 
         AttachmentJoint.prototype.getJointKey = function() {
             return this.key;
+        };
+
+        AttachmentJoint.prototype.setDynamicPositionXYZ = function(x, y, z) {
+            this.dynamicPosition.set(x, y, z);
+        };
+
+        AttachmentJoint.prototype.getDynamicPosition = function(storeVec) {
+            storeVec.copy(this.dynamicPosition);
         };
 
         AttachmentJoint.prototype.applyJointData = function(jointData) {

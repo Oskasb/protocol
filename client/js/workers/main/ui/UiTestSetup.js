@@ -322,6 +322,18 @@ define([
             addTopButton('CHAR_DBG', charDebug, charIsDebug);
 
 
+
+            var jntDebug = function() {
+                DebugAPI.setDebugDrawJoints(!DebugAPI.getDebugDrawJoints())
+            };
+            var jntIsDebug = function() {
+                return DebugAPI.getDebugDrawJoints()
+            };
+
+
+
+            addTopButton('JNT_DBG', jntDebug, jntIsDebug);
+
         };
 
         UiTestSetup.prototype.addProgressBar = function() {

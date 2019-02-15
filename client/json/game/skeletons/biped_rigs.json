@@ -14,7 +14,9 @@
             "HAND_L":   { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14], "scale": [1, 1, 1]},
             "HAND_R":   { "offset": [0, 0, 0], "rot": [0, 0, 1.57], "scale": [1, 1, 1]},
             "GRIP_R":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]},
-            "GRIP_L":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]}
+            "GRIP_L":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]},
+            "FOOT_R":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]},
+            "FOOT_L":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]}
           },
           "animations": {
             "IDLE":           {"time_scale": 0.4,  "weight": 1, "fade": 0.25, "duration": 0   , "channel": 0, "loop": 1 ,"clamp": 1, "sync": 0},

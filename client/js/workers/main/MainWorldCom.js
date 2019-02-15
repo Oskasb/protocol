@@ -51,7 +51,7 @@ define([
         MainWorldCom.prototype.registerComBuffers = function() {
             var size = determineEventBufferSize();
             setupBufferMessage(size, ENUMS.BufferType.EVENT_DATA);
-            setupBufferMessage(size, ENUMS.BufferType.EVENT_DATA);
+
             setupBufferMessage(size, ENUMS.BufferType.EVENT_DATA);
             setupBufferMessage(ENUMS.InputState.BUFFER_SIZE * (ENUMS.Numbers.POINTER_TOUCH0 + ENUMS.Numbers.TOUCHES_COUNT), ENUMS.BufferType.INPUT_BUFFER);
         };

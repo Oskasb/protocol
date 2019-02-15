@@ -41,7 +41,8 @@ if(typeof(ENUMS) === "undefined"){
         ATTACH_TO_JOINT:        18,
         ADVANCE_ENVIRONMENT:    19,
         DEBUG_DRAW_CROSS:       20,
-        DEBUG_DRAW_AABOX:       21
+        DEBUG_DRAW_AABOX:       21,
+        DYNAMIC_JOINT:          22
     };
 
     ENUMS.Args = {
@@ -183,7 +184,9 @@ if(typeof(ENUMS) === "undefined"){
         HAND_L:             6,
         HAND_R:             7,
         GRIP_L:             8,
-        GRIP_R:             9
+        GRIP_R:             9,
+        FOOT_L:             10,
+        FOOT_R:             11
     };
 
     ENUMS.AttachmentPoints = {
@@ -484,7 +487,8 @@ if(typeof(ENUMS) === "undefined"){
             POINTER_MOUSE:  0,
             POINTER_TOUCH0: 1,
             TOUCHES_COUNT:  10,
-            INSTANCE_PTR_0: 10000
+            INSTANCE_PTR_0: 10000,
+        PTR_PING_OFFSET: 50000
 
     };
 

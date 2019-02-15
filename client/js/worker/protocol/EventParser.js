@@ -68,7 +68,7 @@ define([
 
             itemPtr = event[index+11];
 
-            var attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(itemPtr);
+            let attachInstance = WorkerAPI.getDynamicMain().getInstanceByPointer(itemPtr);
 
             if (joint === ENUMS.Joints.SKIN) {
                 console.log("Read SKIN Attachment");
@@ -76,14 +76,15 @@ define([
                 return;
             }
 
+            let dynJoint = modelInstance.getDynamicJoint(joint);
 
-            obj3d = attachInstance.getSpatial().getOffsetObj3D();
+            obj3d = dynJoint.getOffsetObj3D();
 
             obj3d.position.set( event[index+1], event[index+2], event[index+3]);
             obj3d.quaternion.set( event[index+4], event[index+5], event[index+6], event[index+7]);
             obj3d.scale.set( event[index+8], event[index+9], event[index+10]);
         //    console.log("Parse ATTACH_TO_JOINT", [modelInstance], itemPtr, ENUMS.getKey('Joints', joint));
-            modelInstance.requestAttachToJoint(attachInstance, joint);
+            modelInstance.requestAttachToJoint(attachInstance, dynJoint);
         };
 
 

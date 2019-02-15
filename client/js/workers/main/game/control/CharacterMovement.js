@@ -1,11 +1,12 @@
 "use strict";
 
 define([
-
+        'game/control/CharacterFoot',
     ],
     function(
-
+        CharacterFoot
     ) {
+
 
         var tempObj3d = new THREE.Object3D();
         var tempVec1 = new THREE.Vector3();
@@ -25,12 +26,24 @@ define([
                 amount:0
             };
 
+            this.feet = [
+                new CharacterFoot('FOOT_L'),
+                new CharacterFoot('FOOT_R')
+            ];
+
+
             this.config = {
                 turn_rate:1,
                 speed:1,
                 input_thresh:0.1,
                 walk_cycle_speed:1,
-                walk_combat_speed:1
+                walk_combat_speed:1,
+                move_force: 0.05,
+                foot_margin:0.2,
+                foot_force:0.2,
+                foot_reach:0.35,
+                sphere_radius: 0.3,
+                sphere_mass: 100
             };
 
             var applyInputUpdate = function(direction, amount) {
@@ -84,14 +97,14 @@ define([
             this.obj3d.rotateY(this.getInputDirection());
         };
 
-        CharacterMovement.prototype.updateMovementVelocity = function( ) {
+        CharacterMovement.prototype.updateMovementInputVector = function( ) {
             if (this.getInputAmount() > this.config.input_thresh) {
                 this.movementSpeed = this.getInputAmount() * this.config.speed;
                 this.inputVector.set(0, 0,  this.movementSpeed);
                 this.inputVector.applyQuaternion(this.obj3d.quaternion);
             } else {
                 this.movementSpeed = 0;
-                this.velocity.set(0, 0,  0);
+                this.inputVector.set(0, 0,  0);
             }
         };
 
@@ -103,7 +116,7 @@ define([
             this.input.direction = direction;
             this.input.amount = amount;
             this.updateMovementQuat();
-            this.updateMovementVelocity();
+            this.updateMovementInputVector();
         };
 
 
@@ -113,20 +126,73 @@ define([
 
 
         CharacterMovement.prototype.attachMovementSphere = function(worldEntity) {
-            PhysicsWorldAPI.buildMovementSphere(worldEntity)
+            PhysicsWorldAPI.buildMovementSphere(worldEntity, this.config.sphere_radius, this.config.sphere_mass)
         };
 
-        CharacterMovement.prototype.testGroundContact = function(worldEntity) {
+        CharacterMovement.prototype.testGroundContact = function(worldEntity, tpf) {
+
+            if (this.groundContact) return true;
+
             worldEntity.getWorldEntityPosition(tempObj3d.position);
 
-            let height = MainWorldAPI.getHeightAtPosition(tempObj3d.position, tempVec1);
+            tempVec2.copy(this.velocity);
+            tempVec2.multiplyScalar(tpf);
+            tempVec2.add(tempObj3d.position);
+            let height = MainWorldAPI.getHeightAtPosition(tempVec2, tempVec1);
             if (tempVec1.y < 0.6) {
                 return false;
             }
-            return tempObj3d.position.y <= height+0.2;
+
+            let heightAboveGround = tempVec2.y - height;
+
+            if (heightAboveGround < -0.5) {
+                tempVec2.y += 1;
+                PhysicsWorldAPI.positionWorldEntity(worldEntity, tempVec2)
+            } else if (heightAboveGround < 0.2) {
+                return true
+            }
+
+            if (tempObj3d.position.y <= height+0.2) {
+                return true
+            }
+
+
+
 
         };
 
+
+        CharacterMovement.prototype.updateCharacterFootsteps = function(worldEntity, tpf) {
+
+            let totalContactDepth = 0;
+
+            tempVec1.set(0, 0, 0);
+
+            for (var i = 0; i < this.feet.length; i++) {
+                let foot = this.feet[i]
+                foot.updateCharacterFoot(worldEntity, this.config, tpf);
+                totalContactDepth += this.feet[i].getFootContactDepth();
+                tempVec2.subVectors( foot.stepPosition, foot.footPosition);
+                if (foot.contactDuration) {
+                    tempVec2.multiplyScalar(foot.footContactDepth);
+                    tempVec1.add(tempVec2);
+                }
+
+            }
+
+            if (totalContactDepth) {
+                this.groundContact = true;
+                tempVec2.set(0, this.config.foot_force, 0);
+               // PhysicsWorldAPI.applyForceToWorldEntity(worldEntity, tempVec2);
+            //    tempVec1.y = 0 // this.config.sphere_radius;
+                PhysicsWorldAPI.applyForceToWorldEntity(worldEntity, tempVec1);
+             //           PhysicsWorldAPI.moveWorldEntity(worldEntity, tempVec1);
+            } else {
+                this.groundContact = false;
+            }
+
+
+        };
 
         CharacterMovement.prototype.applyMovementToWorldEntity = function(worldEntity, tpf ) {
             worldEntity.getWorldEntityQuat(tempObj3d.quaternion);
@@ -137,36 +203,31 @@ define([
 
             this.velocity.copy(worldEntity.getWorldEntityVelocity());
 
+            let inputStr = this.inputVector.lengthSq();
+
+            let missingVelocity = MATH.clamp(inputStr - this.velocity.lengthSq(), 0, Math.sqrt(inputStr));
+
+            this.updateCharacterFootsteps(worldEntity, tpf);
 
 
-            tempVec1.set(  0, 0, 0.05 * this.movementSpeed / tpf );
-        //    tempVec1.set(  0, this.movementSpeed * tpf, 0);
-            tempVec1.applyQuaternion(tempObj3d.quaternion);
-            tempVec3.copy(tempVec1);
-            tempVec2.set( this.velocity.x, 0,  this.velocity.y);
-            tempVec2.normalize();
-            tempVec1.y = 0;
-            tempVec1.normalize();
+            let groundContact = this.testGroundContact(worldEntity, tpf);
 
 
-
-            //   PhysicsWorldAPI.applyTorqueToWorldEntity(worldEntity, tempVec1)
-
-            worldEntity.getWorldEntityPosition(tempObj3d.position);
-
-            tempObj3d.position.add(tempVec1);
-
-            let height = MainWorldAPI.getHeightAtPosition(tempObj3d.position);
-            tempObj3d.position.y = height;
-
-            let groundContact = this.testGroundContact(worldEntity);
-
-            if (this.movementSpeed && groundContact) {
-
-                PhysicsWorldAPI.applyForceToWorldEntity(worldEntity, tempVec3);
+            if (this.movementSpeed) {
 
                 PhysicsWorldAPI.setWorldEntityLinearFactors(worldEntity, 1, 1, 1);
-                PhysicsWorldAPI.applyWorldEntityDamping(worldEntity, 6.6, 8.5)
+
+                if (groundContact) {
+
+                    tempVec1.set(  0, 0, this.config.move_force * missingVelocity * this.movementSpeed / tpf );
+                    tempVec1.applyQuaternion(tempObj3d.quaternion);
+
+                    PhysicsWorldAPI.applyForceToWorldEntity(worldEntity, tempVec1);
+                    PhysicsWorldAPI.applyWorldEntityDamping(worldEntity, 0.8, 1.2)
+                } else {
+                    PhysicsWorldAPI.applyWorldEntityDamping(worldEntity, 0.1, 1)
+                }
+
 
             } else {
 
@@ -179,7 +240,7 @@ define([
                 //    }
 
                 } else {
-                    PhysicsWorldAPI.applyWorldEntityDamping(worldEntity, 0.1, 5)
+                    PhysicsWorldAPI.applyWorldEntityDamping(worldEntity, 0.1, 2.05)
                 }
             }
 

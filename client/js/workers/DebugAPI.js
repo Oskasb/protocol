@@ -10,6 +10,7 @@ define([
     ) {
 
         var debugDrawPhysics = false;
+        var debugDrawJoints = false;
         var debugDrawChars = false;
         var tempObj3d = new THREE.Object3D();
 
@@ -86,6 +87,47 @@ define([
         };
 
 
+
+        var drawJoints = function(joints) {
+
+            for (var i = 0; i < joints.length; i++) {
+                joints[i].getDynamicPosition(tempVec1);
+                DebugAPI.debugDrawCross(tempVec1, ENUMS.Color.GREEN, 0.1);
+            }
+        };
+
+
+        DebugAPI.debugDrawJoints = function() {
+
+            let piece = GameAPI.getGameMain().getPieces();
+
+            for (var i = 0; i < piece.length; i++) {
+                let worldEntity = piece[i].getWorldEntity();
+                drawJoints(worldEntity.attachmentJoints);
+            }
+        };
+
+        DebugAPI.setDebugDrawJoints = function(bool) {
+            debugDrawJoints = bool;
+        };
+
+        DebugAPI.getDebugDrawJoints = function() {
+            return debugDrawJoints;
+        };
+
+        DebugAPI.debugDrawRaycast = function(fromVec, dirVec, hitPosStore, hitNormStore) {
+            tempVec1.copy(dirVec);
+            tempVec1.add(fromVec);
+            DebugAPI.debugDrawLine(fromVec, tempVec1, ENUMS.Color.PINK);
+            if (hitPosStore) {
+                DebugAPI.debugDrawCross(hitPosStore, ENUMS.Color.MAGENTA, 0.08);
+                tempVec1.copy(hitNormStore);
+                tempVec1.add(hitPosStore);
+                DebugAPI.debugDrawLine(hitPosStore, tempVec1, ENUMS.Color.PEA);
+            }
+
+        };
+
         var largs = [];
         DebugAPI.debugDrawLine = function(fromVec3, toVec3, color) {
             largs[0] = fromVec3.x;
@@ -128,6 +170,10 @@ define([
 
             if (debugDrawChars) {
                 DebugAPI.debugDrawCharacters();
+            }
+
+            if (debugDrawJoints) {
+                DebugAPI.debugDrawJoints();
             }
 
         };

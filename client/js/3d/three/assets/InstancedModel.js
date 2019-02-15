@@ -2,10 +2,12 @@
 
 define([
         '3d/three/assets/InstanceAnimator',
+        '3d/three/assets/InstanceDynamicJoint',
         'evt'
     ],
     function(
         InstanceAnimator,
+        InstanceDynamicJoint,
         evt
     ) {
 
@@ -51,19 +53,17 @@ define([
 
         InstancedModel.prototype.requestAttachment = function(attachInstance) {
             this.attachInstancedModel(attachInstance);
-
         };
 
-        InstancedModel.prototype.requestAttachToJoint = function(attachInstance, joint) {
-
-            var boneName = this.originalModel.jointMap[ENUMS.getKey('Joints', joint)];
-            var bone = this.boneMap[boneName];
-    //        console.log("BoneMap", [this], boneName, bone);
-            attachInstance.getSpatial().attachToBone(bone, this.getSpatial());
-        //    modelInstance.requestAttachToJoint(itemPtr, joint);;
-
+        InstancedModel.prototype.getDynamicJoint = function(jointEnum) {
+            var boneName = this.originalModel.jointMap[ENUMS.getKey('Joints', jointEnum)];
+            this.boneMap[boneName].setJointEnum(jointEnum)
+            return this.boneMap[boneName];
         };
 
+        InstancedModel.prototype.requestAttachToJoint = function(attachInstance, dynJoint) {
+            attachInstance.getSpatial().attachToDynamicJoint(dynJoint);
+        };
 
 
         InstancedModel.prototype.setupEventListener = function() {
@@ -143,7 +143,7 @@ define([
 
                 for (var i = 0; i < parentSkel.bones.length; i++) {
                     var boneName = parentSkel.bones[i].name;
-                    _this.boneMap[boneName] = parentSkel.bones[i];
+                    _this.boneMap[boneName] = new InstanceDynamicJoint(parentSkel.bones[i], _this);
                 }
             };
 
@@ -216,6 +216,32 @@ define([
         InstancedModel.prototype.updateSpatialWorldMatrix = function() {
 
             this.getSpatial().updateSpatialMatrix();
+
+
+            for (var key in this.originalModel.jointMap) {
+
+                if (key === 'FOOT_L' || key === 'FOOT_R') {
+                    let boneName = this.originalModel.jointMap[key];
+
+                    let dynJoint = this.boneMap[boneName];
+                    dynJoint.setJointEnum(ENUMS.Joints[key])
+
+                    if (!dynJoint) {
+                        console.log("No dynJoint", key)
+                    } else {
+                        //        console.log(key)
+                        dynJoint.updateSpatialFrame()
+                    }
+                }
+
+                if (key !== 'SKIN') {
+
+
+            //
+                }
+            }
+
+
 
             let moveDist = this.getSpatial().getFrameMovement();
             if (moveDist.lengthSq()) {

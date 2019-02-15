@@ -288,24 +288,33 @@ define([
             rayFromVec.setY(pos.y);
             rayFromVec.setZ(pos.z);
 
-            rayToVec.setX(dir.x);
-            rayToVec.setY(dir.y);
-            rayToVec.setZ(dir.z);
+            rayToVec.setX(dir.x + pos.x);
+            rayToVec.setY(dir.y + pos.y);
+            rayToVec.setZ(dir.z + pos.z);
+
+        //    new Ammo.ClosestRayResultCallback(rayFromVec, rayToVec);
 
             rayCallback.get_m_rayFromWorld().setValue(pos.x, pos.y, pos.z);
-            rayCallback.get_m_rayToWorld().setValue(dir.x, dir.y, dir.z);
-            rayCallback.set_m_collisionObject(null);
+            rayCallback.get_m_rayToWorld().setValue(dir.x + pos.x, dir.y +pos.y, dir.z+pos.z);
+        //    rayCallback.set_m_collisionObject(null);
 
-            rayCallback.get_m_hitNormalWorld().setX(0);
-            rayCallback.get_m_hitNormalWorld().setY(0);
-            rayCallback.get_m_hitNormalWorld().setZ(0);
-            rayCallback.get_m_hitPointWorld().setX(0);
-            rayCallback.get_m_hitPointWorld().setY(0);
-            rayCallback.get_m_hitPointWorld().setZ(0);
+            rayCallback.set_m_closestHitFraction(1);
+
+        //    rayCallback.get_m_hitNormalWorld().setX(0);
+        //    rayCallback.get_m_hitNormalWorld().setY(0);
+        //    rayCallback.get_m_hitNormalWorld().setZ(0);
+        //    rayCallback.get_m_hitPointWorld().setX(0);
+        //    rayCallback.get_m_hitPointWorld().setY(0);
+        //    rayCallback.get_m_hitPointWorld().setZ(0);
+
+
 
             world.rayTest(rayFromVec, rayToVec, rayCallback);
 
-            if(rayCallback.hasHit()){
+            var fraction = rayCallback.get_m_closestHitFraction();
+            hit.fraction = fraction;
+
+            if(fraction < 1){
 
                 var hitNormal = rayCallback.get_m_hitNormalWorld();
                 normalRes.set(hitNormal.x(), hitNormal.y(), hitNormal.z());
@@ -394,8 +403,8 @@ define([
                 terrainDepth,
                 ammoHeightData,
                 heightScale,
-                terrainMinHeight,
-                terrainMaxHeight,
+                terrainMinHeight-margin,
+                terrainMaxHeight-margin,
                 upAxis,
                 hdt,
                 flipQuadEdges
@@ -404,7 +413,7 @@ define([
             var scaleX = terrainWidthExtents / ( terrainWidth - 1 );
             var scaleZ = terrainDepthExtents / ( terrainDepth - 1 );
             heightFieldShape.setLocalScaling(new Ammo.btVector3(scaleX, 1, scaleZ));
-            heightFieldShape.setMargin(margin+0.01);
+            heightFieldShape.setMargin(margin);
             return heightFieldShape;
         }
 
@@ -413,16 +422,16 @@ define([
 
             console.log("createPhysicalTerrain", totalSize, posx, posz, minHeight, maxHeight);
 
-            var margin = 0.05;
+            var margin = 0.25;
 
             var terrainMaxHeight = maxHeight;
             var terrainMinHeight = minHeight;
 
             var heightDiff = maxHeight-minHeight;
 
-            var restitution =  0.5;
+            var restitution =  0.1;
             var damping     =  0.5;
-            var friction    =  145.0;
+            var friction    =  45.0;
 
             //    console.log("Ground Matrix: ", data.length)
 
@@ -463,6 +472,8 @@ define([
                 reset(body, conf);
             }, 500)
         };
+
+
 
         function setBodyTransform(conf, body, position, quaternion) {
 
@@ -542,7 +553,25 @@ define([
 
         };
 
+        AmmoFunctions.prototype.setBodyPosition = function(body, posVec) {
 
+            var ms = body.getMotionState();
+
+                ms.getWorldTransform(TRANSFORM_AUX);
+
+            //    body.clearForces();
+
+            TRANSFORM_AUX.setIdentity();
+
+            TRANSFORM_AUX.getOrigin().setX(posVec.x);
+            TRANSFORM_AUX.getOrigin().setY(posVec.y);
+            TRANSFORM_AUX.getOrigin().setZ(posVec.z);
+
+            body.setWorldTransform(TRANSFORM_AUX);
+
+            body.getMotionState().setWorldTransform(TRANSFORM_AUX);
+
+        };
 
         function fetchPoolBody(dataKey) {
             if (!bodyPools[dataKey]) {

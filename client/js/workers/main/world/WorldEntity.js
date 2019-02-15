@@ -21,6 +21,9 @@ define([
             this.velocity = new THREE.Vector3(),
             this.animationStates = [];
             this.attachmentJoints = [];
+
+            this.jointMap = {};
+
             this.skin = {};
             this.slots = {};
 
@@ -34,12 +37,19 @@ define([
                 this.addAttachmentUpdate(joint)
             }.bind(this);
 
+            var entityRenderEvent = function(evtArgs) {
+                this.handleEntityRenderEvent(evtArgs)
+            }.bind(this);
+
             this.callbacks = {
                 setIsDirty:setIsDirty,
-                setAttachmentUpdated:setAttachmentUpdated
+                setAttachmentUpdated:setAttachmentUpdated,
+                entityRenderEvent:entityRenderEvent
             };
 
+            evt.on(this.ptr+ENUMS.Numbers.PTR_PING_OFFSET, this.callbacks.entityRenderEvent);
             this.setupAnimations();
+
         };
 
 
@@ -48,7 +58,8 @@ define([
             for (var i = 0; i < this.data.jointKeys.length; i ++) {
                 var key = ENUMS.getKey('Joints',this.data.jointKeys[i]);
                 var joint = new AttachmentJoint(key, this.obj3d.scale, this.callbacks.setAttachmentUpdated);
-                this.attachmentJoints.push(joint);
+                this.attachmentJoints[i] = joint;
+                this.jointMap[this.data.jointKeys[i]] = i;
             }
 
             for (var i = 0; i < this.data.animKeys.length; i ++) {
@@ -152,9 +163,21 @@ define([
                 console.log("Attachment Updated");
         };
 
+        WorldEntity.prototype.handleEntityRenderEvent = function(evtArgs) {
+
+            if (evtArgs[0] === ENUMS.Event.DYNAMIC_JOINT) {
+
+                let joint = this.attachmentJoints[this.jointMap[evtArgs[1]]];
+                joint.setDynamicPositionXYZ(evtArgs[2], evtArgs[3], evtArgs[4])
+
+            }
+
+        };
+
         WorldEntity.prototype.decommissionWorldEntity = function() {
             this.active = ENUMS.InstanceState.DECOMISSION;
             eventData = evt.parser.worldEntityEvent(this);
+            evt.removeListener(this.ptr, this.callbacks.entityRenderEvent);
             evt.fire(this.ptr, eventData)
         };
 

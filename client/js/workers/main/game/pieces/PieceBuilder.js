@@ -7,6 +7,7 @@ define([
         'game/actions/ActionSlots',
         'game/combat/CharacterCombat',
         'game/control/CharacterMovement',
+        'game/control/SimpleCharacterAI',
         'game/pieces/PieceAnimator',
         'game/pieces/PieceAttacher',
         'game/actors/Character',
@@ -21,6 +22,7 @@ define([
         ActionSlots,
         CharacterCombat,
         CharacterMovement,
+        SimpleCharacterAI,
         PieceAnimator,
         PieceAttacher,
         Character,
@@ -82,6 +84,12 @@ define([
             };
 
             piece.workerData.fetchData(piece.dataId, onDataReady);
+        };
+
+        PieceBuilder.prototype.attachAiToCharacter = function( character, fIdx) {
+            let simpleAi = new SimpleCharacterAI();
+            simpleAi.setFormationIndex(fIdx);
+            character.addUpdateCallback(simpleAi.getUpdateCallback());
         };
 
 

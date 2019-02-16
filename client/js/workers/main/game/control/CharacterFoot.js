@@ -49,7 +49,7 @@ define([
 
                 this.contactDuration+= tpf;
                 this.setFootContact(true);
-                this.setFootContactDepth( 1.1 * Math.max(6 - this.contactDuration*2, 0) * (config.foot_reach - config.foot_margin ) / hit.fraction);
+                this.setFootContactDepth( 1.1 * Math.max(8 - this.contactDuration*3, 0) * (config.foot_reach - config.foot_margin ) / hit.fraction);
 
             } else {
                 this.setFootContact(false);

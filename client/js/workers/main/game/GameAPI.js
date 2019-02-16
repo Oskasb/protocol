@@ -79,7 +79,7 @@ define([
         var character;
         var character2;
 
-        var spawn = ['CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER', 'CHARACTER_FIGHTER']
+        var spawn = ['CHARACTER_FIGHTER', 'CHARACTER_FIGHTER']
 
         GameAPI.loadTestPiece = function() {
             testPiece = !testPiece;
@@ -94,7 +94,6 @@ define([
                 GameAPI.setPlayerCharacter(character);
 
 
-
                 point = MainWorldAPI.getSuitableSpawnPoint(tempObj3d.position);
                 px = point.x;
                 char.getGamePiece().getWorldEntity().setWorldEntityPosition(point);
@@ -104,13 +103,9 @@ define([
                     character.setActionInSlot(action, slot);
                 };
 
-                var itemReady = function(item) {
-                    var slot = character.getSlotForItem(item);
-                    character.equipItemToSlot(item, slot);
-                };
 
                 for (var i = 0; i < equipItems.length; i++) {
-                    GameAPI.createGameItem(equipItems[i], itemReady);
+                    character.equipItemOfDataId(equipItems[i]);
                 }
 
                 for (var i = 0; i < defaultActions.length; i++) {
@@ -118,17 +113,19 @@ define([
                 }
                 setTimeout(function() {
                    GameAPI.createGameCharacter('CHARACTER_FIGHTER', char2Ready);
-                }, 500)
+                }, 800)
 
             };
 
 
+            var fIdx = 0;
             var char2Ready = function(char) {
                 character2 = char;
                 console.log("Char2 Ready")
+
                 gameMain.registerGameCharacter(char);
 
-                var scale = Math.random()*0.9+0.4;
+                var scale = Math.random()*0.2+0.9;
                 point.x++;
                 point.z++;
 
@@ -144,27 +141,29 @@ define([
                     character2.setActionInSlot(action, slot);
                 };
 
-                var item2Ready = function(item) {
-                    var slot = character2.getSlotForItem(item);
-                    character2.equipItemToSlot(item, slot);
-                };
 
-            //    for (var i = 0; i < equipItems.length; i++) {
-                GameAPI.createGameItem("ITEM_KATANA", item2Ready);
-                GameAPI.createGameItem("ITEM_VIKINGHELMET", item2Ready);
-                GameAPI.createGameItem("ITEM_PLATEBELT", item2Ready);
-            //    }
+                character2.equipItemOfDataId("ITEM_KATANA");
+            //    character2.equipItemOfDataId("ITEM_VIKINGHELMET");
+            //    character2.equipItemOfDataId("ITEM_PLATEBELT");
+
+                pieceBuilder.attachAiToCharacter(character2, fIdx);
+                fIdx++;
 
                 for (var i = 0; i < defaultActions.length; i++) {
                     GameAPI.createGameAction(defaultActions[i], action2Ready);
                 }
 
                 setTimeout(function() {
+
+                    character2.equipItemOfDataId("ITEM_KATANA");
+                    character2.equipItemOfDataId("ITEM_VIKINGHELMET");
+                    character2.equipItemOfDataId("ITEM_PLATEBELT");
+
                     if (spawn.length) {
                         GameAPI.createGameCharacter(spawn.pop(), char2Ready);
                     }
 
-                }, 20)
+                }, 220)
 
             };
 

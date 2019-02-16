@@ -19,6 +19,8 @@ define([
 
             this.characterState = ENUMS.CharacterState.IDLE;
 
+            this.characterUpdateCallbacks = [];
+
             var onDataReady = function(isUpdate) {
                 if (!isUpdate) {
                     onReady(this);
@@ -33,9 +35,15 @@ define([
                 this.characterActionStateUpdate(tpf, time);
             }.bind(this);
 
+            var equipItem = function(item) {
+                let slot = this.getSlotForItem(item);
+                this.equipItemToSlot(item, slot);
+            }.bind(this);
+
             this.callbacks = {
                 updateCharacter:updateCharacter,
-                actionStateUpdate:actionStateUpdate
+                actionStateUpdate:actionStateUpdate,
+                equipItem:equipItem
             };
 
             workerData.fetchData(characterId, onDataReady);
@@ -113,19 +121,37 @@ define([
         //    console.log("Equip Item to Character", item, slot);
         };
 
+        Character.prototype.equipItemOfDataId = function(dataId) {
+            GameAPI.createGameItem(dataId, this.callbacks.equipItem);
+        };
+
         Character.prototype.characterActionStateUpdate = function(action) {
             this.getGamePiece().actionStateUpdated(action)
         };
 
 
+        Character.prototype.getCharacterQuaternion = function(storeQuat) {
+            this.getGamePiece().getWorldEntity().getWorldEntityQuat(storeQuat)
+        };
+
         Character.prototype.getCharacterPosition = function(storeVec) {
             this.getGamePiece().getWorldEntity().getWorldEntityPosition(storeVec)
+        };
+
+        Character.prototype.addUpdateCallback = function(cb) {
+            this.characterUpdateCallbacks.push(cb)
+        };
+
+        Character.prototype.removeUpdateCallback = function(cb) {
+            MATH.quickSplice(this.characterUpdateCallbacks, cb)
         };
 
         Character.prototype.updateCharacter = function(tpf, time) {
 
             this.t = this.t || 0;
             this.t += tpf;
+
+            MATH.callAll(this.characterUpdateCallbacks, tpf, time, this);
 
             this.characterMovement.applyMovementToWorldEntity(this.getGamePiece().getWorldEntity(), tpf);
 
@@ -153,7 +179,10 @@ define([
 
         Character.prototype.disposeCharacter = function(gameMain) {
 
+            MATH.emptyArray(this.characterUpdateCallbacks);
+
             gameMain.removeGamePiece(this.getGamePiece());
+
             if (this.getActorGui().guiWidgetCount()) {
                 GuiAPI.detachActorGui(this);
             }

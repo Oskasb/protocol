@@ -264,9 +264,11 @@ define([
         GameAPI.getGameMain = function() {
             return gameMain;
         };
-
+        var now;
         GameAPI.updateGame = function(tpf, time) {
+            now = MATH.getNowMS();
             gameMain.updateGameMain(tpf, time);
+            DebugAPI.generateTrackEvent('GAME_DT', MATH.getNowMS() - now, 'ms', 2)
         };
 
 

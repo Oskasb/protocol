@@ -213,9 +213,11 @@ define([
             return this.originalModel.animMap;
         };
 
+        var unifVec = {x:0, y:0, z:0}
+
         InstancedModel.prototype.updateSpatialWorldMatrix = function() {
 
-            this.getSpatial().updateSpatialMatrix();
+        //    this.getSpatial().updateSpatialMatrix();
 
 
             for (var key in this.originalModel.jointMap) {
@@ -245,7 +247,11 @@ define([
 
             let moveDist = this.getSpatial().getFrameMovement();
             if (moveDist.lengthSq()) {
-                ThreeAPI.setGlobalUniform('character', this.getSpatial().getSpatialPosition())
+                let pos =  this.getSpatial().getSpatialPosition();
+                unifVec.x = pos.x;
+                unifVec.y = pos.y;
+                unifVec.z = pos.z;
+                ThreeAPI.registerDynamicGlobalUniform('character',unifVec)
                 moveDist.set(0, 0, 0);
             }
 

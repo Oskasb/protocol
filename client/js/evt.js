@@ -120,6 +120,8 @@ define([
             evtStatus.listenerCount += listeners[key].length;
         }
 
+        EventProtocol.getEventProtocolStatus(evtStatus);
+
         return evtStatus;
     };
 

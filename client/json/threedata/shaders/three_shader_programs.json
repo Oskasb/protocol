@@ -888,12 +888,35 @@
           "uniform vec3 sunLightDirection;",
           "varying vec3 sunDir;",
 
-          "uniform vec3 character;",
+          "uniform vec3 character0;",
+          "uniform vec3 character1;",
+          "uniform vec3 character2;",
+          "uniform vec3 character3;",
+          "uniform vec3 character4;",
+          "uniform vec3 character5;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
           "uniform float alphaTest;",
+
+
+          "vec3 pushedVertex(vec3 charPos, vec3 vertexPos, vec3 vPosition, float influenceRange, vec2 uv) {",
+
+              "vec3 push = vertexPos-charPos;",
+              "charPos.y = vertexPos.y;",
+              "float dist = min(distance(vertexPos, charPos), influenceRange);",
+              "float pushX = min( push.x - influenceRange, influenceRange);",
+              "float pushZ = min( push.z - influenceRange, influenceRange);",
+              "float height = (1.0 - uv.y);",
+              "push.y = (0.5 + dist*(1.0/influenceRange)*0.5);",
+              "push.x = vPosition.y*(influenceRange - dist*sign(dist)) * push.x / dist;",
+              "push.z = vPosition.y*(influenceRange - dist*sign(dist)) * push.z / dist;",
+              "return push;",
+
+          "}",
+
+
           "void main(){",
 
 
@@ -919,7 +942,7 @@
           "float zHideFactor = floor(decayProg);",
 
 
-          "vec3 charPos = character;",
+
 
           "vec3 originalVpos = position;",
 
@@ -967,23 +990,36 @@
 
           "float influenceRange = 0.5;",
 
-          "vec3 push = vertexPos-charPos;",
+          "vec3 pushPos = pushedVertex(character0, vertexPos, vPosition, influenceRange, uv);",
+          "vPosition.y *= pushPos.y;",
+          "vPosition.x += pushPos.x;",
+          "vPosition.z += pushPos.z;",
 
+          "pushPos = pushedVertex(character1, vertexPos, vPosition, influenceRange, uv);",
+          "vPosition.y *= pushPos.y;",
+          "vPosition.x += pushPos.x;",
+          "vPosition.z += pushPos.z;",
 
-          "charPos.y = vertexPos.y;",
-          "float dist = min(distance(vertexPos, charPos), influenceRange);",
+          "pushPos = pushedVertex(character2, vertexPos, vPosition, influenceRange, uv);",
+          "vPosition.y *= pushPos.y;",
+          "vPosition.x += pushPos.x;",
+          "vPosition.z += pushPos.z;",
 
+          "pushPos = pushedVertex(character3, vertexPos, vPosition, influenceRange, uv);",
+          "vPosition.y *= pushPos.y;",
+          "vPosition.x += pushPos.x;",
+          "vPosition.z += pushPos.z;",
 
-          "float pushX = min( push.x - influenceRange, influenceRange);",
-          "float pushZ = min( push.z - influenceRange, influenceRange);",
+          "pushPos = pushedVertex(character4, vertexPos, vPosition, influenceRange, uv);",
+          "vPosition.y *= pushPos.y;",
+          "vPosition.x += pushPos.x;",
+          "vPosition.z += pushPos.z;",
 
+          "pushPos = pushedVertex(character5, vertexPos, vPosition, influenceRange, uv);",
+          "vPosition.y *= pushPos.y;",
+          "vPosition.x += pushPos.x;",
+          "vPosition.z += pushPos.z;",
 
-          "float height = (1.0 - uv.y);",
-
-          "vPosition.y *= (0.5 + dist*(1.0/influenceRange)*0.5);",
-
-          "vPosition.x += vPosition.y*(influenceRange - dist*sign(dist)) * push.x / dist;",
-          "vPosition.z += vPosition.y*(influenceRange - dist*sign(dist)) * push.z / dist;",
 
           "gl_Position = projectionMatrix * modelViewMatrix * vec4(offset + vPosition, 1.0);",
           "fogDepth = gl_Position.z;",

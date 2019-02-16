@@ -45,7 +45,8 @@ define([
 
         MainWorldCom.prototype.initWorldCom = function(wIndex) {
             workerIndex = wIndex;
-            this.registerComBuffers()
+            this.registerComBuffers();
+            MainWorldAPI.postMessage([ENUMS.Message.WORLD_READY, wIndex])
         };
 
         MainWorldCom.prototype.registerComBuffers = function() {

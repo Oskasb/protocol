@@ -8,6 +8,7 @@ define([
         '3d/SceneController',
         '3d/DynamicMain',
         'application/debug/SetupDebug',
+        'ui/GameScreen',
 		'evt'
     ],
 	function(
@@ -16,6 +17,7 @@ define([
         SceneController,
         DynamicMain,
         SetupDebug,
+        GameScreen,
         evt
     ) {
 
@@ -58,35 +60,40 @@ define([
             var workerFrameCallback = function(frame) {
                 now = MATH.getNowMS();
                 setupDebug.updateSetupDebug();
+
+                ThreeAPI.updateAnimationMixers(lastTpf);
+
                 evt.initEventFrame(frame);
 
-                dynamicMain.tickDynamicMain(lastTpf);
+                ThreeAPI.updateSceneMatrixWorld(lastTpf);
+
+                dynamicMain.updateDynamicMatrices(lastTpf);
+
                 dynamicMain.tickPrerenderDynamics(lastTpf);
+
+                dynamicMain.tickDynamicMain(lastTpf);
+
 
                 sceneController.tickEnvironment(lastTpf);
 
+                ThreeAPI.applyDynamicGlobalUniforms();
+
+
                 dt = MATH.getNowMS() - now;
                 now = MATH.getNowMS();
-                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.R_DYNAMIC, dt , ENUMS.Units.ms, 2));
 
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.R_DYNAMIC, dt , ENUMS.Units.ms, 2));
 
                 var memory = performance.memory;
                 var memoryUsed = ( (memory.usedJSHeapSize / 1048576) / (memory.jsHeapSizeLimit / 1048576 ));
-
                 var mb = Math.round(memory.usedJSHeapSize / 104857.6) / 10;
 
                 evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.R_HEAP, mb , ENUMS.Units.mb, 1));
-
                 evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.R_MEM,  Math.round(memoryUsed*1000)/10 , ENUMS.Units['%'], 1));
-
-
                 evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.D_CALLS,  ThreeAPI.sampleRenderInfo('render', 'calls') ,      ENUMS.Units.NONE, 0));
-                
-
-                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.TRIS,  ThreeAPI.sampleRenderInfo('render', 'triangles')  ,   ENUMS.Units.NONE, 0));
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.TRIS,     ThreeAPI.sampleRenderInfo('render', 'triangles')  , ENUMS.Units.NONE, 0));
                 evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.GEOMS,    ThreeAPI.sampleRenderInfo('memory', 'geometries') , ENUMS.Units.NONE, 0));
                 evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.TX_COUNT, ThreeAPI.sampleRenderInfo('memory', 'textures') ,   ENUMS.Units.NONE, 0));
-
 
                 var shaders = ThreeAPI.sampleRenderInfo('programs', null);
 
@@ -100,13 +107,16 @@ define([
 
             };
 
-
             callbackFunctions = {
                 workerFrameCallback:workerFrameCallback,
                 prerenderTick:prerenderTick,
                 postrenderTick:postrenderTick
             }
 		};
+
+        ClientViewer.prototype.worldReady = function() {
+            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER,[ENUMS.Message.RENDERER_READY, [1, GameScreen.getAspect()]]);
+        };
 
         ClientViewer.prototype.getDynamicMain = function() {
             return dynamicMain;

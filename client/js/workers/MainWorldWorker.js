@@ -39,6 +39,7 @@ require.config({
 
 require([
         'evt',
+        'client/js/worker/effects/EffectAPI',
         'client/js/workers/DebugAPI',
         'client/js/workers/main/ui/GuiAPI',
         'client/js/workers/main/MainWorldAPI',
@@ -46,6 +47,7 @@ require([
     ],
     function(
     evt,
+    fxApi,
     dbgApi,
     guiAPI,
     mwAPI,

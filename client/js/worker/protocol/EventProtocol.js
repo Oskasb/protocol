@@ -50,6 +50,11 @@ define([
             EventBufferProcessor.initWriteBufferFrame(workerIndex, getWriteBuffer())
         };
 
+        EventProtocol.getEventProtocolStatus = function(store) {
+
+            EventBufferProcessor.sampleEventBufferProcessor(store)
+        };
+
         return EventProtocol;
     });
 

@@ -1,30 +1,18 @@
 "use strict";
 
-var GuiAPI;
 
 define([
         'application/ExpandingPool',
-        'workers/main/instancing/Instantiator',
-        'workers/main/world/vegetation/Plant',
-        'workers/main/world/vegetation/VegetationGrid'
+        'workers/main/instancing/Instantiator'
     ],
     function(
         ExpandingPool,
-        Instantiator,
-        Plant,
-        VegetationGrid
+        Instantiator
     ) {
-
-        var configDefault = {
-            "sys_key": "VEG_8x8",
-            "asset_id":  "asset_vegQuad",
-            "pool_size": 6000,
-            "render_order": 0
-        };
 
         var count = 0;
 
-        var Vegetation = function() {
+        var EffectSpawner = function() {
 
             count++;
 
@@ -51,7 +39,6 @@ define([
                 return this.plantConfigs[key]
             }.bind(this);
 
-
             this.callbacks = {
                 populateSector:populateSector,
                 depopulateSector:depopulateSector,
@@ -60,7 +47,7 @@ define([
 
         };
 
-        Vegetation.prototype.initVegetation = function(dataId, workerData, plantsData, onReady) {
+        EffectSpawner.prototype.initEffectSpawner = function(dataId, workerData, onReady) {
 
             this.workerData = workerData;
 
@@ -87,7 +74,7 @@ define([
             workerData.fetchData(dataId, onDataReady);
         };
 
-        Vegetation.prototype.applyConfig = function(config) {
+        EffectSpawner.prototype.applyConfig = function(config) {
 
             for (var key in config) {
                 this.config[key] = config[key];
@@ -95,7 +82,7 @@ define([
 
         };
 
-        Vegetation.prototype.applyPlantConfig = function(config) {
+        EffectSpawner.prototype.applyPlantConfig = function(config) {
 
             for (var key in config) {
                 this.plantConfigs[key] = config[key];
@@ -104,7 +91,7 @@ define([
         };
 
 
-        Vegetation.prototype.setupInstantiator = function() {
+        EffectSpawner.prototype.setupInstantiator = function() {
 
             var addPlant = function(poolKey, callback) {
                 callback(poolKey, new Plant(poolKey, plantActivate, plantDectivate))
@@ -135,12 +122,12 @@ define([
         };
 
 
-        Vegetation.prototype.buildBufferElement = function(poolKey, cb) {
+        EffectSpawner.prototype.buildBufferElement = function(poolKey, cb) {
             this.instantiator.buildBufferElement(poolKey, cb)
         };
 
 
-        Vegetation.prototype.addVegetationAtPosition = function(patchConfig, pos, terrainSystem) {
+        EffectSpawner.prototype.addVegetationAtPosition = function(patchConfig, pos, terrainSystem) {
 
             var area = terrainSystem.getTerrainAreaAtPos(pos);
             var grid = MATH.getFromArrayByKeyValue(this.areaGrids, 'terrainArea', area);
@@ -150,7 +137,7 @@ define([
 
 
 
-        Vegetation.prototype.createPlant = function(assetId, cb, area, parentPlant) {
+        EffectSpawner.prototype.createEffect = function(assetId, cb, area, parentPlant) {
 
             var getPlant = function(key, plant) {
                 cb(plant, area, parentPlant);
@@ -160,51 +147,22 @@ define([
 
         };
 
-        Vegetation.prototype.vegetateTerrainArea = function(area) {
 
-            var grid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getPlantConfigs, 'plants');
-            this.areaGrids.push(grid);
-
-            grid.generateGridSectors(this.config.sector_plants, this.config.grid_range, this.config.area_sectors[0], this.config.area_sectors[1]);
-
-            if (this.config.trees) {
-                var treeGrid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getPlantConfigs, 'trees');
-                treeGrid.generateGridSectors(this.config.sector_trees, this.config.tree_Sector_range, this.config.tree_sectors[0], this.config.tree_sectors[1]);
-            }
-            this.areaGrids.push(treeGrid);
-        };
-
-        Vegetation.prototype.activateVegetationPlant = function(plant) {
+        EffectSpawner.prototype.activateVegetationPlant = function(plant) {
             this.buildBufferElement(plant.poolKey, plant.getElementCallback())
         };
 
-        Vegetation.prototype.deactivateVegetationPlant = function(plant) {
+        EffectSpawner.prototype.deactivateEffect = function(effect) {
             this.instantiator.recoverBufferElement(plant.poolKey, plant.getPlantElement());
-            plant.bufferElement = null;
+            effect.bufferElement = null;
         };
 
-        Vegetation.prototype.populateVegetationSector = function(sector, area, plantCount, parentPlant) {
-        //    "asset_vegQuad" gets replaced when instancing buffer is fetched.. redundant maybe...
-            for (var i = 0; i < plantCount; i++) {
-                this.createPlant("asset_vegQuad", sector.getAddPlantCallback(), area, parentPlant);
-            }
-        };
-
-
-        Vegetation.prototype.depopulateVegetationSector = function(sector) {
-            sector.deactivateSectorPlants();
-        };
-
-        Vegetation.prototype.updateVegetation = function(tpf, time, worldCamera) {
-            for (var i = 0; i < this.areaGrids.length; i++) {
-                this.areaGrids[i].updateVegetationGrid(tpf, time, worldCamera)
-            }
-
+        EffectSpawner.prototype.updateEffectSpawner = function(tpf, time, worldCamera) {
             this.instantiator.updateInstantiatorBuffers();
         };
 
 
-        Vegetation.prototype.resetVegetationSectors = function() {
+        EffectSpawner.prototype.resetEffectSpawner = function() {
 
             var rebuild;
 
@@ -225,6 +183,6 @@ define([
         };
 
 
-        return Vegetation;
+        return EffectSpawner;
 
     });

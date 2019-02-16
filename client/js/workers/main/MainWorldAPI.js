@@ -30,10 +30,10 @@ define([
         MainWorldAPI.initMainWorld = function(workerIndex) {
             console.log('CONFIGS WORLD:', PipelineAPI.getCachedConfigs());
             mainWorldCom = new MainWorldCom();
-            mainWorldCom.initWorldCom(workerIndex);
 
             var uiSetupReady = function() {
                 uiSetup.setupDefaultUi()
+                mainWorldCom.initWorldCom(workerIndex);
             };
 
             var uiReady = function() {
@@ -100,7 +100,13 @@ define([
             samples++;
         };
 
+
+        var now;
+        var entT
         MainWorldAPI.initMainWorldFrame = function(frame, frameTpf) {
+            let startT = MATH.getNowMS()
+            DebugAPI.generateTrackEvent('IDLE_W', startT - entT, 'ms', 2)
+
             tpf = frameTpf;
 
             frameEndMsg[1] = frame;
@@ -109,6 +115,11 @@ define([
         //    console.log("FRAME ->->-> MainWorldCom");
 
             evt.initEventFrame(frame);
+
+            let evtStats = evt.getEventSystemStatus();
+            DebugAPI.generateTrackEvent('W_EVT_MG', evtStats['message_count'], 0, 0)
+            DebugAPI.generateTrackEvent('EVT_LOAD', evtStats['write_load'], '%', 1)
+
             postMessage(frameEndMsg);
 
             samples = 0;
@@ -117,7 +128,14 @@ define([
             GameAPI.updateGame(tpf, time);
             worldSimulation.tickWorldSimulation(tpf, time);
             GuiAPI.updateGui(tpf, time);
-            DebugAPI.updateDebugApi()
+            DebugAPI.updateDebugApi();
+
+
+            DebugAPI.generateTrackEvent('WORK_DT', MATH.getNowMS() - startT, 'ms', 2)
+
+            DebugAPI.generateTrackEvent('LOAD_W', MATH.percentify(MATH.getNowMS() - startT, frameTpf*1000), '%',  1)
+
+            entT = MATH.getNowMS();
         };
 
         MainWorldAPI.registerSharedBuffer = function(buffer, bufferType, bufferIndex) {

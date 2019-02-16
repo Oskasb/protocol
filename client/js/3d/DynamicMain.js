@@ -117,12 +117,12 @@ define([
     };
 
     DynamicMain.prototype.tickPrerenderDynamics = function(tpf) {
-        this.updateDynamicMatrices();
+     //   this.updateDynamicMatrices();
         this.updateDynamicInstances();
     };
 
     DynamicMain.prototype.tickDynamicMain = function(tpf) {
-        ThreeAPI.updateAnimationMixers(tpf);
+
         InstanceAPI.updateInstances(tpf);
 
     };

@@ -74,6 +74,7 @@ define([
             var store = {};
             store = ThreeSetup.initThreeRenderer(pxRatio, antialias, containerElement, store);
             scene = store.scene;
+            scene.autoUpdate = false;
             camera = store.camera;
             renderer = store.renderer;
             reflectionScene = store.reflectionScene;
@@ -85,6 +86,10 @@ define([
 
             ThreeSetup.addToScene(ThreeSetup.getCamera());
             assetLoader = new AssetLoader();
+        };
+
+        ThreeAPI.updateSceneMatrixWorld = function() {
+            scene.updateMatrixWorld();
         };
 
         ThreeAPI.addPrerenderCallback = function(callback) {
@@ -422,6 +427,37 @@ define([
                     globalUniforms[uniformKey].value[key] = values[key];
                 }
             }
+        };
+
+        var frameRegs = 0;
+
+        var dynamicGlobalUnifs = {};
+
+        ThreeAPI.registerDynamicGlobalUniform = function(uniformKey, values) {
+
+            if (frameRegs < 5) {
+                let key = uniformKey+frameRegs;
+
+                if (!dynamicGlobalUnifs[key]) {
+                    dynamicGlobalUnifs[key] = {value:{}}
+                }
+
+                for (var val in values) {
+                    dynamicGlobalUnifs[key].value[val] = values[val];
+                }
+
+                frameRegs++
+            }
+
+        };
+
+        ThreeAPI.applyDynamicGlobalUniforms = function() {
+
+            for (var key in dynamicGlobalUnifs) {
+                ThreeAPI.setGlobalUniform(key, dynamicGlobalUnifs[key].value)
+            }
+
+            frameRegs = 0;
         };
 
 

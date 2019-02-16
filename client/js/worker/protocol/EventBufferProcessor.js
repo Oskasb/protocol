@@ -67,6 +67,7 @@ define([
             buffer[nextWriteIndex] = type;
 
             for (i = 0; i < argLength; i++) {
+                topWriteIndex++;
                 nextWriteIndex++;
                 buffer[nextWriteIndex] = argBuffer[i];
             //    console.log("Add Arg", workerBaseIndex+nextWriteIndex, buffer[workerBaseIndex+nextWriteIndex] )
@@ -112,20 +113,25 @@ define([
         };
 
 
+        var frameMessages = 0;
         EventBufferProcessor.readBufferEvents = function(buffer) {
             refreshResponseStore();
             for (key in ENUMS.Worker) {
                 workerBaseIndex = ENUMS.Worker[key] * ENUMS.Numbers.event_buffer_size_per_worker;
                 workerMessageCount = buffer[workerBaseIndex];
 
-
                 if (workerMessageCount) {
+                    frameMessages = workerMessageCount;
                     processWorkerBufferFrom(workerBaseIndex, buffer, workerMessageCount)
                 }
             }
         };
 
+
+        var topWriteIndex = 0;
+
         EventBufferProcessor.initWriteBufferFrame = function(workerIndex, buffer) {
+
             workerBaseIndex = workerIndex * ENUMS.Numbers.event_buffer_size_per_worker;
 
             initWriteFrame();
@@ -141,9 +147,11 @@ define([
         };
 
 
-        EventBufferProcessor.monitorEventBufferProcessor = function() {
-            DebugAPI.trackStat('message_count', workerMessageCount);
-
+        EventBufferProcessor.sampleEventBufferProcessor = function(store) {
+            store['message_count'] = frameMessages;
+            store['write_index'] = topWriteIndex;
+            store['write_load'] = MATH.percentify(topWriteIndex, ENUMS.Numbers.event_buffer_size_per_worker);
+            topWriteIndex = 0;
         };
 
         return EventBufferProcessor;

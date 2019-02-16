@@ -281,7 +281,9 @@ define([
             GuiDebug.updateDebugElements();
         };
 
+        var now;
         GuiAPI.updateGui = function(tpf, time) {
+            now = MATH.getNowMS();
             GuiDebug.updateDebugElements();
             instantiator.updateInstantiatorBuffers();
             instantiator.monitorBufferStats();
@@ -291,6 +293,7 @@ define([
             }
 
             MATH.callAll(guiUpdateCallbacks, tpf, time);
+            DebugAPI.generateTrackEvent('GUI_DT', MATH.getNowMS() - now, 'ms', 2)
         };
 
         return GuiAPI;

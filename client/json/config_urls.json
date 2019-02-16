@@ -17,6 +17,8 @@
       "ui/widgets/standard_widgets.json"                    ,
       "ui/gui_systems.json"                                 ,
 
+      "effects/effect_buffers.json"                         ,
+
       "game/actions/fighter_actions.json"                   ,
       "game/actors/fighter.json"                            ,
       "game/actors/game_items.json"                         ,

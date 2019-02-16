@@ -24,7 +24,6 @@
         {"id": "file_set_right_ff"  ,      "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_set_rt_ff"        }},
 
 
-
         {"id": "file_guard_high_rff" ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_high_rff"         }},
         {"id": "file_guard_mid_rff"  ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_middle_rff"       }},
         {"id": "file_guard_low_rff"  ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_low_rff"          }},
@@ -88,6 +87,7 @@
         {"id": "file_scale_boots",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_boots"      }},
         {"id": "file_scale_gloves",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_gloves"     }},
 
+        {"id": "file_quad",       "config": { "url": "./client/assets/models/shapes/quad"                                         }},
         {"id": "file_nineQuad",   "config": { "url": "./client/assets/models/shapes/nineQuad"                                     }},
         {"id": "file_vegQuad",    "config": { "url": "./client/assets/models/shapes/vegQuad"                                      }},
         {"id": "file_cross3d",    "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},

@@ -16,7 +16,8 @@ if(typeof(ENUMS) === "undefined"){
         REGISTER_ASSET:         7,
         REGISTER_INSTANCING_BUFFERS:    8,
         RELAY_CONFIG_DATA:      9,
-        TERRAIN_BUFFERS:        10
+        TERRAIN_BUFFERS:        10,
+        WORLD_READY:            11
     };
 
     ENUMS.Event = {
@@ -493,11 +494,17 @@ if(typeof(ENUMS) === "undefined"){
         W_MEM    :    6,
         PHYS_DT  :    7,
         D_CALLS  :    8,
-        TRIS    :    9,
+        TRIS     :    9,
         GEOMS    :    10,
         TX_COUNT :    11,
         SHADERS  :    12,
-        BLACK    :    13
+        GUI_DT   :    13,
+        GAME_DT  :    14,
+        IDLE_W   :    15,
+        WORK_DT  :    16,
+        LOAD_W   :    17,
+        W_EVT_MG :    18,
+        EVT_LOAD :    19
     };
 
     ENUMS.Units = {

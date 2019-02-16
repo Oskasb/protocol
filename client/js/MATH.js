@@ -80,6 +80,8 @@ if(typeof(MATH) === "undefined") {
 		}
 	};
 
+
+
 	MATH.getRandomArrayEntry = function(array) {
 		return array[Math.floor(Math.random()*array.length)]
 	};
@@ -114,6 +116,10 @@ if(typeof(MATH) === "undefined") {
         sinwave:  sinWave,
         coswave:  cosWave
     };
+
+	MATH.percentify = function(number, total) {
+		return Math.round((number/total) * 100);
+	};
 
 	MATH.isOddNumber = function(number) {
 		return number % 2;

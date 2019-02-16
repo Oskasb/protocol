@@ -1,14 +1,13 @@
 "use strict";
 
+var EffectsAPI;
+
 define([
         '3d/effects/filters/ScreenSpaceFX',
-
-        '3d/effects/vegetation/Vegetation',
         '3d/effects/particles/ParticleSpawner'
     ],
     function(
         ScreenSpaceFX,
-        Vegetation,
         ParticleSpawner
     ) {
 
@@ -19,14 +18,13 @@ define([
 
         var debugVegetation = false;
 
-        var EffectsAPI = function() {
+        EffectsAPI = function() {
 
         };
 
         
         EffectsAPI.initEffects = function(onReady) {
 
-            vegetation = new Vegetation(this);
             particleSpawner = new ParticleSpawner();
 
             // check for worker or main version
@@ -37,7 +35,6 @@ define([
                 particleSpawner.initParticleSpawner(onReady);
             } else {
                 console.log("Init worker particleSpawner");
-                EffectsAPI.enableTerrainVegetation();
                 particleSpawner.initParticleSpawner(onReady);
             }
         };
@@ -88,7 +85,6 @@ define([
         };
         
         EffectsAPI.tickEffectSimulation = function(systemTime) {
-            if (vegetation) vegetation.updateVegetation(systemTime);
             if (particleSpawner) particleSpawner.updateSpawnedParticles(systemTime);
         };
 

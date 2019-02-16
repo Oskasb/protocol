@@ -34,13 +34,18 @@ define([
             this.worldCamera = new WorldCamera();
             worldSimulation = this;
 
+            var fxReady = function() {
+                this.vegetation.initVegetation("grid_default", new WorkerData('VEGETATION', 'GRID'),  new WorkerData('VEGETATION', 'PLANTS') ,simReady);
+            }.bind(this);
+
             var pReady = function(x) {
                 console.log("PhysicsReady", x)
+                EffectAPI.initEffectAPI(fxReady)
             };
 
             PhysicsWorldAPI.initPhysicsWorld(pReady);
 
-            this.vegetation.initVegetation("grid_default", new WorkerData('VEGETATION', 'GRID'),  new WorkerData('VEGETATION', 'PLANTS') ,simReady);
+
         };
 
         WorldSimulation.prototype.getWorldStatus = function() {

@@ -27,7 +27,7 @@ define([
         EffectAPI.initEffectAPI = function(onReady) {
 
             var onDataReady = function(isUpdate) {
-                EffectAPI.applyEffectConfigs(this.workerData.data);
+                EffectAPI.applyEffectConfigs(workerData.data);
                 if (!isUpdate) {
                     onReady();
                 }

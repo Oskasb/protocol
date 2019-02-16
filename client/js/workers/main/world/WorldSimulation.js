@@ -40,6 +40,7 @@ define([
 
             var pReady = function(x) {
                 console.log("PhysicsReady", x)
+
                 EffectAPI.initEffectAPI(fxReady)
             };
 

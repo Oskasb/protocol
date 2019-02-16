@@ -99,50 +99,6 @@ define([
 
         };
 
-        var statsPanel;
-        var addStatsPanel = function() {
-            if (statsPanel) {
-                statsPanel.removeGuiWidget();
-                statsPanel = null;
-            } else {
-                statsPanel = new GuiStatsPanel();
-
-                var sampleTpf = function(key, cb) {
-                    cb(key, MainWorldAPI.getTpf())
-                };
-
-                var sampleAdds = function(key, cb) {
-                    cb(key, MainWorldAPI.sampleStat('gui_adds'))
-                };
-
-                var sampleReleases = function(key, cb) {
-                    cb(key, MainWorldAPI.sampleStat('gui_releases'))
-                };
-
-                var sampleActives = function(key, cb) {
-                    cb(key, MainWorldAPI.sampleStat('gui_active'))
-                };
-
-                var statsOnReady = function(widget) {
-
-                //    tempVec1.set(-0.15, -0.05, 0);
-                //    widget.setPosition(tempVec1);
-
-                    statsPanel.addTrackStatFunction({key:'TPF',   callback:sampleTpf, unit:'s', digits:3});
-                    statsPanel.addTrackStatFunction({key:'G_ADD', callback:sampleReleases, unit:'', digits:0});
-                    statsPanel.addTrackStatFunction({key:'G_REL', callback:sampleReleases, unit:'', digits:0});
-                    statsPanel.addTrackStatFunction({key:'G_ACT', callback:sampleActives, unit:'', digits:0});
-
-                    statsButton.guiWidget.addChild(widget);
-
-                };
-
-
-                statsPanel.initStatsPanel('widget_stats_container',statsOnReady, tempVec1)
-            }
-
-        };
-
         var mainButton;
 
         UiTestSetup.prototype.initUiTestSetup = function() {
@@ -178,14 +134,14 @@ define([
                 statsButton = button;
             };
 
-            var statsActive = function(widget) {
-                return statsPanel;
+            var addStatsPanel = function() {
+                DebugAPI.setDebugDrawStats(!DebugAPI.getDebugDrawStats(), statsButton)
             };
 
             opts = GuiAPI.buildWidgetOptions(
                 'button_big_blue',
                 addStatsPanel,
-                statsActive,
+                DebugAPI.getDebugDrawStats,
                 true,
                 'STATS',
                 -0.12,

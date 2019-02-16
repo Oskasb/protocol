@@ -117,6 +117,8 @@ define([
             for (key in ENUMS.Worker) {
                 workerBaseIndex = ENUMS.Worker[key] * ENUMS.Numbers.event_buffer_size_per_worker;
                 workerMessageCount = buffer[workerBaseIndex];
+
+
                 if (workerMessageCount) {
                     processWorkerBufferFrom(workerBaseIndex, buffer, workerMessageCount)
                 }
@@ -135,6 +137,12 @@ define([
                     buffer[workerBaseIndex] = 0;
                 }
             }
+
+        };
+
+
+        EventBufferProcessor.monitorEventBufferProcessor = function() {
+            DebugAPI.trackStat('message_count', workerMessageCount);
 
         };
 

@@ -3,23 +3,58 @@
 var DebugAPI;
 
 define([
+        'workers/main/StatsTracker',
         'evt'
     ],
     function(
+        StatsTracker,
         evt
     ) {
 
         var debugDrawPhysics = false;
         var debugDrawJoints = false;
         var debugDrawChars = false;
+        var debugDrawStats = false;
         var tempObj3d = new THREE.Object3D();
 
         var tempVec1 = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
         var isSimulating;
 
+        var stats = {};
+        var statTracker;
+        var trackStats = [];
+
         DebugAPI = function() {};
 
+        DebugAPI.debugDrawStats = function() {
+            statTracker.updateStatsTracker()
+        };
+
+        DebugAPI.trackStat = function(key, value) {
+            stats[key] = value;
+        };
+
+        DebugAPI.sampleStat = function(key) {
+            return stats[key];
+        };
+
+        DebugAPI.setDebugDrawStats = function(bool, parentWidget) {
+            debugDrawStats = bool;
+            if (bool) {
+                statTracker = new StatsTracker(parentWidget, trackStats);
+            }  else {
+                statTracker.removeStatsTracker();
+            }
+        };
+
+        DebugAPI.getDebugDrawStats = function() {
+            return debugDrawStats;
+        };
+
+        DebugAPI.debugTrackStat = function(key, callback, unit, digits) {
+            trackStats.push({key:key,   callback:callback, unit:unit, digits:digits})
+        };
 
         var dynSpats;
 
@@ -175,6 +210,15 @@ define([
             if (debugDrawJoints) {
                 DebugAPI.debugDrawJoints();
             }
+
+            if (debugDrawStats) {
+                DebugAPI.debugDrawStats();
+            }
+
+        };
+
+        DebugAPI.generateTrackEvent = function(key, value, unit, digits) {
+            evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats[key],  value , ENUMS.Units[unit], digits))
 
         };
 

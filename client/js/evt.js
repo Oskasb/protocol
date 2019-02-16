@@ -180,6 +180,8 @@ define([
         EventProtocol.registerBufferEvent(eventType, argBuffer);
     };
 
+
+
     return {
         setArgVec3:setEventBufferVec3,
         setArgQuat:setEventBufferQuat,

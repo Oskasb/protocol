@@ -42,7 +42,8 @@ if(typeof(ENUMS) === "undefined"){
         ADVANCE_ENVIRONMENT:    19,
         DEBUG_DRAW_CROSS:       20,
         DEBUG_DRAW_AABOX:       21,
-        DYNAMIC_JOINT:          22
+        DYNAMIC_JOINT:          22,
+        TRACK_STAT:             23
     };
 
     ENUMS.Args = {
@@ -479,6 +480,32 @@ if(typeof(ENUMS) === "undefined"){
         YELLOW   :    12,
         ORANGE   :    13,
         BLACK    :    14
+    };
+
+
+    ENUMS.TrackStats = {
+        R_DYNAMIC :    0,
+        RNDR     :    1,
+        IDLE_R   :    2,
+        R_HEAP   :    3,
+        R_MEM    :    4,
+        W_HEAP   :    5,
+        W_MEM    :    6,
+        PHYS_DT  :    7,
+        D_CALLS  :    8,
+        TRIS    :    9,
+        GEOMS    :    10,
+        TX_COUNT :    11,
+        SHADERS  :    12,
+        BLACK    :    13
+    };
+
+    ENUMS.Units = {
+        NONE     :    0,
+        s        :    1,
+        ms       :    2,
+        mb       :    3,
+        "%"      :    4
     };
 
 

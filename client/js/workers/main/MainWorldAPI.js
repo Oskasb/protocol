@@ -23,8 +23,6 @@ define([
 
         var uiSetup = new UiSetup();
 
-        var stats = {};
-
         MainWorldAPI = function() {};
 
         var sharedBuffers = {};
@@ -173,13 +171,6 @@ define([
             postMessage(message)
         };
 
-        MainWorldAPI.trackStat = function(key, value) {
-                stats[key] = value;
-        };
-
-        MainWorldAPI.sampleStat = function(key) {
-            return stats[key];
-        };
 
         return MainWorldAPI;
     });

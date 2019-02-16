@@ -48,6 +48,8 @@ define([
 
         PhysicsWorldAPI.initPhysicsWorld = function(onWorkerReady) {
 
+        //    console.log(performance);
+
             var ammoReady = function() {
                 linFac = new Ammo.btVector3();
                 waterPhysics = new WaterPhysics();
@@ -115,8 +117,12 @@ define([
         };
 
         var physTpf;
+        var now = MATH.getNowMS();
+        var dt = 0;
 
         PhysicsWorldAPI.callPhysicsSimulationUpdate = function(tpF) {
+            now = MATH.getNowMS();
+
 
             tpf = tpF;
 
@@ -135,6 +141,7 @@ define([
 
             frameEnd = getNow();
 
+            DebugAPI.generateTrackEvent('PHYS_DT', MATH.getNowMS() - now, 'ms', 2)
         };
 
 

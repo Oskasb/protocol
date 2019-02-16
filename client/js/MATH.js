@@ -34,6 +34,18 @@ if(typeof(MATH) === "undefined") {
 
 	MATH.sign = Math.sign;
 
+	MATH.getNowMS = function() {
+		return performance.now();
+	};
+
+	var track = [];
+	MATH.trackEvent = function(statEnum, value, unitEnum, digits) {
+		track[0] = statEnum;
+		track[1] = value;
+		track[2] = unitEnum || 0;
+		track[3] = digits || 0;
+		return track;
+	};
 
 	MATH.quickSplice = function(array, removeEntry) {
 

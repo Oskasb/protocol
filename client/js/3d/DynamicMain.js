@@ -128,11 +128,9 @@ define([
     };
 
 
-
     DynamicMain.prototype.initiateInstancesFromBufferMsg = function(bufferMsg) {
         InstanceAPI.setupInstancingBuffers(bufferMsg);
     };
-
 
 
     return DynamicMain;

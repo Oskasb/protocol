@@ -477,21 +477,26 @@ define([
 
         };
 
-
-        GuiWidget.prototype.indicateProgress = function(min, max, current, digits) {
-
-
-            if (this.text) {
-
-                progString = parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$1")
-                if (progString.length < digits + 1) {
+        GuiWidget.prototype.numberToDigits = function(current, digits, min) {
+            if (digits) {
+                progString = parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$"+digits)
+                if (progString.length < digits + min) {
                     progString += '.';
                     for (var i = 0; i < digits; i++) {
                         progString+= '0';
                     }
                 }
-                this.setFirstSTringText(progString)
+            } else {
+                progString = ''+digits;
+            }
 
+            return progString;
+        };
+
+        GuiWidget.prototype.indicateProgress = function(min, max, current, digits) {
+
+            if (this.text) {
+                this.setFirstSTringText(this.numberToDigits(current, digits, 1))
             }
 
             if (this.icon) {

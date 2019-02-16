@@ -7,8 +7,6 @@ define([
         GuiWidget
     ) {
 
-
-
         var GuiStatsPanel = function(options) {
 
             this.options = {};
@@ -43,6 +41,10 @@ define([
             GuiAPI.addGuiUpdateCallback(this.callbacks.updateSamplers)
         };
 
+        GuiStatsPanel.prototype.setGuiWidget = function(guiWidget) {
+            this.guiWidget = guiWidget;
+            GuiAPI.addGuiUpdateCallback(this.callbacks.updateSamplers)
+        };
 
         GuiStatsPanel.prototype.removeGuiWidget = function() {
             GuiAPI.removeGuiUpdateCallback(this.callbacks.updateSamplers);
@@ -57,6 +59,10 @@ define([
         };
 
         GuiStatsPanel.prototype.addTrackStatFunction = function(statSampler) {
+
+            if (this.statWidgets[statSampler.key]) {
+                return
+            }
 
             this.statWidgets[statSampler.key] = {key:null, value:null};
             var sWids = this.statWidgets;
@@ -92,7 +98,7 @@ define([
 
         GuiStatsPanel.prototype.setupValueString = function(value, unit, digits) {
 
-            var valueString = parseFloat((value).toFixed(digits)).toString();
+            var valueString = this.guiWidget.numberToDigits(value, digits, 0);
 
             return valueString+unit;
         };

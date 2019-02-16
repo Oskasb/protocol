@@ -268,9 +268,9 @@ define([
         var actCount = 0;
 
         InstancingBuffers.monitorBufferStats = function() {
-            MainWorldAPI.trackStat('gui_releases', relCount);
-            MainWorldAPI.trackStat('gui_active', actCount);
-            MainWorldAPI.trackStat('gui_adds', adds);
+            DebugAPI.trackStat('gui_releases', relCount);
+            DebugAPI.trackStat('gui_active', actCount);
+            DebugAPI.trackStat('gui_adds', adds);
             relCount = 0;
             actCount = 0;
             adds = 0;

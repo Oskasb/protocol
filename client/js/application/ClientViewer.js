@@ -1,5 +1,7 @@
 "use strict";
 
+
+
 define([
         'WorkerAPI',
         'PipelineAPI',
@@ -27,6 +29,8 @@ define([
         var setupDebug;
     var dynamicMain;
 
+        var now = MATH.getNowMS();
+        var dt = 0;
 
         var ClientViewer = function() {
 
@@ -35,32 +39,72 @@ define([
 
 
             var prerenderTick = function(tpf) {
+                dt = MATH.getNowMS() - now;
+
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.IDLE_R, dt , ENUMS.Units.ms, 2))
+
+                now = MATH.getNowMS();
                 this.prerenderTick(tpf)
             }.bind(this);
 
             var postrenderTick = function(tpf) {
                 this.tickPostrender(tpf)
+                dt = MATH.getNowMS() - now;
+
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.RNDR, dt , ENUMS.Units.ms, 2))
             }.bind(this);
 
 
             var workerFrameCallback = function(frame) {
-                setupDebug.updateSetupDebug()
+                now = MATH.getNowMS();
+                setupDebug.updateSetupDebug();
                 evt.initEventFrame(frame);
+
                 dynamicMain.tickDynamicMain(lastTpf);
                 dynamicMain.tickPrerenderDynamics(lastTpf);
 
                 sceneController.tickEnvironment(lastTpf);
+
+                dt = MATH.getNowMS() - now;
+                now = MATH.getNowMS();
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.R_DYNAMIC, dt , ENUMS.Units.ms, 2));
+
+
+                var memory = performance.memory;
+                var memoryUsed = ( (memory.usedJSHeapSize / 1048576) / (memory.jsHeapSizeLimit / 1048576 ));
+
+                var mb = Math.round(memory.usedJSHeapSize / 104857.6) / 10;
+
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.R_HEAP, mb , ENUMS.Units.mb, 1));
+
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.R_MEM,  Math.round(memoryUsed*1000)/10 , ENUMS.Units['%'], 1));
+
+
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.D_CALLS,  ThreeAPI.sampleRenderInfo('render', 'calls') ,      ENUMS.Units.NONE, 0));
+                
+
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.TRIS,  ThreeAPI.sampleRenderInfo('render', 'triangles')  ,   ENUMS.Units.NONE, 0));
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.GEOMS,    ThreeAPI.sampleRenderInfo('memory', 'geometries') , ENUMS.Units.NONE, 0));
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.TX_COUNT, ThreeAPI.sampleRenderInfo('memory', 'textures') ,   ENUMS.Units.NONE, 0));
+
+
+                var shaders = ThreeAPI.sampleRenderInfo('programs', null);
+
+                var count = 0;
+
+                for (var key in shaders) {
+                    count++
+                }
+
+                evt.fire(ENUMS.Event.TRACK_STAT, MATH.trackEvent(ENUMS.TrackStats.SHADERS,  count , ENUMS.Units.NONE, 0))
+
             };
 
-            var eventTest = function(e) {
-                console.log("Test Event: ", e);
-            };
 
             callbackFunctions = {
                 workerFrameCallback:workerFrameCallback,
                 prerenderTick:prerenderTick,
-                postrenderTick:postrenderTick,
-                eventTest:eventTest
+                postrenderTick:postrenderTick
             }
 		};
 
@@ -76,7 +120,10 @@ define([
             setupDebug = new SetupDebug();
         };
 
+
+
         ClientViewer.prototype.setRenderCallbacksOn = function(on) {
+
 
             if (on) {
         //        console.log("++Attach Renderer Callbacks");

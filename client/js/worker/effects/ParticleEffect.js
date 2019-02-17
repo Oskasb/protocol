@@ -14,6 +14,7 @@ define([
 
             this.particle_id = 'normal';
             this.pos = new THREE.Vector3();
+            this.offset = new THREE.Vector3();
             this.quat = new THREE.Quaternion();
             this.normal = new THREE.Vector3(0, 1, 0);
             this.rotZ = 0;
@@ -59,6 +60,10 @@ define([
 
         ParticleEffect.prototype.setParticlePos = function(pos) {
             this.pos.copy(pos);
+            this.pos.add(this.offset);
+            if (this.bufferElement) {
+                this.bufferElement.setPositionVec3(this.pos);
+            }
         };
 
         ParticleEffect.prototype.setParticleNormal = function(normal) {

@@ -15,13 +15,20 @@ define([
 
             this.attachedEntity = null;
 
+            this.positionUpdateCallbacks = [];
+
             let notifyUpdated = function(msg) {
                 this.isDirty = true;
                 dirtyCallback(msg);
             }.bind(this);
 
+            let attachEffect = function(effect) {
+                effect.attachToJoint(this)
+            }.bind(this);
+
             this.callbacks = {
-                notifyUpdated:notifyUpdated
+                notifyUpdated:notifyUpdated,
+                attachEffect:attachEffect
             }
 
         };
@@ -30,8 +37,21 @@ define([
             return this.key;
         };
 
+        AttachmentJoint.prototype.getAttachEffectCallback = function() {
+            return this.callbacks.attachEffect;
+        };
+
         AttachmentJoint.prototype.setDynamicPositionXYZ = function(x, y, z) {
             this.dynamicPosition.set(x, y, z);
+            MATH.callAll(this.positionUpdateCallbacks, this.dynamicPosition)
+        };
+
+        AttachmentJoint.prototype.addPositionUpdateCallback = function(cb) {
+            this.positionUpdateCallbacks.push(cb)
+        };
+
+        AttachmentJoint.prototype.removePositionUpdateCallback = function(cb) {
+            MATH.quickSplice(this.positionUpdateCallbacks, cb);
         };
 
         AttachmentJoint.prototype.getDynamicPosition = function(storeVec) {
@@ -69,7 +89,6 @@ define([
 
         //    console.log("registerAttachedEntity", worldEntity);
             var msg = {attachedEntity:worldEntity, obj3d:this.obj3d, key:this.key};
-
             this.callbacks.notifyUpdated(msg);
         };
 

@@ -64,6 +64,7 @@ define([
 
         Character.prototype.setGamePiece = function( gamePiece) {
             this.gamePiece = gamePiece;
+            this.getCharacterCombat().setWorldEntity(gamePiece.getWorldEntity());
             gamePiece.addPieceUpdateCallback(this.callbacks.updateCharacter);
         };
 
@@ -167,7 +168,7 @@ define([
             } else if (this.getCharacterState() === ENUMS.CharacterState.COMBAT) {
                 if (Math.random() < 0.1) {
                     if (!this.getGamePiece().activeActions.length) {
-                        this.getCharacterCombat().activateRandomAvailableAction();
+                        this.getCharacterCombat().activateRandomAvailableAction(this.getGamePiece().getWorldEntity());
                     }
                 }
             }

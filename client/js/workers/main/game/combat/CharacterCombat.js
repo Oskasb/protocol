@@ -25,6 +25,10 @@ define([
 
         };
 
+        CharacterCombat.prototype.setWorldEntity = function(worldEntity) {
+            this.worldEntity = worldEntity
+        };
+
         CharacterCombat.prototype.getFreeSlotForAction = function( action ) {
             return this.getActiontSlots().getAvailableActionSlot(action);
         };
@@ -62,7 +66,20 @@ define([
             if (slot.isReadyForActivation()) {
                 if (this.checkSufficientActionPoints(action)) {
                     slot.activateCurrentSlottedAction();
-                    this.getActionPoints().consumeActionPoints(action.getActionPointCost())
+                    let cost = action.getActionPointCost()
+                    this.getActionPoints().consumeActionPoints(cost)
+
+                    for (var i = 0; i < cost; i++) {
+
+                        let joint = MATH.getRandomArrayEntry(this.worldEntity.attachmentJoints);
+
+                        if (joint) {
+
+                            EffectAPI.setupJointEffect(joint, 'effect_action_point_wisp')
+
+                        }
+                    }
+
                 }
             }
         };

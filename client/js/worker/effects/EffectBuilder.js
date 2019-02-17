@@ -2,18 +2,20 @@
 
 define([
         'application/ExpandingPool',
-        'worker/effects/classes/DurableStamp'
+        'worker/effects/classes/DurableStamp',
+        'worker/effects/classes/GameEffect'
     ],
 
     function(
         ExpandingPool,
-        DurableStamp
-
+        DurableStamp,
+        GameEffect
     ) {
 
 
         var effectClass = {
-            DurableStamp           : DurableStamp
+            DurableStamp          :DurableStamp,
+            GameEffect            :GameEffect
         };
 
 
@@ -123,14 +125,15 @@ define([
 
             let classCfg = effectOfClass.config;
             if (classCfg.spread_pos) {
-                MATH.randomVector(particleEffect.pos);
-                particleEffect.pos.x *= classCfg.spread_pos[0];
-                particleEffect.pos.y *= classCfg.spread_pos[1];
-                particleEffect.pos.z *= classCfg.spread_pos[2];
-                particleEffect.pos.add(effectOfClass.pos);
+                MATH.randomVector(particleEffect.offset);
+                particleEffect.offset.x *= classCfg.spread_pos[0];
+                particleEffect.offset.y *= classCfg.spread_pos[1];
+                particleEffect.offset.z *= classCfg.spread_pos[2];
             } else {
-                particleEffect.pos.copy(effectOfClass.pos);
+                particleEffect.offset.set(0, 0, 0);
             }
+
+            particleEffect.setParticlePos(effectOfClass.pos);
 
             particleEffect.setParticleQuat(effectOfClass.quat);
 

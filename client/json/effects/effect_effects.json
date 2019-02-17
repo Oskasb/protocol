@@ -12,6 +12,14 @@
                             "particles": [
                                 {"id":"stamp_footprint",   "count": [1,1]}
                             ]
+                        },
+                        "effect_action_point_wisp":{
+                            "effect_class": "GameEffect",
+                            "max_active": 100,
+                            "spread_pos":[0.05, 0.05, 0.05],
+                            "particles": [
+                                {"id":"particle_wisp_additive",   "count": [3, 5]}
+                            ]
                         }
                     }
                 }

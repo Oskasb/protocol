@@ -133,7 +133,7 @@
         {
           "id":"mat_particles_additive_6x6",
           "config":{
-            "settings": "instancing_additive_settings",
+            "settings": "additive_particle_settings",
             "textures":[
               {"key":"map"           , "id":"particle_atlas_6x6"  },
               {"key":"data_texture"  , "id":"data_texture"        }

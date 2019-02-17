@@ -175,6 +175,12 @@ define([
             effectBuilder.addParticle(particleEffect, effectOfClass)
         };
 
+
+        EffectAPI.setupJointEffect = function(joint, configId) {
+            effectBuilder.buildEffectByConfigId(configId, joint.getAttachEffectCallback());
+        };
+
+
         return EffectAPI;
 
     });

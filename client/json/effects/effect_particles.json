@@ -26,13 +26,13 @@
                             "sprite": [1, 1, 1, 0]
                         },
                         {
-                            "particle_id": "additive",
+                            "particle_id": "particle_wisp_additive",
                             "spawner_id": "additive_particles_6x6",
-                            "size_min": 15,
-                            "size_max": 32,
-                            "color_min": [0.95, 0.95, 0.95, 0.8],
-                            "color_max": [1, 1, 1, 1],
-                            "sprite": [0, 0, 1, 0]
+                            "size_min": 35,
+                            "size_max": 72,
+                            "color_min": [0.25, 0.45, 0.45, 0.5],
+                            "color_max": [0.4, 0.9, 1, 1],
+                            "sprite": [3, 3, 1, 0]
                         }
                     ]
                 }

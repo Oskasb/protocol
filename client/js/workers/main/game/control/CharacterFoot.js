@@ -17,9 +17,26 @@ define([
             this.contactPoint = new THREE.Vector3();
             this.contactNormal = new THREE.Vector3();
 
+            this.stepContactPoint = new THREE.Vector3();
+
             this.contactDuration = 0;
 
             this.footContact = false;
+
+            var plantStepEffect = function(key, effect) {
+                effect.setParticleId('normal');
+                effect.setParticlePos( this.contactPoint);
+                effect.pos.y +=0.02;
+                effect.setParticleNormal( this.contactNormal);
+
+                EffectAPI.activateParticleEffect(effect)
+            }.bind(this);
+
+
+            this.callbacks = {
+                plantStepEffect:plantStepEffect
+            }
+
 
         };
 
@@ -44,7 +61,8 @@ define([
             if (hit) {
 
                 if (!this.contactDuration) {
-                    this.stepPosition.copy(this.footPosition)
+                    this.stepPosition.copy(this.footPosition);
+                    EffectAPI.getParticleEffect(this.callbacks.plantStepEffect)
                 }
 
                 this.contactDuration+= tpf;

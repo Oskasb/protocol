@@ -25,7 +25,7 @@ define([
             var buildElement = function(sysKey, cb) {
                 var getElement = function(elem) {
                     elem.initGuiBufferElement(elementBuffers[sysKey]);
-                    cb(elem);
+                    cb(elem, sysKey);
                 };
                 if (!elementPools[sysKey]) {
                     console.log("Bad pool", sysKey, [elementPools])

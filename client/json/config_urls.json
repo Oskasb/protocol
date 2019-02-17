@@ -18,6 +18,8 @@
       "ui/gui_systems.json"                                 ,
 
       "effects/effect_buffers.json"                         ,
+      "effects/effect_particles.json"                       ,
+
 
       "game/actions/fighter_actions.json"                   ,
       "game/actors/fighter.json"                            ,

@@ -115,12 +115,9 @@ define([
             this.bufferElement.setPositionVec3(this.pos);
 
             tempObj.lookAt(this.normal);
-
-
             tempObj.rotateZ(Math.random() * 10);
+
             this.bufferElement.setQuat(tempObj.quaternion);
-
-
 
             this.bufferElement.scaleUniform(this.size);
             this.bufferElement.sprite.x = this.sprite[0];
@@ -135,7 +132,6 @@ define([
             this.bufferElement.startLifecycleNow();
 
         };
-
 
         return Plant;
 

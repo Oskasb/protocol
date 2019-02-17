@@ -88,6 +88,7 @@
         {"id": "file_scale_gloves",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_gloves"     }},
 
         {"id": "file_quad",       "config": { "url": "./client/assets/models/shapes/quad"                                         }},
+        {"id": "file_flatQuad",   "config": { "url": "./client/assets/models/shapes/flatQuad"                                     }},
         {"id": "file_nineQuad",   "config": { "url": "./client/assets/models/shapes/nineQuad"                                     }},
         {"id": "file_vegQuad",    "config": { "url": "./client/assets/models/shapes/vegQuad"                                      }},
         {"id": "file_cross3d",    "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},

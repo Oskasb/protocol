@@ -1,0 +1,28 @@
+[
+    {
+        "EFFECT": {
+            "PARTICLES":[
+                {
+                    "id":"particle_default",
+                    "data": [{
+                        "particle_id": "normal",
+                        "spawner_id": "normal_particles_6x6",
+                        "size_min": 14,
+                        "size_max": 18,
+                        "color_min": [0.95, 0.95, 0.95, 1],
+                        "color_max": [1, 1, 1, 1],
+                        "sprite": [1, 1, 1, 0]
+                    },{
+                        "particle_id": "additive",
+                        "spawner_id": "additive_particles_6x6",
+                        "size_min": 15,
+                        "size_max": 32,
+                        "color_min": [0.95, 0.95, 0.95, 1],
+                        "color_max": [1, 1, 1, 1],
+                        "sprite": [0, 0, 1, 0]
+                    }]
+                }
+            ]
+        }
+    }
+]

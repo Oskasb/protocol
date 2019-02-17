@@ -167,7 +167,7 @@
             "shader": "RawShaderMaterial",
             "properties": {
               "program": "GEOMETRY_INSTANCING_STANDARD",
-              "blending": "AddBlending",
+              "blending": "AdditiveBlending",
               "global_uniforms":{
                 "fogDensity": { "value": 0.00025 },
                 "fogColor": { "value": {"r":1, "g":1, "b":1}},

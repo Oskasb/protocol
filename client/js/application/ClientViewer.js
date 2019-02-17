@@ -61,10 +61,9 @@ define([
                 now = MATH.getNowMS();
                 setupDebug.updateSetupDebug();
 
-                ThreeAPI.updateAnimationMixers(lastTpf);
-
                 evt.initEventFrame(frame);
 
+                ThreeAPI.updateAnimationMixers(lastTpf);
                 ThreeAPI.updateSceneMatrixWorld(lastTpf);
 
                 dynamicMain.updateDynamicMatrices(lastTpf);
@@ -158,12 +157,12 @@ define([
             frame++;
             ThreeAPI.updateCamera();
 
-
 		};
 
         var notifyFrameMessage = [];
 
         ClientViewer.prototype.tickPostrender = function(tpf) {
+
             frameMessage[1][0] = frame;
             frameMessage[1][1] = lastTpf;
             WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER, frameMessage)

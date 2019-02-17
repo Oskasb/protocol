@@ -16,9 +16,9 @@
                         "effect_action_point_wisp":{
                             "effect_class": "GameEffect",
                             "max_active": 100,
-                            "spread_pos":[0.05, 0.05, 0.05],
+                            "spread_pos":[0.25, 0.25, 0.25],
                             "particles": [
-                                {"id":"particle_wisp_additive",   "count": [3, 5]}
+                                {"id":"particle_wisp_additive",   "count": [5, 15]}
                             ]
                         }
                     }

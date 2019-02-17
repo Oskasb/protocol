@@ -260,6 +260,7 @@ if(typeof(MATH) === "undefined") {
 		vec.x = MATH.randomBetween(-1, 1);
 		vec.y = MATH.randomBetween(-1, 1);
 		vec.z = MATH.randomBetween(-1, 1);
+		vec.normalize();
 	};
 
     MATH.safeForceVector = function(vec) {

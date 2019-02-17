@@ -159,6 +159,8 @@ define([
             return ''+msg.x+'_'+msg.z;
         };
 
+        var terrainPointers = [];
+
         PhysicsWorldAPI.addTerrainToPhysics = function(terrainArea) {
             console.log("Physics Worker Add Terrain:", terrainArea);
 
@@ -180,7 +182,8 @@ define([
             terrainBodies[getTerrainKey(terrainArea.origin)] = terrainBody;
             ammoApi.includeBody(terrainBody);
             terrainArea.setAmmoBody(terrainBody);
-            console.log("terrainBody:", terrainBody);
+            terrainPointers.push(terrainBody.tw);
+            console.log("terrainBody:", terrainPointers, terrainBody);
             /*
             var dynamicSpatial = new DynamicSpatial();
             dynamicSpatial.setSpatialBuffer(msg[2]);
@@ -190,6 +193,10 @@ define([
             */
         };
 
+
+        PhysicsWorldAPI.testPointerIsTerrain = function(ptr) {
+            return terrainPointers.indexOf(ptr) !== -1;
+        };
 
         var bodyReady = function(dynamicSpatial, rigidBody) {
 

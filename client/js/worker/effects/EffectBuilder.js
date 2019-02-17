@@ -132,7 +132,7 @@ define([
                 particleEffect.pos.copy(effectOfClass.pos);
             }
 
-            particleEffect.normal.copy(effectOfClass.normal);
+            particleEffect.setParticleQuat(effectOfClass.quat);
 
             effectOfClass.activeParticles.push(particleEffect);
 

@@ -5,6 +5,8 @@ define([
     ],
     function() {
 
+        var tempObj = new THREE.Object3D();
+
         var CharacterFoot = function(key) {
             this.key = key;
 
@@ -13,6 +15,8 @@ define([
 
             this.footReach = new THREE.Vector3();
 
+            this.forward = new THREE.Vector3();
+
             this.contactPoint = new THREE.Vector3();
             this.contactNormal = new THREE.Vector3();
 
@@ -20,9 +24,14 @@ define([
 
             var plantStepEffect = function(effect) {
                 effect.setEffectPosition( this.contactPoint);
-                effect.pos.y +=0.02;
-                effect.setEffectNormal( this.contactNormal);
+                effect.pos.y +=0.005;
+
+                tempObj.up.copy(this.forward);
+                tempObj.lookAt(this.contactNormal);
+
+                effect.setEffectQuaternion(tempObj.quaternion);
                 effect.activateEffectFromConfigId();
+
             }.bind(this);
 
             this.callbacks = {
@@ -42,18 +51,29 @@ define([
             return this.footContactDepth;
         };
 
-        CharacterFoot.prototype.raycastJointDown = function(joint, config, tpf) {
+        CharacterFoot.prototype.raycastJointDown = function(worldEntity, joint, config, tpf) {
             joint.getDynamicPosition(this.footPosition);
             this.footPosition.y += config.foot_margin;
             this.footReach.y = -config.foot_reach;
 
             let hit = PhysicsWorldAPI.raycastFromTo(this.footPosition, this.footReach, this.contactPoint, this.contactNormal);
-
+            let terrainHit = false;
             if (hit) {
+                terrainHit = PhysicsWorldAPI.testPointerIsTerrain(hit.ptr);
+            }
+
+
+            if (terrainHit) {
 
                 if (!this.contactDuration) {
                     this.stepPosition.copy(this.footPosition);
-                    EffectAPI.buildEffectClassByConfigId('effect_footstep', this.callbacks.plantStepEffect)
+                    let speed = worldEntity.getWorldEntityVelocity().lengthSq();
+
+                    if (speed > 0.5 && this.contactNormal.y > 0.9) {
+                        worldEntity.getWorldEntityForward(this.forward);
+                        EffectAPI.buildEffectClassByConfigId('effect_footstep', this.callbacks.plantStepEffect)
+                    }
+
                 }
 
                 this.contactDuration+= tpf;
@@ -72,7 +92,7 @@ define([
         CharacterFoot.prototype.updateCharacterFoot = function(worldEntity, config, tpf) {
 
             let joint = worldEntity.getAttachmentJoint(this.key);
-            this.raycastJointDown(joint, config, tpf);
+            this.raycastJointDown(worldEntity, joint, config, tpf);
 
 
         };

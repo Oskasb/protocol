@@ -57,7 +57,8 @@ define([
             }
 
             this.applyBodyTransform(body);
-            return this.body = body;
+            this.body = body;
+            return body
 
         };
 

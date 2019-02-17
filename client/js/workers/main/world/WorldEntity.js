@@ -98,6 +98,11 @@ define([
             storeQuat.copy(this.obj3d.quaternion);
         };
 
+        WorldEntity.prototype.getWorldEntityForward = function(storeVec) {
+            storeVec.set(0, 0, 1);
+            storeVec.applyQuaternion(this.obj3d.quaternion);
+        };
+
         WorldEntity.prototype.setWorldEntityPosition = function(posVec) {
             this.obj3d.position.copy(posVec);
             this.setWorldEntityIsDirty();

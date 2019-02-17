@@ -14,10 +14,13 @@ define([
 
             this.particle_id = 'normal';
             this.pos = new THREE.Vector3();
+            this.quat = new THREE.Quaternion();
             this.normal = new THREE.Vector3(0, 1, 0);
-
+            this.rotZ = 0;
             this.size = 2+Math.random()*3;
 
+            this.attackTime = 1;
+            this.releaseTime = 1;
             this.colorRgba = {r:1, g:1, b:1, a: 1};
 
             this.config = {
@@ -62,6 +65,10 @@ define([
             this.normal.copy(normal);
         };
 
+        ParticleEffect.prototype.setParticleQuat = function(quat) {
+            this.quat.copy(quat);
+        };
+
         ParticleEffect.prototype.applyConfig = function() {
 
             this.size = MATH.randomBetween(this.config.size_min, this.config.size_max) || 5;
@@ -75,6 +82,9 @@ define([
             this.sprite[2] = this.config.sprite[2] || 1;
             this.sprite[3] = this.config.sprite[3] || 0;
 
+            this.attackTime = this.config.attack_time   || 1;
+            this.releaseTime =this.config.release_time  || 1;
+
             if (this.config.surface) {
 
                 if (this.pos.y < 0) {
@@ -86,7 +96,6 @@ define([
         };
 
         ParticleEffect.prototype.recoverParticleEffect = function() {
-            this.bufferElement.scaleUniform(0.3);
             this.bufferElement.releaseElement()
         };
 
@@ -95,24 +104,22 @@ define([
         };
 
         ParticleEffect.prototype.setBufferElement = function(bufferElement) {
+
             this.bufferElement = bufferElement;
             this.bufferElement.setPositionVec3(this.pos);
-
-            tempObj.lookAt(this.normal);
-            tempObj.rotateZ(Math.random() * 10);
-
-            this.bufferElement.setQuat(tempObj.quaternion);
+            this.bufferElement.setQuat(this.quat);
 
             this.bufferElement.scaleUniform(this.size);
             this.bufferElement.sprite.x = this.sprite[0];
             this.bufferElement.sprite.y = this.sprite[1];
             this.bufferElement.sprite.z = this.sprite[2];
             this.bufferElement.sprite.w = this.sprite[3];
+
             this.bufferElement.setSprite(this.bufferElement.sprite);
             this.bufferElement.setColorRGBA(this.colorRgba);
 
-            this.bufferElement.setAttackTime(1.0);
-            this.bufferElement.setReleaseTime(1.0);
+            this.bufferElement.setAttackTime(this.attackTime);
+            this.bufferElement.setReleaseTime(this.releaseTime);
             this.bufferElement.startLifecycleNow();
 
         };

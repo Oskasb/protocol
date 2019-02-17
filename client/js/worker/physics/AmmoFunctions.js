@@ -321,7 +321,7 @@ define([
                 var hitPoint = rayCallback.get_m_hitPointWorld();
                 posRes.set(hitPoint.x(), hitPoint.y(), hitPoint.z());
 
-                hit.ptr = rayCallback.get_m_collisionObject().a;
+                hit.ptr = rayCallback.get_m_collisionObject().tw;
 
                 //    console.log(hitPoint, hit.ptr);
                 return hit;

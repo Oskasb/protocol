@@ -3,6 +3,7 @@
     "SHADERS_THREE": {
       "LOAD_SHADER_INDEX":[
         "VEGETATION_INSTANCING",
+        "STAMP_INSTANCING",
         "GUI_INSTANCING_STANDARD",
         "GEOMETRY_INSTANCING_STANDARD",
         "TERRAIN_SHADER",
@@ -847,6 +848,20 @@
           {
             "source": "INSTANCING_PROGRAMS",
             "chunk": "fragmentVegetationInstancing"
+          }
+        ]
+      },
+      "STAMP_INSTANCING": {
+        "vertex": [
+          {
+            "source": "INSTANCING_PROGRAMS",
+            "chunk": "vertexStampInstancing"
+          }
+        ],
+        "fragment": [
+          {
+            "source": "INSTANCING_PROGRAMS",
+            "chunk": "fragmentStampInstancing"
           }
         ]
       }

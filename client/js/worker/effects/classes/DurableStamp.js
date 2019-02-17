@@ -57,7 +57,6 @@ define([
             this.callbacks.activateEffect(this);
         };
 
-
         DurableStamp.prototype.setEffectPosition = function(pos) {
             this.pos.copy(pos);
         };

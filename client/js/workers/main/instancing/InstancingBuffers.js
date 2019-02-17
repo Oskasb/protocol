@@ -170,12 +170,12 @@ define([
 
         InstancingBuffers.prototype.updateGuiBuffer = function() {
 
-            var releasedIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
+            let releasedIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);
 
             relCount+=releasedIndices.length;
 
             this.updateReleaseIndices(releasedIndices);
-            var cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
+            let cleanupIndices = this.getBookState(ENUMS.IndexState.INDEX_FRAME_CLEANUP);
             this.updateCleanupIndices(cleanupIndices);
             this.updateActiveCount();
 

@@ -156,8 +156,9 @@ define([
         };
 
         EffectAPI.recoverParticleEffect = function(effect) {
-            MATH.quickSplice(activeEffects[effect.getSpawnerId()], effect);
-            effect.recoverParticleEffect()
+            let spawner = effect.getSpawnerId();
+            MATH.quickSplice(activeEffects[spawner], effect);
+            effectSpawners[spawner].deactivateEffect(effect)
         };
 
         EffectAPI.buildEffect = function(callback) {

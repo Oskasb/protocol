@@ -54,8 +54,9 @@ define([
 
 
         EffectSpawner.prototype.deactivateEffect = function(effect) {
-            this.instantiator.recoverBufferElement(plant.poolKey, plant.getPlantElement());
+            this.instantiator.recoverBufferElement(effect.getSpawnerId(), effect.getParticleEffectBuffer());
             effect.bufferElement = null;
+            this.instantiator.updateInstantiatorBuffers();
         };
 
         EffectSpawner.prototype.updateEffectSpawner = function(tpf, time, worldCamera) {

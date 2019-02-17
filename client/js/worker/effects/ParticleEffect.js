@@ -86,8 +86,12 @@ define([
         };
 
         ParticleEffect.prototype.recoverParticleEffect = function() {
-            this.bufferElement.scaleUniform(0);
+            this.bufferElement.scaleUniform(0.3);
             this.bufferElement.releaseElement()
+        };
+
+        ParticleEffect.prototype.getParticleEffectBuffer = function() {
+            return this.bufferElement;
         };
 
         ParticleEffect.prototype.setBufferElement = function(bufferElement) {

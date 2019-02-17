@@ -94,7 +94,7 @@ define([
             let cfgId = effectOfClass.getEffectId();
 
             let maxActive = this.configs[cfgId].max_active || 100;
-            
+
             if (this.activeEffects[cfgId].length + 1 > maxActive) {
                 let recover = this.activeEffects[cfgId].shift();
                 recover.recoverEffectOfClass();

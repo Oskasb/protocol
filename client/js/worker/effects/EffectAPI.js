@@ -6,13 +6,15 @@ define([
         'application/ExpandingPool',
         'workers/WorkerData',
         'worker/effects/EffectSpawner',
-        'worker/effects/ParticleEffect'
+        'worker/effects/ParticleEffect',
+        'worker/effects/EffectBuilder'
     ],
     function(
         ExpandingPool,
         WorkerData,
         EffectSpawner,
-        ParticleEffect
+        ParticleEffect,
+        EffectBuilder
     ) {
 
 
@@ -23,10 +25,13 @@ define([
 
         var effectPool = new ExpandingPool('effect', createEffect);
 
+        var effectBuilder = new EffectBuilder();
+
         var effectSpawners = {};
         var particleConfigs = {};
 
-        var activeEffects = [];
+        var activeEffects = {};
+        var activateEffects = {};
 
         var spawnerData = new WorkerData('EFFECT', 'BUFFERS');
         var particlesData = new WorkerData('EFFECT', 'PARTICLES');
@@ -41,7 +46,7 @@ define([
             var onParticlesReady = function(isUpdate) {
                 EffectAPI.applyParticleConfigs(particlesData.data);
                 if (!isUpdate) {
-                    onReady();
+                    effectBuilder.initEffectBuilder('effects_default', new WorkerData('EFFECT', 'EFFECTS'), onReady, rebuildFx)
                 }
             };
 
@@ -69,8 +74,28 @@ define([
                 effectSpawners[spawner].applyConfig(data[i]);
                 effectSpawners[spawner].setupInstantiator()
             }
+            rebuildFx()
+        };
+
+        var rebuildFx = function() {
+            let rebuild = {};
+
+            for (var key in activeEffects) {
+                rebuild[key] = [];
+
+                while (activeEffects[key].length) {
+                    let fx = activeEffects[key].pop();
+                    fx.recoverParticleEffect();
+                    rebuild[key].push(fx)
+                }
+
+                while (rebuild[key].length) {
+                    EffectAPI.activateParticleEffect(rebuild[key].pop())
+                }
+            }
 
         };
+
 
         EffectAPI.applyParticleConfigs = function(data) {
 
@@ -90,10 +115,8 @@ define([
 
             }
 
+            rebuildFx()
 
-            for (var i = 0; i < activeEffects.length; i++) {
-                activeEffects[i].applyConfig()
-            }
 
         };
 
@@ -101,10 +124,15 @@ define([
         EffectAPI.setupParticleEffect = function(bufferElement, spawnerId) {
             let effect = activateEffects[spawnerId].pop();
             effect.setBufferElement(bufferElement);
-            activeEffects.push(effect);
+
+            if (!activeEffects[spawnerId]) {
+                activeEffects[spawnerId] = []
+            }
+
+            activeEffects[spawnerId].push(effect);
         };
 
-        var activateEffects = {};
+
 
         EffectAPI.activateParticleEffect = function(effect) {
             effect.setConfig(EffectAPI.getEffectConfig( effect.getParticleId()));
@@ -128,8 +156,22 @@ define([
         };
 
         EffectAPI.recoverParticleEffect = function(effect) {
-            MATH.quickSplice(activeEffects, effect);
+            MATH.quickSplice(activeEffects[effect.getSpawnerId()], effect);
             effect.recoverParticleEffect()
+        };
+
+        EffectAPI.buildEffect = function(callback) {
+            effectPool.getFromExpandingPool(callback)
+        };
+
+
+        EffectAPI.buildEffectClassByConfigId = function(configId, callback) {
+            effectBuilder.buildEffectByConfigId(configId, callback)
+        };
+
+        EffectAPI.addParticleToEffectOfClass = function(particleId, particleEffect, effectOfClass) {
+            particleEffect.setParticleId(particleId);
+            effectBuilder.addParticle(particleEffect, effectOfClass)
         };
 
         return EffectAPI;

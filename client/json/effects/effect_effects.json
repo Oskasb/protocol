@@ -1,0 +1,22 @@
+[
+    {
+        "EFFECT": {
+            "EFFECTS":[
+                {
+                    "id":"effects_default",
+                    "data": {
+                        "effect_footstep":{
+                            "effect_class": "DurableStamp",
+                            "max_active": 100,
+                            "spread_pos":[0.12, 0.01, 0.12],
+                            "particles": [
+                                {"id":"normal",   "count": [1,3]},
+                                {"id":"additive", "count": [1,3]}
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    }
+]

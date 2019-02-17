@@ -256,6 +256,12 @@ if(typeof(MATH) === "undefined") {
 	    return MATH.clamp(value, -bigSafeValue, bigSafeValue);
     };
 
+	MATH.randomVector = function(vec) {
+		vec.x = MATH.randomBetween(-1, 1);
+		vec.y = MATH.randomBetween(-1, 1);
+		vec.z = MATH.randomBetween(-1, 1);
+	};
+
     MATH.safeForceVector = function(vec) {
         vec.x = MATH.safeInt(vec.x);
         vec.y = MATH.safeInt(vec.y);

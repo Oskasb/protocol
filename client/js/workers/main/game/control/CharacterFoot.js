@@ -8,7 +8,6 @@ define([
         var CharacterFoot = function(key) {
             this.key = key;
 
-
             this.stepPosition = new THREE.Vector3();
             this.footPosition = new THREE.Vector3();
 
@@ -17,26 +16,18 @@ define([
             this.contactPoint = new THREE.Vector3();
             this.contactNormal = new THREE.Vector3();
 
-            this.stepContactPoint = new THREE.Vector3();
-
             this.contactDuration = 0;
 
-            this.footContact = false;
-
-            var plantStepEffect = function(key, effect) {
-                effect.setParticleId('normal');
-                effect.setParticlePos( this.contactPoint);
+            var plantStepEffect = function(effect) {
+                effect.setEffectPosition( this.contactPoint);
                 effect.pos.y +=0.02;
-                effect.setParticleNormal( this.contactNormal);
-
-                EffectAPI.activateParticleEffect(effect)
+                effect.setEffectNormal( this.contactNormal);
+                effect.activateEffectFromConfigId();
             }.bind(this);
-
 
             this.callbacks = {
                 plantStepEffect:plantStepEffect
             }
-
 
         };
 
@@ -62,7 +53,7 @@ define([
 
                 if (!this.contactDuration) {
                     this.stepPosition.copy(this.footPosition);
-                    EffectAPI.getParticleEffect(this.callbacks.plantStepEffect)
+                    EffectAPI.buildEffectClassByConfigId('effect_footstep', this.callbacks.plantStepEffect)
                 }
 
                 this.contactDuration+= tpf;

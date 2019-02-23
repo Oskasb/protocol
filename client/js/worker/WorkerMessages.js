@@ -39,9 +39,6 @@ define([
                 clientViewer.getDynamicMain().requestAsset(msg);
             };
 
-            handlers[ENUMS.Message.REMOVE_MODEL_INSTANCE] = function(workerKey, msg) {
-                MainWorldAPI.initMainWorldFrame(msg[0], msg[1]);
-            };
 
             handlers[ENUMS.Message.REGISTER_INSTANCING_BUFFERS] = function(workerKey, msg) {
                 clientViewer.getDynamicMain().initiateInstancesFromBufferMsg(msg);

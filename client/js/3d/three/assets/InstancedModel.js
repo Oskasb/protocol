@@ -145,12 +145,22 @@ define([
                     var boneName = parentSkel.bones[i].name;
                     _this.boneMap[boneName] = new InstanceDynamicJoint(parentSkel.bones[i], _this);
                 }
+
             };
 
             var _this = this;
 
             if (this.skinNode) {
                 mapSkinBones(_this.skinNode);
+
+                for (var key in this.originalModel.jointMap) {
+                    if (key !== 'SKIN') {
+                        let boneName = this.originalModel.jointMap[key];
+                        let dynJoint = this.boneMap[boneName];
+                        dynJoint.setJointEnum(ENUMS.Joints[key])
+                    }
+                }
+
             }
         };
 
@@ -223,10 +233,14 @@ define([
             for (var key in this.originalModel.jointMap) {
 
                 if (key === 'FOOT_L' || key === 'FOOT_R') {
+
+                }
+
+                if (key !== 'SKIN') {
+
                     let boneName = this.originalModel.jointMap[key];
 
                     let dynJoint = this.boneMap[boneName];
-                    dynJoint.setJointEnum(ENUMS.Joints[key])
 
                     if (!dynJoint) {
                         console.log("No dynJoint", key)
@@ -234,10 +248,6 @@ define([
                         //        console.log(key)
                         dynJoint.updateSpatialFrame()
                     }
-                }
-
-                if (key !== 'SKIN') {
-
 
             //
                 }

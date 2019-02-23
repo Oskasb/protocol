@@ -74,6 +74,10 @@ define([
             this.quat.copy(quat);
         };
 
+        ParticleEffect.prototype.setParticleDuration = function(duration) {
+            this.duration = duration;
+        };
+
         ParticleEffect.prototype.applyConfig = function() {
 
             this.size = MATH.randomBetween(this.config.size_min, this.config.size_max) || 5;
@@ -101,7 +105,8 @@ define([
         };
 
         ParticleEffect.prototype.recoverParticleEffect = function() {
-            this.bufferElement.releaseElement()
+        //    this.bufferElement.endLifecycleNow();
+        //    this.bufferElement.releaseElement()
         };
 
         ParticleEffect.prototype.getParticleEffectBuffer = function() {
@@ -124,8 +129,15 @@ define([
             this.bufferElement.setColorRGBA(this.colorRgba);
 
             this.bufferElement.setAttackTime(this.attackTime);
+
+            if (this.duration) {
+                this.bufferElement.applyDuration(this.duration);
+            }
+
             this.bufferElement.setReleaseTime(this.releaseTime);
             this.bufferElement.startLifecycleNow();
+
+
 
         };
 

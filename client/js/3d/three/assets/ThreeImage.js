@@ -7,6 +7,8 @@ define([
 
     ) {
 
+        var loader = new THREE.ImageBitmapLoader();
+
         var ThreeImage = function(id, config, callback) {
 
             this.id = id;
@@ -17,7 +19,6 @@ define([
                 callback(this)
             }.bind(this);
 
-            var loader = new THREE.ImageBitmapLoader();
 
             loader.load( config.url, function ( imageBitmap ) {
                 bitmapLoaded(imageBitmap);

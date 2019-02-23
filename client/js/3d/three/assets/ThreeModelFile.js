@@ -58,6 +58,8 @@ define([
             callback(spatial)
         };
 
+        var loader = new THREE.GLTFLoader();
+
         var loadGLB = function(url, cacheMesh) {
 
             // Makes a Scene
@@ -82,7 +84,7 @@ define([
             };
 
             var loadModel = function(src) {
-                var loader = new THREE.GLTFLoader();
+
                 loader.load(src, loaded, prog, err);
             };
 

@@ -156,9 +156,6 @@ define([
                 return true
             }
 
-
-
-
         };
 
 
@@ -169,7 +166,7 @@ define([
             tempVec1.set(0, 0, 0);
 
             for (var i = 0; i < this.feet.length; i++) {
-                let foot = this.feet[i]
+                let foot = this.feet[i];
                 foot.updateCharacterFoot(worldEntity, this.config, tpf);
                 totalContactDepth += this.feet[i].getFootContactDepth();
                 tempVec2.subVectors( foot.stepPosition, foot.footPosition);
@@ -190,7 +187,6 @@ define([
             } else {
                 this.groundContact = false;
             }
-
 
         };
 

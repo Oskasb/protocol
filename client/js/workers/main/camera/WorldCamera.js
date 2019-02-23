@@ -31,21 +31,25 @@ define([
     var distPost = 0;
     var tpf;
 
-    var startIndex;
+    var inputIndex;
     var worldCam;
 
     var sampleInput = function(input, buffer, worldSpacePointers) {
 
-        startIndex = input;
+        inputIndex = input;
 
         inputBuffer = buffer;
-        camera.aspect = inputBuffer[startIndex + ENUMS.InputState.ASPECT];
 
-        if (inputBuffer[startIndex+ ENUMS.InputState.WHEEL_DELTA]) {
-            GuiAPI.printDebugText("WHEEL DELTA "+inputBuffer[startIndex+ ENUMS.InputState.WHEEL_DELTA]);
+        if (input === 0) {
+            camera.aspect = GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.ASPECT );
+        }
 
-            tempVec1.set(0, 0, 2 * MATH.sign(-inputBuffer[startIndex+ ENUMS.InputState.WHEEL_DELTA]));
-            inputBuffer[startIndex+ ENUMS.InputState.WHEEL_DELTA] = 0;
+        if (GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.WHEEL_DELTA)) {
+            GuiAPI.printDebugText("WHEEL DELTA "+GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.WHEEL_DELTA));
+
+            tempVec1.set(0, 0, 2 * MATH.sign(-GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.WHEEL_DELTA)));
+        //    inputBuffer[inputIndex+ ENUMS.InputState.WHEEL_DELTA] = 0;
+            GuiAPI.setInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.WHEEL_DELTA, 0)
             tempVec1.applyQuaternion(camera.quaternion);
             camera.position.add(tempVec1);
         }
@@ -56,16 +60,16 @@ define([
         tpf = MainWorldAPI.getTpf();
 
 
-        if (inputBuffer[startIndex+ ENUMS.InputState.ACTION_0]) {
+        if (GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.ACTION_0)) {
 
-            tempVec1.x = inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_X] - lastDX ;
-            tempVec1.y = inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_Y] - lastDY ;
+            tempVec1.x = GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.DRAG_DISTANCE_X) - lastDX;
+            tempVec1.y = GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.DRAG_DISTANCE_Y) - lastDY;
             tempVec1.z = 0;
 
             timeFactor =  Math.min(tpf*20, 0.5);
 
-            lastDX = inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_X] * timeFactor + lastDX * (1-timeFactor);
-            lastDY = inputBuffer[startIndex+ ENUMS.InputState.DRAG_DISTANCE_Y] * timeFactor + lastDY * (1-timeFactor);
+            lastDX = (tempVec1.x + lastDX) * timeFactor + lastDX * (1-timeFactor);
+            lastDY = (tempVec1.y + lastDY) * timeFactor + lastDY * (1-timeFactor);
 
             dist = worldCam.calcDistanceToCamera(worldCam.getCameraLookAt());
             tempVec1.multiplyScalar(dist);
@@ -283,12 +287,10 @@ define([
     };
 
 
-    var t = 0;
     var char;
 
     WorldCamera.prototype.tickWorldCamera = function() {
         GuiAPI.setCameraAspect(camera.aspect);
-        t+=tpf;
 
         char = GameAPI.getPlayerCharacter();
 
@@ -310,8 +312,9 @@ define([
         direction = MATH.vectorXZToAngleAxisY(tempVec1);
 
         this.updateCameraLookAt();
-        this.fireCameraUpdate();
         this.updateCameraMatrix();
+        this.fireCameraUpdate()
+
     };
 
     return WorldCamera;

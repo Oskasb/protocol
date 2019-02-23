@@ -97,10 +97,7 @@ define([
 
             let maxActive = this.configs[cfgId].max_active || 100;
 
-            if (this.activeEffects[cfgId].length + 1 > maxActive) {
-                let recover = this.activeEffects[cfgId].shift();
-                recover.recoverEffectOfClass();
-            }
+
 
             this.activeEffects[cfgId].push(effectOfClass);
             effectOfClass.setConfig(config);
@@ -109,6 +106,12 @@ define([
             for (var i = 0; i < particles.length; i++) {
                 this.addParticleGroup(effectOfClass, particles[i])
             }
+
+            if (this.activeEffects[cfgId].length > maxActive) {
+                let recover = this.activeEffects[cfgId].shift();
+                recover.recoverEffectOfClass();
+            }
+
         };
 
         EffectBuilder.prototype.addParticleGroup = function(effectOfClass, particleGroup) {
@@ -131,6 +134,12 @@ define([
                 particleEffect.offset.z *= classCfg.spread_pos[2];
             } else {
                 particleEffect.offset.set(0, 0, 0);
+            }
+
+            if (classCfg.duration) {
+                particleEffect.setParticleDuration(MATH.randomBetween(classCfg.duration[0], classCfg.duration[1]));
+            } else {
+                particleEffect.setParticleDuration(0);
             }
 
             particleEffect.setParticlePos(effectOfClass.pos);

@@ -52,23 +52,29 @@ define([
 
         var updateBufferValue = function(buffer, key, value) {
 
-            if (buffer[key] !== value) {
-                buffer[key] = value;
-                buffer[ENUMS.InputState.HAS_UPDATE] = 1
+            let indexKey = key + pointerIndex * ENUMS.InputState.BUFFER_SIZE
+
+            if (buffer[indexKey] !== value) {
+                buffer[indexKey] = value;
+                buffer[ENUMS.InputState.HAS_UPDATE + pointerIndex * ENUMS.InputState.BUFFER_SIZE] = 1
             //    console.log("Update input: ", key)
             }
 
         };
 
+        var pointerIndex;
 
-        var updateInputBuffer = function(buffer, inputState) {
-            buffer[ENUMS.InputState.HAS_UPDATE] = 0;
+        var updateInputBuffer = function(buffer, inputState, inputIndex) {
+            pointerIndex = inputIndex;
+            buffer[ENUMS.InputState.HAS_UPDATE + pointerIndex * ENUMS.InputState.BUFFER_SIZE] = 0;
 
-           updateBufferValue( buffer, ENUMS.InputState.VIEW_LEFT         , GameScreen.getLeft()       );
-           updateBufferValue( buffer, ENUMS.InputState.VIEW_TOP          , GameScreen.getTop()        );
-           updateBufferValue( buffer, ENUMS.InputState.VIEW_WIDTH        , GameScreen.getWidth()      );
-           updateBufferValue( buffer, ENUMS.InputState.VIEW_HEIGHT       , GameScreen.getHeight()     );
-           updateBufferValue( buffer, ENUMS.InputState.ASPECT            , GameScreen.getAspect()     );
+            if (inputIndex === 0) {
+                updateBufferValue( buffer, ENUMS.InputState.VIEW_LEFT         , GameScreen.getLeft()       );
+                updateBufferValue( buffer, ENUMS.InputState.VIEW_TOP          , GameScreen.getTop()        );
+                updateBufferValue( buffer, ENUMS.InputState.VIEW_WIDTH        , GameScreen.getWidth()      );
+                updateBufferValue( buffer, ENUMS.InputState.VIEW_HEIGHT       , GameScreen.getHeight()     );
+                updateBufferValue( buffer, ENUMS.InputState.ASPECT            , GameScreen.getAspect()     );
+            }
 
             screenFitXY(buffer, inputState.x, inputState.y, tempVec);
 
@@ -101,7 +107,7 @@ define([
             INPUT_BUFFERS = PipelineAPI.getCachedConfigs().BUFFERS[ENUMS.getKey('BufferType', ENUMS.BufferType.INPUT_BUFFER)];
 
             if (!INPUT_BUFFERS) return;
-            updateInputBuffer(INPUT_BUFFERS[pointerState.index], pointerState);
+            updateInputBuffer(INPUT_BUFFERS[0], pointerState, pointerState.index);
 
 		};
 

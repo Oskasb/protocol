@@ -17,7 +17,8 @@ if(typeof(ENUMS) === "undefined"){
         REGISTER_INSTANCING_BUFFERS:    8,
         RELAY_CONFIG_DATA:      9,
         TERRAIN_BUFFERS:        10,
-        WORLD_READY:            11
+        WORLD_READY:            11,
+        GENERATE_FRAME:         12
     };
 
     ENUMS.Event = {

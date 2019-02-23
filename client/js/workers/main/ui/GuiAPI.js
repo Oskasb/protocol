@@ -224,6 +224,10 @@ define([
             store.x = sourcePos.x * aspect;
         };
 
+        GuiAPI.setInputBufferValue = function(inputIndex, buffer, enumKey, value) {
+            buffer[inputIndex*ENUMS.InputState.BUFFER_SIZE + enumKey] = value;
+        };
+
         GuiAPI.readInputBufferValue = function(inputIndex, buffer, enumKey) {
             return buffer[inputIndex*ENUMS.InputState.BUFFER_SIZE + enumKey]
         };

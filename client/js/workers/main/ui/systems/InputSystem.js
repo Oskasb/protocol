@@ -103,20 +103,21 @@ define([
             var sampleInput = function(input, buffer) {
                 inputIndex = input;
 
-                startIndex = input * ENUMS.InputState.BUFFER_SIZE;
+                startIndex = input // * ENUMS.InputState.BUFFER_SIZE;
 
                 inputBuffer = buffer;
 
             //    if (inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] === 200) {
-                    inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] = 1;
+                GuiAPI.setInputBufferValue(startIndex, inputBuffer, ENUMS.InputState.HAS_UPDATE, 1)
+            //    inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE] = 1;
             //    }
 
                 pointer = null;
 
-                if (inputBuffer[startIndex + ENUMS.InputState.ACTION_0]) {
+                if (GuiAPI.readInputBufferValue(startIndex, inputBuffer, ENUMS.InputState.ACTION_0) ) {
 
-                    tempVec1.x = inputBuffer[startIndex+ ENUMS.InputState.MOUSE_X] ;
-                    tempVec1.y = inputBuffer[startIndex+ ENUMS.InputState.MOUSE_Y] ;
+                    tempVec1.x = GuiAPI.readInputBufferValue(startIndex, inputBuffer, ENUMS.InputState.MOUSE_X)  ;
+                    tempVec1.y = GuiAPI.readInputBufferValue(startIndex, inputBuffer, ENUMS.InputState.MOUSE_Y)  ;
                     tempVec1.z = 0 // (Math.random()-0.5 ) * 5 //;
 
                     if (!pointers[inputIndex]) {
@@ -149,9 +150,16 @@ define([
 
                 }
 
-                if (inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE]) {
-                    inputBuffer[startIndex + ENUMS.InputState.HAS_UPDATE]++;
-                    this.updateInteractiveElements(inputIndex, inputBuffer[startIndex+ ENUMS.InputState.MOUSE_X], inputBuffer[startIndex+ ENUMS.InputState.MOUSE_Y], pointer)
+                let hasUpdate =  GuiAPI.readInputBufferValue(startIndex, inputBuffer, ENUMS.InputState.HAS_UPDATE);
+
+                if (hasUpdate) {
+                    hasUpdate++;
+                    GuiAPI.setInputBufferValue(startIndex, inputBuffer, ENUMS.InputState.HAS_UPDATE, hasUpdate);
+                    this.updateInteractiveElements(
+                        inputIndex,
+                        GuiAPI.readInputBufferValue(startIndex, inputBuffer, ENUMS.InputState.MOUSE_X),
+                        GuiAPI.readInputBufferValue(startIndex, inputBuffer, ENUMS.InputState.MOUSE_Y),
+                        pointer)
                 }
 
             }.bind(this);

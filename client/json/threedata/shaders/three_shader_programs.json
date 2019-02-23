@@ -1327,7 +1327,7 @@
           "vec4 particlePosition = modelViewMatrix * vec4(offset, 1.0);",
           "vec4 modelPosition = particlePosition + vec4(vPosition.xy, 0, 0);",
           "vec4 billboardFacing = projectionMatrix * modelPosition;",
-
+          "billboardFacing.x += zHideFactor * 2.0;",
           "gl_Position = billboardFacing;",
           "}",
           ""

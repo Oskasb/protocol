@@ -92,9 +92,6 @@ define([
             return this.terrainSystem.getTerrainHeightAndNormal(pos, normalStore)
         };
 
-        WorldSimulation.prototype.tickWorldSimulation = function(tpf) {
-            this.worldCamera.tickWorldCamera(tpf);
-        };
 
         WorldSimulation.prototype.getWorldCameraDirection = function() {
             return this.worldCamera.getCameraDirection();
@@ -178,7 +175,7 @@ define([
 
             PhysicsWorldAPI.callPhysicsSimulationUpdate(tpf);
 
-            this.worldCamera.tickWorldCamera(tpf);
+
 
             this.vegetation.updateVegetation(tpf, time, this.worldCamera);
 
@@ -202,6 +199,8 @@ define([
             }
 
             this.triggerWorldCallbacks(tpf, time);
+
+
 
         };
 

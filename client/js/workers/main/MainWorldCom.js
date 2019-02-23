@@ -52,7 +52,7 @@ define([
         MainWorldCom.prototype.registerComBuffers = function() {
             var size = determineEventBufferSize();
             setupBufferMessage(size, ENUMS.BufferType.EVENT_DATA);
-
+            setupBufferMessage(size, ENUMS.BufferType.EVENT_DATA);
             setupBufferMessage(size, ENUMS.BufferType.EVENT_DATA);
             setupBufferMessage(ENUMS.InputState.BUFFER_SIZE * (ENUMS.Numbers.POINTER_TOUCH0 + ENUMS.Numbers.TOUCHES_COUNT), ENUMS.BufferType.INPUT_BUFFER);
         };
@@ -65,6 +65,10 @@ define([
 
             handlers[ENUMS.Message.NOTIFY_FRAME] = function(msg) {
                 MainWorldAPI.initMainWorldFrame(msg[0], msg[1]);
+            };
+
+            handlers[ENUMS.Message.GENERATE_FRAME] = function(msg) {
+                MainWorldAPI.generateWorldFrame(msg[0], msg[1]);
             };
 
             handlers[ENUMS.Message.RENDERER_READY] = function(msg) {

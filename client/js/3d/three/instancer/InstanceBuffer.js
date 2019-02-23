@@ -138,6 +138,7 @@ define([
         var value;
         var drawRange;
         var instanceCount;
+
         InstanceBuffer.prototype.updateBufferStates = function(systemTime) {
 
             this.setSystemTime(systemTime);

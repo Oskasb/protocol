@@ -116,13 +116,10 @@ define([
         }
     };
 
-    DynamicMain.prototype.tickPrerenderDynamics = function(tpf) {
-     //   this.updateDynamicMatrices();
-        this.updateDynamicInstances();
-    };
 
     DynamicMain.prototype.tickDynamicMain = function(tpf) {
-
+        this.updateDynamicMatrices();
+        this.updateDynamicInstances();
         InstanceAPI.updateInstances(tpf);
 
     };

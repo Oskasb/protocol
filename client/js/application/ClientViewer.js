@@ -61,21 +61,18 @@ define([
                 now = MATH.getNowMS();
                 setupDebug.updateSetupDebug();
 
+                sceneController.tickEnvironment(lastTpf);
+
                 evt.initEventFrame(frame);
+            //    ThreeAPI.updateCamera();
+
+
+                ThreeAPI.applyDynamicGlobalUniforms();
 
                 ThreeAPI.updateAnimationMixers(lastTpf);
                 ThreeAPI.updateSceneMatrixWorld(lastTpf);
 
-                dynamicMain.updateDynamicMatrices(lastTpf);
-
-                dynamicMain.tickPrerenderDynamics(lastTpf);
-
                 dynamicMain.tickDynamicMain(lastTpf);
-
-
-                sceneController.tickEnvironment(lastTpf);
-
-                ThreeAPI.applyDynamicGlobalUniforms();
 
 
                 dt = MATH.getNowMS() - now;
@@ -148,6 +145,7 @@ define([
 
         };
 
+        var generateMessage = [ENUMS.Message.GENERATE_FRAME, [frame, lastTpf]];
         var frameMessage = [ENUMS.Message.NOTIFY_FRAME, [frame, lastTpf]];
 
         ClientViewer.prototype.prerenderTick = function(tpf) {
@@ -155,7 +153,10 @@ define([
 
             lastTpf = tpf;
             frame++;
-            ThreeAPI.updateCamera();
+        //    ThreeAPI.updateCamera();
+            generateMessage[1][0] = frame;
+            generateMessage[1][1] = lastTpf;
+            WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER, generateMessage)
 
 		};
 

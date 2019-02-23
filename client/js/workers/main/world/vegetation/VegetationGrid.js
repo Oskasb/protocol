@@ -17,6 +17,8 @@ define([
 
             this.plantsKey = plantsKey;
 
+            this.lastUpdatedCenterPos = new THREE.Vector3();
+
             this.sectors = [];
 
             this.populateCallbacks = [populateSector];
@@ -194,6 +196,12 @@ define([
         VegetationGrid.prototype.updateCenterSectorAtPosition = function(worldCamera) {
 
             let centerPos = worldCamera.getCameraLookAt();
+
+
+            if (this.lastUpdatedCenterPos.distanceToSquared(centerPos) < 1) {
+                return;
+            }
+            this.lastUpdatedCenterPos.copy(centerPos);
 
             centerSector = this.getSectorAtPosition(centerPos);
 

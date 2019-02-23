@@ -92,15 +92,25 @@ define([
 				}
 			});
 
-			GameScreen.getElement().addEventListener('touchend', function(e) {
+			let touchend = function(e) {
 				//	e.preventDefault();
-				for (i = 0; i < e.touches.length; i++) {
-					dx = 0;
-					dy = 0;
-					POINTER_STATE.touches[i].action[0] = 0;
-					callInputUpdate(POINTER_STATE.touches[i]);
+				for (i = 0; i < POINTER_STATE.touches.length; i++) {
+
+					if (!e.touches[i]) {
+
+						if (POINTER_STATE.touches[i].action[0]) {
+							dx = 0;
+							dy = 0;
+							POINTER_STATE.touches[i].action[0] = 0;
+							callInputUpdate(POINTER_STATE.touches[i]);
+						}
+					}
 				}
-			});
+			};
+
+
+			GameScreen.getElement().addEventListener('touchend', touchend, false);
+			GameScreen.getElement().addEventListener('touchcancel', touchend, false);
 
 			window.addEventListener('resize', function() {
 					callInputUpdate(POINTER_STATE.mouse);

@@ -78,7 +78,7 @@ define([
         InstanceSpatial.prototype.updateSpatialFrame = function() {
 
             if (this.dynamicJoint) {
-                this.dynamicJoint.stickToBoneWorldMatrix();
+            //    this.dynamicJoint.stickToBoneWorldMatrix();
                 this.stickToDynamicJoint()
             }
 

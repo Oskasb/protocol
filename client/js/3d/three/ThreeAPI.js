@@ -401,9 +401,10 @@ define([
             MATH.quickSplice(animationMixers, mixer);
         };
 
+        var mx;
         ThreeAPI.updateAnimationMixers = function(tpf) {
-            for (var i = 0; i < animationMixers.length; i ++) {
-                animationMixers[i].update(tpf);
+            for (mx = 0; mx < animationMixers.length; mx ++) {
+                animationMixers[mx].update(tpf);
             }
         };
 
@@ -418,13 +419,14 @@ define([
             return globalUniforms[key];
         };
 
+        var val;
         ThreeAPI.setGlobalUniform = function(uniformKey, values) {
 
             if (typeof (values) === 'number') {
                 globalUniforms[uniformKey].value = values;
             } else {
-                for (var key in values) {
-                    globalUniforms[uniformKey].value[key] = values[key];
+                for (val in values) {
+                    globalUniforms[uniformKey].value[val] = values[val];
                 }
             }
         };
@@ -442,7 +444,7 @@ define([
                     dynamicGlobalUnifs[key] = {value:{}}
                 }
 
-                for (var val in values) {
+                for (val in values) {
                     dynamicGlobalUnifs[key].value[val] = values[val];
                 }
 
@@ -453,8 +455,8 @@ define([
 
         ThreeAPI.applyDynamicGlobalUniforms = function() {
 
-            for (var key in dynamicGlobalUnifs) {
-                ThreeAPI.setGlobalUniform(key, dynamicGlobalUnifs[key].value)
+            for (val in dynamicGlobalUnifs) {
+                ThreeAPI.setGlobalUniform(val, dynamicGlobalUnifs[val].value)
             }
 
             frameRegs = 0;

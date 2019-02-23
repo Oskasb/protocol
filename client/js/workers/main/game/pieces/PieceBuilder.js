@@ -158,20 +158,8 @@ define([
 
         PieceBuilder.prototype.buildItem = function( dataId, onReady) {
 
-            var onDataReady = function(item) {
-
-                var pieceReady = function(gamePiece) {
-
-                    item.setGamePiece(gamePiece);
-                    onReady(item);
-                };
-
-                GameAPI.createGamePiece(item.readConfigData('game_piece'), pieceReady);
-
-            };
-
             var item = new Item();
-            item.initItem(dataId, new WorkerData("GAME", "GAME_ITEMS"), onDataReady)
+            item.initItem(dataId, new WorkerData("GAME", "GAME_ITEMS"), onReady)
 
         };
 

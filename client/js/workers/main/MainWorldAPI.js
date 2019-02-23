@@ -100,42 +100,65 @@ define([
             samples++;
         };
 
-
         var now;
-        var entT
+        var entT;
+        var startT
         MainWorldAPI.initMainWorldFrame = function(frame, frameTpf) {
-            let startT = MATH.getNowMS()
-            DebugAPI.generateTrackEvent('IDLE_W', startT - entT, 'ms', 2)
 
-            tpf = frameTpf;
 
             frameEndMsg[1] = frame;
 
-            time += tpf;
+        //    GuiAPI.printDebugText(frame)
+
         //    console.log("FRAME ->->-> MainWorldCom");
+
+            worldSimulation.worldCamera.tickWorldCamera();
 
             evt.initEventFrame(frame);
 
-            let evtStats = evt.getEventSystemStatus();
-            DebugAPI.generateTrackEvent('W_EVT_MG', evtStats['message_count'], 0, 0)
-            DebugAPI.generateTrackEvent('EVT_LOAD', evtStats['write_load'], '%', 1)
-
             postMessage(frameEndMsg);
 
-            samples = 0;
             sampleInput();
-
-            GameAPI.updateGame(tpf, time);
-            worldSimulation.tickWorldSimulation(tpf, time);
             GuiAPI.updateGui(tpf, time);
+
+            EffectAPI.updateEffectAPI();
             DebugAPI.updateDebugApi();
 
 
-            DebugAPI.generateTrackEvent('WORK_DT', MATH.getNowMS() - startT, 'ms', 2)
+            let evtStats = evt.getEventSystemStatus();
+            DebugAPI.generateTrackEvent('W_EVT_MG', evtStats['message_count'], 0, 0);
+            DebugAPI.generateTrackEvent('EVT_LOAD', evtStats['write_load'], '%', 1);
 
-            DebugAPI.generateTrackEvent('LOAD_W', MATH.percentify(MATH.getNowMS() - startT, frameTpf*1000), '%',  1)
+            samples = 0;
+
+
+        /*
+
+            GameAPI.updateGame(tpf, time);
+*/
+
+            DebugAPI.generateTrackEvent('WORK_DT', MATH.getNowMS() - startT, 'ms', 2);
+
+            DebugAPI.generateTrackEvent('LOAD_W', MATH.percentify(MATH.getNowMS() - startT, frameTpf*1000), '%',  1);
+
 
             entT = MATH.getNowMS();
+
+        };
+
+
+        MainWorldAPI.generateWorldFrame = function(frame, frameTpf) {
+
+            startT = MATH.getNowMS();
+            DebugAPI.generateTrackEvent('IDLE_W', startT - entT, 'ms', 2);
+
+            tpf = frameTpf;
+            time += tpf;
+
+            worldSimulation.tickWorldSimulation(tpf , time );
+
+            GameAPI.updateGame(tpf, time);
+
         };
 
         MainWorldAPI.registerSharedBuffer = function(buffer, bufferType, bufferIndex) {

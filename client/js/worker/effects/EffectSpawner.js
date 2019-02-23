@@ -54,15 +54,14 @@ define([
 
 
         EffectSpawner.prototype.deactivateEffect = function(effect) {
+            effect.getParticleEffectBuffer().scaleUniform(0)
             this.instantiator.recoverBufferElement(effect.getSpawnerId(), effect.getParticleEffectBuffer());
             effect.bufferElement = null;
-            this.instantiator.updateInstantiatorBuffers();
         };
 
-        EffectSpawner.prototype.updateEffectSpawner = function(tpf, time, worldCamera) {
+        EffectSpawner.prototype.updateEffectSpawner = function() {
             this.instantiator.updateInstantiatorBuffers();
         };
-
 
         EffectSpawner.prototype.resetEffectSpawner = function() {
             this.instantiator.updateInstantiatorBuffers();

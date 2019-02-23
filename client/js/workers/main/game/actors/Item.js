@@ -15,10 +15,15 @@ define([
             this.itemId = itemId;
             this.workerData = workerData;
 
+            var pieceReady = function(gamePiece) {
+                this.setGamePiece(gamePiece);
+                onReady(this);
+            }.bind(this);
+
             var onDataReady = function(isUpdate) {
                 if (!isUpdate) {
                     this.itemType = this.readConfigData('item_type');
-                    onReady(this);
+                    GameAPI.createGamePiece(this.readConfigData('game_piece'), pieceReady);
                 }
             }.bind(this);
 

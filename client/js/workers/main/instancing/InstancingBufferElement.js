@@ -19,7 +19,7 @@ define([
             this.guiBuffers = guiBuffers;
             this.index = this.guiBuffers.getAvailableIndex();
             this.guiBuffers.registerElement(this);
-
+            this.endTime = 0;
             // negative r inverts lut gradient direction
             this.rgba =     {r:1, g:1, b:1, a:1};
             this.pos =      {x:1, y:1, z:-1};
@@ -38,6 +38,10 @@ define([
 
         InstancingBufferElement.prototype.setAttackTime = function(time) {
             this.lifecycle.y = time;
+        };
+
+        InstancingBufferElement.prototype.setEndTime = function(time) {
+            this.lifecycle.z = time;
         };
 
         InstancingBufferElement.prototype.setReleaseTime = function(time) {
@@ -106,9 +110,13 @@ define([
             );
         };
 
+        InstancingBufferElement.prototype.applyDuration = function(duration) {
+           this.endTime = duration + this.guiBuffers.getSystemTime();
+        };
+
         InstancingBufferElement.prototype.startLifecycleNow = function() {
             this.lifecycle.x = this.guiBuffers.getSystemTime();
-            this.lifecycle.z = 0;
+            this.lifecycle.z = this.endTime;
             this.applyLifecycle();
         };
 

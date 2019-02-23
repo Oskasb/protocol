@@ -152,6 +152,7 @@ define([
             this.t = this.t || 0;
             this.t += tpf;
 
+
             MATH.callAll(this.characterUpdateCallbacks, tpf, time, this);
 
             this.characterMovement.applyMovementToWorldEntity(this.getGamePiece().getWorldEntity(), tpf);
@@ -175,6 +176,7 @@ define([
 
 
             this.getGamePiece().animateMovementState(this.getCharacterState(), this.getCharacterMovement())
+
         };
 
 

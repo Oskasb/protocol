@@ -85,7 +85,7 @@ define([
 
                 while (activeEffects[key].length) {
                     let fx = activeEffects[key].pop();
-                    fx.recoverParticleEffect();
+                    fx.bufferElement.releaseElement();
                     rebuild[key].push(fx)
                 }
 
@@ -180,6 +180,14 @@ define([
             effectBuilder.buildEffectByConfigId(configId, joint.getAttachEffectCallback());
         };
 
+        var spn;
+        EffectAPI.updateEffectAPI = function() {
+
+            for (spn in effectSpawners) {
+                effectSpawners[spn].updateEffectSpawner()
+            }
+
+        };
 
         return EffectAPI;
 

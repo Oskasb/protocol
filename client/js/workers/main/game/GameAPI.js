@@ -104,16 +104,18 @@ define([
                 };
 
 
-                for (var i = 0; i < equipItems.length; i++) {
-                    character.equipItemOfDataId(equipItems[i]);
-                }
-
                 for (var i = 0; i < defaultActions.length; i++) {
                     GameAPI.createGameAction(defaultActions[i], actionReady);
                 }
+
                 setTimeout(function() {
+
+                    for (var i = 0; i < equipItems.length; i++) {
+                        character.equipItemOfDataId(equipItems[i]);
+                    }
+
                    GameAPI.createGameCharacter('CHARACTER_FIGHTER', char2Ready);
-                }, 800)
+                }, 200)
 
             };
 
@@ -142,7 +144,7 @@ define([
                 };
 
 
-                character2.equipItemOfDataId("ITEM_KATANA");
+            //    character2.equipItemOfDataId("ITEM_KATANA");
             //    character2.equipItemOfDataId("ITEM_VIKINGHELMET");
             //    character2.equipItemOfDataId("ITEM_PLATEBELT");
 
@@ -265,6 +267,7 @@ define([
             return gameMain;
         };
         var now;
+
         GameAPI.updateGame = function(tpf, time) {
             now = MATH.getNowMS();
             gameMain.updateGameMain(tpf, time);

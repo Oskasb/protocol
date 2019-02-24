@@ -45,36 +45,39 @@ define([
 
         var screenFitXY = function(buffer, x, y, vec) {
 
-            vec.x = (x-buffer[ENUMS.InputState.VIEW_LEFT]) / buffer[ENUMS.InputState.VIEW_WIDTH] - 0.5;
-            vec.y = -(y-buffer[ENUMS.InputState.VIEW_TOP]) / buffer[ENUMS.InputState.VIEW_HEIGHT] + 0.5;
+
+            vec.x = (x-buffer[ENUMS.InputState.VIEW_LEFT + idxOffset]) / buffer[ENUMS.InputState.VIEW_WIDTH + idxOffset] - 0.5;
+            vec.y = -(y-buffer[ENUMS.InputState.VIEW_TOP + idxOffset]) / buffer[ENUMS.InputState.VIEW_HEIGHT + idxOffset] + 0.5;
             GameScreen.fitView(vec);
 		};
 
         var updateBufferValue = function(buffer, key, value) {
 
-            let indexKey = key + pointerIndex * ENUMS.InputState.BUFFER_SIZE
+            let indexKey = key + pointerIndex * ENUMS.InputState.BUFFER_SIZE;
 
             if (buffer[indexKey] !== value) {
                 buffer[indexKey] = value;
                 buffer[ENUMS.InputState.HAS_UPDATE + pointerIndex * ENUMS.InputState.BUFFER_SIZE] = 1
-            //    console.log("Update input: ", key)
+        //        console.log("Update input: ", ENUMS.getKey('InputState',key), value)
             }
 
         };
 
-        var pointerIndex;
-
+        var pointerIndex = 0;
+        var idxOffset = 0;
         var updateInputBuffer = function(buffer, inputState, inputIndex) {
-            pointerIndex = inputIndex;
-            buffer[ENUMS.InputState.HAS_UPDATE + pointerIndex * ENUMS.InputState.BUFFER_SIZE] = 0;
 
-            if (inputIndex === 0) {
+            pointerIndex = inputIndex;
+            idxOffset = pointerIndex * ENUMS.InputState.BUFFER_SIZE;
+            buffer[ENUMS.InputState.HAS_UPDATE + idxOffset] = 0;
+
+        //    if (inputIndex === 0) {
                 updateBufferValue( buffer, ENUMS.InputState.VIEW_LEFT         , GameScreen.getLeft()       );
                 updateBufferValue( buffer, ENUMS.InputState.VIEW_TOP          , GameScreen.getTop()        );
                 updateBufferValue( buffer, ENUMS.InputState.VIEW_WIDTH        , GameScreen.getWidth()      );
                 updateBufferValue( buffer, ENUMS.InputState.VIEW_HEIGHT       , GameScreen.getHeight()     );
                 updateBufferValue( buffer, ENUMS.InputState.ASPECT            , GameScreen.getAspect()     );
-            }
+        //    }
 
             screenFitXY(buffer, inputState.x, inputState.y, tempVec);
 
@@ -83,13 +86,13 @@ define([
             updateBufferValue( buffer , ENUMS.InputState.WHEEL_DELTA   ,    inputState.wheelDelta     );
 
             if (inputState.pressFrames === 0) {
-                buffer[ENUMS.InputState.HAS_UPDATE] = 1;
+                buffer[ENUMS.InputState.HAS_UPDATE  + idxOffset] = 1;
                 updateBufferValue( buffer , ENUMS.InputState.START_DRAG_X , tempVec.x ) ;
                 updateBufferValue( buffer , ENUMS.InputState.START_DRAG_Y , tempVec.y ) ;
             }
 
-            updateBufferValue(buffer , ENUMS.InputState.DRAG_DISTANCE_X   , buffer[ENUMS.InputState.MOUSE_X] - buffer[ENUMS.InputState.START_DRAG_X]    );
-            updateBufferValue(buffer , ENUMS.InputState.DRAG_DISTANCE_Y   , buffer[ENUMS.InputState.MOUSE_Y] - buffer[ENUMS.InputState.START_DRAG_Y]    );
+            updateBufferValue(buffer , ENUMS.InputState.DRAG_DISTANCE_X   , buffer[ENUMS.InputState.MOUSE_X + idxOffset] - buffer[ENUMS.InputState.START_DRAG_X + idxOffset]    );
+            updateBufferValue(buffer , ENUMS.InputState.DRAG_DISTANCE_Y   , buffer[ENUMS.InputState.MOUSE_Y + idxOffset] - buffer[ENUMS.InputState.START_DRAG_Y + idxOffset]    );
             updateBufferValue(buffer , ENUMS.InputState.ACTION_0          , inputState.action[0]        );
             updateBufferValue(buffer , ENUMS.InputState.ACTION_1          , inputState.action[1]        );
             updateBufferValue(buffer , ENUMS.InputState.LAST_ACTION_0     , inputState.lastAction[0]    );

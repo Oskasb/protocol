@@ -33,7 +33,7 @@ define(['../../ui/GameScreen',
     var avgTfp = 0.1;
 
     ThreeSetup.callPrerender = function(time) {
-        requestAnimationFrame( ThreeSetup.callPrerender );
+    //    requestAnimationFrame( ThreeSetup.callPrerender );
 
         time = performance.now()  - initTime;
         tpf = (time - lastTime)*0.001;

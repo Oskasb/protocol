@@ -309,7 +309,7 @@ if(typeof(ENUMS) === "undefined"){
         ASPECT:           16,
         FRUSTUM_FACTOR:   17,
         HAS_UPDATE:       18,
-        BUFFER_SIZE:      19
+        BUFFER_SIZE:      20
 
     };
 

@@ -111,6 +111,7 @@ define([
 		};
 
         ClientViewer.prototype.worldReady = function() {
+            ThreeAPI.requestFrameRender();
             WorkerAPI.callWorker(ENUMS.Worker.MAIN_WORKER,[ENUMS.Message.RENDERER_READY, [1, GameScreen.getAspect()]]);
         };
 
@@ -124,13 +125,14 @@ define([
 
             sceneController.setup3dScene(ready);
             setupDebug = new SetupDebug();
+            ThreeAPI.requestFrameRender();
         };
 
 
 
         ClientViewer.prototype.setRenderCallbacksOn = function(on) {
 
-
+            ThreeAPI.requestFrameRender();
             if (on) {
         //        console.log("++Attach Renderer Callbacks");
                 ThreeAPI.getSetup().addPrerenderCallback(callbackFunctions.prerenderTick);
@@ -178,7 +180,7 @@ define([
             }
 
             PipelineAPI.tickPipelineAPI(lastTpf)
-
+            ThreeAPI.requestFrameRender();
         };
 
         ClientViewer.prototype.workerMessage = function(msg, workerKey) {

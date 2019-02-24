@@ -467,6 +467,12 @@ define([
             return 'rgb('+Math.floor(r*255)+','+Math.floor(g*255)+','+Math.floor(b*255)+')';
         };
 
+        ThreeAPI.requestFrameRender = function() {
+
+            requestAnimationFrame( ThreeSetup.callPrerender );
+
+        };
+
         return ThreeAPI;
     });
 

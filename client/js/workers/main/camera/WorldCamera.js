@@ -34,15 +34,27 @@ define([
     var inputIndex;
     var worldCam;
 
+
+    var inputStates = [];
+
     var sampleInput = function(input, buffer, worldSpacePointers) {
 
         inputIndex = input;
 
+        if (!inputStates[inputIndex]) {
+            inputStates[inputIndex] = {
+                lastDX:0,
+                lastDY:0
+            };
+        }
+
+        let inState = inputStates[inputIndex];
+
         inputBuffer = buffer;
 
-        if (input === 0) {
+    //    if (input === 0) {
             camera.aspect = GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.ASPECT );
-        }
+    //    }
 
         if (GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.WHEEL_DELTA)) {
             GuiAPI.printDebugText("WHEEL DELTA "+GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.WHEEL_DELTA));
@@ -62,14 +74,14 @@ define([
 
         if (GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.ACTION_0)) {
 
-            tempVec1.x = GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.DRAG_DISTANCE_X) - lastDX;
-            tempVec1.y = GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.DRAG_DISTANCE_Y) - lastDY;
+            tempVec1.x = GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.DRAG_DISTANCE_X) - inState.lastDX;
+            tempVec1.y = GuiAPI.readInputBufferValue(inputIndex, inputBuffer, ENUMS.InputState.DRAG_DISTANCE_Y) - inState.lastDY;
             tempVec1.z = 0;
 
             timeFactor =  Math.min(tpf*20, 0.5);
 
-            lastDX = (tempVec1.x + lastDX) * timeFactor + lastDX * (1-timeFactor);
-            lastDY = (tempVec1.y + lastDY) * timeFactor + lastDY * (1-timeFactor);
+            inState.lastDX = (tempVec1.x + inState.lastDX) * timeFactor + inState.lastDX * (1-timeFactor);
+            inState.lastDY = (tempVec1.y + inState.lastDY) * timeFactor + inState.lastDY * (1-timeFactor);
 
             dist = worldCam.calcDistanceToCamera(worldCam.getCameraLookAt());
             tempVec1.multiplyScalar(dist);
@@ -87,8 +99,8 @@ define([
             camera.position.add(tempVec1);
 
         } else {
-            lastDX = 0;
-            lastDY = 0;
+            inState.lastDX = 0;
+            inState.lastDY = 0;
         }
     };
 

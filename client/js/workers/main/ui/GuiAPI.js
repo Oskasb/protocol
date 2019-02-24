@@ -225,11 +225,13 @@ define([
         };
 
         GuiAPI.setInputBufferValue = function(inputIndex, buffer, enumKey, value) {
-            buffer[inputIndex*ENUMS.InputState.BUFFER_SIZE + enumKey] = value;
+            let idx = inputIndex*ENUMS.InputState.BUFFER_SIZE + enumKey;
+            buffer[idx] = value;
         };
 
         GuiAPI.readInputBufferValue = function(inputIndex, buffer, enumKey) {
-            return buffer[inputIndex*ENUMS.InputState.BUFFER_SIZE + enumKey]
+            let idx = inputIndex*ENUMS.InputState.BUFFER_SIZE + enumKey;
+            return buffer[idx]
         };
 
         GuiAPI.setCameraAspect = function(camAspect) {

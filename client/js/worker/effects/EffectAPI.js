@@ -50,15 +50,21 @@ define([
                 }
             };
 
-            var onDataReady = function(isUpdate) {
-                EffectAPI.applyEffectConfigs(spawnerData.data);
+            var onDataReady = function(src, data) {
+                console.log("Particle BUFFER data:", data, src)
+
+                for (let i = 0; i < data.length; i++) {
+                    EffectAPI.applyEffectConfigs(data);
+                }
+
+
                 if (!isUpdate) {
                     particlesData.fetchData("particle_default", onParticlesReady);
                 }
 
             };
 
-            spawnerData.fetchData("spawners_default", onDataReady);
+            new PipelineObject('EFFECT', 'BUFFERS', onDataReady);
         };
 
         EffectAPI.applyEffectConfigs = function(data) {
